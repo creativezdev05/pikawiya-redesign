@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Turnstile from "react-turnstile";
 import { supabase } from "@/lib/supabaseClient";
-
-
 
 export default function ContactForm() {
   const [loading, setLoading] = useState(false);
@@ -16,9 +15,12 @@ export default function ContactForm() {
   const [serviceType, setServiceType] = useState("General Health Care");
   const [message, setMessage] = useState("");
 
+  // CAPTCHA Token State
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
   // Sound Control States
   const [isMuted, setIsMuted] = useState(false);
-  
+
   // Track whether the audio instruction has already been played for each field
   const playedFieldsRef = useRef({
     fullName: false,
@@ -31,7 +33,7 @@ export default function ContactForm() {
   // Native text-to-speech engine
   const speakInstruction = (fieldName: keyof typeof playedFieldsRef.current, text: string) => {
     if (isMuted) return;
-    
+
     // Check if it already played once for this field
     if (playedFieldsRef.current[fieldName]) return;
 
@@ -41,16 +43,22 @@ export default function ContactForm() {
 
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 1.0; // Normal speaking pace
-      
+
       // Mark as played so it never runs again during this session
       playedFieldsRef.current[fieldName] = true;
-      
+
       window.speechSynthesis.speak(utterance);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      setStatus({ type: "error", message: "Please complete the CAPTCHA security check." });
+      return;
+    }
+
     setLoading(true);
     setStatus(null);
 
@@ -75,6 +83,8 @@ export default function ContactForm() {
       setEmail("");
       setServiceType("General Health Care");
       setMessage("");
+      setCaptchaToken(null);
+
       // Reset played tracking flags for a fresh submission
       playedFieldsRef.current = {
         fullName: false,
@@ -86,6 +96,7 @@ export default function ContactForm() {
     }
   };
 
+  // Step-by-step unlock rules
   const isPhoneDisabled = !fullName.trim();
   const isEmailDisabled = isPhoneDisabled || !phone.trim();
   const isServiceDisabled = isEmailDisabled || !email.trim();
@@ -104,8 +115,8 @@ export default function ContactForm() {
             }
           }}
           className={`px-3 py-1.5 rounded text-xs font-medium border transition ${
-            isMuted 
-              ? "bg-red-50 text-red-600 border-red-200 hover:bg-red-100" 
+            isMuted
+              ? "bg-red-50 text-red-600 border-red-200 hover:bg-red-100"
               : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
           }`}
         >
@@ -117,7 +128,9 @@ export default function ContactForm() {
         {status && (
           <div
             className={`p-4 rounded-md text-sm ${
-              status.type === "success" ? "bg-green-50 text-green-800 border border-green-200" : "bg-red-50 text-red-800 border border-red-200"
+              status.type === "success"
+                ? "bg-green-50 text-green-800 border border-green-200"
+                : "bg-red-50 text-red-800 border border-red-200"
             }`}
           >
             {status.message}
@@ -138,10 +151,14 @@ export default function ContactForm() {
               className="w-full px-4 py-3 rounded-md border border-earth/20 focus:outline-none focus:border-ochre"
             />
           </div>
-          
+
           {/* 2. Phone Number */}
           <div>
-            <label className={`block text-xs font-semibold uppercase mb-2 ${isPhoneDisabled ? "text-gray-400" : "text-earth"}`}>
+            <label
+              className={`block text-xs font-semibold uppercase mb-2 ${
+                isPhoneDisabled ? "text-gray-400" : "text-earth"
+              }`}
+            >
               Phone Number
             </label>
             <input
@@ -160,7 +177,11 @@ export default function ContactForm() {
         <div className="grid md:grid-cols-2 gap-6">
           {/* 3. Email Address */}
           <div>
-            <label className={`block text-xs font-semibold uppercase mb-2 ${isEmailDisabled ? "text-gray-400" : "text-earth"}`}>
+            <label
+              className={`block text-xs font-semibold uppercase mb-2 ${
+                isEmailDisabled ? "text-gray-400" : "text-earth"
+              }`}
+            >
               Email Address
             </label>
             <input
@@ -177,7 +198,11 @@ export default function ContactForm() {
 
           {/* 4. Service Required */}
           <div>
-            <label className={`block text-xs font-semibold uppercase mb-2 ${isServiceDisabled ? "text-gray-400" : "text-earth"}`}>
+            <label
+              className={`block text-xs font-semibold uppercase mb-2 ${
+                isServiceDisabled ? "text-gray-400" : "text-earth"
+              }`}
+            >
               Service Required
             </label>
             <select
@@ -190,7 +215,7 @@ export default function ContactForm() {
             >
               <option value="General Health Care">General Health Care</option>
               <option value="Family Support">Family Support</option>
-              <option value="Women&apos;s Health">Women&apos;s Health</option>
+              <option value="Women's Health">Women&apos;s Health</option>
               <option value="Youth Programs">Youth Programs</option>
               <option value="Cultural Support">Cultural Support</option>
               <option value="Wellbeing">Wellbeing</option>
@@ -200,7 +225,11 @@ export default function ContactForm() {
 
         {/* 5. Message */}
         <div>
-          <label className={`block text-xs font-semibold uppercase mb-2 ${isMessageDisabled ? "text-gray-400" : "text-earth"}`}>
+          <label
+            className={`block text-xs font-semibold uppercase mb-2 ${
+              isMessageDisabled ? "text-gray-400" : "text-earth"
+            }`}
+          >
             Message
           </label>
           <textarea
@@ -215,8 +244,19 @@ export default function ContactForm() {
           ></textarea>
         </div>
 
+        {/* 6. Cloudflare Turnstile CAPTCHA (Appears once message is populated) */}
+        {!isMessageDisabled && message.trim().length > 0 && (
+          <div className="flex justify-center py-2">
+            <Turnstile
+              sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+              onSuccess={(token) => setCaptchaToken(token)}
+              onExpire={() => setCaptchaToken(null)}
+            />
+          </div>
+        )}
+
         <button
-          disabled={loading || !message.trim()}
+          disabled={loading || !message.trim() || !captchaToken}
           type="submit"
           className="w-full py-4 bg-ochre hover:bg-ochre-dark font-bold rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
