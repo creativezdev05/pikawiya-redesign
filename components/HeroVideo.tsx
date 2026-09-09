@@ -14,9 +14,15 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
 
   const [isVideoEnded, setIsVideoEnded] = useState(false);
   const [isSkipped, setIsSkipped] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const targetProgressRef = useRef(0);
   const animationFrameIdRef = useRef<number | null>(null);
+
+  // Prevent instant unmount on SSR / initial hydration load
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -24,7 +30,6 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
   });
 
   const handleExitVideo = () => {
-    // Reset scroll position to top of page when video component unmounts
     window.scrollTo({ top: 0, behavior: "instant" });
     setIsSkipped(true);
     if (onEnterWebsite) {
@@ -33,22 +38,25 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
   };
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // Ignore scroll calculations until hydration completes
+    if (!isMounted) return;
+
     targetProgressRef.current = latest;
 
-    // Automatically remove video and reset scroll when reaching the end
-    if (latest >= 0.995) {
+    // Only auto-remove if user scrolled all the way down AND page isn't just loading at scroll 0
+    if (latest >= 0.98 && window.scrollY > 200) {
       handleExitVideo();
       return;
     }
 
-    if (latest >= 0.90) {
+    if (latest >= 0.88) {
       setIsVideoEnded(true);
     } else {
       setIsVideoEnded(false);
     }
   });
 
-  // Lerp loop for smooth frame updating
+  // Lerp loop for smooth video frame updates
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -83,7 +91,7 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
 
   return (
     <div ref={containerRef} className="relative h-[350vh] bg-black">
-      {/* Sticky Fullscreen Container */}
+      {/* Sticky Fullscreen Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
         <video
           ref={videoRef}
@@ -130,7 +138,7 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
           </p>
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll Prompt */}
         {!isVideoEnded && (
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 animate-bounce pointer-events-none">
             <span className="text-xs uppercase tracking-widest text-sand/80 font-medium">

@@ -405,6 +405,12 @@ export default function LandingPage() {
       renderCanvas();
     };
   }, []);
+  
+    useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   const renderCanvas = () => {
     const canvas = canvasRef.current;
