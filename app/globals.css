@@ -262,21 +262,12 @@ button {
 
 @media (max-width: 768px) {
   .cultural-pattern__canvas {
-    opacity: 0.5;
+    opacity: 0.75;
   }
 
   .cultural-pattern__logo {
     width: 72px;
     height: 72px;
-    opacity: 0.1;
-    animation: none;
-  }
-
-  .cultural-sky-spiral,
-  .cultural-flame-dot,
-  .cultural-footprint,
-  .cultural-handprint {
-    animation: none !important;
-    opacity: 0.35;
+    opacity: 0.14;
   }
 }
