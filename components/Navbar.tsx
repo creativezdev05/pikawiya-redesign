@@ -14,9 +14,9 @@ export default function Navbar() {
     { name: "About", href: "/about" },
     { name: "Services", href: "/services" },
     { name: "Forms", href: "/forms" },
-    { name: "Governance", href: "/governance" },
+    { name: "Vaccines", href: "/vaccines" },
     { name: "News & Announcements", href: "/news" },
-    { name: "Careers", href: "/careers" },
+    { name: "Corporate Documents", href: "/corporate-documents" },
     { name: "Contact", href: "/contact" },
   ];
 

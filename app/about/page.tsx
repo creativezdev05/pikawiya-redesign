@@ -1,27 +1,95 @@
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { 
+  Heart, 
+  Lightbulb, 
+  Flame, 
+  Users, 
+  Compass, 
+  Award, 
+  CheckCircle2 
+} from "lucide-react";
 
 export default function AboutPage() {
+  const values = [
+    { 
+      name: "Believe", 
+      icon: Heart, 
+      desc: "We are making a difference together." 
+    },
+    { 
+      name: "Initiative", 
+      icon: Lightbulb, 
+      desc: "We develop new programs and services in response to unmet needs." 
+    },
+    { 
+      name: "Persistence", 
+      icon: Flame, 
+      desc: "Where others give up, we reach out." 
+    },
+    { 
+      name: "Respect", 
+      icon: Users, 
+      desc: "We treat others in the community and workplace with respect." 
+    },
+    { 
+      name: "Consultation", 
+      icon: Compass, 
+      desc: "We engage our community to understand your needs." 
+    },
+    { 
+      name: "Honour", 
+      icon: Award, 
+      desc: "Our service/our history reflect upon the past, learn from it and promote change." 
+    },
+  ];
+
+  const visionPoints = [
+    "We provide holistic health care services that set a benchmark for other ACCHOs.",
+    "We are embraced by our workers, external bodies and the wider community.",
+    "We foster an environment of diversity and harmony.",
+    "We support the living preferences of our people wherever they live.",
+    "We aspire to be part of an Aboriginal community that is healthy at all ages and across generation.",
+    "We demonstrate good governance, and exceed the expectations of our funding bodies.",
+    "We are fiscally responsible, with sustainable growth and revenue to ensure that we have the right staff to deliver our services."
+  ];
+
   return (
     <div className="min-h-screen bg-sand text-earth">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 py-16 space-y-16">
+      <main className="max-w-7xl mx-auto px-4 py-16 space-y-16 md:space-y-24">
+        
         {/* Header Title */}
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="text-ochre font-semibold uppercase text-xs tracking-wider">About Pika Wiya</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-earth mt-2 mb-4">Grounded in Culture, Driven by Community</h1>
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
+            About Pika Wiya
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold text-earth">
+            Grounded in Culture, Driven by Community
+          </h1>
           <p className="text-earth/70 text-lg">
             Pika Wiya Health Service is an Aboriginal Community Controlled Health Organisation (ACCHO) committed to delivering high-quality, culturally safe healthcare across Port Augusta and regional South Australia.
           </p>
         </div>
 
-        {/* Culture & Artwork Banner */}
+        {/* Purpose Highlight Banner */}
+        <div className="bg-ochre/10 border border-ochre/30 rounded-2xl p-8 md:p-10 text-center max-w-4xl mx-auto">
+          <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
+            Our Purpose
+          </span>
+          <p className="text-2xl md:text-3xl font-bold text-earth mt-2 leading-snug">
+            “To provide health care our way to our people so our community is healthy at every age.”
+          </p>
+        </div>
+
+        {/* Culture & Artwork Banner (Original Content) */}
         <div className="grid md:grid-cols-2 gap-12 items-center bg-earth text-sand p-8 md:p-12 rounded-2xl shadow-xl">
           <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-ochre/30">
             <Image
-              src="/assets/5+98 (1).jpg"
+              src="/assets/5+98 (1).jpeg"
               alt="Aboriginal Dot Painting Artwork"
               fill
               className="object-cover"
@@ -46,12 +114,63 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Regional & Landscape Connection */}
+        {/* Mission Statement Split Section (Using about-us-01.png) */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-earth">Serving Port Augusta & The Flinders Ranges</h2>
+            <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
+              Who We Are
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-earth">
+              A Service Built for Aboriginal & Torres Strait Islander People
+            </h2>
+            <p className="text-earth/80 text-lg leading-relaxed">
+              Pika Wiya Health Service Aboriginal Corporation is an Aboriginal Community Controlled Health Service which offers comprehensive primary health, social and emotional wellbeing support to Aboriginal people in Port Augusta, with clinics located in Port Augusta, Davenport Community, Copley and Nepabunna.Pika Wiya Health Service Aboriginal Corporation employs staff made up of mixed disciplines that includes General Practitioners, Nursing, Allied Health, Aboriginal Health Practitioners, Reception, Finance and Administration staff.
+            </p>
+          </div>
+          <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-earth/10 shadow-md">
+            <Image
+              src="/assets/about-us-01.png"
+              alt="Pika Wiya Health Community Facility"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+        {/* Regional & Landscape Connection (Original Content with about-us-02.png) */}
+        <div className="grid md:grid-cols-2 gap-12 items-center border-t border-earth/10 pt-16">
+          <div className="space-y-6">
+            
+            <h2 className="text-3xl font-bold text-earth">
+              History of Pika Wiya Health Service
+            </h2>
             <p className="text-earth/70 leading-relaxed">
-              Surrounded by the iconic Flinders Ranges and sacred lands, Pika Wiya serves a diverse population across remote and regional townships. We bridge healthcare gaps by providing accessible transport, mobile clinics, and specialized community health initiatives.
+              In the early 1970s, a group of Aboriginal women meeting
+              in Port Augusta heard word of a sick man in the sandhills
+              outside town. One of the women was a nurse, and
+              together the group travelled to where the man lay, too
+              weak to move, and did what they could. In the days
+              and weeks that followed the women learned of others
+              suffering from injuries and illnesses, and decided that
+              Port Augusta needed a Health Service specifically for the
+              Aboriginal community.
+
+              State and Federal government were not interested, but
+              the women were undeterred. They wrote to the World
+              Council of Churches in Geneva, Switzerland to explain
+              their plight and ask for help. The Council were moved by
+              the request and granted enough funding to establish the
+              Aboriginal Medical Service, Port Augusta.
+
+              The Aboriginal Medical Service in Redfern, New South
+              Wales offered assistance in spite of that service’s own
+              struggles. A doctor was loaned to Port Augusta and was
+              able to travel from Redfern intermittently. Resources were
+              scarce; when visiting, the doctor slept on the floor of the
+              clinic, and bandages were washed and reused.
+              Years passed, but the persistence shown by those first
+              women remained. The service grew, and grew, and was
+              incorporated in December 1984 as Pika Wiya Health
+              Service Inc.
             </p>
             <div className="pt-2">
               <Link
@@ -62,16 +181,18 @@ export default function AboutPage() {
               </Link>
             </div>
           </div>
-          <div className="relative h-80 rounded-xl overflow-hidden border border-earth/10 shadow-md">
+          <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-earth/10 shadow-md">
             <Image
-              src="/assets/5+98 (2).jpeg"
-              alt="Flinders Ranges Mountain Landscape"
+              src="/assets/about-us-02.png"
+              alt="Flinders Ranges Mountain Landscape and Outreach Region"
               fill
               className="object-cover"
             />
           </div>
         </div>
+
       </main>
+      <Footer />
     </div>
   );
 }

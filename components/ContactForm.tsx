@@ -258,7 +258,7 @@ export default function ContactForm() {
         <button
           disabled={loading || !message.trim() || !captchaToken}
           type="submit"
-          className="w-full py-4 bg-ochre hover:bg-ochre-dark font-bold rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-4 bg-ochre hover:bg-ochre-dark text-white font-bold rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Submitting..." : "Submit Enquiry"}
         </button>

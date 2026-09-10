@@ -34,22 +34,39 @@ export default function ContactPage() {
           {/* Contact Details Panel */}
           <div className="bg-earth text-sand p-8 rounded-2xl space-y-8 shadow-xl">
             <div>
-              <h2 className="text-2xl font-bold text-white mb-2">Clinic Details</h2>
+              <h2 className="text-2xl font-bold  mb-2">Clinic Details</h2>
               <p className="text-sand/70 text-sm">
                 Aboriginal Community Controlled Health Organisation in Port Augusta.
               </p>
             </div>
 
             <div className="space-y-6">
+              {/* Updated Location Block with Fixed Google Map */}
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-lg bg-ochre/20 text-ochre flex items-center justify-center shrink-0">
                   <MapPin className="w-5 h-5" />
                 </div>
-                <div>
-                  <h3 className="font-semibold text-white">Location</h3>
-                  <p className="text-sm text-sand/80 mt-1">
-                    Port Augusta, South Australia 5700
-                  </p>
+                <div className="w-full space-y-3">
+                  <div>
+                    <h3 className="font-semibold">Location</h3>
+                    <p className="text-sm text-sand/80 mt-1">
+                      40-46 Dartford St, Port Augusta SA 5700, Australia
+                    </p>
+                  </div>
+
+                  {/* Embedded Google Map */}
+                  <div className="w-full h-44 rounded-xl overflow-hidden border border-sand/20 shadow-inner">
+                    <iframe
+                      title="Pika Wiya Health Service Map"
+                      src="https://maps.google.com/maps?q=Pika+Wiya+Health+Service+Port+Augusta&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -58,9 +75,9 @@ export default function ContactPage() {
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">Phone</h3>
+                  <h3 className="font-semibold ">Phone</h3>
                   <p className="text-sm text-sand/80 mt-1">
-                    Reception & Appointments
+                    (08) 8642 9991
                   </p>
                 </div>
               </div>
@@ -70,7 +87,7 @@ export default function ContactPage() {
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">Email</h3>
+                  <h3 className="font-semibold ">Email</h3>
                   <p className="text-sm text-sand/80 mt-1">
                     admin@pikawiyahealth.org.au
                   </p>
@@ -82,7 +99,7 @@ export default function ContactPage() {
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">Opening Hours</h3>
+                  <h3 className="font-semibold ">Opening Hours</h3>
                   <p className="text-sm text-sand/80 mt-1">
                     Monday – Friday: 8:30 AM – 5:00 PM
                   </p>
