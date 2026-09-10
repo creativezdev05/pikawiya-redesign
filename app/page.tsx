@@ -25,12 +25,42 @@ import Footer from "@/components/Footer";
 import CulturalPattern from "@/components/CulturalPattern";
 
 const mainServices = [
-  { name: "Clinical Health Care", icon: Heart, desc: "General Practitioner care, chronic disease management, and primary nursing." },
-  { name: "Family Support", icon: Users, desc: "Maternal and child health services, parenting programs, and early intervention." },
-  { name: "Women's & Men's Health", icon: UserCheck, desc: "Gender-specific clinical care, health checks, and preventative education." },
-  { name: "Youth Programs", icon: Sparkles, desc: "Youth engagement, physical health, active sports, and community leadership." },
-  { name: "Cultural Support", icon: Compass, desc: "Care grounded in community connection, traditional knowledge, and Elders' wisdom." },
-  { name: "Emotional Wellbeing", icon: Shield, desc: "Social and emotional wellbeing support, mental health services, and counseling." },
+  {
+    name: "Clinical Health Care",
+    icon: Heart,
+    desc: "General Practitioner care, chronic disease management, and primary nursing.",
+    image: "/assets/home/art-mulka-600.avif",
+  },
+  {
+    name: "Family Support",
+    icon: Users,
+    desc: "Maternal and child health services, parenting programs, and early intervention.",
+    image: "/assets/home/art-desert-flower-400.webp",
+  },
+  {
+    name: "Women's & Men's Health",
+    icon: UserCheck,
+    desc: "Gender-specific clinical care, health checks, and preventative education.",
+    image: "/assets/home/art-irtivadnapa-400.webp",
+  },
+  {
+    name: "Youth Programs",
+    icon: Sparkles,
+    desc: "Youth engagement, physical health, active sports, and community leadership.",
+    image: "/assets/home/art-artunyi-400.webp",
+  },
+  {
+    name: "Cultural Support",
+    icon: Compass,
+    desc: "Care grounded in community connection, traditional knowledge, and Elders' wisdom.",
+    image: "/assets/home/services-heritage-800.webp",
+  },
+  {
+    name: "Emotional Wellbeing",
+    icon: Shield,
+    desc: "Social and emotional wellbeing support, mental health services, and counseling.",
+    image: "/assets/home/hero-idnya-2400.webp",
+  },
 ];
 
 export default function LandingPage() {
@@ -305,42 +335,56 @@ const handleTouchEnd = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      <AboutHome />
 
-      {/* CORE SERVICES */}
-      <section className="relative overflow-hidden bg-white py-24">
-        <CulturalPattern variant="services" className="cultural-pattern--light" />
-        <div aria-hidden="true" className="cultural-background cultural-background--services">
-          <NextImage src="/assets/home/dot-pattern-dark.webp" alt="" fill sizes="100vw" />
-        </div>
-        <div className="absolute inset-0 z-0 bg-white/75" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
-            <div>
-              <span className="inline-flex items-center gap-3 text-ochre uppercase tracking-[0.22em] text-xs font-semibold mb-4"><span className="h-px w-10 bg-ochre" /> What we provide</span>
-              <h2 className="text-4xl md:text-6xl font-bold text-earth mb-4 leading-none">Our Core Services</h2>
-              <p className="text-earth/70 max-w-2xl text-lg leading-relaxed">
-                Comprehensive clinical and community services delivered with respect, cultural safety, and community control.
+      {/* CORE SERVICES — tall cultural columns */}
+      <section className="relative overflow-hidden bg-[#000D1F] py-20 md:py-28">
+        <CulturalPattern variant="services" />
+        <div className="absolute inset-0 z-0 bg-[#000D1F]/55" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6">
+            <div className="max-w-2xl space-y-4">
+              <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+                <span className="h-px w-10 bg-[#E85D26]" /> What we provide
+              </span>
+              <h2 className="text-[clamp(1.8rem,3.8vw,3rem)] font-extrabold text-white leading-[1.05] tracking-[-0.02em]">
+                Our Core Services
+              </h2>
+              <p className="text-sand/75 text-base md:text-lg leading-relaxed">
+                Comprehensive clinical and community services delivered with{" "}
+                <strong className="accent-text">respect, cultural safety</strong>, and community control.
               </p>
             </div>
             <Link
               href="/services"
-              className="mt-4 md:mt-0 text-ochre hover:text-ochre-dark font-bold text-sm inline-flex items-center gap-1"
+              className="inline-flex items-center gap-2 text-[#E85D26] font-semibold text-sm hover:gap-3 transition-all"
             >
               View All Services <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-earth/20 border border-earth/20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4">
             {mainServices.map((item, idx) => {
               const Icon = item.icon;
               return (
-                <div key={idx} className="bg-white/95 p-8 md:p-10 min-h-[260px] hover:bg-white transition">
-                  <div className="w-12 h-12 border border-ochre/50 text-ochre flex items-center justify-center mb-8">
-                    <Icon className="w-6 h-6" />
+                <div
+                  key={idx}
+                  className="group relative min-h-[340px] md:min-h-[420px] overflow-hidden border border-ochre/25"
+                >
+                  <NextImage
+                    src={item.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 1280px) 50vw, 16vw"
+                    className="object-cover transition duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#000D1F] via-[#000D1F]/55 to-[#000D1F]/20" />
+                  <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-end">
+                    <div className="w-10 h-10 rounded-full bg-ochre/20 border border-ochre/40 text-ochre flex items-center justify-center mb-4">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-white mb-2 leading-snug">{item.name}</h3>
+                    <p className="text-sand/75 text-xs md:text-sm leading-relaxed">{item.desc}</p>
                   </div>
-                  <h3 className="text-xl font-bold text-earth mb-3">{item.name}</h3>
-                  <p className="text-earth/70 text-sm leading-relaxed">{item.desc}</p>
                 </div>
               );
             })}
@@ -348,63 +392,131 @@ const handleTouchEnd = () => {
         </div>
       </section>
 
-      {/* CULTURAL HERITAGE BANNER */}
-      <section className="py-24 bg-[#000D1F] text-sand relative overflow-hidden border-y border-ochre/30">
-        <CulturalPattern variant="heritage" />
-        <div aria-hidden="true" className="cultural-background cultural-background--heritage">
-          <NextImage src="/assets/home/dot-pattern-dark.webp" alt="" fill sizes="100vw" />
-        </div>
-        <div className="absolute inset-0 z-0 bg-[#000D1F]/78" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-0 items-stretch border border-sand/15">
-          <div className="relative min-h-[420px] overflow-hidden border-r border-ochre/30">
-            <NextImage
-              src="/assets/home/services-heritage-800.webp"
-              alt="Aboriginal Artwork"
-              fill
-              className="object-cover"
-            />
-          </div>
-          <div className="space-y-6 p-8 md:p-14 flex flex-col justify-center bg-[#000D1F]/70">
-            <span className="inline-flex items-center gap-3 text-ochre text-sm font-semibold uppercase tracking-wider"><span className="h-px w-10 bg-ochre" /> Governance & Culture</span>
-            <h2 className="text-4xl md:text-5xl font-bold leading-tight">Controlled by Community, Dedicated to Health</h2>
-            <p className="text-sand/80 leading-relaxed text-lg">
-              Pika Wiya Health Service operates under the guidance of our Aboriginal Board of Directors and constitution. We ensure community priorities drive every aspect of our care and community support programs.
+      {/* MISSION STATEMENT — white */}
+      <section className="relative overflow-hidden bg-white py-20 md:py-24">
+        <CulturalPattern variant="mission" className="cultural-pattern--light" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-14 items-center">
+          <div className="space-y-5">
+            <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+              <span className="h-px w-10 bg-[#E85D26]" /> Mission statement
+            </span>
+            <h3 className="text-[clamp(1.7rem,3.5vw,2.75rem)] font-extrabold text-[#000D1F] leading-[1.1] tracking-[-0.02em]">
+              Empowering community through{" "}
+              <span className="text-[#E85D26]">health, dignity and culture</span>
+            </h3>
+            <p className="text-[#000D1F]/75 text-base md:text-lg leading-relaxed max-w-2xl">
+              Pika Wiya Health Service Aboriginal Corporation will provide a{" "}
+              <strong className="accent-text">culturally appropriate service</strong> to Aboriginal and Torres
+              Strait Islander people, addressing preventative, promotive and curative aspects of health, which
+              encourages our community to achieve greater{" "}
+              <strong className="accent-text">dignity and quality of life</strong> equal with all Australians.
             </p>
-            <div className="flex flex-wrap gap-4 pt-2">
-              <Link
-                href="/governance"
-                className="px-5 py-3 bg-ochre hover:bg-ochre-dark  rounded-md text-sm font-medium transition"
-              >
-                Governance & Rule Book
-              </Link>
-              <Link
-                href="/about"
-                className="px-5 py-3 border border-sand/30 hover:bg-white/10 text-sand rounded-md text-sm font-medium transition"
-              >
-                Learn About PWHS
-              </Link>
+          </div>
+
+          <div className="relative min-h-[420px] md:min-h-[480px] overflow-hidden border border-[#E85D26]/30 group">
+            <NextImage
+              src="/assets/about/Rachael-Schmerl.jpeg"
+              alt="Rachael Schmerl, Chief Executive Officer of Pika Wiya Health Service"
+              fill
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="object-cover object-center scale-[1.15] -translate-y-[6%] transition duration-700 group-hover:scale-[1.18]"
+            />
+            {/* Stylish name banner */}
+            <div className="absolute bottom-5 left-5 right-5">
+              <div className="relative overflow-hidden bg-[#000D1F]/92 border-l-4 border-[#E85D26] px-5 py-4 backdrop-blur-sm shadow-lg">
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 opacity-20 pointer-events-none"
+                  style={{
+                    backgroundImage: "radial-gradient(rgba(232,93,38,0.45) 1px, transparent 1px)",
+                    backgroundSize: "10px 10px",
+                  }}
+                />
+                <p className="relative text-[#E85D26] text-xs font-bold uppercase tracking-[0.18em]">
+                  Rachael Schmerl
+                </p>
+                <p className="relative text-white text-base md:text-lg font-semibold mt-1">
+                  Chief Executive Officer
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CONTACT FORM SECTION */}
-      <section className="relative overflow-hidden bg-white py-24 px-4">
-        <CulturalPattern variant="contact" className="cultural-pattern--light" />
-        <div aria-hidden="true" className="cultural-background cultural-background--contact">
-          <NextImage src="/assets/home/dot-pattern-dark.webp" alt="" fill sizes="100vw" />
-        </div>
-        <div className="absolute inset-0 z-0 bg-white/82" />
-        <div className="relative z-10 max-w-5xl mx-auto bg-white/90 backdrop-blur-sm p-8 md:p-14 border-t-4 border-ochre shadow-xl">
-          <span className="block text-center text-ochre uppercase tracking-[0.22em] text-xs font-semibold mb-4">Connect with us</span>
-          <h2 className="text-3xl md:text-5xl font-bold text-earth text-center mb-3">Get in Touch / Request an Appointment</h2>
-          <p className="text-center text-earth/70 mb-10 max-w-2xl mx-auto">
-            Complete the form below to connect with our health services team directly.
-          </p>
-          <ContactForm />
+      <AboutHome />
+
+      {/* CULTURAL HERITAGE — white (after navy values / ochre purpose) */}
+      <section className="relative overflow-hidden bg-white py-20 md:py-28">
+        <CulturalPattern variant="heritage" className="cultural-pattern--light" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            <div className="relative min-h-[380px] md:min-h-[460px] overflow-hidden border border-[#E85D26]/30 order-2 lg:order-1">
+              <NextImage
+                src="/assets/home/services-heritage-800.webp"
+                alt="Aboriginal cultural heritage artwork"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            <div className="space-y-6 order-1 lg:order-2">
+              <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+                <span className="h-px w-10 bg-[#E85D26]" /> Governance &amp; Culture
+              </span>
+              <h2 className="text-[clamp(1.8rem,3.8vw,2.9rem)] font-extrabold text-[#000D1F] leading-[1.08] tracking-[-0.02em]">
+                Walking with our ancestors.{" "}
+                <span className="text-[#E85D26]">Building for community.</span>
+              </h2>
+              <p className="text-[#000D1F]/75 leading-relaxed text-base md:text-lg max-w-xl">
+                Pika Wiya Health Service operates under the guidance of our{" "}
+                <strong className="accent-text">Aboriginal Board of Directors</strong> and constitution. We
+                walk paths shaped by our ancestors — honouring tradition while ensuring{" "}
+                <strong className="accent-text">community priorities</strong> drive every aspect of our care.
+              </p>
+              <div className="flex flex-wrap gap-3 pt-2">
+                <Link
+                  href="/governance"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#E85D26] hover:bg-[#B83D0E] text-white text-sm font-semibold transition"
+                >
+                  Governance &amp; Rule Book
+                </Link>
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-[#000D1F]/20 hover:bg-[#000D1F]/5 text-[#000D1F] text-sm font-semibold transition"
+                >
+                  Learn About PWHS
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-      <Footer/>
+
+      {/* CONTACT — navy */}
+      <section className="relative overflow-hidden bg-[#000D1F] py-20 md:py-28 px-6 md:px-10">
+        <CulturalPattern variant="contact" />
+        <div aria-hidden="true" className="cultural-background cultural-background--contact" />
+        <div className="absolute inset-0 z-0 bg-[#000D1F]/72" />
+        <div className="relative z-10 max-w-5xl mx-auto">
+          <div className="text-center mb-10 space-y-4">
+            <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+              <span className="h-px w-10 bg-[#E85D26]" /> Connect with us <span className="h-px w-10 bg-[#E85D26]" />
+            </span>
+            <h2 className="text-[clamp(1.8rem,3.8vw,2.9rem)] font-extrabold text-white leading-[1.05] tracking-[-0.02em]">
+              Get in Touch
+            </h2>
+            <p className="text-sand/70 max-w-2xl mx-auto">
+              Complete the form below to connect with our health services team or{" "}
+              <strong className="accent-text">request an appointment</strong>.
+            </p>
+          </div>
+          <div className="border border-white/10 border-t-4 border-t-[#E85D26] bg-white p-8 md:p-12 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.45)]">
+            <ContactForm />
+          </div>
+        </div>
+      </section>
+      <Footer />
     </div>
   );
 }

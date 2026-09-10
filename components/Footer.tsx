@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
-import NextImage from "next/image";
 import CulturalPattern from "./CulturalPattern";
 
 export default function Footer() {
@@ -9,9 +8,7 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-[#000D1F] text-sand border-t border-ochre/30 mt-auto">
       <CulturalPattern variant="footer" className="cultural-pattern--footer" />
-      <div aria-hidden="true" className="cultural-background cultural-background--footer">
-        <NextImage src="/assets/home/dot-pattern-dark.webp" alt="" fill sizes="100vw" />
-      </div>
+      <div aria-hidden="true" className="cultural-background cultural-background--footer" />
       <div className="absolute inset-0 bg-[#000D1F]/78" />
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
