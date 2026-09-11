@@ -443,14 +443,26 @@ textarea {
 }
 
 @media (max-width: 768px) {
-  .cultural-pattern__canvas {
-    opacity: 0.75;
+  .cultural-pattern__canvas,
+  .cultural-pattern--light .cultural-pattern__canvas {
+    opacity: 0.28;
   }
 
-  .cultural-pattern__logo {
+  .cultural-pattern__dotfield,
+  .cultural-pattern--light .cultural-pattern__dotfield {
+    opacity: 0.18;
+  }
+
+  .cultural-pattern__songline-strip,
+  .cultural-pattern--light .cultural-pattern__songline-strip {
+    opacity: 0.28;
+  }
+
+  .cultural-pattern__logo,
+  .cultural-pattern--light .cultural-pattern__logo {
     width: 72px;
     height: 72px;
-    opacity: 0.14;
+    opacity: 0.08;
   }
 }
 
@@ -466,6 +478,8 @@ textarea {
 .pattern-field__piece {
   position: absolute;
   overflow: visible;
+  width: var(--piece-w);
+  height: var(--piece-h);
   opacity: 0;
   --pattern-opacity: 0.88;
   animation:
@@ -772,12 +786,23 @@ textarea {
 }
 
 @media (max-width: 768px) {
+  .pattern-field {
+    -webkit-mask-image: radial-gradient(ellipse 92% 78% at 50% 42%, transparent 36%, #000 78%);
+    mask-image: radial-gradient(ellipse 92% 78% at 50% 42%, transparent 36%, #000 78%);
+  }
+
   .pattern-field__piece {
-    --pattern-opacity: 0.78;
+    --pattern-opacity: 0.28;
+    width: min(38vw, 150px);
+    height: min(44vw, 170px);
   }
 
   .pattern-field__piece--cross {
-    --pattern-opacity: 0.45;
+    display: none;
+  }
+
+  .pattern-field__piece img {
+    filter: blur(14px);
   }
 }
 
@@ -918,8 +943,46 @@ textarea {
 
 @media (max-width: 768px) {
   .tr-logo {
-    width: clamp(130px, 42vw, 210px);
-    opacity: 0.85;
+    z-index: 0;
+    width: 92px;
+    opacity: 0.2;
+    filter: blur(2px);
+  }
+
+  .tr-logo--hero {
+    top: auto;
+    bottom: 6%;
+    right: -18%;
+    left: auto;
+    width: 110px;
+    opacity: 0.22;
+    filter: blur(2.5px);
+  }
+
+  .tr-logo--tr,
+  .tr-logo--tl {
+    top: auto;
+    bottom: 12%;
+  }
+
+  .tr-logo--tr {
+    right: -22%;
+    left: auto;
+  }
+
+  .tr-logo--tl {
+    left: -22%;
+    right: auto;
+  }
+
+  .tr-logo--br {
+    right: -22%;
+    bottom: 4%;
+  }
+
+  .tr-logo--bl {
+    left: -22%;
+    bottom: 4%;
   }
 }
 

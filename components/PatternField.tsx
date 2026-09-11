@@ -184,11 +184,11 @@ export default function PatternField({
           key={`${variant}-${motif.id}`}
           className={`pattern-field__piece pattern-field__piece--${motif.motion}${motif.shape === "band" ? " pattern-field__piece--cross" : ""}${motif.side ? ` pattern-field__piece--${motif.side}` : ""}`}
           style={{
-            width: motif.width,
-            height: motif.height,
             top: motif.top,
             left: motif.left ?? (motif.side === "left" ? motif.inset : undefined),
             right: motif.side === "right" ? motif.inset : undefined,
+            ["--piece-w" as string]: `${motif.width}px`,
+            ["--piece-h" as string]: `${motif.height}px`,
             ["--pattern-delay" as string]: motif.delay,
             ["--pattern-duration" as string]: motif.duration,
           }}
