@@ -40,6 +40,45 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Smooth 2D spin on its center axis */
+@keyframes spin-axis {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 3D coin-flip style spin around the Y-axis */
+@keyframes spin-y-axis {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+.pattern-field__shape {
+  /* Fix the pivot point directly to the center of the shape */
+  transform-origin: center center;
+  
+  /* Apply the animation: infinite linear rotation */
+  animation: spin-axis 18s linear infinite;
+  
+  /* Keep rendering smooth during GPU transformations */
+  will-change: transform;
+}
+@keyframes spin-tilted {
+  from {
+    transform: rotate(var(--tilt, 0deg)) rotate(0deg);
+  }
+  to {
+    transform: rotate(var(--tilt, 0deg)) rotate(360deg);
+  }
+}
+
 /* Theme accent for bold paragraph highlights */
 .accent-text {
   color: #E85D26 !important;

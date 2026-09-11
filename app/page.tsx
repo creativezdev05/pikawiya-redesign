@@ -25,6 +25,7 @@ import Footer from "@/components/Footer";
 import CulturalPattern from "@/components/CulturalPattern";
 import PageTitle from "@/components/PageTitle";
 import TrLogo from "@/components/TrLogo";
+import PatternField from "@/components/PatternField";
 
 const mainServices = [
   {
@@ -351,6 +352,7 @@ const handleTouchEnd = () => {
 
       {/* CORE SERVICES — tall cultural columns */}
       <section className="relative overflow-hidden landing-ink pt-10 pb-20 md:pt-14 md:pb-28">
+        <PatternField variant="landing_services" />
         <CulturalPattern variant="services" showFeet />
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
