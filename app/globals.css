@@ -860,12 +860,12 @@ textarea:disabled {
 }
 
 .tr-logo--core {
-  top: 1.15rem;
-  right: 1.25rem;
+  top: 0;
+  right: 0.25rem;
   left: auto;
   bottom: auto;
-  width: clamp(108px, 12vw, 168px);
-  z-index: 2;
+  width: clamp(96px, 11vw, 148px);
+  z-index: 6;
 }
 
 .tr-logo--hero.tr-logo--inset {
@@ -1008,11 +1008,11 @@ textarea:disabled {
   }
 
   .tr-logo--core {
-    top: 0.85rem;
-    right: 0.75rem;
+    top: 0;
+    right: 0;
     bottom: auto;
-    width: 86px;
-    opacity: 0.4;
+    width: 78px;
+    opacity: 0.45;
     filter: none;
   }
 
