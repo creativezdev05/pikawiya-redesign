@@ -33,7 +33,7 @@ const mainServices = [
     desc: "General Practitioner care, chronic disease management, and primary nursing.",
     image: "/assets/services/core-services/clinic-health-care.jpg",
     objectPosition: "center 90%",
-    imageClass: "scale-[1.45] -translate-y-[22%]",
+    imageClass: "scale-[1.22] -translate-y-[16%]",
   },
   {
     name: "Family Support",
@@ -355,7 +355,7 @@ const handleTouchEnd = () => {
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
           <TrLogo motion="wave" placement="tr" className="tr-logo--core" />
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6 md:pr-40">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6 pr-24 md:pr-36">
             <div className="max-w-2xl space-y-4">
               <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
                 <span className="h-px w-10 bg-ochre" /> What we provide
@@ -382,17 +382,17 @@ const handleTouchEnd = () => {
               return (
                 <div
                   key={idx}
-                  className="zoom-box group relative min-h-[280px] md:min-h-[320px] overflow-hidden border border-ochre/25 origin-center hover:z-20 hover:border-ochre hover:shadow-[0_28px_55px_-18px_rgba(0,0,0,0.55)]"
+                  className="zoom-box group relative aspect-[5/4] overflow-hidden border border-ochre/25 origin-center hover:z-20 hover:border-ochre hover:shadow-[0_28px_55px_-18px_rgba(0,0,0,0.55)]"
                 >
                   <NextImage
                     src={item.image}
                     alt=""
                     fill
                     sizes="(max-width: 1024px) 50vw, 33vw"
-                    className={`object-cover transition duration-700 group-hover:scale-[1.4] ${
+                    className={`object-cover transition duration-700 group-hover:scale-[1.28] ${
                       "imageClass" in item && item.imageClass
                         ? item.imageClass
-                        : "scale-[1.28] -translate-y-[14%]"
+                        : "scale-[1.12] -translate-y-[8%]"
                     }`}
                     style={{ objectPosition: item.objectPosition }}
                   />

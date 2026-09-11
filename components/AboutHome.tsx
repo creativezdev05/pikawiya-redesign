@@ -107,7 +107,7 @@ export default function AboutSection() {
       <section className="relative overflow-hidden landing-paper py-20 md:py-24">
         <CulturalPattern variant="vision" className="cultural-pattern--light" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid lg:grid-cols-[0.9fr_1.15fr] gap-10 lg:gap-12 items-start">
+          <div className="grid lg:grid-cols-[0.82fr_1.18fr] gap-10 lg:gap-12 items-start">
             <div className="space-y-10">
               <div className="max-w-2xl space-y-4">
                 <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
@@ -140,13 +140,14 @@ export default function AboutSection() {
               </div>
             </div>
 
-            <div className="relative w-full aspect-[4/3] overflow-hidden border border-ochre/25 shadow-[0_20px_50px_-24px_rgba(26,22,21,0.3)]">
+            <div className="relative w-full overflow-hidden border border-ochre/25 shadow-[0_20px_50px_-24px_rgba(26,22,21,0.3)]">
               <NextImage
                 src="/assets/about-us-01.png"
                 alt="Pika Wiya Health Service — community and culture"
-                fill
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                className="object-cover object-[center_28%]"
+                width={1400}
+                height={1400}
+                sizes="(max-width: 1024px) 100vw, 58vw"
+                className="h-auto w-full object-contain object-center"
               />
             </div>
           </div>

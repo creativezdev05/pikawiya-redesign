@@ -88,13 +88,16 @@ export default function CulturalPattern({
     });
 
     const spiralCount = 2 + Math.floor(rand() * 2);
-    const spirals = Array.from({ length: spiralCount }, () => ({
-      cx: round(120 + rand() * 960),
-      cy: round(80 + rand() * 280),
-      rings: 3 + Math.floor(rand() * 3),
-      startR: round(8 + rand() * 6),
-      gap: round(11 + rand() * 5),
-    }));
+    const spirals = Array.from({ length: spiralCount }, (_, i) => {
+      const onRight = i % 2 === 1;
+      return {
+        cx: round(onRight ? 980 + rand() * 160 : 70 + rand() * 140),
+        cy: round(i < 2 ? 90 + rand() * 160 : 520 + rand() * 180),
+        rings: 3 + Math.floor(rand() * 3),
+        startR: round(8 + rand() * 6),
+        gap: round(11 + rand() * 5),
+      };
+    });
 
     // Flame columns rising bottom → top
     const flameCount = 3 + Math.floor(rand() * 3);
