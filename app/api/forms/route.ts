@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { encryptFormPayload, hashLookupValue } from "@/lib/server/formCrypto";
+import { sendFormNotification } from "@/lib/server/email";
 
 export const runtime = "nodejs";
 
@@ -77,12 +78,24 @@ export async function POST(request: Request) {
       return Response.json({ error: "ICN number is required." }, { status: 400 });
     }
 
+    // 1. Insert into Supabase
     const { error } = await supabase.from("encrypted_form_submissions").insert({
       form_type: body.formType,
       payload_ciphertext: encryptedPayload,
       lookup_hash: icnLookupHash,
     });
     if (error) throw error;
+
+    // 2. Dispatch Email Notification asynchronously
+    try {
+      await sendFormNotification({
+        formType: body.formType,
+        payload,
+      });
+    } catch (emailErr) {
+      console.error("Failed to send submission email notification:", emailErr);
+      // We log the error but allow database operation to succeed
+    }
 
     return Response.json({ ok: true });
   } catch (error) {
