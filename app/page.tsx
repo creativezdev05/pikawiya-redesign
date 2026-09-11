@@ -350,12 +350,14 @@ const handleTouchEnd = () => {
       </AnimatePresence>
 
       {/* CORE SERVICES — tall cultural columns */}
-      <section className="relative overflow-hidden landing-ink py-20 md:py-28">
+      <section className="relative overflow-hidden landing-ink pt-10 pb-20 md:pt-14 md:pb-28">
         <CulturalPattern variant="services" showFeet />
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <TrLogo motion="wave" placement="tr" className="tr-logo--core" />
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6 pr-24 md:pr-36">
+          <div className="relative mb-4 md:mb-6 h-[4.5rem] md:h-[5.5rem]">
+            <TrLogo motion="wave" placement="tr" className="tr-logo--core" />
+          </div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6">
             <div className="max-w-2xl space-y-4">
               <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
                 <span className="h-px w-10 bg-ochre" /> What we provide
