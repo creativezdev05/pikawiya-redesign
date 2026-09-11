@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageTitle from "@/components/PageTitle";
+import PageHero from "@/components/PageHero";
+import PatternField from "@/components/PatternField";
 import { 
   Heart, 
   Lightbulb, 
@@ -57,36 +60,31 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-sand text-earth">
+    <div className="relative min-h-screen bg-page text-ink overflow-hidden">
+      <PatternField variant="rise" />
       <Navbar />
+      <PageHero
+        eyebrow="About Pika Wiya"
+        title="Grounded in Culture, Driven by Community"
+        description="Pika Wiya Health Service is an Aboriginal Community Controlled Health Organisation (ACCHO) committed to delivering high-quality, culturally safe healthcare across Port Augusta and regional South Australia."
+        imageSrc="/assets/patterns/pat1.jpg"
+        imageAlt="Aboriginal waterhole and songline dot painting"
+        trLogo="float"
+      />
 
-      <main className="max-w-7xl mx-auto px-4 py-16 space-y-16 md:space-y-24">
-        
-        {/* Header Title */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
-            About Pika Wiya
-          </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-earth">
-            Grounded in Culture, Driven by Community
-          </h1>
-          <p className="text-earth/70 text-lg">
-            Pika Wiya Health Service is an Aboriginal Community Controlled Health Organisation (ACCHO) committed to delivering high-quality, culturally safe healthcare across Port Augusta and regional South Australia.
-          </p>
-        </div>
-
+      <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-16 md:space-y-24">
         {/* Purpose Highlight Banner */}
         <div className="bg-ochre/10 border border-ochre/30 rounded-2xl p-8 md:p-10 text-center max-w-4xl mx-auto">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
             Our Purpose
           </span>
-          <p className="text-2xl md:text-3xl font-bold text-earth mt-2 leading-snug">
+          <p className="text-2xl md:text-3xl font-bold text-ink mt-2 leading-snug">
             “To provide health care our way to our people so our community is healthy at every age.”
           </p>
         </div>
 
         {/* Culture & Artwork Banner (Original Content) */}
-        <div className="grid md:grid-cols-2 gap-12 items-center bg-earth text-sand p-8 md:p-12 rounded-2xl shadow-xl">
+        <div className="contrast-card grid md:grid-cols-2 gap-12 items-center bg-earth text-sand p-8 md:p-12 rounded-2xl shadow-xl border border-transparent">
           <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-ochre/30">
             <Image
               src="/assets/5+98 (1).jpeg"
@@ -96,7 +94,9 @@ export default function AboutPage() {
             />
           </div>
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-white">Our Cultural Heritage</h2>
+            <PageTitle as="h2" onDark className="text-3xl font-bold">
+              Our Cultural Heritage
+            </PageTitle>
             <p className="text-sand/80 leading-relaxed">
               Our name and emblem reflect deep roots within the community. We work closely with Traditional Owners, Elders, and local families to ensure health services honor connection to land, culture, and traditional healing principles.
             </p>
@@ -120,14 +120,14 @@ export default function AboutPage() {
             <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
               Who We Are
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-earth">
+            <PageTitle as="h2" className="text-3xl md:text-4xl font-bold">
               A Service Built for Aboriginal & Torres Strait Islander People
-            </h2>
-            <p className="text-earth/80 text-lg leading-relaxed">
+            </PageTitle>
+            <p className="text-ink/80 text-lg leading-relaxed">
               Pika Wiya Health Service Aboriginal Corporation is an Aboriginal Community Controlled Health Service which offers comprehensive primary health, social and emotional wellbeing support to Aboriginal people in Port Augusta, with clinics located in Port Augusta, Davenport Community, Copley and Nepabunna.Pika Wiya Health Service Aboriginal Corporation employs staff made up of mixed disciplines that includes General Practitioners, Nursing, Allied Health, Aboriginal Health Practitioners, Reception, Finance and Administration staff.
             </p>
           </div>
-          <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-earth/10 shadow-md">
+          <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-border shadow-md">
             <Image
               src="/assets/about-us-01.png"
               alt="Pika Wiya Health Community Facility"
@@ -137,13 +137,13 @@ export default function AboutPage() {
           </div>
         </div>
         {/* Regional & Landscape Connection (Original Content with about-us-02.png) */}
-        <div className="grid md:grid-cols-2 gap-12 items-center border-t border-earth/10 pt-16">
+        <div className="grid md:grid-cols-2 gap-12 items-center border-t border-border pt-16">
           <div className="space-y-6">
             
-            <h2 className="text-3xl font-bold text-earth">
+            <PageTitle as="h2" className="text-3xl font-bold">
               History of Pika Wiya Health Service
-            </h2>
-            <p className="text-earth/70 leading-relaxed">
+            </PageTitle>
+            <p className="text-ink/70 leading-relaxed">
               In the early 1970s, a group of Aboriginal women meeting
               in Port Augusta heard word of a sick man in the sandhills
               outside town. One of the women was a nurse, and
@@ -181,7 +181,7 @@ export default function AboutPage() {
               </Link>
             </div>
           </div>
-          <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-earth/10 shadow-md">
+          <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-border shadow-md">
             <Image
               src="/assets/about-us-02.png"
               alt="Flinders Ranges Mountain Landscape and Outreach Region"
@@ -192,7 +192,9 @@ export default function AboutPage() {
         </div>
 
       </main>
-      <Footer />
+      <div className="relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 }

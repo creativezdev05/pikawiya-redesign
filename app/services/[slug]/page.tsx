@@ -1,22 +1,22 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import PageTitle from "@/components/PageTitle";
+import PatternField from "@/components/PatternField";
 import { supabase, Service } from "@/lib/supabaseClient";
 import Image from "next/image";
-import { 
-  Calendar, 
-  MapPin, 
-  UserCheck, 
-  PhoneCall, 
-  ArrowLeft, 
-  Clock, 
-  CheckCircle2, 
-  ShieldCheck 
+import {
+  Calendar,
+  MapPin,
+  UserCheck,
+  PhoneCall,
+  ArrowLeft,
+  ShieldCheck,
 } from "lucide-react";
 
 export const revalidate = 60;
 
-// Generate static routes for all services in Supabase at build time
 export async function generateStaticParams() {
   const { data: services } = await supabase.from("services").select("slug");
   return services ? services.map((s) => ({ slug: s.slug })) : [];
@@ -33,6 +33,13 @@ async function getServiceBySlug(slug: string): Promise<Service | null> {
   return data as Service;
 }
 
+function isGeneralAppointments(service: Service) {
+  return (
+    service.slug === "general-appointments" ||
+    service.title.toLowerCase() === "general appointments"
+  );
+}
+
 export default async function ServiceDetailPage({
   params,
 }: {
@@ -44,94 +51,121 @@ export default async function ServiceDetailPage({
   if (!service) {
     notFound();
   }
+
   const practitionerImage = service.practitioner_name
-    ? `/assets/services/practitioners/${service.practitioner_name.toLowerCase().replace(/\s+/g, '-')}.png`
+    ? `/assets/services/practitioners/${service.practitioner_name.toLowerCase().replace(/\s+/g, "-")}.png`
     : null;
+  const showPractitionerCard = Boolean(service.practitioner_name);
+  const showPattern = isGeneralAppointments(service);
+
   return (
-    <div className="min-h-screen bg-sand text-earth">
+    <div className="relative min-h-screen bg-page text-ink flex flex-col overflow-hidden">
+      <PatternField variant="twirl" logoMotion="sway" logoPlacement="br" />
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 py-12 md:py-16 space-y-10">
-        {/* Back Navigation */}
+      <main className="relative z-10 max-w-6xl mx-auto px-4 py-12 md:py-16 space-y-10 w-full">
         <Link
           href="/services"
-          className="inline-flex items-center text-sm font-medium text-earth/60 hover:text-ochre transition gap-2 group"
+          className="inline-flex items-center text-sm font-medium text-ink/60 hover:text-ochre transition gap-2 group"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
           Back to All Services
         </Link>
 
-        {/* Hero Banner Header */}
-        <div className="bg-earth text-sand p-8 md:p-12 rounded-3xl shadow-xl space-y-6 relative overflow-hidden">
-          <div className="space-y-2 relative z-10">
-            <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4" /> Pika Wiya Health Program
-            </span>
-            <h1 className="text-3xl md:text-5xl font-bold  tracking-tight">
-              {service.title}
-            </h1>
-            {service.short_desc && (
-              <p className="text-sand/80 text-base md:text-lg max-w-2xl pt-2 font-normal leading-relaxed">
-                {service.short_desc}
-              </p>
+        <div className="contrast-card bg-earth text-sand rounded-3xl shadow-xl relative overflow-hidden border border-transparent">
+          {showPattern && (
+            <div className="absolute inset-0" aria-hidden="true">
+              <Image
+                src="/assets/patterns/pat4.jpg"
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 100vw, 72rem"
+                className="object-cover object-[70%_center] opacity-40"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/82 to-navy/45" />
+              <div className="absolute inset-0 bg-gradient-to-b from-navy/30 via-transparent to-navy/55" />
+            </div>
+          )}
+
+          <div
+            className={`relative z-10 p-8 md:p-12 ${
+              showPractitionerCard
+                ? "grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-14 items-center"
+                : "space-y-6"
+            }`}
+          >
+            <div className="space-y-2">
+              <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4" /> Pika Wiya Health Program
+              </span>
+              <PageTitle onDark className="text-3xl md:text-5xl font-bold tracking-tight">
+                {service.title}
+              </PageTitle>
+              {service.short_desc && (
+                <p className="text-sand/80 text-base md:text-lg max-w-2xl pt-2 font-normal leading-relaxed">
+                  {service.short_desc}
+                </p>
+              )}
+            </div>
+
+            {showPractitionerCard && (
+              <div className="relative min-h-[360px] md:min-h-[480px] overflow-hidden border border-ochre/30 group">
+                {practitionerImage ? (
+                  <Image
+                    src={practitionerImage}
+                    alt={service.practitioner_name ?? ""}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    className="object-cover object-center scale-[1.15] -translate-y-[6%] transition duration-700 group-hover:scale-[1.18]"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-ochre/20 flex items-center justify-center text-ochre text-6xl font-bold">
+                    {service.practitioner_name?.charAt(0)}
+                  </div>
+                )}
+                <div className="absolute bottom-5 left-5 right-5">
+                  <div className="relative overflow-hidden bg-navy/92 border-l-4 border-ochre px-5 py-4 backdrop-blur-sm shadow-lg">
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 opacity-20 pointer-events-none"
+                      style={{
+                        backgroundImage:
+                          "radial-gradient(rgba(232,93,38,0.45) 1px, transparent 1px)",
+                        backgroundSize: "10px 10px",
+                      }}
+                    />
+                    <p className="relative text-ochre text-xs font-bold uppercase tracking-[0.18em]">
+                      {service.practitioner_name}
+                    </p>
+                    {service.practitioner_role && (
+                      <p className="relative text-white text-base md:text-lg font-semibold mt-1">
+                        {service.practitioner_role}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
             )}
           </div>
-
-          {/* Practitioner Badge */}
-         {/* 2. Updated Practitioner Profile Badge */}
-        {service.practitioner_name && (
-        <div className="pt-4 border-t border-sand/15 flex items-center gap-4 relative z-10">
-            {practitionerImage ? (
-            <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-ochre shrink-0 shadow-md">
-                <Image
-                src={practitionerImage}
-                alt={service.practitioner_name}
-                fill
-                className="object-cover"
-                />
-            </div>
-            ) : (
-            <div className="w-12 h-12 rounded-full bg-ochre/20 text-ochre font-bold flex items-center justify-center text-lg border border-ochre/30 shrink-0">
-                {service.practitioner_name.charAt(0)}
-            </div>
-            )}
-            <div>
-            <p className="text-sm md:text-base font-bold ">
-                {service.practitioner_name}
-            </p>
-            {service.practitioner_role && (
-                <p className="text-xs md:text-sm text-sand/80 font-medium">
-                {service.practitioner_role}
-                </p>
-            )}
-            </div>
-        </div>
-        )}
         </div>
 
-        {/* Content & Sidebar Grid */}
         <div className="grid md:grid-cols-3 gap-8 items-start">
-          
-          {/* Main Details Section */}
-          <div className="md:col-span-2 space-y-8 bg-white/70 border border-earth/10 p-8 md:p-10 rounded-3xl shadow-sm">
-            
-            {/* Service Overview */}
+          <div className="md:col-span-2 space-y-8 bg-surface border border-border p-8 md:p-10 rounded-3xl shadow-sm">
             <div className="space-y-4">
-              <h2 className="text-2xl font-bold text-earth tracking-tight">
+              <h2 className="text-2xl font-bold text-ink tracking-tight">
                 About this Service
               </h2>
-              <div className="text-earth/80 text-base leading-relaxed whitespace-pre-line space-y-4">
+              <div className="text-ink/80 text-base leading-relaxed whitespace-pre-line space-y-4">
                 {service.overview || "Service details coming soon."}
               </div>
             </div>
 
-            {/* Schedule & Location Box */}
             {service.schedule_location && (
-              <div className="border-t border-earth/10 pt-8 space-y-4">
-                <h3 className="text-xl font-bold text-earth flex items-center gap-2.5">
+              <div className="border-t border-border pt-8 space-y-4">
+                <h3 className="text-xl font-bold text-ink flex items-center gap-2.5">
                   <Calendar className="w-5 h-5 text-ochre" /> Schedule & Location
                 </h3>
-                <div className="bg-sand/40 border border-earth/5 p-5 rounded-2xl flex items-start gap-3 text-earth/80 text-sm leading-relaxed">
+                <div className="bg-page border border-border p-5 rounded-2xl flex items-start gap-3 text-ink/80 text-sm leading-relaxed">
                   <MapPin className="w-5 h-5 text-ochre shrink-0 mt-0.5" />
                   <div>{service.schedule_location}</div>
                 </div>
@@ -139,45 +173,44 @@ export default async function ServiceDetailPage({
             )}
           </div>
 
-          {/* Sidebar Information */}
           <div className="space-y-6">
-            
-            {/* Eligibility Card */}
             {service.eligibility && (
-              <div className="bg-white/70 border border-earth/10 p-6 rounded-3xl space-y-3 shadow-sm">
+              <div className="bg-surface border border-border p-6 rounded-3xl space-y-3 shadow-sm">
                 <div className="flex items-center gap-2 text-ochre font-bold text-xs uppercase tracking-wider">
                   <UserCheck className="w-4 h-4" /> Who Can Access This
                 </div>
-                <h3 className="text-lg font-bold text-earth">Eligibility</h3>
-                <p className="text-earth/80 text-sm leading-relaxed">
+                <h3 className="text-lg font-bold text-ink">Eligibility</h3>
+                <p className="text-ink/80 text-sm leading-relaxed">
                   {service.eligibility}
                 </p>
               </div>
             )}
 
-            {/* Contact & Appointment Box */}
             <div className="bg-ochre/10 border border-ochre/30 p-6 rounded-3xl space-y-5">
-              <div className="flex items-center gap-2 text-earth font-bold text-xs uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-ink font-bold text-xs uppercase tracking-wider">
                 <PhoneCall className="w-4 h-4 text-ochre" /> Get in Touch
               </div>
               <div className="space-y-2">
-                <h3 className="text-lg font-bold text-earth">Make an Appointment</h3>
-                <p className="text-earth/80 text-sm leading-relaxed">
-                  {service.contact_info || "Contact our clinic reception team to book or inquire about this program."}
+                <h3 className="text-lg font-bold text-ink">Make an Appointment</h3>
+                <p className="text-ink/80 text-sm leading-relaxed">
+                  {service.contact_info ||
+                    "Contact our clinic reception team to book or inquire about this program."}
                 </p>
               </div>
 
               <a
                 href="tel:0886429991"
-                className="inline-flex items-center justify-center w-full py-3.5 px-4 bg-ochre hover:bg-ochre-dark  text-sm font-semibold rounded-xl transition shadow-sm hover:shadow gap-2 text-center"
+                className="inline-flex items-center justify-center w-full py-3.5 px-4 bg-ochre hover:bg-ochre-dark text-white text-sm font-semibold rounded-xl transition shadow-sm hover:shadow gap-2 text-center"
               >
                 <PhoneCall className="w-4 h-4" /> Call Reception (08) 8642 9991
               </a>
             </div>
-
           </div>
         </div>
       </main>
+      <div className="relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
+import PageTitle from "@/components/PageTitle";
 import { AlertTriangle, CheckCircle2, MessageSquare, UserPlus, MapPin, Volume2, VolumeX } from "lucide-react";
 import Turnstile from "react-turnstile";
 
@@ -435,7 +436,7 @@ export default function FormsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-sand text-earth">
+    <div className="min-h-screen bg-page text-ink">
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 py-16">
@@ -445,8 +446,8 @@ export default function FormsPage() {
             <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
               Online Client Services
             </span>
-            <h1 className="text-4xl font-bold text-earth mt-1 mb-3">Client Forms</h1>
-            <p className="text-earth/70 max-w-xl mx-auto text-sm">
+            <PageTitle className="text-4xl font-bold mt-1 mb-3">Client Forms</PageTitle>
+            <p className="text-ink/70 max-w-xl mx-auto text-sm">
               Submit a membership application, update your address, share feedback, or lodge a complaint with Pika Wiya Health Service.
             </p>
           </div>
@@ -461,7 +462,7 @@ export default function FormsPage() {
                 window.speechSynthesis?.cancel();
               }
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-earth/20 bg-white text-earth/80 hover:text-earth text-xs font-medium transition shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-border bg-surface text-ink/80 hover:text-ink text-xs font-medium transition shadow-sm"
             title={isMuted ? "Unmute Voice Guidance" : "Mute Voice Guidance"}
           >
             {isMuted ? (
@@ -490,7 +491,7 @@ export default function FormsPage() {
             className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition ${
               activeTab === "membership"
                 ? "bg-earth text-white shadow-md"
-                : "bg-white text-earth/70 hover:text-earth border border-earth/10"
+                : "bg-surface text-ink/70 hover:text-ink border border-border"
             }`}
           >
             <UserPlus className="w-4 h-4 text-ochre" />
@@ -506,8 +507,8 @@ export default function FormsPage() {
             }}
             className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition ${
               activeTab === "address"
-                ? "bg-earth  shadow-md"
-                : "bg-white text-earth/70 hover:text-earth border border-earth/10"
+                ? "bg-earth text-white shadow-md"
+                : "bg-surface text-ink/70 hover:text-ink border border-border"
             }`}
           >
             <MapPin className="w-4 h-4 text-ochre" />
@@ -523,8 +524,8 @@ export default function FormsPage() {
             }}
             className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition ${
               activeTab === "feedback"
-                ? "bg-earth  shadow-md"
-                : "bg-white text-earth/70 hover:text-earth border border-earth/10"
+                ? "bg-earth text-white shadow-md"
+                : "bg-surface text-ink/70 hover:text-ink border border-border"
             }`}
           >
             <MessageSquare className="w-4 h-4 text-ochre" />
@@ -540,8 +541,8 @@ export default function FormsPage() {
             }}
             className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition ${
               activeTab === "complaint"
-                ? "bg-earth  shadow-md"
-                : "bg-white text-earth/70 hover:text-earth border border-earth/10"
+                ? "bg-earth text-white shadow-md"
+                : "bg-surface text-ink/70 hover:text-ink border border-border"
             }`}
           >
             <AlertTriangle className="w-4 h-4 text-ochre" />
@@ -551,10 +552,10 @@ export default function FormsPage() {
 
         {/* Success Confirmation */}
         {submitted ? (
-          <div className="bg-white p-12 rounded-2xl shadow-sm border border-earth/10 text-center space-y-4">
+          <div className="bg-surface p-12 rounded-2xl shadow-sm border border-border text-center space-y-4">
             <CheckCircle2 className="w-16 h-16 text-ochre mx-auto" />
-            <h2 className="text-2xl font-bold text-earth">Submission Successful</h2>
-            <p className="text-earth/70 text-sm max-w-md mx-auto">
+            <h2 className="text-2xl font-bold text-ink">Submission Successful</h2>
+            <p className="text-ink/70 text-sm max-w-md mx-auto">
               Your information has been updated cleanly in the database under your ICN number.
             </p>
             <button
@@ -568,9 +569,9 @@ export default function FormsPage() {
             </button>
           </div>
         ) : (
-          <div className="bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-earth/10">
+          <div className="bg-surface p-8 md:p-12 rounded-2xl shadow-sm border border-border">
             {errorMsg && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg">
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg dark:bg-red-950/40 dark:border-red-800 dark:text-red-300">
                 {errorMsg}
               </div>
             )}
@@ -579,13 +580,13 @@ export default function FormsPage() {
             {activeTab === "membership" && (
               <form onSubmit={handleMembershipSubmit} className="space-y-8">
                 <div>
-                  <h2 className="text-2xl font-bold text-earth mb-1">Membership Application</h2>
-                  <p className="text-xs text-earth/60">Fill in each field sequentially to unlock the form.</p>
+                  <h2 className="text-2xl font-bold text-ink mb-1">Membership Application</h2>
+                  <p className="text-xs text-ink/60">Fill in each field sequentially to unlock the form.</p>
                 </div>
 
                 <div className="grid md:grid-cols-4 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">ICN Number</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">ICN Number</label>
                     <input
                       type="text"
                       required
@@ -593,11 +594,11 @@ export default function FormsPage() {
                       value={membershipData.icn_number}
                       onFocus={() => speakText("ICN Number input field")}
                       onChange={(e) => handleMembershipChange("icn_number", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre font-mono"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre font-mono"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Surname</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Surname</label>
                     <input
                       type="text"
                       required
@@ -605,11 +606,11 @@ export default function FormsPage() {
                       value={membershipData.surname}
                       onFocus={() => speakText("Surname input field")}
                       onChange={(e) => handleMembershipChange("surname", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">First Name</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">First Name</label>
                     <input
                       type="text"
                       required
@@ -617,11 +618,11 @@ export default function FormsPage() {
                       value={membershipData.first_name}
                       onFocus={() => speakText("First Name input field")}
                       onChange={(e) => handleMembershipChange("first_name", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Last Name</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Last Name</label>
                     <input
                       type="text"
                       required
@@ -629,14 +630,14 @@ export default function FormsPage() {
                       value={membershipData.last_name}
                       onFocus={() => speakText("Last Name input field")}
                       onChange={(e) => handleMembershipChange("last_name", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Address</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Address</label>
                     <input
                       type="text"
                       required
@@ -644,11 +645,11 @@ export default function FormsPage() {
                       value={membershipData.address}
                       onFocus={() => speakText("Address input field")}
                       onChange={(e) => handleMembershipChange("address", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Postcode</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Postcode</label>
                     <input
                       type="text"
                       required
@@ -656,14 +657,14 @@ export default function FormsPage() {
                       value={membershipData.postcode}
                       onFocus={() => speakText("Postcode input field")}
                       onChange={(e) => handleMembershipChange("postcode", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Telephone Number</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Telephone Number</label>
                     <input
                       type="tel"
                       required
@@ -671,11 +672,11 @@ export default function FormsPage() {
                       value={membershipData.phone}
                       onFocus={() => speakText("Telephone Number input field")}
                       onChange={(e) => handleMembershipChange("phone", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Email</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
                     <input
                       type="email"
                       required
@@ -683,14 +684,14 @@ export default function FormsPage() {
                       value={membershipData.email}
                       onFocus={() => speakText("Email address input field")}
                       onChange={(e) => handleMembershipChange("email", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Date of Birth</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Birth</label>
                     <input
                       type="date"
                       required
@@ -698,11 +699,11 @@ export default function FormsPage() {
                       value={membershipData.date_of_birth}
                       onFocus={() => speakText("Date of Birth field")}
                       onChange={(e) => handleMembershipChange("date_of_birth", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Place of Birth</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Place of Birth</label>
                     <input
                       type="text"
                       required
@@ -710,21 +711,21 @@ export default function FormsPage() {
                       value={membershipData.place_of_birth}
                       onFocus={() => speakText("Place of Birth input field")}
                       onChange={(e) => handleMembershipChange("place_of_birth", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 {/* WITNESS SECTION */}
-                <div className="border-t border-earth/10 pt-6 space-y-6">
+                <div className="border-t border-border pt-6 space-y-6">
                   <div>
-                    <h3 className="text-lg font-bold text-earth">Witness Information</h3>
-                    <p className="text-xs text-earth/60">Details of the witness attesting to this application.</p>
+                    <h3 className="text-lg font-bold text-ink">Witness Information</h3>
+                    <p className="text-xs text-ink/60">Details of the witness attesting to this application.</p>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Witness Name</label>
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Name</label>
                       <input
                         type="text"
                         required
@@ -732,11 +733,11 @@ export default function FormsPage() {
                         value={membershipData.witness_name}
                         onFocus={() => speakText("Witness Name input field")}
                         onChange={(e) => handleMembershipChange("witness_name", e.target.value)}
-                        className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Witness Phone</label>
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Phone</label>
                       <input
                         type="tel"
                         required
@@ -744,14 +745,14 @@ export default function FormsPage() {
                         value={membershipData.witness_phone}
                         onFocus={() => speakText("Witness Phone input field")}
                         onChange={(e) => handleMembershipChange("witness_phone", e.target.value)}
-                        className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                       />
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-3 gap-6">
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Witness Address</label>
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Address</label>
                       <input
                         type="text"
                         required
@@ -759,11 +760,11 @@ export default function FormsPage() {
                         value={membershipData.witness_address}
                         onFocus={() => speakText("Witness Address input field")}
                         onChange={(e) => handleMembershipChange("witness_address", e.target.value)}
-                        className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Witness Date</label>
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Date</label>
                       <input
                         type="date"
                         required
@@ -771,7 +772,7 @@ export default function FormsPage() {
                         value={membershipData.witness_date}
                         onFocus={() => speakText("Witness Date field")}
                         onChange={(e) => handleMembershipChange("witness_date", e.target.value)}
-                        className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                       />
                     </div>
                   </div>
@@ -785,6 +786,7 @@ export default function FormsPage() {
                 >
                   <Turnstile
                     sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
+                    theme="auto"
                     onVerify={(token) => {
                       setTurnstileToken(token);
                       speakText("Security verification complete.");
@@ -797,7 +799,7 @@ export default function FormsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !areAllMembershipFieldsFilled || !turnstileToken}
-                  className="w-full py-3 bg-ochre hover:bg-ochre-dark  font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Submitting Application..." : "Submit Membership Application"}
                 </button>
@@ -808,13 +810,13 @@ export default function FormsPage() {
             {activeTab === "address" && (
               <form onSubmit={handleAddressSubmit} className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-earth mb-1">Change of Address Form</h2>
-                  <p className="text-xs text-earth/60">Fill in each field sequentially to unlock the form.</p>
+                  <h2 className="text-2xl font-bold text-ink mb-1">Change of Address Form</h2>
+                  <p className="text-xs text-ink/60">Fill in each field sequentially to unlock the form.</p>
                 </div>
 
                 <div className="grid md:grid-cols-4 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">ICN Number</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">ICN Number</label>
                     <input
                       type="text"
                       required
@@ -822,11 +824,11 @@ export default function FormsPage() {
                       value={addressData.icn_number}
                       onFocus={() => speakText("ICN Number input field")}
                       onChange={(e) => handleAddressChange("icn_number", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre font-mono"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre font-mono"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Surname</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Surname</label>
                     <input
                       type="text"
                       required
@@ -834,11 +836,11 @@ export default function FormsPage() {
                       value={addressData.surname}
                       onFocus={() => speakText("Surname input field")}
                       onChange={(e) => handleAddressChange("surname", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">First Name</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">First Name</label>
                     <input
                       type="text"
                       required
@@ -846,11 +848,11 @@ export default function FormsPage() {
                       value={addressData.first_name}
                       onFocus={() => speakText("First Name input field")}
                       onChange={(e) => handleAddressChange("first_name", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Last Name</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Last Name</label>
                     <input
                       type="text"
                       required
@@ -858,14 +860,14 @@ export default function FormsPage() {
                       value={addressData.last_name}
                       onFocus={() => speakText("Last Name input field")}
                       onChange={(e) => handleAddressChange("last_name", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Previous Address</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Previous Address</label>
                     <input
                       type="text"
                       required
@@ -873,11 +875,11 @@ export default function FormsPage() {
                       value={addressData.previous_address}
                       onFocus={() => speakText("Previous Address input field")}
                       onChange={(e) => handleAddressChange("previous_address", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Previous Postcode</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Previous Postcode</label>
                     <input
                       type="text"
                       required
@@ -885,14 +887,14 @@ export default function FormsPage() {
                       value={addressData.previous_postcode}
                       onFocus={() => speakText("Previous Postcode input field")}
                       onChange={(e) => handleAddressChange("previous_postcode", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">New Address</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">New Address</label>
                     <input
                       type="text"
                       required
@@ -900,11 +902,11 @@ export default function FormsPage() {
                       value={addressData.new_address}
                       onFocus={() => speakText("New Address input field")}
                       onChange={(e) => handleAddressChange("new_address", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">New Postcode</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">New Postcode</label>
                     <input
                       type="text"
                       required
@@ -912,14 +914,14 @@ export default function FormsPage() {
                       value={addressData.new_postcode}
                       onFocus={() => speakText("New Postcode input field")}
                       onChange={(e) => handleAddressChange("new_postcode", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Telephone Number</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Telephone Number</label>
                     <input
                       type="tel"
                       required
@@ -927,11 +929,11 @@ export default function FormsPage() {
                       value={addressData.phone}
                       onFocus={() => speakText("Telephone Number input field")}
                       onChange={(e) => handleAddressChange("phone", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Email</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
                     <input
                       type="email"
                       required
@@ -939,14 +941,14 @@ export default function FormsPage() {
                       value={addressData.email}
                       onFocus={() => speakText("Email address input field")}
                       onChange={(e) => handleAddressChange("email", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Date of Birth</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Birth</label>
                     <input
                       type="date"
                       required
@@ -954,11 +956,11 @@ export default function FormsPage() {
                       value={addressData.date_of_birth}
                       onFocus={() => speakText("Date of Birth field")}
                       onChange={(e) => handleAddressChange("date_of_birth", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Place of Birth</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Place of Birth</label>
                     <input
                       type="text"
                       required
@@ -966,11 +968,11 @@ export default function FormsPage() {
                       value={addressData.place_of_birth}
                       onFocus={() => speakText("Place of Birth input field")}
                       onChange={(e) => handleAddressChange("place_of_birth", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Date of Update</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Update</label>
                     <input
                       type="date"
                       required
@@ -978,7 +980,7 @@ export default function FormsPage() {
                       value={addressData.change_date}
                       onFocus={() => speakText("Date of Update field")}
                       onChange={(e) => handleAddressChange("change_date", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
@@ -991,6 +993,7 @@ export default function FormsPage() {
                 >
                   <Turnstile
                     sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
+                    theme="auto"
                     onVerify={(token) => {
                       setTurnstileToken(token);
                       speakText("Security verification complete.");
@@ -1003,7 +1006,7 @@ export default function FormsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !areAllAddressFieldsFilled || !turnstileToken}
-                  className="w-full py-3 bg-ochre hover:bg-ochre-dark  font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Updating Address Record..." : "Submit Address Change"}
                 </button>
@@ -1014,29 +1017,29 @@ export default function FormsPage() {
             {activeTab === "feedback" && (
               <form onSubmit={handleFeedbackSubmit} className="space-y-8">
                 <div>
-                  <h2 className="text-2xl font-bold text-earth mb-1">Feedback</h2>
-                  <p className="text-xs text-earth/60">Please complete the form below to provide us with your feedback.</p>
+                  <h2 className="text-2xl font-bold text-ink mb-1">Feedback</h2>
+                  <p className="text-xs text-ink/60">Please complete the form below to provide us with your feedback.</p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-earth/80 mb-1">Full Name <span className="font-normal text-earth/50">(Optional)</span></label>
+                  <label className="block text-xs font-semibold text-ink/80 mb-1">Full Name <span className="font-normal text-ink/50">(Optional)</span></label>
                   <input
                     type="text"
                     value={feedbackData.full_name}
                     onFocus={() => speakText("Full Name input field, optional")}
                     onChange={(e) => handleFeedbackChange("full_name", e.target.value)}
-                    className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre"
+                    className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-earth/80 mb-1">1. On average, how often do you access Pika Wiya Health Service?</label>
+                  <label className="block text-xs font-semibold text-ink/80 mb-1">1. On average, how often do you access Pika Wiya Health Service?</label>
                   <select
                     required
                     value={feedbackData.access_frequency}
                     onFocus={() => speakText("Select how often you access Pika Wiya Health Service")}
                     onChange={(e) => handleFeedbackChange("access_frequency", e.target.value)}
-                    className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm bg-white focus:outline-none focus:border-ochre"
+                    className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre"
                   >
                     <option value="">Select an option</option>
                     <option value="Once a month">Once a month</option>
@@ -1048,7 +1051,7 @@ export default function FormsPage() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">2. What do you like about Pika Wiya Health Service?</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">2. What do you like about Pika Wiya Health Service?</label>
                     <textarea
                       required
                       rows={5}
@@ -1056,11 +1059,11 @@ export default function FormsPage() {
                       value={feedbackData.what_like}
                       onFocus={() => speakText("What do you like about Pika Wiya Health Service?")}
                       onChange={(e) => handleFeedbackChange("what_like", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">3. How can we improve our service?</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">3. How can we improve our service?</label>
                     <textarea
                       required
                       rows={5}
@@ -1068,11 +1071,11 @@ export default function FormsPage() {
                       value={feedbackData.how_improve}
                       onFocus={() => speakText("How can we improve our service?")}
                       onChange={(e) => handleFeedbackChange("how_improve", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">4. What do you dislike about our Health Service?</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">4. What do you dislike about our Health Service?</label>
                     <textarea
                       required
                       rows={5}
@@ -1080,11 +1083,11 @@ export default function FormsPage() {
                       value={feedbackData.what_dislike}
                       onFocus={() => speakText("What do you dislike about our Health Service?")}
                       onChange={(e) => handleFeedbackChange("what_dislike", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">5. Any other comments or suggestions?</label>
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">5. Any other comments or suggestions?</label>
                     <textarea
                       required
                       rows={5}
@@ -1092,7 +1095,7 @@ export default function FormsPage() {
                       value={feedbackData.suggestions}
                       onFocus={() => speakText("Any other comments or suggestions?")}
                       onChange={(e) => handleFeedbackChange("suggestions", e.target.value)}
-                      className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
@@ -1100,6 +1103,7 @@ export default function FormsPage() {
                 <div className={`my-4 transition-opacity ${areAllFeedbackFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}>
                   <Turnstile
                     sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
+                    theme="auto"
                     onVerify={(token) => setTurnstileToken(token)}
                     onExpire={() => setTurnstileToken(null)}
                     onError={() => setTurnstileToken(null)}
@@ -1108,7 +1112,7 @@ export default function FormsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !areAllFeedbackFieldsFilled || !turnstileToken}
-                  className="w-full py-3 bg-ochre hover:bg-ochre-dark  font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Submitting Feedback..." : "Submit Feedback"}
                 </button>
@@ -1119,76 +1123,76 @@ export default function FormsPage() {
             {activeTab === "complaint" && (
               <form onSubmit={handleComplaintSubmit} className="space-y-8">
                 <div>
-                  <h2 className="text-2xl font-bold text-earth mb-1">Complaint Form</h2>
-                  <p className="text-xs text-earth/60">This form ensures that complaints are heard and responded to respectfully.</p>
+                  <h2 className="text-2xl font-bold text-ink mb-1">Complaint Form</h2>
+                  <p className="text-xs text-ink/60">This form ensures that complaints are heard and responded to respectfully.</p>
                 </div>
 
-                <div className="border-t border-earth/10 pt-6 space-y-6">
-                  <h3 className="text-lg font-bold text-earth">Complainant Details</h3>
+                <div className="border-t border-border pt-6 space-y-6">
+                  <h3 className="text-lg font-bold text-ink">Complainant Details</h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Name of Person Lodging Complaint</label>
-                      <input required type="text" value={complaintData.complainant_name} onFocus={() => speakText("Name of person lodging complaint")} onChange={(e) => handleComplaintChange("complainant_name", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Name of Person Lodging Complaint</label>
+                      <input required type="text" value={complaintData.complainant_name} onFocus={() => speakText("Name of person lodging complaint")} onChange={(e) => handleComplaintChange("complainant_name", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Address</label>
-                      <input required type="text" disabled={!isComplaintFieldUnlocked("complainant_address")} value={complaintData.complainant_address} onFocus={() => speakText("Complainant address")} onChange={(e) => handleComplaintChange("complainant_address", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Address</label>
+                      <input required type="text" disabled={!isComplaintFieldUnlocked("complainant_address")} value={complaintData.complainant_address} onFocus={() => speakText("Complainant address")} onChange={(e) => handleComplaintChange("complainant_address", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Daytime Contact No.</label>
-                      <input required type="tel" disabled={!isComplaintFieldUnlocked("daytime_contact")} value={complaintData.daytime_contact} onFocus={() => speakText("Daytime contact number")} onChange={(e) => handleComplaintChange("daytime_contact", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Daytime Contact No.</label>
+                      <input required type="tel" disabled={!isComplaintFieldUnlocked("daytime_contact")} value={complaintData.daytime_contact} onFocus={() => speakText("Daytime contact number")} onChange={(e) => handleComplaintChange("daytime_contact", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Date</label>
-                      <input required type="date" disabled={!isComplaintFieldUnlocked("complainant_date")} value={complaintData.complainant_date} onChange={(e) => handleComplaintChange("complainant_date", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Date</label>
+                      <input required type="date" disabled={!isComplaintFieldUnlocked("complainant_date")} value={complaintData.complainant_date} onChange={(e) => handleComplaintChange("complainant_date", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Email</label>
-                      <input required type="email" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.email} onFocus={() => speakText("Email address")} onChange={(e) => handleComplaintChange("email", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
+                      <input required type="email" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.email} onFocus={() => speakText("Email address")} onChange={(e) => handleComplaintChange("email", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                   </div>
                 </div>
 
-                <div className="border-t border-earth/10 pt-6 space-y-6">
-                  <h3 className="text-lg font-bold text-earth">Complaint Details</h3>
+                <div className="border-t border-border pt-6 space-y-6">
+                  <h3 className="text-lg font-bold text-ink">Complaint Details</h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Date of Incident <span className="font-normal text-earth/50">(if relevant)</span></label>
-                      <input type="date" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_date} onChange={(e) => handleComplaintChange("incident_date", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Incident <span className="font-normal text-ink/50">(if relevant)</span></label>
+                      <input type="date" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_date} onChange={(e) => handleComplaintChange("incident_date", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Time</label>
-                      <input type="time" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_time} onChange={(e) => handleComplaintChange("incident_time", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Time</label>
+                      <input type="time" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_time} onChange={(e) => handleComplaintChange("incident_time", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Location of Incident</label>
-                      <input required type="text" disabled={!isComplaintFieldUnlocked("incident_location")} value={complaintData.incident_location} onFocus={() => speakText("Location of incident")} onChange={(e) => handleComplaintChange("incident_location", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Location of Incident</label>
+                      <input required type="text" disabled={!isComplaintFieldUnlocked("incident_location")} value={complaintData.incident_location} onFocus={() => speakText("Location of incident")} onChange={(e) => handleComplaintChange("incident_location", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Who or what is the subject of your complaint?</label>
-                      <input required type="text" disabled={!isComplaintFieldUnlocked("complaint_subject")} value={complaintData.complaint_subject} onFocus={() => speakText("Who or what is the subject of your complaint?")} onChange={(e) => handleComplaintChange("complaint_subject", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Who or what is the subject of your complaint?</label>
+                      <input required type="text" disabled={!isComplaintFieldUnlocked("complaint_subject")} value={complaintData.complaint_subject} onFocus={() => speakText("Who or what is the subject of your complaint?")} onChange={(e) => handleComplaintChange("complaint_subject", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Summary of Complaint or Issue</label>
-                      <textarea required rows={6} disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.complaint_summary} onFocus={() => speakText("Summary of complaint or issue")} onChange={(e) => handleComplaintChange("complaint_summary", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Summary of Complaint or Issue</label>
+                      <textarea required rows={6} disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.complaint_summary} onFocus={() => speakText("Summary of complaint or issue")} onChange={(e) => handleComplaintChange("complaint_summary", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                   </div>
                 </div>
 
-                <div className="border-t border-earth/10 pt-6 space-y-6">
-                  <h3 className="text-lg font-bold text-earth">Witness Details <span className="font-normal text-earth/50 text-xs">(leave blank if not relevant)</span></h3>
+                <div className="border-t border-border pt-6 space-y-6">
+                  <h3 className="text-lg font-bold text-ink">Witness Details <span className="font-normal text-ink/50 text-xs">(leave blank if not relevant)</span></h3>
                   <div className="grid md:grid-cols-3 gap-6">
-                    <input aria-label="Witness name" placeholder="Name" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_name} onChange={(e) => handleComplaintChange("witness_name", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
-                    <input aria-label="Witness address" placeholder="Address" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_address} onChange={(e) => handleComplaintChange("witness_address", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
-                    <input aria-label="Witness daytime contact number" placeholder="Daytime contact number" type="tel" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_contact} onChange={(e) => handleComplaintChange("witness_contact", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                    <input aria-label="Witness name" placeholder="Name" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_name} onChange={(e) => handleComplaintChange("witness_name", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                    <input aria-label="Witness address" placeholder="Address" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_address} onChange={(e) => handleComplaintChange("witness_address", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                    <input aria-label="Witness daytime contact number" placeholder="Daytime contact number" type="tel" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_contact} onChange={(e) => handleComplaintChange("witness_contact", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                   </div>
                 </div>
 
-                <div className="border-t border-earth/10 pt-6 space-y-6">
-                  <h3 className="text-lg font-bold text-earth">Complaint Outcome</h3>
+                <div className="border-t border-border pt-6 space-y-6">
+                  <h3 className="text-lg font-bold text-ink">Complaint Outcome</h3>
                   <div>
-                    <label className="block text-xs font-semibold text-earth/80 mb-1">Is there an outcome you would like?</label>
-                    <select required disabled={!isComplaintFieldUnlocked("desired_outcome")} value={complaintData.desired_outcome} onChange={(e) => handleComplaintChange("desired_outcome", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm bg-white focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed">
+                    <label className="block text-xs font-semibold text-ink/80 mb-1">Is there an outcome you would like?</label>
+                    <select required disabled={!isComplaintFieldUnlocked("desired_outcome")} value={complaintData.desired_outcome} onChange={(e) => handleComplaintChange("desired_outcome", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed">
                       <option value="">Select an option</option>
                       <option value="yes">Yes</option>
                       <option value="no">No</option>
@@ -1196,23 +1200,23 @@ export default function FormsPage() {
                   </div>
                   {complaintData.desired_outcome === "yes" && (
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">If yes, please provide details</label>
-                      <textarea required rows={4} value={complaintData.outcome_details} onChange={(e) => handleComplaintChange("outcome_details", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">If yes, please provide details</label>
+                      <textarea required rows={4} value={complaintData.outcome_details} onChange={(e) => handleComplaintChange("outcome_details", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
                     </div>
                   )}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Complainant Signature</label>
-                      <input required type="text" disabled={!isComplaintFieldUnlocked("signature")} value={complaintData.signature} onFocus={() => speakText("Complainant signature")} onChange={(e) => handleComplaintChange("signature", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Complainant Signature</label>
+                      <input required type="text" disabled={!isComplaintFieldUnlocked("signature")} value={complaintData.signature} onFocus={() => speakText("Complainant signature")} onChange={(e) => handleComplaintChange("signature", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-earth/80 mb-1">Date Submitted</label>
-                      <input required type="date" disabled={!isComplaintFieldUnlocked("date_submitted")} value={complaintData.date_submitted} onChange={(e) => handleComplaintChange("date_submitted", e.target.value)} className="w-full px-3 py-2 border border-earth/20 rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Date Submitted</label>
+                      <input required type="date" disabled={!isComplaintFieldUnlocked("date_submitted")} value={complaintData.date_submitted} onChange={(e) => handleComplaintChange("date_submitted", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                     </div>
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-sand-dark/50 p-4 text-xs text-earth/70 leading-relaxed space-y-2">
+                <div className="rounded-lg bg-page p-4 text-xs text-ink/70 leading-relaxed space-y-2 border border-border">
                   <p>
                     Complaints may be lodged in writing by mail to PO Box 2021, Port Augusta, SA 5700; by fax to the PWHS Board on (08) 8642 9951; in the clinic suggestion box; by email to Lorraine.Merrick@pikawiyahealth.org.au; or by hand delivery to Administration addressed to the CEO and marked confidential.
                   </p>
@@ -1226,6 +1230,7 @@ export default function FormsPage() {
                 <div className={`my-4 transition-opacity ${isComplaintComplete ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}>
                   <Turnstile
                     sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
+                    theme="auto"
                     onVerify={(token) => setTurnstileToken(token)}
                     onExpire={() => setTurnstileToken(null)}
                     onError={() => setTurnstileToken(null)}
@@ -1234,7 +1239,7 @@ export default function FormsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !isComplaintComplete || !turnstileToken}
-                  className="w-full py-3 bg-ochre hover:bg-ochre-dark  font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Submitting Complaint..." : "Submit Complaint"}
                 </button>

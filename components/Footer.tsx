@@ -1,24 +1,25 @@
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
 import CulturalPattern from "./CulturalPattern";
+import PageTitle from "./PageTitle";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-[#000D1F] text-sand border-t border-ochre/30 mt-auto">
+    <footer className="relative overflow-hidden bg-navy text-sand border-t border-ochre/30 mt-auto">
       <CulturalPattern variant="footer" className="cultural-pattern--footer" />
       <div aria-hidden="true" className="cultural-background cultural-background--footer" />
-      <div className="absolute inset-0 bg-[#000D1F]/78" />
+      <div className="absolute inset-0 bg-navy/78" />
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           
           {/* Brand / About Column */}
           <div className="md:col-span-2 space-y-4">
             <span className="block text-ochre uppercase tracking-[0.22em] text-xs font-semibold mb-3">Pika Wiya Health Service</span>
-            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-wide">
+            <PageTitle as="h2" onDark className="text-2xl md:text-3xl font-bold tracking-wide">
               Pika Wiya Health Service
-            </h2>
+            </PageTitle>
             <p className="text-sand/80 text-sm leading-relaxed max-w-md">
               Providing culturally safe healthcare and community wellbeing services across Port Augusta and surrounding regions.
             </p>

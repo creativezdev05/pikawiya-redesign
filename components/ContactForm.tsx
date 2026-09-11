@@ -73,6 +73,18 @@ export default function ContactForm() {
 
     const { error } = await supabase.from("enquiries").insert([payload]);
 
+    if (!error) {
+      try {
+        await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ payload, turnstileToken: captchaToken }),
+        });
+      } catch {
+        // Enquiry is stored even if the notification email fails.
+      }
+    }
+
     setLoading(false);
     if (error) {
       setStatus({ type: "error", message: "Failed to send message. Please try again or call the clinic." });
@@ -116,8 +128,8 @@ export default function ContactForm() {
           }}
           className={`px-3 py-1.5 rounded text-xs font-medium border transition ${
             isMuted
-              ? "bg-red-50 text-red-600 border-red-200 hover:bg-red-100"
-              : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+              ? "bg-red-50 text-red-600 border-red-200 hover:bg-red-100 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800"
+              : "bg-surface text-ink/70 border-border hover:bg-input-disabled"
           }`}
         >
           {isMuted ? "🔇 Voice Guidance: Off" : "🔊 Voice Guidance: On"}
@@ -129,8 +141,8 @@ export default function ContactForm() {
           <div
             className={`p-4 rounded-md text-sm ${
               status.type === "success"
-                ? "bg-green-50 text-green-800 border border-green-200"
-                : "bg-red-50 text-red-800 border border-red-200"
+                ? "bg-green-50 text-green-800 border border-green-200 dark:bg-green-950/40 dark:text-green-300 dark:border-green-800"
+                : "bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800"
             }`}
           >
             {status.message}
@@ -140,7 +152,7 @@ export default function ContactForm() {
         <div className="grid md:grid-cols-2 gap-6">
           {/* 1. Full Name */}
           <div>
-            <label className="block text-xs font-semibold text-earth uppercase mb-2">Full Name</label>
+            <label className="block text-xs font-semibold text-ink uppercase mb-2">Full Name</label>
             <input
               required
               type="text"
@@ -148,7 +160,7 @@ export default function ContactForm() {
               value={fullName}
               onFocus={() => speakInstruction("fullName", "Please enter your name")}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full px-4 py-3 rounded-md border border-earth/20 focus:outline-none focus:border-ochre"
+              className="w-full px-4 py-3 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre"
             />
           </div>
 
@@ -156,7 +168,7 @@ export default function ContactForm() {
           <div>
             <label
               className={`block text-xs font-semibold uppercase mb-2 ${
-                isPhoneDisabled ? "text-gray-400" : "text-earth"
+                isPhoneDisabled ? "text-ink/40" : "text-ink"
               }`}
             >
               Phone Number
@@ -169,7 +181,7 @@ export default function ContactForm() {
               onFocus={() => speakInstruction("phone", "Please enter your phone number")}
               onChange={(e) => setPhone(e.target.value)}
               disabled={isPhoneDisabled}
-              className="w-full px-4 py-3 rounded-md border border-earth/20 focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
             />
           </div>
         </div>
@@ -179,7 +191,7 @@ export default function ContactForm() {
           <div>
             <label
               className={`block text-xs font-semibold uppercase mb-2 ${
-                isEmailDisabled ? "text-gray-400" : "text-earth"
+                isEmailDisabled ? "text-ink/40" : "text-ink"
               }`}
             >
               Email Address
@@ -192,7 +204,7 @@ export default function ContactForm() {
               onFocus={() => speakInstruction("email", "Please enter your email address")}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isEmailDisabled}
-              className="w-full px-4 py-3 rounded-md border border-earth/20 focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
             />
           </div>
 
@@ -200,7 +212,7 @@ export default function ContactForm() {
           <div>
             <label
               className={`block text-xs font-semibold uppercase mb-2 ${
-                isServiceDisabled ? "text-gray-400" : "text-earth"
+                isServiceDisabled ? "text-ink/40" : "text-ink"
               }`}
             >
               Service Required
@@ -211,7 +223,7 @@ export default function ContactForm() {
               onFocus={() => speakInstruction("serviceType", "Please select a required service")}
               onChange={(e) => setServiceType(e.target.value)}
               disabled={isServiceDisabled}
-              className="w-full px-4 py-3 rounded-md border border-earth/20 focus:outline-none focus:border-ochre bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
             >
               <option value="General Health Care">General Health Care</option>
               <option value="Family Support">Family Support</option>
@@ -227,7 +239,7 @@ export default function ContactForm() {
         <div>
           <label
             className={`block text-xs font-semibold uppercase mb-2 ${
-              isMessageDisabled ? "text-gray-400" : "text-earth"
+              isMessageDisabled ? "text-ink/40" : "text-ink"
             }`}
           >
             Message
@@ -240,7 +252,7 @@ export default function ContactForm() {
             onFocus={() => speakInstruction("message", "Please enter your message")}
             onChange={(e) => setMessage(e.target.value)}
             disabled={isMessageDisabled}
-            className="w-full px-4 py-3 rounded-md border border-earth/20 focus:outline-none focus:border-ochre disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
           ></textarea>
         </div>
 
@@ -249,6 +261,7 @@ export default function ContactForm() {
           <div className="flex justify-center py-2">
             <Turnstile
               sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+              theme="auto"
               onSuccess={(token) => setCaptchaToken(token)}
               onExpire={() => setCaptchaToken(null)}
             />

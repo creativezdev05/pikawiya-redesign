@@ -23,43 +23,51 @@ import Navbar from "@/components/Navbar";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
 import CulturalPattern from "@/components/CulturalPattern";
+import PageTitle from "@/components/PageTitle";
+import TrLogo from "@/components/TrLogo";
 
 const mainServices = [
   {
     name: "Clinical Health Care",
     icon: Heart,
     desc: "General Practitioner care, chronic disease management, and primary nursing.",
-    image: "/assets/home/art-mulka-600.avif",
+    image: "/assets/services/core-services/clinic-health-care.jpg",
+    objectPosition: "center 68%",
   },
   {
     name: "Family Support",
     icon: Users,
     desc: "Maternal and child health services, parenting programs, and early intervention.",
-    image: "/assets/home/art-desert-flower-400.webp",
+    image: "/assets/services/core-services/family-support.jpg",
+    objectPosition: "center 58%",
   },
   {
     name: "Women's & Men's Health",
     icon: UserCheck,
     desc: "Gender-specific clinical care, health checks, and preventative education.",
-    image: "/assets/home/art-irtivadnapa-400.webp",
+    image: "/assets/services/core-services/men-women-health.jpg",
+    objectPosition: "center 55%",
   },
   {
     name: "Youth Programs",
     icon: Sparkles,
     desc: "Youth engagement, physical health, active sports, and community leadership.",
-    image: "/assets/home/art-artunyi-400.webp",
+    image: "/assets/services/core-services/youth-programe.jpg",
+    objectPosition: "center 72%",
   },
   {
     name: "Cultural Support",
     icon: Compass,
     desc: "Care grounded in community connection, traditional knowledge, and Elders' wisdom.",
-    image: "/assets/home/services-heritage-800.webp",
+    image: "/assets/services/core-services/cultural-support.jpg",
+    objectPosition: "center 70%",
   },
   {
     name: "Emotional Wellbeing",
     icon: Shield,
     desc: "Social and emotional wellbeing support, mental health services, and counseling.",
-    image: "/assets/home/hero-idnya-2400.webp",
+    image: "/assets/services/core-services/emotional-wellbeing.jpg",
+    objectPosition: "center 68%",
   },
 ];
 
@@ -234,7 +242,7 @@ const handleTouchEnd = () => {
   setTouchStartDist(null);
 };
   return (
-    <div className="relative bg-earth min-h-screen">
+    <div className="relative bg-page min-h-screen">
       {/* SECTION 1: SCROLL-DRIVEN HERO VIDEO */}
       {showVideoIntro && (
         <HeroVideo onEnterWebsite={() => setShowVideoIntro(false)} />
@@ -257,7 +265,9 @@ const handleTouchEnd = () => {
 
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 space-y-4">
             <Compass className="w-16 h-16 text-ochre animate-pulse" />
-            <h2 className="text-3xl font-bold text-white">Our Story Starts From Here</h2>
+            <PageTitle as="h2" onDark className="text-3xl font-bold">
+              Our Story Starts From Here
+            </PageTitle>
             <p className="text-sm max-w-md text-gray-300">
               Take a virtual walk through our facilities with pan and zoom capabilities.
             </p>
@@ -337,18 +347,19 @@ const handleTouchEnd = () => {
       </AnimatePresence>
 
       {/* CORE SERVICES — tall cultural columns */}
-      <section className="relative overflow-hidden bg-[#000D1F] py-20 md:py-28">
-        <CulturalPattern variant="services" />
-        <div className="absolute inset-0 z-0 bg-[#000D1F]/55" />
+      <section className="relative overflow-hidden landing-ink py-20 md:py-28">
+        <CulturalPattern variant="services" showFeet />
+        <TrLogo motion="wave" placement="tr" className="tr-logo--hero" />
+        <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6">
             <div className="max-w-2xl space-y-4">
-              <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-                <span className="h-px w-10 bg-[#E85D26]" /> What we provide
+              <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+                <span className="h-px w-10 bg-ochre" /> What we provide
               </span>
-              <h2 className="text-[clamp(1.8rem,3.8vw,3rem)] font-extrabold text-white leading-[1.05] tracking-[-0.02em]">
+              <PageTitle as="h2" onDark className="text-[clamp(1.8rem,3.8vw,3rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
                 Our Core Services
-              </h2>
+              </PageTitle>
               <p className="text-sand/75 text-base md:text-lg leading-relaxed">
                 Comprehensive clinical and community services delivered with{" "}
                 <strong className="accent-text">respect, cultural safety</strong>, and community control.
@@ -356,7 +367,7 @@ const handleTouchEnd = () => {
             </div>
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 text-[#E85D26] font-semibold text-sm hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 text-ochre font-semibold text-sm hover:gap-3 transition-all"
             >
               View All Services <ArrowRight className="w-4 h-4" />
             </Link>
@@ -376,8 +387,9 @@ const handleTouchEnd = () => {
                     fill
                     sizes="(max-width: 1280px) 50vw, 16vw"
                     className="object-cover transition duration-700 group-hover:scale-105"
+                    style={{ objectPosition: item.objectPosition }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#000D1F] via-[#000D1F]/55 to-[#000D1F]/20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/55 to-navy/20" />
                   <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-end">
                     <div className="w-10 h-10 rounded-full bg-ochre/20 border border-ochre/40 text-ochre flex items-center justify-center mb-4">
                       <Icon className="w-5 h-5" />
@@ -393,18 +405,17 @@ const handleTouchEnd = () => {
       </section>
 
       {/* MISSION STATEMENT — white */}
-      <section className="relative overflow-hidden bg-white py-20 md:py-24">
+      <section className="relative overflow-hidden landing-paper py-20 md:py-24">
         <CulturalPattern variant="mission" className="cultural-pattern--light" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-14 items-center">
           <div className="space-y-5">
-            <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-              <span className="h-px w-10 bg-[#E85D26]" /> Mission statement
+            <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+              <span className="h-px w-10 bg-ochre" /> Mission statement
             </span>
-            <h3 className="text-[clamp(1.7rem,3.5vw,2.75rem)] font-extrabold text-[#000D1F] leading-[1.1] tracking-[-0.02em]">
-              Empowering community through{" "}
-              <span className="text-[#E85D26]">health, dignity and culture</span>
-            </h3>
-            <p className="text-[#000D1F]/75 text-base md:text-lg leading-relaxed max-w-2xl">
+            <PageTitle as="h3" className="text-[clamp(1.7rem,3.5vw,2.75rem)] font-extrabold leading-[1.1] tracking-[-0.02em]">
+              Empowering community through health, dignity and culture
+            </PageTitle>
+            <p className="text-ink/75 text-base md:text-lg leading-relaxed max-w-2xl">
               Pika Wiya Health Service Aboriginal Corporation will provide a{" "}
               <strong className="accent-text">culturally appropriate service</strong> to Aboriginal and Torres
               Strait Islander people, addressing preventative, promotive and curative aspects of health, which
@@ -413,7 +424,7 @@ const handleTouchEnd = () => {
             </p>
           </div>
 
-          <div className="relative min-h-[420px] md:min-h-[480px] overflow-hidden border border-[#E85D26]/30 group">
+          <div className="relative min-h-[420px] md:min-h-[480px] overflow-hidden border border-ochre/30 group">
             <NextImage
               src="/assets/about/Rachael-Schmerl.jpeg"
               alt="Rachael Schmerl, Chief Executive Officer of Pika Wiya Health Service"
@@ -423,7 +434,7 @@ const handleTouchEnd = () => {
             />
             {/* Stylish name banner */}
             <div className="absolute bottom-5 left-5 right-5">
-              <div className="relative overflow-hidden bg-[#000D1F]/92 border-l-4 border-[#E85D26] px-5 py-4 backdrop-blur-sm shadow-lg">
+              <div className="relative overflow-hidden bg-navy/92 border-l-4 border-ochre px-5 py-4 backdrop-blur-sm shadow-lg">
                 <div
                   aria-hidden="true"
                   className="absolute inset-0 opacity-20 pointer-events-none"
@@ -432,7 +443,7 @@ const handleTouchEnd = () => {
                     backgroundSize: "10px 10px",
                   }}
                 />
-                <p className="relative text-[#E85D26] text-xs font-bold uppercase tracking-[0.18em]">
+                <p className="relative text-ochre text-xs font-bold uppercase tracking-[0.18em]">
                   Rachael Schmerl
                 </p>
                 <p className="relative text-white text-base md:text-lg font-semibold mt-1">
@@ -447,11 +458,11 @@ const handleTouchEnd = () => {
       <AboutHome />
 
       {/* CULTURAL HERITAGE — white (after navy values / ochre purpose) */}
-      <section className="relative overflow-hidden bg-white py-20 md:py-28">
+      <section className="relative overflow-hidden landing-paper py-20 md:py-28">
         <CulturalPattern variant="heritage" className="cultural-pattern--light" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-            <div className="relative min-h-[380px] md:min-h-[460px] overflow-hidden border border-[#E85D26]/30 order-2 lg:order-1">
+            <div className="relative min-h-[380px] md:min-h-[460px] overflow-hidden border border-ochre/30 order-2 lg:order-1">
               <NextImage
                 src="/assets/home/services-heritage-800.webp"
                 alt="Aboriginal cultural heritage artwork"
@@ -461,14 +472,13 @@ const handleTouchEnd = () => {
               />
             </div>
             <div className="space-y-6 order-1 lg:order-2">
-              <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-                <span className="h-px w-10 bg-[#E85D26]" /> Governance &amp; Culture
+              <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+                <span className="h-px w-10 bg-ochre" /> Governance &amp; Culture
               </span>
-              <h2 className="text-[clamp(1.8rem,3.8vw,2.9rem)] font-extrabold text-[#000D1F] leading-[1.08] tracking-[-0.02em]">
-                Walking with our ancestors.{" "}
-                <span className="text-[#E85D26]">Building for community.</span>
-              </h2>
-              <p className="text-[#000D1F]/75 leading-relaxed text-base md:text-lg max-w-xl">
+              <PageTitle as="h2" className="text-[clamp(1.8rem,3.8vw,2.9rem)] font-extrabold leading-[1.08] tracking-[-0.02em]">
+                Walking with our ancestors. Building for community.
+              </PageTitle>
+              <p className="text-ink/75 leading-relaxed text-base md:text-lg max-w-xl">
                 Pika Wiya Health Service operates under the guidance of our{" "}
                 <strong className="accent-text">Aboriginal Board of Directors</strong> and constitution. We
                 walk paths shaped by our ancestors — honouring tradition while ensuring{" "}
@@ -477,13 +487,13 @@ const handleTouchEnd = () => {
               <div className="flex flex-wrap gap-3 pt-2">
                 <Link
                   href="/governance"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#E85D26] hover:bg-[#B83D0E] text-white text-sm font-semibold transition"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-ochre hover:bg-ochre-dark text-white text-sm font-semibold transition"
                 >
                   Governance &amp; Rule Book
                 </Link>
                 <Link
                   href="/about"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-[#000D1F]/20 hover:bg-[#000D1F]/5 text-[#000D1F] text-sm font-semibold transition"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-border hover:bg-ink/5 text-ink text-sm font-semibold transition"
                 >
                   Learn About PWHS
                 </Link>
@@ -494,24 +504,24 @@ const handleTouchEnd = () => {
       </section>
 
       {/* CONTACT — navy */}
-      <section className="relative overflow-hidden bg-[#000D1F] py-20 md:py-28 px-6 md:px-10">
-        <CulturalPattern variant="contact" />
+      <section className="relative overflow-hidden landing-ink py-20 md:py-28 px-6 md:px-10">
+        <CulturalPattern variant="contact" showFeet />
         <div aria-hidden="true" className="cultural-background cultural-background--contact" />
-        <div className="absolute inset-0 z-0 bg-[#000D1F]/72" />
+        <div className="absolute inset-0 z-0 landing-ink-veil" />
         <div className="relative z-10 max-w-5xl mx-auto">
           <div className="text-center mb-10 space-y-4">
-            <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-              <span className="h-px w-10 bg-[#E85D26]" /> Connect with us <span className="h-px w-10 bg-[#E85D26]" />
+            <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+              <span className="h-px w-10 bg-ochre" /> Connect with us <span className="h-px w-10 bg-ochre" />
             </span>
-            <h2 className="text-[clamp(1.8rem,3.8vw,2.9rem)] font-extrabold text-white leading-[1.05] tracking-[-0.02em]">
+            <PageTitle as="h2" onDark className="text-[clamp(1.8rem,3.8vw,2.9rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
               Get in Touch
-            </h2>
+            </PageTitle>
             <p className="text-sand/70 max-w-2xl mx-auto">
               Complete the form below to connect with our health services team or{" "}
               <strong className="accent-text">request an appointment</strong>.
             </p>
           </div>
-          <div className="border border-white/10 border-t-4 border-t-[#E85D26] bg-white p-8 md:p-12 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.45)]">
+          <div className="border border-white/10 border-t-4 border-t-ochre bg-surface p-8 md:p-12 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.45)]">
             <ContactForm />
           </div>
         </div>

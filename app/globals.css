@@ -1,19 +1,37 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --background: #ffffff;
-  --foreground: #E66023;
-  --header-background: #000d1f99;
+  --foreground: #1a1615;
+  --header-background: #00060fcc;
+  --page: #ffffff;
+  --surface: #ffffff;
+  --ink: #1a1615;
+  --muted: rgba(26, 22, 21, 0.72);
+  --border: rgba(26, 22, 21, 0.12);
+  --navy: #00060f;
+  --input: #ffffff;
+  --input-disabled: #f3f4f6;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-navy: var(--navy);
+  --color-input: var(--input);
+  --color-input-disabled: var(--input-disabled);
   --color-ochre: #E85D26;
   --color-ochre-dark: #B83D0E;
   --color-ochre-light: #F08A62;
   --color-earth: #1A1615;
   --color-earth-light: #2B2625;
+  --color-earth-dark: #0f0d0c;
   --color-sand: #F7F4EF;
   --color-sand-dark: #E8E2D5;
   --font-sans: var(--font-geist-sans);
@@ -26,28 +44,179 @@
   font-weight: 700;
 }
 
+/* Orange reads poorly on navy — use white bold there instead */
+.landing-ink .accent-text {
+  color: #ffffff !important;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+    --background: #14110f;
+    --foreground: #f7f4ef;
+    --page: #14110f;
+    --surface: #1f1b19;
+    --ink: #f7f4ef;
+    --muted: rgba(247, 244, 239, 0.72);
+    --border: rgba(247, 244, 239, 0.12);
+    --navy: #000208;
+    --input: #2b2625;
+    --input-disabled: #241f1e;
+  }
+}
+
+/* Landing bands invert in dark mode: navy↔page, so the page is not all navy */
+.landing-ink {
+  background-color: var(--navy);
+}
+
+.landing-paper {
+  background-color: var(--page);
+}
+
+.landing-ink-veil {
+  background-color: color-mix(in srgb, var(--navy) 72%, transparent);
+}
+
+.landing-ink-veil--soft {
+  background-color: color-mix(in srgb, var(--navy) 55%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  .landing-ink {
+    background-color: var(--page);
+  }
+
+  .landing-paper {
+    background-color: var(--navy);
+  }
+
+  .landing-ink-veil,
+  .landing-ink-veil--soft {
+    background-color: color-mix(in srgb, var(--page) 78%, transparent);
+  }
+
+  .landing-paper .title-blend {
+    --title-blend-from: #ffffff;
+    --title-blend-mid: #f5e6d3;
+    --title-blend-to: #c25324;
+    --title-blend-end: #de8a5b;
+  }
+
+  .landing-ink .title-blend--on-dark {
+    --title-blend-from: #ffffff;
+    --title-blend-mid: #f5e6d3;
+    --title-blend-to: #c25324;
+    --title-blend-end: #de8a5b;
+  }
+
+  .landing-paper .cultural-pattern--light .cultural-pattern__logo {
+    mix-blend-mode: screen;
+    opacity: 0.16;
+  }
+
+  /* Bands invert: paper is navy, ink is page — swap accent colour with them */
+  .landing-ink .accent-text {
+    color: #E85D26 !important;
+  }
+
+  .landing-paper .accent-text {
+    color: #ffffff !important;
   }
 }
 
 body {
-  /* background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif; */
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: var(--page);
+  color: var(--ink);
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
+
 button {
-  background-color: var(--foreground);
-  color: var(--background);
   cursor: pointer;
 }
+
+input,
+select,
+textarea {
+  background-color: var(--input);
+  color: var(--ink);
+  border-color: var(--border);
+}
+
 .header {
   background-color: var(--header-background);
+}
+
+/* Title blend — full-line gradient with a shifting ochre band */
+:root {
+  --title-blend-from: #00060f;
+  --title-blend-mid: #4a2c1e;
+  --title-blend-to: #e85d26;
+  --title-blend-end: #f08a62;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --title-blend-from: #ffffff;
+    --title-blend-mid: #f5e6d3;
+    --title-blend-to: #c25324;
+    --title-blend-end: #de8a5b;
+  }
+}
+
+.title-blend {
+  background-image: linear-gradient(
+    110deg,
+    var(--title-blend-from),
+    var(--title-blend-mid),
+    var(--title-blend-to) 70%,
+    var(--title-blend-end)
+  );
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: title-blend-shift 8s ease-in-out infinite;
+}
+
+.title-blend--on-dark {
+  --title-blend-from: #ffffff;
+  --title-blend-mid: #f5e6d3;
+  --title-blend-to: #c25324;
+  --title-blend-end: #de8a5b;
+}
+
+@keyframes title-blend-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-blend {
+    animation: none;
+    background-position: 80% 50%;
+  }
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: scale(1.02) translateY(0); }
+  50% { transform: scale(1.05) translateY(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-hero__media {
+    animation: none !important;
+  }
+}
+
+/* Dark-mode lift for earth contrast cards sitting on page navy */
+@media (prefers-color-scheme: dark) {
+  .contrast-card {
+    background-color: #2b2625;
+    border-color: rgba(232, 93, 38, 0.4);
+  }
 }
 
 /* ── Aboriginal cultural pattern system (concept-art footprints, sky spirals, logo) ── */
@@ -100,12 +269,6 @@ button {
   opacity: 0.45;
 }
 
-.cultural-pattern--light .cultural-pattern__dotfield {
-  background-image: radial-gradient(rgba(232, 93, 38, 0.12) 1px, transparent 1px);
-  background-size: 18px 18px;
-  opacity: 0.55;
-}
-
 .cultural-pattern__logo {
   position: absolute;
   top: 8%;
@@ -140,11 +303,6 @@ button {
   left: auto;
 }
 
-.cultural-pattern--light .cultural-pattern__logo {
-  opacity: 0.12;
-  mix-blend-mode: multiply;
-}
-
 .cultural-pattern__canvas {
   position: absolute;
   inset: 0;
@@ -152,10 +310,6 @@ button {
   height: 100%;
   opacity: 0.9;
   transform: translateZ(0);
-}
-
-.cultural-pattern--light .cultural-pattern__canvas {
-  opacity: 0.72;
 }
 
 .cultural-pattern__songline-strip {
@@ -169,9 +323,27 @@ button {
   opacity: 0.8;
 }
 
-.cultural-pattern--light .cultural-pattern__songline-strip {
-  color: #e85d26;
-  opacity: 0.55;
+/* Light-surface pattern treatment — only in light mode so dark pages keep screen blend */
+@media (prefers-color-scheme: light) {
+  .cultural-pattern--light .cultural-pattern__dotfield {
+    background-image: radial-gradient(rgba(232, 93, 38, 0.12) 1px, transparent 1px);
+    background-size: 18px 18px;
+    opacity: 0.55;
+  }
+
+  .cultural-pattern--light .cultural-pattern__logo {
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+  }
+
+  .cultural-pattern--light .cultural-pattern__canvas {
+    opacity: 0.72;
+  }
+
+  .cultural-pattern--light .cultural-pattern__songline-strip {
+    color: #e85d26;
+    opacity: 0.55;
+  }
 }
 
 /* Opacity-only animations — GPU friendly, no filter/layout thrash */
@@ -271,3 +443,474 @@ button {
     opacity: 0.14;
   }
 }
+
+/* Living pattern field — edge motifs on white/navy pages, not a tinted backdrop */
+.pattern-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pattern-field__piece {
+  position: absolute;
+  overflow: visible;
+  opacity: 0;
+  --pattern-opacity: 0.88;
+  animation:
+    pattern-enter 0.9s ease both var(--pattern-delay, 0s),
+    var(--pattern-motion, pattern-edge-float) var(--pattern-duration, 8s) var(--pattern-ease, ease-in-out) calc(var(--pattern-delay, 0s) + 0.4s) infinite;
+}
+
+.pattern-field__shape {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  rotate: var(--tilt, 0deg);
+}
+
+.pattern-field__shape--circle {
+  border-radius: 50%;
+  clip-path: circle(46% at 50% 50%);
+  -webkit-clip-path: circle(46% at 50% 50%);
+}
+
+.pattern-field__shape--petal {
+  clip-path: polygon(50% 0%, 90% 22%, 100% 58%, 78% 96%, 50% 86%, 22% 96%, 0% 58%, 10% 22%);
+  -webkit-clip-path: polygon(50% 0%, 90% 22%, 100% 58%, 78% 96%, 50% 86%, 22% 96%, 0% 58%, 10% 22%);
+}
+
+.pattern-field__shape--leaf {
+  clip-path: polygon(12% 46%, 42% 0%, 82% 10%, 100% 48%, 70% 100%, 18% 86%, 0% 62%);
+  -webkit-clip-path: polygon(12% 46%, 42% 0%, 82% 10%, 100% 48%, 70% 100%, 18% 86%, 0% 62%);
+}
+
+.pattern-field__shape--kidney {
+  clip-path: polygon(6% 22%, 38% 0%, 86% 6%, 100% 40%, 76% 54%, 96% 88%, 52% 100%, 8% 78%, 34% 50%, 0% 38%);
+  -webkit-clip-path: polygon(6% 22%, 38% 0%, 86% 6%, 100% 40%, 76% 54%, 96% 88%, 52% 100%, 8% 78%, 34% 50%, 0% 38%);
+}
+
+.pattern-field__shape--crescent {
+  clip-path: polygon(78% 8%, 96% 28%, 100% 55%, 88% 84%, 62% 100%, 40% 86%, 58% 58%, 32% 46%, 56% 18%);
+  -webkit-clip-path: polygon(78% 8%, 96% 28%, 100% 55%, 88% 84%, 62% 100%, 40% 86%, 58% 58%, 32% 46%, 56% 18%);
+}
+
+.pattern-field__shape--diamond {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.pattern-field__shape--seed {
+  clip-path: polygon(50% 0%, 86% 18%, 100% 55%, 72% 100%, 50% 88%, 28% 100%, 0% 55%, 14% 18%);
+  -webkit-clip-path: polygon(50% 0%, 86% 18%, 100% 55%, 72% 100%, 50% 88%, 28% 100%, 0% 55%, 14% 18%);
+}
+
+.pattern-field__shape--boomerang {
+  clip-path: polygon(0% 20%, 38% 0%, 100% 24%, 68% 44%, 100% 78%, 36% 100%, 0% 70%, 26% 48%);
+  -webkit-clip-path: polygon(0% 20%, 38% 0%, 100% 24%, 68% 44%, 100% 78%, 36% 100%, 0% 70%, 26% 48%);
+}
+
+.pattern-field__shape--blob {
+  clip-path: polygon(16% 0%, 58% 10%, 92% 0%, 100% 36%, 70% 50%, 100% 78%, 58% 100%, 22% 86%, 0% 62%, 20% 40%, 0% 16%);
+  -webkit-clip-path: polygon(16% 0%, 58% 10%, 92% 0%, 100% 36%, 70% 50%, 100% 78%, 58% 100%, 22% 86%, 0% 62%, 20% 40%, 0% 16%);
+}
+
+.pattern-field__shape--wave {
+  clip-path: polygon(0% 38%, 16% 6%, 46% 20%, 72% 0%, 100% 32%, 90% 70%, 58% 100%, 22% 86%, 0% 64%);
+  -webkit-clip-path: polygon(0% 38%, 16% 6%, 46% 20%, 72% 0%, 100% 32%, 90% 70%, 58% 100%, 22% 86%, 0% 64%);
+}
+
+.pattern-field__shape--band {
+  border-radius: 999px;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%);
+}
+
+.pattern-field__piece--cross {
+  --pattern-opacity: 0.55;
+}
+
+.pattern-field__piece img {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  filter: none;
+}
+
+.pattern-field__swap {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: pattern-swap var(--swap-duration, 9s) linear infinite;
+}
+
+.pattern-field__piece--orbit.pattern-field__piece--left {
+  --pattern-motion: pattern-orbit-left;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--orbit.pattern-field__piece--right {
+  --pattern-motion: pattern-orbit-right;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--orbit-rev.pattern-field__piece--left {
+  --pattern-motion: pattern-orbit-rev-left;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--orbit-rev.pattern-field__piece--right {
+  --pattern-motion: pattern-orbit-rev-right;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--zoom.pattern-field__piece--left {
+  --pattern-motion: pattern-zoom-left;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--zoom.pattern-field__piece--right {
+  --pattern-motion: pattern-zoom-right;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--drift.pattern-field__piece--left {
+  --pattern-motion: pattern-drift-left;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--drift.pattern-field__piece--right {
+  --pattern-motion: pattern-drift-right;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--spin.pattern-field__piece--left {
+  --pattern-motion: pattern-spin-left;
+  --pattern-ease: linear;
+}
+
+.pattern-field__piece--spin.pattern-field__piece--right {
+  --pattern-motion: pattern-spin-right;
+  --pattern-ease: linear;
+}
+
+.pattern-field__piece--bob {
+  --pattern-motion: pattern-edge-bob;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--sway {
+  --pattern-motion: pattern-edge-sway;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--pulse {
+  --pattern-motion: pattern-edge-pulse;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--twirl {
+  --pattern-motion: pattern-edge-twirl;
+  --pattern-ease: linear;
+}
+
+.pattern-field__piece--float {
+  --pattern-motion: pattern-edge-float;
+  --pattern-ease: ease-in-out;
+}
+
+.pattern-field__piece--glide {
+  --pattern-motion: pattern-edge-glide;
+  --pattern-ease: ease-in-out;
+}
+
+@media (prefers-color-scheme: light) {
+  .pattern-field__piece {
+    --pattern-opacity: 0.88;
+  }
+
+  .pattern-field__piece--cross {
+    --pattern-opacity: 0.55;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .pattern-field__piece {
+    --pattern-opacity: 0.8;
+  }
+
+  .pattern-field__piece--cross {
+    --pattern-opacity: 0.5;
+  }
+}
+
+@keyframes pattern-enter {
+  from { opacity: 0; }
+  to { opacity: var(--pattern-opacity); }
+}
+
+@keyframes pattern-swap {
+  0%, 24% { opacity: 1; }
+  33%, 100% { opacity: 0; }
+}
+
+@keyframes pattern-orbit-left {
+  0% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(110px) rotate(90deg); }
+  50% { transform: translateX(70px) translateY(-28px) rotate(180deg); }
+  75% { transform: translateX(95px) translateY(22px) rotate(270deg); }
+  100% { transform: translateX(0) rotate(360deg); }
+}
+
+@keyframes pattern-orbit-right {
+  0% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-110px) rotate(-90deg); }
+  50% { transform: translateX(-70px) translateY(-28px) rotate(-180deg); }
+  75% { transform: translateX(-95px) translateY(22px) rotate(-270deg); }
+  100% { transform: translateX(0) rotate(-360deg); }
+}
+
+@keyframes pattern-orbit-rev-left {
+  0% { transform: translateX(0) rotate(0deg); }
+  50% { transform: translateX(100px) rotate(-180deg); }
+  100% { transform: translateX(0) rotate(-360deg); }
+}
+
+@keyframes pattern-orbit-rev-right {
+  0% { transform: translateX(0) rotate(0deg); }
+  50% { transform: translateX(-100px) rotate(180deg); }
+  100% { transform: translateX(0) rotate(360deg); }
+}
+
+@keyframes pattern-zoom-left {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(88px); }
+}
+
+@keyframes pattern-zoom-right {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-88px); }
+}
+
+@keyframes pattern-drift-left {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  40% { transform: translate3d(120px, -18px, 0); }
+  70% { transform: translate3d(55px, 16px, 0); }
+}
+
+@keyframes pattern-drift-right {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  40% { transform: translate3d(-120px, -18px, 0); }
+  70% { transform: translate3d(-55px, 16px, 0); }
+}
+
+@keyframes pattern-spin-left {
+  0% { transform: translateX(0) rotate(0deg); }
+  50% { transform: translateX(96px) rotate(180deg); }
+  100% { transform: translateX(0) rotate(360deg); }
+}
+
+@keyframes pattern-spin-right {
+  0% { transform: translateX(0) rotate(0deg); }
+  50% { transform: translateX(-96px) rotate(-180deg); }
+  100% { transform: translateX(0) rotate(-360deg); }
+}
+
+@keyframes pattern-edge-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-32px); }
+}
+
+@keyframes pattern-edge-sway {
+  0%, 100% { transform: translateX(0) rotate(-8deg); }
+  50% { transform: translateX(10px) rotate(8deg); }
+}
+
+@keyframes pattern-edge-pulse {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+
+@keyframes pattern-edge-twirl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pattern-edge-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(6px, -24px, 0); }
+}
+
+@keyframes pattern-edge-glide {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(36px, 16px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pattern-field__piece,
+  .pattern-field__swap {
+    animation: none;
+  }
+
+  .pattern-field__piece {
+    opacity: var(--pattern-opacity);
+  }
+
+  .pattern-field__swap:first-child {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .pattern-field__piece {
+    --pattern-opacity: 0.78;
+  }
+
+  .pattern-field__piece--cross {
+    --pattern-opacity: 0.45;
+  }
+}
+
+/* Transparent branch logo — no box, artwork only */
+.tr-logo {
+  position: absolute;
+  z-index: 5;
+  width: clamp(170px, 24vw, 300px);
+  aspect-ratio: 1;
+  pointer-events: none;
+}
+
+.tr-logo--hero {
+  top: 22%;
+  right: 2%;
+  left: auto;
+  bottom: auto;
+  width: clamp(210px, 30vw, 380px);
+  z-index: 2;
+}
+
+.tr-logo--tr { top: 12vh; right: 0; }
+.tr-logo--tl { top: 14vh; left: 0; }
+.tr-logo--br { bottom: 8%; right: -2%; }
+.tr-logo--bl { bottom: 10%; left: -2%; }
+
+.tr-logo__img {
+  object-fit: contain;
+  object-position: center;
+}
+
+.tr-logo--float {
+  animation: tr-logo-float 7s ease-in-out infinite;
+}
+
+.tr-logo--pulse {
+  animation: tr-logo-pulse 4.8s ease-in-out infinite;
+}
+
+.tr-logo--sway {
+  animation: tr-logo-sway 6.2s ease-in-out infinite;
+}
+
+.tr-logo--drift {
+  animation: tr-logo-drift 8s ease-in-out infinite;
+}
+
+.tr-logo--glow {
+  animation: tr-logo-glow 3.6s ease-in-out infinite;
+}
+
+.tr-logo--breathe {
+  animation: tr-logo-breathe 5.4s ease-in-out infinite;
+}
+
+.tr-logo--bob {
+  animation: tr-logo-bob 4.2s ease-in-out infinite;
+}
+
+.tr-logo--shimmer {
+  animation: tr-logo-shimmer 3.2s ease-in-out infinite;
+}
+
+.tr-logo--tilt {
+  animation: tr-logo-tilt 7.4s ease-in-out infinite;
+}
+
+.tr-logo--orbit {
+  animation: tr-logo-orbit 9s ease-in-out infinite;
+}
+
+.tr-logo--wave {
+  animation: tr-logo-wave 6.8s ease-in-out infinite;
+}
+
+@keyframes tr-logo-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -18px, 0); }
+}
+
+@keyframes tr-logo-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+@keyframes tr-logo-sway {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+@keyframes tr-logo-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(16px, 10px, 0); }
+}
+
+@keyframes tr-logo-glow {
+  0%, 100% { filter: brightness(1); opacity: 0.82; }
+  50% { filter: brightness(1.18); opacity: 1; }
+}
+
+@keyframes tr-logo-breathe {
+  0%, 100% { transform: scale(0.96); opacity: 0.78; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes tr-logo-bob {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -12px, 0) scale(1.03); }
+}
+
+@keyframes tr-logo-shimmer {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  50% { filter: brightness(1.22) saturate(1.12); }
+}
+
+@keyframes tr-logo-tilt {
+  0%, 100% { transform: rotate(-8deg) translate3d(0, 0, 0); }
+  50% { transform: rotate(6deg) translate3d(0, -10px, 0); }
+}
+
+@keyframes tr-logo-orbit {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(14px, -10px, 0); }
+  50% { transform: translate3d(4px, 12px, 0); }
+  75% { transform: translate3d(-12px, -6px, 0); }
+}
+
+@keyframes tr-logo-wave {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(8px, -16px, 0) rotate(-3deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tr-logo {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .tr-logo {
+    width: clamp(130px, 42vw, 210px);
+    opacity: 0.85;
+  }
+}
+
+

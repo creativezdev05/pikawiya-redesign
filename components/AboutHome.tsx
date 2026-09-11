@@ -3,6 +3,7 @@ import { Heart, Compass, Award, Lightbulb, Users, Flame, ArrowRight, ShieldCheck
 import NextImage from "next/image";
 import Link from "next/link";
 import CulturalPattern from "./CulturalPattern";
+import PageTitle from "./PageTitle";
 
 export default function AboutSection() {
   const values = [
@@ -33,20 +34,19 @@ export default function AboutSection() {
   return (
     <>
       {/* WHO WE ARE — navy (after white mission) */}
-      <section className="relative overflow-hidden bg-[#000D1F] py-20 md:py-28 text-sand">
-        <CulturalPattern variant="about" />
+      <section className="relative overflow-hidden landing-ink py-20 md:py-28 text-sand dark:text-ink">
+        <CulturalPattern variant="about" showFeet />
         <div aria-hidden="true" className="cultural-background cultural-background--about" />
-        <div className="absolute inset-0 z-0 bg-[#000D1F]/72" />
+        <div className="absolute inset-0 z-0 landing-ink-veil" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
           <div className="grid lg:grid-cols-[1.35fr_1fr] gap-12 lg:gap-16 items-center">
             <div className="space-y-6">
-              <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-                <span className="h-px w-10 bg-[#E85D26]" /> Who we are
+              <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+                <span className="h-px w-10 bg-ochre" /> Who we are
               </span>
-              <h2 className="text-[clamp(1.9rem,4vw,3.1rem)] font-extrabold text-white leading-[1.05] tracking-[-0.02em]">
-                Proudly Aboriginal.{" "}
-                <span className="text-[#E85D26]">Driven by purpose.</span>
-              </h2>
+              <PageTitle as="h2" onDark className="text-[clamp(1.9rem,4vw,3.1rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
+                Proudly Aboriginal. Driven by purpose.
+              </PageTitle>
               <p className="text-sand/80 text-base md:text-lg leading-relaxed max-w-xl">
                 Pika Wiya Health Service is an{" "}
                 <strong className="accent-text">Aboriginal Community Controlled Health Organisation</strong>,
@@ -66,7 +66,7 @@ export default function AboutSection() {
                   const Icon = item.icon;
                   return (
                     <div key={item.label} className="flex items-start gap-3">
-                      <div className="mt-0.5 w-9 h-9 shrink-0 flex items-center justify-center rounded-full bg-[#E85D26]/15 text-[#E85D26] border border-[#E85D26]/30">
+                      <div className="mt-0.5 w-9 h-9 shrink-0 flex items-center justify-center rounded-full bg-ochre/15 text-ochre border border-ochre/30">
                         <Icon className="w-4 h-4" />
                       </div>
                       <div>
@@ -80,13 +80,13 @@ export default function AboutSection() {
 
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 text-[#E85D26] font-semibold text-sm hover:gap-3 transition-all mt-2"
+                className="inline-flex items-center gap-2 text-ochre font-semibold text-sm hover:gap-3 transition-all mt-2"
               >
                 Read our full story <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
-            <div className="relative aspect-square max-h-[520px] w-full overflow-hidden border border-[#E85D26]/30 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
+            <div className="relative aspect-square max-h-[520px] w-full overflow-hidden border border-ochre/30 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
               <NextImage
                 src="/assets/home/art-mulka-600.avif"
                 alt="Aboriginal artwork — cultural storytelling through pattern and Country"
@@ -94,8 +94,8 @@ export default function AboutSection() {
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover"
               />
-              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#000D1F]/90 via-[#000D1F]/40 to-transparent p-5">
-                <p className="text-[#E85D26] text-[11px] font-semibold uppercase tracking-[0.16em]">Cultural Artwork</p>
+              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent p-5">
+                <p className="text-ochre text-[11px] font-semibold uppercase tracking-[0.16em]">Cultural Artwork</p>
                 <p className="text-white text-sm mt-1">&ldquo;Mulka&rdquo; — honouring story, Country and community</p>
               </div>
             </div>
@@ -104,19 +104,19 @@ export default function AboutSection() {
       </section>
 
       {/* VISION — white */}
-      <section className="relative overflow-hidden bg-white py-20 md:py-24">
+      <section className="relative overflow-hidden landing-paper py-20 md:py-24">
         <CulturalPattern variant="vision" className="cultural-pattern--light" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
           <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-14 items-start">
             <div className="space-y-10">
               <div className="max-w-2xl space-y-4">
-                <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-                  <span className="h-px w-10 bg-[#E85D26]" /> Looking ahead
+                <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+                  <span className="h-px w-10 bg-ochre" /> Looking ahead
                 </span>
-                <h3 className="text-[clamp(1.8rem,3.8vw,3rem)] font-extrabold text-[#000D1F] leading-[1.05] tracking-[-0.02em]">
+                <PageTitle as="h3" className="text-[clamp(1.8rem,3.8vw,3rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
                   Our Vision
-                </h3>
-                <p className="text-[#000D1F]/70 text-base md:text-lg">
+                </PageTitle>
+                <p className="text-ink/70 text-base md:text-lg">
                   Setting benchmarks in{" "}
                   <strong className="accent-text">holistic Aboriginal healthcare</strong> — grounded by culture,
                   trusted by community.
@@ -127,18 +127,18 @@ export default function AboutSection() {
                 {visionPoints.map((point, index) => (
                   <div
                     key={index}
-                    className="border-t-2 border-[#E85D26]/50 pt-5 pb-2 space-y-3 hover:border-[#E85D26] transition"
+                    className="border-t-2 border-ochre/50 pt-5 pb-2 space-y-3 hover:border-ochre transition"
                   >
-                    <span className="text-[#E85D26] font-extrabold text-2xl tracking-tight">
+                    <span className="text-ochre font-extrabold text-2xl tracking-tight">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <p className="text-[#000D1F]/70 text-sm leading-relaxed">{point}</p>
+                    <p className="text-ink/70 text-sm leading-relaxed">{point}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="relative min-h-[440px] md:min-h-[560px] lg:min-h-[640px] overflow-hidden border border-[#E85D26]/25 shadow-[0_20px_50px_-24px_rgba(26,22,21,0.3)]">
+            <div className="relative min-h-[440px] md:min-h-[560px] lg:min-h-[640px] overflow-hidden border border-ochre/25 shadow-[0_20px_50px_-24px_rgba(26,22,21,0.3)]">
               <NextImage
                 src="/assets/about-us-01.png"
                 alt="Pika Wiya Health Service — community and culture"
@@ -152,18 +152,18 @@ export default function AboutSection() {
       </section>
 
       {/* VALUES — navy */}
-      <section className="relative overflow-hidden bg-[#000D1F] py-20 md:py-24 text-sand">
+      <section className="relative overflow-hidden landing-ink py-20 md:py-24 text-sand dark:text-ink">
         <CulturalPattern variant="values" />
         <div aria-hidden="true" className="cultural-background cultural-background--values" />
-        <div className="absolute inset-0 z-0 bg-[#000D1F]/72" />
+        <div className="absolute inset-0 z-0 landing-ink-veil" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 space-y-12">
           <div className="max-w-2xl space-y-3">
-            <span className="inline-flex items-center gap-2.5 text-[#E85D26] text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-              <span className="h-px w-10 bg-[#E85D26]" /> How we work
+            <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
+              <span className="h-px w-10 bg-ochre" /> How we work
             </span>
-            <h3 className="text-[clamp(1.8rem,3.8vw,3rem)] font-extrabold text-white leading-[1.05] tracking-[-0.02em]">
+            <PageTitle as="h3" onDark className="text-[clamp(1.8rem,3.8vw,3rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
               Our Values
-            </h3>
+            </PageTitle>
             <p className="text-sand/75">
               The principles guiding every <strong className="accent-text">program and interaction</strong>.
             </p>
@@ -175,9 +175,9 @@ export default function AboutSection() {
               return (
                 <div
                   key={val.name}
-                  className="border border-sand/15 bg-white/[0.03] p-6 space-y-4 hover:border-[#E85D26]/60 hover:bg-[#E85D26]/10 transition"
+                  className="border border-sand/15 bg-white/[0.03] p-6 space-y-4 hover:border-ochre/60 hover:bg-ochre/10 transition"
                 >
-                  <div className="w-11 h-11 rounded-full bg-[#E85D26]/15 border border-[#E85D26]/25 flex items-center justify-center text-[#E85D26]">
+                  <div className="w-11 h-11 rounded-full bg-ochre/15 border border-ochre/25 flex items-center justify-center text-ochre">
                     <IconComponent className="w-5 h-5" />
                   </div>
                   <div>
@@ -192,7 +192,7 @@ export default function AboutSection() {
       </section>
 
       {/* PURPOSE BANNER — ochre accent break */}
-      <section className="relative overflow-hidden bg-[#E85D26]">
+      <section className="relative overflow-hidden bg-ochre">
         <div className="absolute inset-0 opacity-20">
           <div
             className="absolute inset-0"

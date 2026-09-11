@@ -5,6 +5,7 @@ import { useId, useMemo } from "react";
 type CulturalPatternProps = {
   className?: string;
   variant?: "about" | "vision" | "values" | "services" | "heritage" | "contact" | "footer" | "mission";
+  showFeet?: boolean;
 };
 
 /** Deterministic seed from variant — stable across SSR, different per section */
@@ -62,7 +63,11 @@ function flameColumn(x: number, yBottom: number, height: number, count: number) 
   });
 }
 
-export default function CulturalPattern({ className = "", variant = "about" }: CulturalPatternProps) {
+export default function CulturalPattern({
+  className = "",
+  variant = "about",
+  showFeet = false,
+}: CulturalPatternProps) {
   const uid = useId().replace(/:/g, "");
   const footId = `pw-foot-${uid}`;
   const handId = `pw-hand-${uid}`;
@@ -73,11 +78,11 @@ export default function CulturalPattern({ className = "", variant = "about" }: C
 
     // Walking path — right → left (RTL)
     const startY = 560 + rand() * 100;
-    const footCount = 8 + Math.floor(rand() * 3);
+    const footCount = showFeet ? 5 : 0;
     const footprints = Array.from({ length: footCount }, (_, i) => {
-      const t = i / (footCount - 1);
+      const t = i / Math.max(footCount - 1, 1);
       return {
-        x: round(1130 - t * 1060),
+        x: round(1080 - t * 920),
         y: round(startY + Math.sin(t * Math.PI * 0.85 + rand()) * 18 - t * 40),
       };
     });
@@ -114,13 +119,11 @@ export default function CulturalPattern({ className = "", variant = "about" }: C
       flip: rand() > 0.5,
     }));
 
-    // Footprints on most sections
-    const showFeet = pick([true, true, true, true, true, false]);
-    const showLogo = pick([true, true, false]) || variant === "about" || variant === "heritage";
+    const showLogo = false;
     const logoPos = pick(["tr", "tl", "br"] as const);
 
     return { footprints, spirals, flames, hands, showFeet, showHands: handCount > 0, showLogo, logoPos };
-  }, [variant]);
+  }, [variant, showFeet]);
 
   return (
     <div aria-hidden="true" className={`cultural-pattern cultural-pattern--${variant} ${className}`}>

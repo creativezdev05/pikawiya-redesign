@@ -1,5 +1,8 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
+import PatternField from "@/components/PatternField";
 import { supabase, ServiceCategory } from "@/lib/supabaseClient";
 import { ChevronRight } from "lucide-react";
 
@@ -29,32 +32,28 @@ export default async function ServicesPage() {
   const categories = await getServicesWithCategories();
 
   return (
-    <div className="min-h-screen bg-sand text-earth">
+    <div className="relative min-h-screen bg-page text-ink overflow-hidden">
+      <PatternField variant="pulse" />
       <Navbar />
+      <PageHero
+        eyebrow="Healthcare Services"
+        title="Our Health & Wellbeing Programs"
+        description="Pika Wiya Health Service delivers comprehensive, culturally safe healthcare across our clinical facilities, community outreach centers, and school programs."
+        imageSrc="/assets/patterns/pat5.jpg"
+        imageAlt="Aboriginal flowing country dot painting"
+        trLogo="pulse"
+      />
 
-      <main className="max-w-7xl mx-auto px-4 py-16 space-y-16">
-        {/* Header Title */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
-            Healthcare Services
-          </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-earth">
-            Our Health & Wellbeing Programs
-          </h1>
-          <p className="text-earth/70 text-lg">
-            Pika Wiya Health Service delivers comprehensive, culturally safe healthcare across our clinical facilities, community outreach centers, and school programs.
-          </p>
-        </div>
-
+      <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-16">
         {/* Categories Section */}
         {categories.map((category) => (
-          <div key={category.id} className="space-y-8 border-t border-earth/10 pt-12 first:border-0 first:pt-0">
+          <div key={category.id} className="space-y-8 border-t border-border pt-12 first:border-0 first:pt-0">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-earth">
+              <h2 className="text-2xl md:text-3xl font-bold text-ink">
                 {category.category_title}
               </h2>
               {category.category_desc && (
-                <p className="text-earth/70 mt-1 max-w-2xl text-sm md:text-base">
+                <p className="text-ink/70 mt-1 max-w-2xl text-sm md:text-base">
                   {category.category_desc}
                 </p>
               )}
@@ -64,18 +63,18 @@ export default async function ServicesPage() {
               {category.services.map((service) => (
                 <div
                   key={service.id}
-                  className="bg-white/70 border border-earth/10 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:shadow-md transition group"
+                  className="bg-surface border border-border p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:shadow-md transition group"
                 >
                   <div className="space-y-3">
-                    <h3 className="text-xl font-bold text-earth group-hover:text-ochre transition">
+                    <h3 className="text-xl font-bold text-ink group-hover:text-ochre transition">
                       {service.title}
                     </h3>
-                    <p className="text-earth/70 text-sm leading-relaxed">
+                    <p className="text-ink/70 text-sm leading-relaxed">
                       {service.short_desc}
                     </p>
                   </div>
 
-                  <div className="pt-6 mt-4 border-t border-earth/5">
+                  <div className="pt-6 mt-4 border-t border-border">
                     <Link
                       href={`/services/${service.slug}`}
                       className="inline-flex items-center text-sm font-semibold text-ochre hover:text-ochre-dark transition gap-1"
@@ -89,6 +88,9 @@ export default async function ServicesPage() {
           </div>
         ))}
       </main>
+      <div className="relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 }

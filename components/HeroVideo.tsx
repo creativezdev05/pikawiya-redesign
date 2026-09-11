@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { SkipForward, ArrowRight, ChevronDown } from "lucide-react";
+import PageTitle from "@/components/PageTitle";
 
 export interface HeroVideoProps {
   onEnterWebsite?: () => void;
@@ -130,9 +131,9 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
 
         {/* Hero Title Overlay */}
         <div className="relative z-20 text-center max-w-3xl px-4 pointer-events-none">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-4">
+          <PageTitle onDark className="text-5xl md:text-7xl font-bold tracking-tight mb-4">
             Pika Wiya Health Service
-          </h1>
+          </PageTitle>
           <p className="text-lg md:text-xl text-sand/90">
             Scroll down to walk through the experience.
           </p>

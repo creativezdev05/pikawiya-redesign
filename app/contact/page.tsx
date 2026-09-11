@@ -1,28 +1,32 @@
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
+import PageTitle from "@/components/PageTitle";
+import PatternField from "@/components/PatternField";
 import { MapPin, Phone, Mail, Clock, AlertCircle } from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-sand text-earth">
+    <div className="relative min-h-screen bg-page text-ink overflow-hidden">
+      <PatternField variant="wave" logoMotion="drift" logoPlacement="tl" />
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 py-16 space-y-12">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-12">
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
             Get in Touch
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-earth mt-2 mb-4">
+          <PageTitle className="text-4xl md:text-5xl font-bold mt-2 mb-4">
             Contact Pika Wiya Health Service
-          </h1>
-          <p className="text-earth/70 text-lg">
+          </PageTitle>
+          <p className="text-ink/70 text-lg">
             Have a question about our health programs, appointments, or cultural support services? Reach out to our team below.
           </p>
         </div>
 
         {/* Emergency Notice Banner */}
-        <div className="bg-ochre/10 border border-ochre/30 rounded-xl p-4 flex items-center gap-3 text-earth text-sm max-w-4xl mx-auto">
+        <div className="bg-ochre/10 border border-ochre/30 rounded-xl p-4 flex items-center gap-3 text-ink text-sm max-w-4xl mx-auto">
           <AlertCircle className="w-5 h-5 text-ochre shrink-0" />
           <p>
             <strong>Medical Emergency?</strong> For urgent medical emergencies, please call <strong>000</strong> immediately. For after-hours medical assistance, contact your local hospital.
@@ -32,7 +36,7 @@ export default function ContactPage() {
         {/* Grid Section: Details + Form */}
         <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto items-start">
           {/* Contact Details Panel */}
-          <div className="bg-earth text-sand p-8 rounded-2xl space-y-8 shadow-xl">
+          <div className="contrast-card bg-earth text-sand p-8 rounded-2xl space-y-8 shadow-xl border border-transparent">
             <div>
               <h2 className="text-2xl font-bold  mb-2">Clinic Details</h2>
               <p className="text-sand/70 text-sm">
@@ -110,15 +114,18 @@ export default function ContactPage() {
           </div>
 
           {/* Supabase Contact Form */}
-          <div className="lg:col-span-2 bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-earth/10">
-            <h2 className="text-2xl font-bold text-earth mb-2">Send Us an Enquiry</h2>
-            <p className="text-earth/70 text-sm mb-8">
+          <div className="lg:col-span-2 bg-surface p-8 md:p-12 rounded-2xl shadow-sm border border-border">
+            <h2 className="text-2xl font-bold text-ink mb-2">Send Us an Enquiry</h2>
+            <p className="text-ink/70 text-sm mb-8">
               Fill out the form below and your enquiry will be sent directly to our administrative team.
             </p>
             <ContactForm />
           </div>
         </div>
       </main>
+      <div className="relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 }
