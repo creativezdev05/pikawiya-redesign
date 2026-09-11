@@ -44,6 +44,16 @@
   font-weight: 700;
 }
 
+.btn-ochre {
+  background-color: #E85D26;
+  color: #ffffff !important;
+}
+
+.btn-ochre:hover {
+  background-color: #B83D0E;
+  color: #ffffff !important;
+}
+
 /* Orange reads poorly on navy — use white bold there instead */
 .landing-ink .accent-text {
   color: #ffffff !important;

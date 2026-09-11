@@ -367,7 +367,7 @@ const handleTouchEnd = () => {
             </div>
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 text-ochre font-semibold text-sm hover:gap-3 transition-all"
+              className="btn-ochre inline-flex items-center justify-center gap-2 self-start md:self-auto px-6 py-3.5 text-sm font-semibold rounded-md transition"
             >
               View All Services <ArrowRight className="w-4 h-4" />
             </Link>
