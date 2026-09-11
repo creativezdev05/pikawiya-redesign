@@ -257,10 +257,12 @@ const handleTouchEnd = () => {
           transition={{ duration: 0.7, ease: "easeInOut" }}
           className="relative w-full h-full flex items-center justify-center origin-center"
         >
-          <img
+          <NextImage
             src={imageUrl}
             alt="Pika Wiya Facility View"
-            className="w-full h-full object-cover"
+            fill
+            sizes="100vw"
+            className="object-cover"
           />
 
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 space-y-4">
