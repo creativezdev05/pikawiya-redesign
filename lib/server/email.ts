@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { getAdminClient } from "@/lib/server/supabaseAdmin";
 
 type FormType = "membership" | "address" | "feedback" | "complaint" | "enquiry";
 
@@ -197,13 +198,47 @@ function themedHtml(formType: FormType, payload: Record<string, unknown>) {
 </html>`;
 }
 
+function fallbackNotificationEmail() {
+  return process.env.NOTIFICATION_EMAIL || "admin@pikawiyahealth.org.au";
+}
+
+function isUsableEmail(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  const email = value.trim();
+  return email.includes("@") && email.includes(".");
+}
+
+async function getNotificationEmail() {
+  try {
+    const supabase = getAdminClient();
+    const { data, error } = await supabase
+      .from("site_settings")
+      .select("value")
+      .eq("key", "notification_email")
+      .maybeSingle();
+
+    if (error) {
+      console.warn("Could not load notification_email from site_settings.", error.message);
+      return fallbackNotificationEmail();
+    }
+
+    if (isUsableEmail(data?.value)) {
+      return data.value.trim();
+    }
+  } catch (error) {
+    console.warn("Could not load notification_email from site_settings.", error);
+  }
+
+  return fallbackNotificationEmail();
+}
+
 export async function sendFormNotification({ formType, payload }: SendFormNotificationParams) {
   if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
     console.warn("SMTP credentials missing. Skipping email dispatch.");
     return;
   }
 
-  const recipient = process.env.NOTIFICATION_EMAIL || "admin@pikawiyahealth.org.au";
+  const recipient = await getNotificationEmail();
   const copy = FORM_COPY[formType];
   const name = applicantName(payload);
   const userEmail = applicantEmail(payload);

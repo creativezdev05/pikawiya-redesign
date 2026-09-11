@@ -10,6 +10,7 @@ type PageHeroProps = {
   imageAlt: string;
   trLogo?: TrLogoMotion;
   trLogoPlacement?: TrLogoPlacement;
+  trLogoClassName?: string;
 };
 
 export default function PageHero({
@@ -20,6 +21,7 @@ export default function PageHero({
   imageAlt,
   trLogo,
   trLogoPlacement = "tr",
+  trLogoClassName = "",
 }: PageHeroProps) {
   return (
     <section className="relative z-10 flex min-h-[100svh] items-center overflow-hidden bg-navy md:min-h-screen">
@@ -38,7 +40,13 @@ export default function PageHero({
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/45 to-navy/10" aria-hidden="true" />
       </div>
 
-      {trLogo ? <TrLogo motion={trLogo} placement={trLogoPlacement} className="tr-logo--hero" /> : null}
+      {trLogo ? (
+        <TrLogo
+          motion={trLogo}
+          placement={trLogoPlacement}
+          className={`tr-logo--hero ${trLogoClassName}`.trim()}
+        />
+      ) : null}
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-20 md:px-8 md:py-28">
         <div className="max-w-[700px]">

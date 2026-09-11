@@ -107,7 +107,7 @@ export default function AboutSection() {
       <section className="relative overflow-hidden landing-paper py-20 md:py-24">
         <CulturalPattern variant="vision" className="cultural-pattern--light" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-14 items-start">
+          <div className="grid lg:grid-cols-[0.9fr_1.15fr] gap-10 lg:gap-12 items-start">
             <div className="space-y-10">
               <div className="max-w-2xl space-y-4">
                 <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
@@ -127,24 +127,26 @@ export default function AboutSection() {
                 {visionPoints.map((point, index) => (
                   <div
                     key={index}
-                    className="border-t-2 border-ochre/50 pt-5 pb-2 space-y-3 hover:border-ochre transition"
+                    className="zoom-box group relative bg-page border border-border border-t-2 border-t-ochre/70 p-5 md:p-6 space-y-3 origin-center hover:z-10 hover:border-ochre hover:border-t-ochre hover:shadow-[0_22px_44px_-20px_rgba(26,22,21,0.38)]"
                   >
                     <span className="text-ochre font-extrabold text-2xl tracking-tight">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <p className="text-ink/70 text-sm leading-relaxed">{point}</p>
+                    <p className="text-ink/70 text-sm leading-relaxed transition-colors duration-300 group-hover:text-ink">
+                      {point}
+                    </p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="relative min-h-[440px] md:min-h-[560px] lg:min-h-[640px] overflow-hidden border border-ochre/25 shadow-[0_20px_50px_-24px_rgba(26,22,21,0.3)]">
+            <div className="relative w-full aspect-[4/3] overflow-hidden border border-ochre/25 shadow-[0_20px_50px_-24px_rgba(26,22,21,0.3)]">
               <NextImage
                 src="/assets/about-us-01.png"
                 alt="Pika Wiya Health Service — community and culture"
                 fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                className="object-cover object-[center_28%]"
               />
             </div>
           </div>

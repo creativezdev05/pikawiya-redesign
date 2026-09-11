@@ -32,21 +32,22 @@ const mainServices = [
     icon: Heart,
     desc: "General Practitioner care, chronic disease management, and primary nursing.",
     image: "/assets/services/core-services/clinic-health-care.jpg",
-    objectPosition: "center 68%",
+    objectPosition: "center 90%",
+    imageClass: "scale-[1.45] -translate-y-[22%]",
   },
   {
     name: "Family Support",
     icon: Users,
     desc: "Maternal and child health services, parenting programs, and early intervention.",
     image: "/assets/services/core-services/family-support.jpg",
-    objectPosition: "center 58%",
+    objectPosition: "center 52%",
   },
   {
     name: "Women's & Men's Health",
     icon: UserCheck,
     desc: "Gender-specific clinical care, health checks, and preventative education.",
     image: "/assets/services/core-services/men-women-health.jpg",
-    objectPosition: "center 55%",
+    objectPosition: "center 62%",
   },
   {
     name: "Youth Programs",
@@ -60,14 +61,14 @@ const mainServices = [
     icon: Compass,
     desc: "Care grounded in community connection, traditional knowledge, and Elders' wisdom.",
     image: "/assets/services/core-services/cultural-support.jpg",
-    objectPosition: "center 70%",
+    objectPosition: "center 68%",
   },
   {
     name: "Emotional Wellbeing",
     icon: Shield,
     desc: "Social and emotional wellbeing support, mental health services, and counseling.",
     image: "/assets/services/core-services/emotional-wellbeing.jpg",
-    objectPosition: "center 68%",
+    objectPosition: "center 64%",
   },
 ];
 
@@ -351,10 +352,10 @@ const handleTouchEnd = () => {
       {/* CORE SERVICES — tall cultural columns */}
       <section className="relative overflow-hidden landing-ink py-20 md:py-28">
         <CulturalPattern variant="services" showFeet />
-        <TrLogo motion="wave" placement="tr" className="tr-logo--hero" />
+        <TrLogo motion="wave" placement="tr" className="tr-logo--core" />
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6 md:pr-44">
             <div className="max-w-2xl space-y-4">
               <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
                 <span className="h-px w-10 bg-ochre" /> What we provide
@@ -375,29 +376,37 @@ const handleTouchEnd = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {mainServices.map((item, idx) => {
               const Icon = item.icon;
               return (
                 <div
                   key={idx}
-                  className="group relative min-h-[340px] md:min-h-[420px] overflow-hidden border border-ochre/25"
+                  className="zoom-box group relative min-h-[280px] md:min-h-[320px] overflow-hidden border border-ochre/25 origin-center hover:z-20 hover:border-ochre hover:shadow-[0_28px_55px_-18px_rgba(0,0,0,0.55)]"
                 >
                   <NextImage
                     src={item.image}
                     alt=""
                     fill
-                    sizes="(max-width: 1280px) 50vw, 16vw"
-                    className="object-cover transition duration-700 group-hover:scale-105"
+                    sizes="(max-width: 1024px) 50vw, 33vw"
+                    className={`object-cover transition duration-700 group-hover:scale-[1.4] ${
+                      "imageClass" in item && item.imageClass
+                        ? item.imageClass
+                        : "scale-[1.28] -translate-y-[14%]"
+                    }`}
                     style={{ objectPosition: item.objectPosition }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/55 to-navy/20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/55 to-navy/20 transition duration-500 group-hover:from-navy/95 group-hover:via-navy/70" />
                   <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-end">
-                    <div className="w-10 h-10 rounded-full bg-ochre/20 border border-ochre/40 text-ochre flex items-center justify-center mb-4">
-                      <Icon className="w-5 h-5" />
+                    <div className="translate-y-0 transition duration-500 md:group-hover:-translate-y-1">
+                      <div className="w-10 h-10 rounded-full bg-ochre/20 border border-ochre/40 text-ochre flex items-center justify-center mb-4 transition duration-500 group-hover:bg-ochre group-hover:text-white group-hover:border-ochre">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <h3 className="text-base md:text-lg font-bold text-white mb-2 leading-snug">{item.name}</h3>
+                      <p className="text-sand/75 text-xs md:text-sm leading-relaxed transition-colors duration-300 group-hover:text-sand">
+                        {item.desc}
+                      </p>
                     </div>
-                    <h3 className="text-base md:text-lg font-bold text-white mb-2 leading-snug">{item.name}</h3>
-                    <p className="text-sand/75 text-xs md:text-sm leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               );

@@ -1,23 +1,11 @@
-import { createClient } from "@supabase/supabase-js";
 import { encryptFormPayload, hashLookupValue } from "@/lib/server/formCrypto";
 import { sendFormNotification } from "@/lib/server/email";
+import { getAdminClient } from "@/lib/server/supabaseAdmin";
 
 export const runtime = "nodejs";
 
 const FORM_TYPES = ["membership", "address", "feedback", "complaint"] as const;
 type FormType = (typeof FORM_TYPES)[number];
-
-function getAdminClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error("Server Supabase credentials are not configured.");
-  }
-
-  return createClient(supabaseUrl, serviceRoleKey, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
-}
 
 async function verifyTurnstile(token: string, ipAddress: string | null) {
   const secret = process.env.TURNSTILE_SECRET_KEY;

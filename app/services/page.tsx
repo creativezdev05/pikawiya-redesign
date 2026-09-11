@@ -42,6 +42,7 @@ export default async function ServicesPage() {
         imageSrc="/assets/patterns/pat5.jpg"
         imageAlt="Aboriginal flowing country dot painting"
         trLogo="pulse"
+        trLogoClassName="tr-logo--inset"
       />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-16">
