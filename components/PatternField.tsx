@@ -144,22 +144,22 @@ const VARIANTS: Record<PatternFieldVariant, VariantConfig> = {
       // { id: "r4", side: "right", motion: "float", shape: "circle", width: 220, height: 180, top: "74%", inset: "2%", tilt: "-8deg", delay: "0.6s", duration: "10s", srcOffset: 1 },
     ],
   },
-  landing_services: {
-    travel: "edge",
-    swapStep: 2,
-    swapReverse: true,
-    swapDuration: 10,
-    motifs: [
-      // { id: "l1", side: "left", motion: "sway", shape: "circle", width: 250, height: 160, top: "4%", inset: "2%", tilt: "-12deg", delay: "0s", duration: "6s", srcOffset: 1 },
-      // { id: "l2", side: "left", motion: "bob", shape: "circle", width: 160, height: 260, top: "28%", inset: "4%", tilt: "8deg", delay: "0.2s", duration: "8s", srcOffset: 4 },
-      // { id: "l3", side: "left", motion: "float", shape: "circle", width: 200, height: 200, top: "52%", inset: "3%", delay: "0.35s", duration: "7s", srcOffset: 0 },
-      { id: "l4", side: "left", motion: "sway", shape: "circle", width: 170, height: 230, top: "60%", inset: "2%", tilt: "16deg", delay: "0.5s", duration: "9s", srcOffset: 3 },
-      { id: "r1", side: "right", motion: "bob", shape: "circle", width: 230, height: 180, top: "23%", inset: "3%", tilt: "10deg", delay: "0.1s", duration: "7.5s", srcOffset: 5 },
-    //   { id: "r2", side: "right", motion: "sway", shape: "circle", width: 150, height: 240, top: "26%", inset: "2%", tilt: "-14deg", delay: "0.3s", duration: "6.5s", srcOffset: 2 },
-    //   { id: "r3", side: "right", motion: "bob", shape: "circle", width: 250, height: 150, top: "50%", inset: "4%", tilt: "18deg", delay: "0.45s", duration: "8.5s", srcOffset: 4 },
-    //   { id: "r4", side: "right", motion: "float", shape: "circle", width: 220, height: 180, top: "74%", inset: "2%", tilt: "-8deg", delay: "0.6s", duration: "10s", srcOffset: 1 },
-    ],
-  },
+  // landing_services: {
+  //   travel: "edge",
+  //   swapStep: 2,
+  //   swapReverse: true,
+  //   swapDuration: 10,
+  //   motifs: [
+  //     // { id: "l1", side: "left", motion: "sway", shape: "circle", width: 250, height: 160, top: "4%", inset: "2%", tilt: "-12deg", delay: "0s", duration: "6s", srcOffset: 1 },
+  //     // { id: "l2", side: "left", motion: "bob", shape: "circle", width: 160, height: 260, top: "28%", inset: "4%", tilt: "8deg", delay: "0.2s", duration: "8s", srcOffset: 4 },
+  //     // { id: "l3", side: "left", motion: "float", shape: "circle", width: 200, height: 200, top: "52%", inset: "3%", delay: "0.35s", duration: "7s", srcOffset: 0 },
+  //     { id: "l4", side: "left", motion: "sway", shape: "circle", width: 170, height: 230, top: "60%", inset: "2%", tilt: "16deg", delay: "0.5s", duration: "9s", srcOffset: 3 },
+  //     { id: "r1", side: "right", motion: "bob", shape: "circle", width: 230, height: 180, top: "23%", inset: "3%", tilt: "10deg", delay: "0.1s", duration: "7.5s", srcOffset: 5 },
+  //   //   { id: "r2", side: "right", motion: "sway", shape: "circle", width: 150, height: 240, top: "26%", inset: "2%", tilt: "-14deg", delay: "0.3s", duration: "6.5s", srcOffset: 2 },
+  //   //   { id: "r3", side: "right", motion: "bob", shape: "circle", width: 250, height: 150, top: "50%", inset: "4%", tilt: "18deg", delay: "0.45s", duration: "8.5s", srcOffset: 4 },
+  //   //   { id: "r4", side: "right", motion: "float", shape: "circle", width: 220, height: 180, top: "74%", inset: "2%", tilt: "-8deg", delay: "0.6s", duration: "10s", srcOffset: 1 },
+  //   ],
+  // },
 };
 
 function swapSrcs(offset: number, step: number, reverse: boolean) {
