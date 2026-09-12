@@ -88,16 +88,13 @@ export default function AboutSection() {
 
             <div className="relative aspect-square max-h-[520px] w-full overflow-hidden border border-ochre/30 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
               <NextImage
-                src="/assets/home/art-mulka-600.avif"
+                src="/assets/360_F_312060773_c6hObPOPIQAMz6sjQp63HuSKn5HZgCP9.jpg"
                 alt="Aboriginal artwork — cultural storytelling through pattern and Country"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover"
               />
-              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent p-5">
-                <p className="text-ochre text-[11px] font-semibold uppercase tracking-[0.16em]">Cultural Artwork</p>
-                <p className="text-white text-sm mt-1">&ldquo;Mulka&rdquo; — honouring story, Country and community</p>
-              </div>
+              
             </div>
           </div>
         </div>

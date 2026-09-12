@@ -87,17 +87,51 @@ export default function CulturalPattern({
       };
     });
 
-    const spiralCount = 2 + Math.floor(rand() * 2);
-    const spirals = Array.from({ length: spiralCount }, (_, i) => {
-      const onRight = i % 2 === 1;
+    const spiralCount = variant === "vision" ? 2 : 2 + Math.floor(rand() * 2);
+
+  const spirals = Array.from({ length: spiralCount }, (_, i) => {
+    const onRight = i % 2 === 1;
+
+    // Custom positioning specifically for the "vision" variant
+    if (variant === "vision") {
       return {
-        cx: round(onRight ? 980 + rand() * 160 : 70 + rand() * 140),
-        cy: round(i < 2 ? 90 + rand() * 160 : 520 + rand() * 180),
-        rings: 3 + Math.floor(rand() * 3),
-        startR: round(8 + rand() * 6),
-        gap: round(11 + rand() * 5),
+        // Adjust horizontal position (X-axis: 0 to 1200)
+        cx: round(onRight ? 950 : 250), 
+        // Adjust vertical position (Y-axis: 0 to 800)
+        cy: round(onRight ? 100 : 350), 
+        rings: 4,
+        startR: 10,
+        gap: 14,
       };
-    });
+    }
+if (variant === "footer" ) {
+  return [
+    {
+      cx: 1020,     // Top-right alignment inside 1200x800 viewBox
+      cy: 160,      // Positioned near upper edge
+      rings: 6,
+      startR: 16,
+      gap: 20,
+    },
+    {
+      cx: 880,      // Accent spiral next to primary
+      cy: 220,
+      rings: 4,
+      startR: 12,
+      gap: 16,
+    },
+  ];
+}
+
+    // Default positioning for all other variants
+    return {
+      cx: round(onRight ? 980 + rand() * 160 : 70 + rand() * 140),
+      cy: round(i < 2 ? 90 + rand() * 160 : 520 + rand() * 180),
+      rings: 3 + Math.floor(rand() * 3),
+      startR: round(8 + rand() * 6),
+      gap: round(11 + rand() * 5),
+    };
+  });
 
     // Flame columns rising bottom → top
     const flameCount = 3 + Math.floor(rand() * 3);
@@ -248,13 +282,32 @@ export default function CulturalPattern({
           </g>
         </defs>
 
-        {/* Sky spirals — unique positions per section */}
+        {/* Sky spirals */}
         {layout.spirals.map((sp, si) => {
-          const dots = ringDots(sp.cx, sp.cy, sp.rings, sp.startR, sp.gap, 7);
+          // Cast properties cleanly to numbers to prevent string/undefined math errors
+          const cx = Number(sp.cx) || 0;
+          const cy = Number(sp.cy) || 0;
+          const rings = Number(sp.rings) || 0;
+          const startR = Number(sp.startR) || 0;
+          const gap = Number(sp.gap) || 0;
+
+          const dots = ringDots(cx, cy, rings, startR, gap, 7);
+
           return (
-            <g key={`sky-${si}`} className="cultural-sky-spiral" style={{ animationDelay: `${-si * 1.5}s` }}>
+            <g 
+              key={`sky-${si}`} 
+              className="cultural-sky-spiral" 
+              style={{ animationDelay: `${-si * 1.5}s`, opacity: 1 }}
+            >
               {dots.map((d, di) => (
-                <circle key={di} cx={d.x} cy={d.y} r={d.r} fill="#E85D26" />
+                <circle 
+                  key={di} 
+                  cx={Number.isNaN(Number(d.x)) ? cx : Number(d.x)} 
+                  cy={Number.isNaN(Number(d.y)) ? cy : Number(d.y)} 
+                  r={Number.isNaN(Number(d.r)) ? 2 : Number(d.r)} 
+                  fill="#E85D26" 
+                  opacity={0.85} 
+                />
               ))}
             </g>
           );

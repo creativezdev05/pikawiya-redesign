@@ -40,6 +40,38 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-ticker {
+  display: flex;
+  width: max-content;
+  animation: ticker 35s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* If you have keyframe animations for the spirals, check keyframe opacity */
+@keyframes spiralFade {
+  0% {
+    opacity: 0.3; /* Change from 0 to 0.3 or higher */
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
 /* Smooth 2D spin on its center axis */
 @keyframes spin-axis {
   from {
@@ -460,9 +492,10 @@ textarea:disabled {
   50% { opacity: 0.55; }
 }
 
+/* Ensure the sky spiral class isn't hiding the elements */
 .cultural-sky-spiral {
-  animation: sky-spiral-glow 6.5s ease-in-out infinite;
-  will-change: opacity;
+  opacity: 0.85 !important; /* Forces visibility */
+  transition: opacity 0.3s ease;
 }
 
 .cultural-flame-dot {
@@ -912,7 +945,7 @@ textarea:disabled {
   right: 0;
   left: auto;
   bottom: auto;
-  width: clamp(72px, 8.5vw, 112px);
+  width: clamp(72px, 8.5vw, 175px);
   z-index: 6;
 }
 
@@ -1081,5 +1114,4 @@ textarea:disabled {
     bottom: 4%;
   }
 }
-
 

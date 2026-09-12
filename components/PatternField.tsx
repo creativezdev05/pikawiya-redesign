@@ -1,4 +1,4 @@
-import Image from "next/image";
+import NextImage from "next/image";
 import TrLogo, { type TrLogoMotion, type TrLogoPlacement } from "@/components/TrLogo";
 
 const PATTERNS = [
@@ -7,8 +7,7 @@ const PATTERNS = [
   "/assets/patterns/pat3.jpg",
   "/assets/patterns/pat4.jpg",
   "/assets/patterns/pat5.jpg",
-  "/assets/patterns/pat6.jpg",
-  "/assets/patterns/logo-branches.png",
+  "/assets/tr-logo.png",
 
 ];
 
@@ -71,14 +70,14 @@ const VARIANTS: Record<PatternFieldVariant, VariantConfig> = {
     swapReverse: false,
     swapDuration: 9,
     motifs: [
-      { id: "l1", side: "left", motion: "orbit", shape: "blob", width: 270, height: 310, top: "2%", inset: "2%", tilt: "-8deg", delay: "0s", duration: "9s", srcOffset: 0 },
-      { id: "l2", side: "left", motion: "zoom", shape: "petal", width: 180, height: 250, top: "24%", inset: "6%", tilt: "14deg", delay: "0.15s", duration: "5.5s", srcOffset: 1 },
-      { id: "l3", side: "left", motion: "spin", shape: "crescent", width: 210, height: 210, top: "50%", inset: "3%", delay: "0.25s", duration: "12s", srcOffset: 2 },
-      { id: "l4", side: "left", motion: "drift", shape: "leaf", width: 160, height: 240, top: "74%", inset: "5%", tilt: "-18deg", delay: "0.35s", duration: "6.5s", srcOffset: 4 },
-      { id: "r1", side: "right", motion: "zoom", shape: "kidney", width: 250, height: 180, top: "5%", inset: "3%", tilt: "10deg", delay: "0.1s", duration: "6s", srcOffset: 5 },
-      { id: "r2", side: "right", motion: "orbit", shape: "seed", width: 150, height: 240, top: "30%", inset: "5%", tilt: "-12deg", delay: "0.2s", duration: "7.5s", srcOffset: 2 },
-      { id: "r3", side: "right", motion: "spin", shape: "diamond", width: 190, height: 190, top: "54%", inset: "7%", delay: "0.4s", duration: "11s", srcOffset: 4 },
-      { id: "r4", side: "right", motion: "drift", shape: "boomerang", width: 260, height: 160, top: "76%", inset: "2%", tilt: "16deg", delay: "0.5s", duration: "7s", srcOffset: 1 },
+      // { id: "l1", side: "left", motion: "orbit", shape: "circle", width: 270, height: 310, top: "2%", inset: "2%", tilt: "-8deg", delay: "0s", duration: "9s", srcOffset: 0 },
+      { id: "l2", side: "left", motion: "zoom", shape: "circle ", width: 180, height: 250, top: "24%", inset: "6%", tilt: "14deg", delay: "0.15s", duration: "5.5s", srcOffset: 1 },
+      { id: "l3", side: "left", motion: "spin", shape: "circle ", width: 210, height: 210, top: "50%", inset: "3%", delay: "0.25s", duration: "12s", srcOffset: 2 },
+      { id: "l4", side: "left", motion: "drift", shape: "circle", width: 160, height: 240, top: "74%", inset: "5%", tilt: "-18deg", delay: "0.35s", duration: "6.5s", srcOffset: 4 },
+      // { id: "r1", side: "right", motion: "zoom", shape: "circle", width: 250, height: 180, top: "5%", inset: "3%", tilt: "10deg", delay: "0.1s", duration: "6s", srcOffset: 5 },
+      // { id: "r2", side: "right", motion: "orbit", shape: "circle ", width: 150, height: 240, top: "30%", inset: "5%", tilt: "-12deg", delay: "0.2s", duration: "7.5s", srcOffset: 2 },
+      { id: "r3", side: "right", motion: "spin", shape: "circle", width: 190, height: 190, top: "54%", inset: "7%", delay: "0.4s", duration: "11s", srcOffset: 4 },
+      { id: "r4", side: "right", motion: "drift", shape: "circle ", width: 260, height: 160, top: "76%", inset: "2%", tilt: "16deg", delay: "0.5s", duration: "7s", srcOffset: 1 },
     ],
   },
   rise: {
@@ -87,14 +86,14 @@ const VARIANTS: Record<PatternFieldVariant, VariantConfig> = {
     swapReverse: true,
     swapDuration: 11,
     motifs: [
-      { id: "l1", side: "left", motion: "bob", shape: "leaf", width: 170, height: 280, top: "4%", inset: "-5%", delay: "0s", duration: "7s", srcOffset: 5 },
-      { id: "l2", side: "left", motion: "float", shape: "seed", width: 140, height: 250, top: "30%", inset: "-3%", delay: "0.2s", duration: "9s", srcOffset: 3 },
-      { id: "l3", side: "left", motion: "bob", shape: "kidney", width: 240, height: 170, top: "56%", inset: "-6%", delay: "0.4s", duration: "8s", srcOffset: 1 },
-      { id: "l4", side: "left", motion: "float", shape: "petal", width: 160, height: 220, top: "80%", inset: "-2%", delay: "0.6s", duration: "10s", srcOffset: 4 },
-      { id: "r1", side: "right", motion: "float", shape: "boomerang", width: 240, height: 170, top: "6%", inset: "-5%", delay: "0.1s", duration: "8.5s", srcOffset: 0 },
-      { id: "r2", side: "right", motion: "bob", shape: "crescent", width: 200, height: 200, top: "32%", inset: "-2%", delay: "0.3s", duration: "6.5s", srcOffset: 2 },
-      { id: "r3", side: "right", motion: "float", shape: "blob", width: 230, height: 190, top: "58%", inset: "-6%", delay: "0.5s", duration: "9.5s", srcOffset: 5 },
-      { id: "r4", side: "right", motion: "bob", shape: "diamond", width: 160, height: 160, top: "82%", inset: "-3%", delay: "0.7s", duration: "7.5s", srcOffset: 1 },
+      // { id: "l1", side: "left", motion: "bob", shape: "circle", width: 170, height: 280, top: "4%", inset: "5%", delay: "0s", duration: "7s", srcOffset: 5 },
+      // { id: "l2", side: "left", motion: "float", shape: "circle", width: 140, height: 250, top: "30%", inset: "3%", delay: "0.2s", duration: "9s", srcOffset: 3 },
+      // { id: "l3", side: "left", motion: "bob", shape: "circle", width: 240, height: 170, top: "56%", inset: "3%", delay: "0.4s", duration: "8s", srcOffset: 1 },
+      { id: "l4", side: "left", motion: "float", shape: "circle", width: 160, height: 220, top: "80%", inset: "3%", delay: "0.6s", duration: "10s", srcOffset: 4 },
+      { id: "r1", side: "right", motion: "float", shape: "circle", width: 240, height: 170, top: "6%", inset: "5%", delay: "0.1s", duration: "8.5s", srcOffset: 0 },
+      // { id: "r2", side: "right", motion: "bob", shape: "circle", width: 200, height: 200, top: "32%", inset: "2%", delay: "0.3s", duration: "6.5s", srcOffset: 2 },
+      // { id: "r3", side: "right", motion: "float", shape: "circle", width: 230, height: 190, top: "58%", inset: "6%", delay: "0.5s", duration: "9.5s", srcOffset: 5 },
+      // { id: "r4", side: "right", motion: "bob", shape: "circle", width: 160, height: 160, top: "82%", inset: "3%", delay: "0.7s", duration: "7.5s", srcOffset: 1 },
     ],
   },
   pulse: {
@@ -103,14 +102,14 @@ const VARIANTS: Record<PatternFieldVariant, VariantConfig> = {
     swapReverse: false,
     swapDuration: 7,
     motifs: [
-      { id: "l1", side: "left", motion: "pulse", shape: "diamond", width: 210, height: 210, top: "2%", inset: "-6%", delay: "0s", duration: "5s", srcOffset: 2 },
-      { id: "l2", side: "left", motion: "sway", shape: "petal", width: 160, height: 220, top: "26%", inset: "-2%", delay: "0.2s", duration: "6s", srcOffset: 4 },
-      { id: "l3", side: "left", motion: "pulse", shape: "blob", width: 230, height: 170, top: "50%", inset: "-5%", delay: "0.35s", duration: "4.5s", srcOffset: 0 },
-      { id: "l4", side: "left", motion: "sway", shape: "crescent", width: 190, height: 190, top: "76%", inset: "-3%", delay: "0.5s", duration: "7s", srcOffset: 5 },
-      { id: "r1", side: "right", motion: "sway", shape: "leaf", width: 170, height: 240, top: "4%", inset: "-4%", delay: "0.1s", duration: "5.5s", srcOffset: 1 },
-      { id: "r2", side: "right", motion: "pulse", shape: "kidney", width: 220, height: 160, top: "30%", inset: "-6%", delay: "0.25s", duration: "6.5s", srcOffset: 3 },
-      { id: "r3", side: "right", motion: "sway", shape: "seed", width: 140, height: 240, top: "54%", inset: "-2%", delay: "0.4s", duration: "4.8s", srcOffset: 2 },
-      { id: "r4", side: "right", motion: "pulse", shape: "boomerang", width: 230, height: 150, top: "78%", inset: "-5%", delay: "0.55s", duration: "5.8s", srcOffset: 4 },
+      { id: "l1", side: "left", motion: "pulse", shape: "circle", width: 210, height: 210, top: "2%", inset: "-6%", delay: "0s", duration: "5s", srcOffset: 2 },
+      { id: "l2", side: "left", motion: "sway", shape: "circle", width: 160, height: 220, top: "26%", inset: "-2%", delay: "0.2s", duration: "6s", srcOffset: 4 },
+      { id: "l3", side: "left", motion: "pulse", shape: "circle", width: 230, height: 170, top: "50%", inset: "-5%", delay: "0.35s", duration: "4.5s", srcOffset: 0 },
+      { id: "l4", side: "left", motion: "sway", shape: "circle", width: 190, height: 190, top: "76%", inset: "-3%", delay: "0.5s", duration: "7s", srcOffset: 5 },
+      { id: "r1", side: "right", motion: "sway", shape: "circle", width: 170, height: 240, top: "4%", inset: "-4%", delay: "0.1s", duration: "5.5s", srcOffset: 1 },
+      { id: "r2", side: "right", motion: "pulse", shape: "circle", width: 220, height: 160, top: "30%", inset: "-6%", delay: "0.25s", duration: "6.5s", srcOffset: 3 },
+      { id: "r3", side: "right", motion: "sway", shape: "circle", width: 140, height: 240, top: "54%", inset: "-2%", delay: "0.4s", duration: "4.8s", srcOffset: 2 },
+      { id: "r4", side: "right", motion: "pulse", shape: "circle", width: 230, height: 150, top: "78%", inset: "-5%", delay: "0.55s", duration: "5.8s", srcOffset: 4 },
     ],
   },
   twirl: {
@@ -135,14 +134,14 @@ const VARIANTS: Record<PatternFieldVariant, VariantConfig> = {
     swapReverse: true,
     swapDuration: 10,
     motifs: [
-      { id: "l1", side: "left", motion: "sway", shape: "circle", width: 250, height: 160, top: "4%", inset: "2%", tilt: "-12deg", delay: "0s", duration: "6s", srcOffset: 1 },
+      // { id: "l1", side: "left", motion: "sway", shape: "circle", width: 250, height: 160, top: "4%", inset: "2%", tilt: "-12deg", delay: "0s", duration: "6s", srcOffset: 1 },
       { id: "l2", side: "left", motion: "bob", shape: "circle", width: 160, height: 260, top: "28%", inset: "4%", tilt: "8deg", delay: "0.2s", duration: "8s", srcOffset: 4 },
-      { id: "l3", side: "left", motion: "float", shape: "circle", width: 200, height: 200, top: "52%", inset: "3%", delay: "0.35s", duration: "7s", srcOffset: 0 },
+      // { id: "l3", side: "left", motion: "float", shape: "circle", width: 200, height: 200, top: "52%", inset: "3%", delay: "0.35s", duration: "7s", srcOffset: 0 },
       { id: "l4", side: "left", motion: "sway", shape: "circle", width: 170, height: 230, top: "76%", inset: "2%", tilt: "16deg", delay: "0.5s", duration: "9s", srcOffset: 3 },
       { id: "r1", side: "right", motion: "bob", shape: "circle", width: 230, height: 180, top: "3%", inset: "3%", tilt: "10deg", delay: "0.1s", duration: "7.5s", srcOffset: 5 },
-      { id: "r2", side: "right", motion: "sway", shape: "circle", width: 150, height: 240, top: "26%", inset: "2%", tilt: "-14deg", delay: "0.3s", duration: "6.5s", srcOffset: 2 },
+      // { id: "r2", side: "right", motion: "sway", shape: "circle", width: 150, height: 240, top: "26%", inset: "2%", tilt: "-14deg", delay: "0.3s", duration: "6.5s", srcOffset: 2 },
       { id: "r3", side: "right", motion: "bob", shape: "circle", width: 250, height: 150, top: "50%", inset: "4%", tilt: "18deg", delay: "0.45s", duration: "8.5s", srcOffset: 4 },
-      { id: "r4", side: "right", motion: "float", shape: "circle", width: 220, height: 180, top: "74%", inset: "2%", tilt: "-8deg", delay: "0.6s", duration: "10s", srcOffset: 1 },
+      // { id: "r4", side: "right", motion: "float", shape: "circle", width: 220, height: 180, top: "74%", inset: "2%", tilt: "-8deg", delay: "0.6s", duration: "10s", srcOffset: 1 },
     ],
   },
   landing_services: {
@@ -206,8 +205,8 @@ export default function PatternField({
               style={{ ["--tilt" as string]: motif.tilt ?? "0deg" }}
             >
               {swapSrcs(motif.srcOffset, config.swapStep, config.swapReverse).map((src, i) => (
-                <Image
-                  key={src}
+                <NextImage
+                  key={motif.id + "-" + i}
                   src={src}
                   alt=""
                   fill

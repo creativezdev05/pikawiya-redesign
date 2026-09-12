@@ -26,6 +26,7 @@ import CulturalPattern from "@/components/CulturalPattern";
 import PageTitle from "@/components/PageTitle";
 import TrLogo from "@/components/TrLogo";
 import PatternField from "@/components/PatternField";
+import PartnersTicker from "@/components/PartnersTicker";
 
 const mainServices = [
   {
@@ -352,12 +353,12 @@ const handleTouchEnd = () => {
 
       {/* CORE SERVICES — tall cultural columns */}
       <section className="relative overflow-hidden landing-ink pt-10 pb-20 md:pt-14 md:pb-28">
-        <PatternField variant="landing_services" />
+        {/* <PatternField variant="landing_services" /> */}
         <CulturalPattern variant="services" showFeet />
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <div className="relative mb-4 md:mb-6 h-[4.5rem] md:h-[5.5rem]">
-            <TrLogo motion="wave" placement="tr" className="tr-logo--core" />
+          <div className="relative mt-6 mb-4 md:mt-4 md:mb-6 h-[7.5rem] md:h-[9.5rem] flex justify-end -mr-4 md:-mr-8">
+            <TrLogo motion="wave" placement="tr" className="tr-logo--core h-full w-auto scale-110 md:scale-200 origin-right" />
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6">
             <div className="max-w-2xl space-y-4">
@@ -541,6 +542,7 @@ const handleTouchEnd = () => {
           </div>
         </div>
       </section>
+      <PartnersTicker />
       <Footer />
     </div>
   );
