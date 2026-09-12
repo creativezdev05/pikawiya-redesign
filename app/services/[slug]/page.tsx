@@ -61,6 +61,15 @@ export default async function ServiceDetailPage({
 
   return (
     <div className="relative min-h-screen bg-page text-ink flex flex-col overflow-hidden">
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-10">
+          <Image
+            src="/assets/PWHS_Logo_Mark.png"
+            alt=""
+            fill
+            className="object-cover object-center"
+            priority={false}
+          />
+        </div>
       {/* <PatternField variant="twirl" logoMotion="sway" logoPlacement="br" /> */}
       <Navbar />
 
@@ -187,13 +196,13 @@ export default async function ServiceDetailPage({
               </div>
             )}
 
-            <div className="bg-ochre/10 border border-ochre/30 p-6 rounded-3xl space-y-5">
+            <div className="bg-ochre/50 border border-ochre/30 p-6 rounded-3xl space-y-5">
               <div className="flex items-center gap-2 text-ink font-bold text-xs uppercase tracking-wider">
                 <PhoneCall className="w-4 h-4 text-ochre" /> Get in Touch
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-bold text-ink">Make an Appointment</h3>
-                <p className="text-ink/80 text-sm leading-relaxed">
+                <p className="text-ink/80 text-md leading-relaxed">
                   {service.contact_info ||
                     "Contact our clinic reception team to book or inquire about this program."}
                 </p>

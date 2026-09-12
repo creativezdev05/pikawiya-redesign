@@ -7,7 +7,7 @@ import PartnersTicker from "@/components/PartnersTicker";
 export default function NewsPage() {
   return (
     <div className="flex flex-col relative min-h-screen bg-page text-ink overflow-hidden">
-      <PatternField variant="rise" logoMotion="bob" logoPlacement="tl" />
+      <PatternField variant="inward" logoMotion="bob" logoPlacement="tl" />
       <Navbar />
       <div className="flex-1 relative z-10 max-w-5xl mx-auto px-4 py-16">
         <PageTitle className="text-4xl font-bold mb-4">

@@ -72,7 +72,7 @@ export default function AboutPage() {
             priority={false}
           />
       </div>
-      <PatternField variant="rise"/>
+      {/* <PatternField variant="rise"/> */}
       <Navbar />
       <PageHero
         eyebrow="About Pika Wiya"

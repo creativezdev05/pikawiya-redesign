@@ -47,7 +47,7 @@ export default async function ServicesPage() {
   </div>
 
   <div className="relative z-10">
-    <PatternField variant="pulse" />
+    {/* <PatternField variant="pulse" /> */}
     <Navbar />
     <PageHero
       eyebrow="Healthcare Services"

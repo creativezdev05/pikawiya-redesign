@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import PageTitle from "@/components/PageTitle";
 import { AlertTriangle, CheckCircle2, MessageSquare, UserPlus, MapPin, Volume2, VolumeX } from "lucide-react";
 import Turnstile from "react-turnstile";
+import Image from "next/image";
 
 // Field sequence definitions
 const MEMBERSHIP_FIELD_ORDER = [
@@ -437,6 +438,15 @@ export default function FormsPage() {
 
   return (
     <div className="min-h-screen bg-page text-ink">
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-10">
+          <Image
+            src="/assets/Jap-016925-Tarisse.jpg"
+            alt=""
+            fill
+            className="object-cover object-center"
+            priority={false}
+          />
+        </div>
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 py-16">
@@ -569,7 +579,7 @@ export default function FormsPage() {
             </button>
           </div>
         ) : (
-          <div className="bg-surface p-8 md:p-12 rounded-2xl shadow-sm border border-border">
+          <div className="bg-surface p-8 md:p-12 rounded-2xl shadow-sm border border-border bg-white relative z-10">
             {errorMsg && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg dark:bg-red-950/40 dark:border-red-800 dark:text-red-300">
                 {errorMsg}

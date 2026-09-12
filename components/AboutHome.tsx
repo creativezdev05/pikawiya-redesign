@@ -88,7 +88,7 @@ export default function AboutSection() {
 
             <div className="relative aspect-square max-h-[520px] w-full overflow-hidden border border-ochre/30 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
               <NextImage
-                src="/assets/360_F_312060773_c6hObPOPIQAMz6sjQp63HuSKn5HZgCP9.jpg"
+                src="/assets/patterns/pat1.jpg"
                 alt="Aboriginal artwork — cultural storytelling through pattern and Country"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"

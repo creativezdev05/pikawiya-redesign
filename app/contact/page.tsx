@@ -9,7 +9,7 @@ import PartnersTicker from "@/components/PartnersTicker";
 export default function ContactPage() {
   return (
     <div className="relative min-h-screen bg-page text-ink overflow-hidden">
-      <PatternField variant="rise" logoMotion="drift" logoPlacement="tl" />
+      <PatternField variant="inward" logoMotion="drift" logoPlacement="tl" />
       <Navbar />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-12">
@@ -80,10 +80,13 @@ export default function ContactPage() {
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
+                  <a href="tel:0886429991" className="  text-ochre hover:bg-ochre/10  transition"
+                >
                   <h3 className="font-semibold ">Phone</h3>
                   <p className="text-sm text-sand/80 mt-1">
                     (08) 8642 9991
                   </p>
+                  </a>
                 </div>
               </div>
 
@@ -92,10 +95,15 @@ export default function ContactPage() {
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
+                  <a
+                    href="mailto:generalenquiries@pikawiyahealth.org.au"
+                    className=" hover:text-ochre transition"
+                  >
                   <h3 className="font-semibold ">Email</h3>
                   <p className="text-sm text-sand/80 mt-1">
                     admin@pikawiyahealth.org.au
                   </p>
+                </a>
                 </div>
               </div>
 

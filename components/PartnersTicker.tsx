@@ -24,10 +24,12 @@ export default function PartnersTicker() {
     <div className="absolute top-0 bottom-0 right-0 w-20 md:w-40 bg-gradient-to-l from-page to-transparent z-10 pointer-events-none" />
 
     <div className="max-w-7xl mx-auto px-4 mb-8 text-center">
-      <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-        <span className="h-px w-10 bg-ochre" /> Our Partners <span className="h-px w-10 bg-ochre" />
-      </span>
-    </div>
+  <span className="inline-flex items-center gap-3 md:gap-4 text-ochre text-xl md:text-3xl font-extrabold uppercase tracking-[0.14em]">
+    <span className="h-0.5 w-12 md:w-16 bg-ochre" /> 
+    Our Partners 
+    <span className="h-0.5 w-12 md:w-16 bg-ochre" />
+  </span>
+</div>
 
     {/* Infinite Scrolling Track */}
     <div className="flex w-full overflow-hidden select-none">

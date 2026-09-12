@@ -357,9 +357,13 @@ const handleTouchEnd = () => {
         <CulturalPattern variant="services" showFeet />
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <div className="relative mt-6 mb-4 md:mt-4 md:mb-6 h-[7.5rem] md:h-[9.5rem] flex justify-end -mr-4 md:-mr-8">
-            <TrLogo motion="wave" placement="tr" className="tr-logo--core h-full w-auto scale-110 md:scale-200 origin-right" />
-          </div>
+<div className="relative mt-6 mb-4 md:mt-4 md:mb-6 h-[7.5rem] md:h-[9.5rem] flex justify-end -mr-4 md:-mr-8">
+  <TrLogo 
+    motion="wave" 
+    placement="tr" 
+    className="tr-logo--core h-full w-auto scale-110 md:scale-200 origin-right -translate-x-12 translate-y-3 md:-translate-x-18 md:translate-y-5" 
+  />
+</div>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6">
             <div className="max-w-2xl space-y-4">
               <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
