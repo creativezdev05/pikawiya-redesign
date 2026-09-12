@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
 import PatternField from "@/components/PatternField";
 import { ShieldCheck, Mail, Phone, Lock, Eye, FileText } from "lucide-react";
+import PartnersTicker from "@/components/PartnersTicker";
 
 export default function PrivacyPolicyPage() {
   return (
@@ -111,6 +112,7 @@ export default function PrivacyPolicyPage() {
       </div>
 
       <div className="relative z-10">
+        <PartnersTicker />
         <Footer />
       </div>
     </div>

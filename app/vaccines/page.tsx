@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
 import PatternField from "@/components/PatternField";
 import { Briefcase, Mail, HeartHandshake, CheckCircle2 } from "lucide-react";
+import PartnersTicker from "@/components/PartnersTicker";
 
 export default function CareersPage() {
   return (
@@ -80,6 +81,7 @@ export default function CareersPage() {
         </div>
       </main>
       <div className="relative z-10">
+        <PartnersTicker />
         <Footer />
       </div>
     </div>

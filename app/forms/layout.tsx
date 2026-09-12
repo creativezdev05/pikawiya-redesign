@@ -1,4 +1,5 @@
 import Footer from "@/components/Footer";
+import PartnersTicker from "@/components/PartnersTicker";
 import PatternField from "@/components/PatternField";
 
 export default function FormsLayout({
@@ -11,6 +12,7 @@ export default function FormsLayout({
       <PatternField variant="pulse" logoMotion="orbit" logoPlacement="tl" />
       <div className="relative z-10">
         {children}
+        <PartnersTicker />
         <Footer />
       </div>
     </div>

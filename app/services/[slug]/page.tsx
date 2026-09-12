@@ -6,6 +6,7 @@ import PageTitle from "@/components/PageTitle";
 import PatternField from "@/components/PatternField";
 import { supabase, Service } from "@/lib/supabaseClient";
 import Image from "next/image";
+import PartnersTicker from "@/components/PartnersTicker";
 import {
   Calendar,
   MapPin,
@@ -60,7 +61,7 @@ export default async function ServiceDetailPage({
 
   return (
     <div className="relative min-h-screen bg-page text-ink flex flex-col overflow-hidden">
-      <PatternField variant="twirl" logoMotion="sway" logoPlacement="br" />
+      {/* <PatternField variant="twirl" logoMotion="sway" logoPlacement="br" /> */}
       <Navbar />
 
       <main className="relative z-10 max-w-6xl mx-auto px-4 py-12 md:py-16 space-y-10 w-full">
@@ -209,6 +210,7 @@ export default async function ServiceDetailPage({
         </div>
       </main>
       <div className="relative z-10">
+        <PartnersTicker />
         <Footer />
       </div>
     </div>

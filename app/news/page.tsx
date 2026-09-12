@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
 import PatternField from "@/components/PatternField";
+import PartnersTicker from "@/components/PartnersTicker";
 
 export default function NewsPage() {
   return (
@@ -27,6 +28,7 @@ export default function NewsPage() {
         </div>
       </div>
       <div className="relative z-10">
+        <PartnersTicker />
         <Footer />
       </div>
     </div>

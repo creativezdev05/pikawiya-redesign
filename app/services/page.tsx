@@ -6,6 +6,7 @@ import PatternField from "@/components/PatternField";
 import { supabase, ServiceCategory } from "@/lib/supabaseClient";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import PartnersTicker from "@/components/PartnersTicker";
 
 export const revalidate = 60; // Revalidate cache every 60 seconds
 
@@ -121,7 +122,7 @@ export default async function ServicesPage() {
         </div>
       ))}
     </main>
-
+    <PartnersTicker />
     <Footer />
   </div>
 </div>

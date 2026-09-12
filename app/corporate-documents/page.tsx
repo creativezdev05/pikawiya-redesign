@@ -2,7 +2,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
 import PatternField from "@/components/PatternField";
-import { FileText, Download, BookOpen, ShieldCheck } from "lucide-react";
+import { FileText, Download, BookOpen, ShieldCheck, Parasol } from "lucide-react";
+import PartnersTicker from "@/components/PartnersTicker";
 
 export default function CorporateDocumentsPage() {
   return (
@@ -82,6 +83,7 @@ export default function CorporateDocumentsPage() {
         </div>
       </main>
       <div className="relative z-10">
+        <PartnersTicker />
         <Footer />
       </div>
     </div>

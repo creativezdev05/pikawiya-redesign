@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PartnersTicker from "@/components/PartnersTicker";
 import PageTitle from "@/components/PageTitle";
 import PageHero from "@/components/PageHero";
 import PatternField from "@/components/PatternField";
@@ -187,6 +188,7 @@ export default function AboutPage() {
       </div>
       </main>
       <div className="relative z-10">
+        <PartnersTicker />        
         <Footer />
       </div>
     </div>

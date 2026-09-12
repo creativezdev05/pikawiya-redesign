@@ -4,6 +4,7 @@ import ContactForm from "@/components/ContactForm";
 import PageTitle from "@/components/PageTitle";
 import PatternField from "@/components/PatternField";
 import { MapPin, Phone, Mail, Clock, AlertCircle } from "lucide-react";
+import PartnersTicker from "@/components/PartnersTicker";
 
 export default function ContactPage() {
   return (
@@ -124,6 +125,7 @@ export default function ContactPage() {
         </div>
       </main>
       <div className="relative z-10">
+        <PartnersTicker/>
         <Footer />
       </div>
     </div>
