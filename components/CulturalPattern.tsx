@@ -104,24 +104,8 @@ export default function CulturalPattern({
         gap: 14,
       };
     }
-if (variant === "footer" ) {
-  return [
-    {
-      cx: 1020,     // Top-right alignment inside 1200x800 viewBox
-      cy: 160,      // Positioned near upper edge
-      rings: 6,
-      startR: 16,
-      gap: 20,
-    },
-    {
-      cx: 880,      // Accent spiral next to primary
-      cy: 220,
-      rings: 4,
-      startR: 12,
-      gap: 16,
-    },
-  ];
-}
+
+    
 
     // Default positioning for all other variants
     return {
@@ -283,35 +267,27 @@ if (variant === "footer" ) {
         </defs>
 
         {/* Sky spirals */}
-        {layout.spirals.map((sp, si) => {
-          // Cast properties cleanly to numbers to prevent string/undefined math errors
-          const cx = Number(sp.cx) || 0;
-          const cy = Number(sp.cy) || 0;
-          const rings = Number(sp.rings) || 0;
-          const startR = Number(sp.startR) || 0;
-          const gap = Number(sp.gap) || 0;
-
-          const dots = ringDots(cx, cy, rings, startR, gap, 7);
-
-          return (
-            <g 
-              key={`sky-${si}`} 
-              className="cultural-sky-spiral" 
-              style={{ animationDelay: `${-si * 1.5}s`, opacity: 1 }}
-            >
-              {dots.map((d, di) => (
-                <circle 
-                  key={di} 
-                  cx={Number.isNaN(Number(d.x)) ? cx : Number(d.x)} 
-                  cy={Number.isNaN(Number(d.y)) ? cy : Number(d.y)} 
-                  r={Number.isNaN(Number(d.r)) ? 2 : Number(d.r)} 
-                  fill="#E85D26" 
-                  opacity={0.85} 
-                />
-              ))}
-            </g>
-          );
-        })}
+{layout.spirals.map((sp, si) => {
+  const dots = ringDots(sp.cx, sp.cy, sp.rings, sp.startR, sp.gap, 7);
+  return (
+    <g 
+      key={`sky-${si}`} 
+      className="cultural-sky-spiral" 
+      style={{ animationDelay: `${-si * 1.5}s`, opacity: 1 }} /* <-- Ensure group opacity is 1 */
+    >
+      {dots.map((d, di) => (
+        <circle 
+          key={di} 
+          cx={d.x} 
+          cy={d.y} 
+          r={d.r} 
+          fill="#E85D26" 
+          opacity={0.85} /* <-- Increase individual dot opacity from hidden/low to 0.85 */
+        />
+      ))}
+    </g>
+  );
+})}
 
         {/* Flame-rise dots — bright at bottom, travel up & fade */}
         {layout.flames.map((col, ci) => (
