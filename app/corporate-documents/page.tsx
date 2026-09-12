@@ -7,7 +7,8 @@ import { FileText, Download, BookOpen, ShieldCheck } from "lucide-react";
 export default function CorporateDocumentsPage() {
   return (
     <div className="relative min-h-screen bg-page text-ink overflow-hidden">
-      <PatternField variant="wave" logoMotion="breathe" logoPlacement="br" />
+      {/* <PatternField variant="wave" logoMotion="breathe" logoPlacement="br" /> */}
+      <PatternField variant="rise" logoMotion="bob" logoPlacement="tl" />
       <Navbar />
       
       <main className="relative z-10 max-w-5xl mx-auto px-4 py-16 space-y-12">

@@ -8,7 +8,7 @@ import { MapPin, Phone, Mail, Clock, AlertCircle } from "lucide-react";
 export default function ContactPage() {
   return (
     <div className="relative min-h-screen bg-page text-ink overflow-hidden">
-      <PatternField variant="wave" logoMotion="drift" logoPlacement="tl" />
+      <PatternField variant="rise" logoMotion="drift" logoPlacement="tl" />
       <Navbar />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-12">
