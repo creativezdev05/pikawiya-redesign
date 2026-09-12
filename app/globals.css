@@ -97,7 +97,7 @@
   transform-origin: center center;
   
   /* Apply the animation: infinite linear rotation */
-  animation: spin-axis 18s linear infinite;
+  animation: spin-axis 60s linear infinite;
   
   /* Keep rendering smooth during GPU transformations */
   will-change: transform;

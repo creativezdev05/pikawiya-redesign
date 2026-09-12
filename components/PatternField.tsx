@@ -71,13 +71,13 @@ const VARIANTS: Record<PatternFieldVariant, VariantConfig> = {
     swapDuration: 9,
     motifs: [
       // { id: "l1", side: "left", motion: "orbit", shape: "circle", width: 270, height: 310, top: "2%", inset: "2%", tilt: "-8deg", delay: "0s", duration: "9s", srcOffset: 0 },
-      { id: "l2", side: "left", motion: "zoom", shape: "circle", width: 180, height: 250, top: "24%", inset: "6%", tilt: "14deg", delay: "0.15s", duration: "5.5s", srcOffset: 1 },
-      { id: "l3", side: "left", motion: "spin", shape: "circle", width: 210, height: 210, top: "50%", inset: "3%", delay: "0.25s", duration: "12s", srcOffset: 2 },
+      // { id: "l2", side: "left", motion: "zoom", shape: "circle", width: 180, height: 250, top: "24%", inset: "6%", tilt: "14deg", delay: "0.15s", duration: "5.5s", srcOffset: 1 },
+      { id: "l3", side: "left", motion: "spin", shape: "circle", width: 210, height: 210, top: "50%", inset: "3%", delay: "1s", duration: "120s", srcOffset: 2 },
       { id: "l4", side: "left", motion: "drift", shape: "circle", width: 160, height: 240, top: "74%", inset: "5%", tilt: "-18deg", delay: "0.35s", duration: "6.5s", srcOffset: 4 },
       // { id: "r1", side: "right", motion: "zoom", shape: "circle", width: 250, height: 180, top: "5%", inset: "3%", tilt: "10deg", delay: "0.1s", duration: "6s", srcOffset: 5 },
       // { id: "r2", side: "right", motion: "orbit", shape: "circle ", width: 150, height: 240, top: "30%", inset: "5%", tilt: "-12deg", delay: "0.2s", duration: "7.5s", srcOffset: 2 },
-      { id: "r3", side: "right", motion: "spin", shape: "circle", width: 190, height: 190, top: "54%", inset: "7%", delay: "0.4s", duration: "11s", srcOffset: 4 },
-      { id: "r4", side: "right", motion: "drift", shape: "circle", width: 260, height: 160, top: "76%", inset: "2%", tilt: "16deg", delay: "0.5s", duration: "7s", srcOffset: 1 },
+      // { id: "r3", side: "right", motion: "spin", shape: "circle", width: 190, height: 190, top: "54%", inset: "7%", delay: "0.4s", duration: "11s", srcOffset: 4 },
+      // { id: "r4", side: "right", motion: "drift", shape: "circle", width: 260, height: 160, top: "76%", inset: "2%", tilt: "16deg", delay: "0.5s", duration: "7s", srcOffset: 1 },
     ],
   },
   rise: {
