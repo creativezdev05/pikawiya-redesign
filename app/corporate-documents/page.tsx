@@ -9,7 +9,7 @@ export default function CorporateDocumentsPage() {
   return (
     <div className="relative min-h-screen bg-page text-ink overflow-hidden">
       {/* <PatternField variant="wave" logoMotion="breathe" logoPlacement="br" /> */}
-      <PatternField variant="inward" logoMotion="bob" logoPlacement="tl" />
+      <PatternField variant="inward" logoMotion="bob"  />
       <Navbar />
       
       <main className="relative z-10 max-w-5xl mx-auto px-4 py-16 space-y-12">

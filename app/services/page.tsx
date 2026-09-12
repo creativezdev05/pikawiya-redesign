@@ -23,7 +23,7 @@ async function getServicesWithCategories(): Promise<ServiceCategory[]> {
     .order("display_order", { ascending: true });
 
   if (error) {
-    console.error("Error fetching services:", error);
+    console.log("Error fetching services:", error);
     return [];
   }
 
