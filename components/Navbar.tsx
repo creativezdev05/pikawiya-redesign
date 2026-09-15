@@ -2,14 +2,23 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, CalendarCheck, Phone } from "lucide-react";
 import ButtonLink from "@/components/ButtonLink";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { name: "About", href: "/about" },
@@ -22,20 +31,33 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="header sticky top-0 z-50 bg-earth/95 backdrop-blur-md border-b border-ochre/20 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center gap-4">
-        <Link href="/" className="flex items-center gap-3 shrink-0">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-earth/95 backdrop-blur-md border-b border-ochre/25 shadow-xl py-2"
+          : "bg-earth/90 backdrop-blur-sm border-b border-white/10 py-3"
+      }`}
+    >
+      {/* Increased max-width from 7xl to 1400px & adjusted horizontal padding */}
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-6 flex justify-between items-center gap-3">
+        
+        {/* Brand Logo */}
+        <Link 
+          href="/" 
+          className="flex items-center gap-2 shrink-0 transition-transform duration-300 hover:scale-[1.02]"
+        >
           <Image
             src="/assets/PWHS_Logo_Orange.png"
             alt="Pika Wiya Health Service Logo"
             width={180}
             height={60}
-            className="h-12 w-auto object-contain"
+            className="h-10 md:h-12 w-auto object-contain"
             priority
           />
         </Link>
 
-        <nav className="hidden xl:flex items-center gap-6 text-sm font-medium">
+        {/* Desktop Links - Tightened padding (px-2.5) & text size (text-[11px] 2xl:text-xs) */}
+        <nav className="hidden xl:flex items-center gap-0.5 bg-white/[0.04] p-1 rounded-full border border-white/10 backdrop-blur-md shrink-0">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
 
@@ -43,85 +65,88 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`relative py-3 transition-colors duration-200 group flex flex-col items-center justify-center ${
-                  isActive ? "text-white font-bold" : "text-[#ffffffbf] hover:text-white"
+                className={`relative px-3 py-1.5 rounded-full text-xs font-semibold tracking-tight whitespace-nowrap transition-all duration-300 ${
+                  isActive
+                    ? "bg-ochre text-white shadow-md shadow-ochre/30"
+                    : "text-sand/80 hover:text-white hover:bg-white/10"
                 }`}
               >
                 <span>{link.name}</span>
-                <span
-                  aria-hidden="true"
-                  className={`absolute bottom-0 left-0 w-full h-[3px] bg-[#E06D20] transition-all duration-300 ease-in-out ${
-                    isActive
-                      ? "opacity-100 scale-x-100"
-                      : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
-                  }`}
-                />
               </Link>
             );
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-2.5 shrink-0">
-          <ButtonLink href="/contact"
-            className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-ochre hover:bg-ochre-dark text-white text-xs font-semibold transition">
-            <CalendarCheck className="w-4 h-4" />&nbsp;
-            Book Appointment
+        {/* Action Buttons - Compact padding & whitespace protection */}
+        <div className="hidden lg:flex items-center gap-2 shrink-0">
+          <ButtonLink
+            href="/contact"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-ochre hover:bg-ochre-dark text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-ochre/20 transition-all duration-300 hover:shadow-ochre/40 whitespace-nowrap"
+          >
+            <CalendarCheck className="w-3.5 h-3.5" />
+            <span>Book Appointment</span>
           </ButtonLink>
-          
-          
+
           <a
             href="tel:0886429991"
-            className="inline-flex items-center gap-2 px-3.5 py-2.5 border border-ochre/60 text-ochre hover:bg-ochre/10 text-xs font-semibold transition"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-ochre/50 text-ochre hover:bg-ochre hover:text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap"
           >
-            <Phone className="w-4 h-4" />
-            Call
+            <Phone className="w-3.5 h-3.5" />
+            <span className="hidden 2xl:inline">Call</span>
           </a>
         </div>
 
+        {/* Mobile Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="xl:hidden p-2 text-white hover:text-ochre focus:outline-none"
-          aria-label="Toggle Menu"
+          className="xl:hidden p-2 rounded-xl bg-white/5 border border-white/10 text-sand hover:text-white focus:outline-none"
+          aria-label="Toggle Navigation Menu"
         >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isOpen ? <X className="w-6 h-6 text-ochre" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
+      {/* Mobile Menu Drawer */}
       {isOpen && (
-        <div className="xl:hidden bg-earth border-b border-ochre/20 px-4 pt-2 pb-6 space-y-3">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+        <div className="xl:hidden bg-earth/98 backdrop-blur-xl border-b border-ochre/30 px-6 pt-4 pb-8 space-y-4 shadow-2xl animate-in slide-in-from-top-4 duration-200">
+          <div className="space-y-1">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
 
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className={`block text-base font-medium transition-colors border-l-4 pl-3 ${
-                  isActive
-                    ? "border-[#E06D20] text-ochre font-semibold"
-                    : "border-transparent text-white hover:text-ochre hover:border-[#E06D20]"
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
-          <div className="pt-3 flex flex-col gap-2">
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                    isActive
+                      ? "bg-ochre/20 text-ochre border border-ochre/30 font-bold"
+                      : "text-sand/80 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <span>{link.name}</span>
+                  {isActive && <span className="w-2 h-2 rounded-full bg-ochre" />}
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
             <Link
               href="/contact"
               onClick={() => setIsOpen(false)}
-              className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-ochre text-white text-sm font-semibold"
+              className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-ochre text-white text-sm font-bold shadow-md shadow-ochre/20"
             >
               <CalendarCheck className="w-4 h-4" />
-              Book Appointment
+              <span>Book Appointment</span>
             </Link>
+            
             <a
               href="tel:0886429991"
-              className="inline-flex items-center justify-center gap-2 px-4 py-3 border border-ochre/60 text-ochre text-sm font-semibold"
+              className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl border border-ochre/50 text-ochre text-sm font-bold hover:bg-ochre/10"
             >
               <Phone className="w-4 h-4" />
-              Call (08) 8642 9991
+              <span>Call (08) 8642 9991</span>
             </a>
           </div>
         </div>

@@ -29,25 +29,51 @@ function mulberry32(seed: number) {
 
 const round = (n: number) => Math.round(n * 10) / 10;
 
-function ringDots(cx: number, cy: number, rings: number, startR: number, gap: number) {
+function generateGraduatedCircularDots(cx: number, cy: number, rings: number, startR: number, gap: number) {
   const pts: { x: number; y: number; r: number }[] = [];
+  
   for (let ring = 0; ring < rings; ring++) {
     const radius = startR + ring * gap;
-    const count = Math.max(8, Math.round(10 + ring * 4));
+    const count = Math.max(8, Math.round(10 + ring * 5));
+    const dotRadius = Math.max(1.2, round(3.6 - ring * 0.6));
+
     for (let i = 0; i < count; i++) {
       const a = (i / count) * Math.PI * 2;
       pts.push({
         x: round(cx + Math.cos(a) * radius),
         y: round(cy + Math.sin(a) * radius),
-        r: ring === 0 ? 3.0 : 2.2,
+        r: dotRadius,
       });
     }
   }
-  pts.push({ x: round(cx), y: round(cy), r: 3.8 });
+  pts.push({ x: round(cx), y: round(cy), r: 4.2 });
   return pts;
 }
 
-function generateArcSnakePath(xBase: number, yBase: number, radius = 35, turns = 6, rotDeg = 0) {
+function generateHypnoticSpiralPath(turns = 4.5, maxRadius = 60, pointsPerTurn = 36) {
+  const totalPoints = Math.round(turns * pointsPerTurn);
+  let path = "";
+  for (let i = 0; i <= totalPoints; i++) {
+    const t = i / totalPoints;
+    const angle = t * turns * Math.PI * 2;
+    const r = t * maxRadius;
+    const x = round(Math.cos(angle) * r);
+    const y = round(Math.sin(angle) * r);
+    if (i === 0) {
+      path += `M ${x} ${y}`;
+    } else {
+      path += ` L ${x} ${y}`;
+    }
+  }
+  return path;
+}
+
+function generateUShapePath(width: number, height: number) {
+  const r = width / 2;
+  return `M 0 0 L 0 ${height - r} A ${r} ${r} 0 0 0 ${width} ${height - r} L ${width} 0`;
+}
+
+function generateArcSnakePath(xBase: number, yBase: number, radius = 35, turns = 5, rotDeg = 0) {
   let path = `M 0 0`;
   for (let i = 0; i < turns; i++) {
     const sweep = i % 2 === 0 ? 1 : 0;
@@ -55,26 +81,6 @@ function generateArcSnakePath(xBase: number, yBase: number, radius = 35, turns =
     path += ` A ${radius} ${radius} 0 0 ${sweep} 0 ${yTarget}`;
   }
   return { path, xBase: round(xBase), yBase: round(yBase), rotDeg: round(rotDeg) };
-}
-
-function generateHandmadeSpiralPath(turns = 3.5, maxR = 65) {
-  const pts: string[] = [];
-  const steps = Math.round(turns * 24);
-  for (let i = 0; i <= steps; i++) {
-    const t = i / steps;
-    const angle = t * turns * Math.PI * 2;
-    const r = t * maxR;
-    const x = round(Math.cos(angle) * r);
-    const y = round(Math.sin(angle) * r);
-    if (i === 0) pts.push(`M ${x} ${y}`);
-    else pts.push(`L ${x} ${y}`);
-  }
-  return pts.join(" ");
-}
-
-function generateUShapePath(width: number, height: number) {
-  const r = width / 2;
-  return `M 0 0 L 0 ${height - r} A ${r} ${r} 0 0 0 ${width} ${height - r} L ${width} 0`;
 }
 
 export default function CulturalPattern({
@@ -85,103 +91,151 @@ export default function CulturalPattern({
   const uid = useId().replace(/:/g, "");
   const footRightId = `pw-foot-right-${uid}`;
   const handId = `pw-hand-${uid}`;
+  const sideFadeMaskId = `pw-side-fade-${uid}`;
+
+  const motif1Id = `pw-motif-1-${uid}`;
+  const motif2Id = `pw-motif-2-${uid}`;
+  const motif3Id = `pw-motif-3-${uid}`;
 
   const layout = useMemo(() => {
     const rand = mulberry32(seedFrom(variant));
 
-    // Three horizontal placement bands across full 1200px width
     const pickX = (zone: "left" | "center" | "right") => {
-      if (zone === "left") return round(50 + rand() * 250);
+      if (zone === "left") return round(60 + rand() * 240);
       if (zone === "center") return round(450 + rand() * 300);
-      return round(880 + rand() * 250);
+      return round(880 + rand() * 240);
     };
 
-    // 1. Dot Spirals (Left, Center & Right)
-    const spirals = [
-      { cx: pickX("left"), cy: round(140 + rand() * 180), rings: 4, startR: 12, gap: 14 },
-      { cx: pickX("center"), cy: round(360 + rand() * 160), rings: 5, startR: 14, gap: 16 },
-      { cx: pickX("right"), cy: round(480 + rand() * 200), rings: 4, startR: 12, gap: 14 },
+    const circularDotMotifs = [
+      { cx: pickX("left"), cy: round(180 + rand() * 120), rings: 3, startR: 10, gap: 14, speed: 22, dir: "normal" },
+      { cx: pickX("center"), cy: round(380 + rand() * 140), rings: 4, startR: 12, gap: 15, speed: 25, dir: "reverse" },
+      { cx: pickX("right"), cy: round(220 + rand() * 140), rings: 3, startR: 10, gap: 14, speed: 20, dir: "normal" },
     ];
 
-    // 2. Stroke Spirals (Distributed)
-    const handmadeSpirals = [
-      {
-        x: pickX("right"),
-        y: round(120 + rand() * 160),
-        rot: round(rand() * 360),
-        scale: round(0.9 + rand() * 0.3),
-        path: generateHandmadeSpiralPath(3.5, 65),
-      },
-      {
-        x: pickX("left"),
-        y: round(440 + rand() * 200),
-        rot: round(rand() * 360),
-        scale: round(0.9 + rand() * 0.3),
-        path: generateHandmadeSpiralPath(3.5, 65),
-      },
-      {
-        x: pickX("center"),
-        y: round(600 + rand() * 140),
-        rot: round(rand() * 360),
-        scale: round(0.8 + rand() * 0.3),
-        path: generateHandmadeSpiralPath(3.0, 55),
-      },
+    // Increased size (0.7 to 0.9) and doubled quantity
+    const imageMotifs = [
+      { x: pickX("left"), y: round(100 + rand() * 120), type: motif1Id, scale: round(0.7 + rand() * 0.2), speed: 18, dir: "normal" },
+      { x: pickX("center"), y: round(140 + rand() * 160), type: motif2Id, scale: round(0.75 + rand() * 0.2), speed: 20, dir: "reverse" },
+      { x: pickX("right"), y: round(120 + rand() * 140), type: motif3Id, scale: round(0.7 + rand() * 0.2), speed: 16, dir: "normal" },
+      { x: pickX("left"), y: round(380 + rand() * 140), type: motif2Id, scale: round(0.72 + rand() * 0.18), speed: 22, dir: "reverse" },
+      { x: pickX("center"), y: round(420 + rand() * 160), type: motif1Id, scale: round(0.78 + rand() * 0.2), speed: 17, dir: "normal" },
+      { x: pickX("right"), y: round(460 + rand() * 140), type: motif3Id, scale: round(0.7 + rand() * 0.2), speed: 19, dir: "reverse" },
+      { x: pickX("left"), y: round(600 + rand() * 120), type: motif3Id, scale: round(0.75 + rand() * 0.15), speed: 21, dir: "normal" },
+      { x: pickX("right"), y: round(620 + rand() * 120), type: motif2Id, scale: round(0.8 + rand() * 0.15), speed: 18, dir: "reverse" },
     ];
 
-    // 3. Snake Arc Waves (Left, Center, Right)
+    // Accelerated speeds (down to 3.5s - 4.5s)
+    const hypnoticSpirals = [
+      { x: pickX("left"), y: round(140 + rand() * 120), turns: 4.5, radius: 55, speed: 3.5, rot: round(rand() * 360) },
+      { x: pickX("center"), y: round(240 + rand() * 180), turns: 5, radius: 70, speed: 4.2, rot: round(rand() * 360) },
+      { x: pickX("right"), y: round(160 + rand() * 140), turns: 4.5, radius: 60, speed: 3.8, rot: round(rand() * 360) },
+      { x: pickX("center"), y: round(560 + rand() * 140), turns: 5, radius: 65, speed: 4.0, rot: round(rand() * 360) },
+    ];
+
+    const dottedUMotifs = [
+      { x: pickX("left"), y: round(340 + rand() * 160), rot: round(rand() * 360), layers: 4, speed: 5, dir: 1 },
+      { x: pickX("center"), y: round(180 + rand() * 180), rot: round(rand() * 360), layers: 5, speed: 6, dir: -1 },
+      { x: pickX("right"), y: round(360 + rand() * 180), rot: round(rand() * 360), layers: 4, speed: 4.5, dir: 1 },
+      { x: pickX("left"), y: round(600 + rand() * 120), rot: round(rand() * 360), layers: 4, speed: 5.5, dir: -1 },
+    ];
+
     const snakes = [
       generateArcSnakePath(pickX("left"), round(40 + rand() * 100), round(24 + rand() * 8), 5, round(-15 + rand() * 30)),
-      generateArcSnakePath(pickX("center"), round(180 + rand() * 140), round(28 + rand() * 8), 4, round(-25 + rand() * 50)),
       generateArcSnakePath(pickX("right"), round(80 + rand() * 120), round(24 + rand() * 8), 5, round(-15 + rand() * 30)),
     ];
 
-    // 4. U-Shapes (Community meeting icons)
-    const uShapes = [
-      { x: pickX("left"), y: round(280 + rand() * 180), rot: round(rand() * 360), scale: round(0.85 + rand() * 0.3), layers: 4 },
-      { x: pickX("center"), y: round(150 + rand() * 200), rot: round(rand() * 360), scale: round(0.95 + rand() * 0.3), layers: 5 },
-      { x: pickX("right"), y: round(320 + rand() * 220), rot: round(rand() * 360), scale: round(0.85 + rand() * 0.3), layers: 4 },
-    ];
-
-    // 5. Handprints (Left, Center, Right)
     const hands = [
-      { x: pickX("left"), y: round(160 + rand() * 450), rot: round(-30 + rand() * 60), scale: round(1.1 + rand() * 0.3), flip: false },
-      { x: pickX("center"), y: round(480 + rand() * 250), rot: round(-20 + rand() * 40), scale: round(1.2 + rand() * 0.3), flip: true },
-      { x: pickX("right"), y: round(180 + rand() * 450), rot: round(-30 + rand() * 60), scale: round(1.1 + rand() * 0.3), flip: true },
+      { x: pickX("left"), y: round(180 + rand() * 400), rot: round(-30 + rand() * 60), scale: round(1.1 + rand() * 0.3), flip: false },
+      { x: pickX("center"), y: round(500 + rand() * 220), rot: round(-20 + rand() * 40), scale: round(1.2 + rand() * 0.3), flip: true },
+      { x: pickX("right"), y: round(200 + rand() * 400), rot: round(-30 + rand() * 60), scale: round(1.1 + rand() * 0.3), flip: true },
     ];
 
-    // 6. Dual Vertical Human Footprint Trails (Stepping up Left AND Right margins simultaneously)
-    const footCountPerSide = showFeet ? 10 : 0;
-    
+    // Reduced feet count to 3 per side
+    const footCountPerSide = showFeet ? 3 : 0;
     const buildTrail = (baseX: number) => {
       return Array.from({ length: footCountPerSide }, (_, i) => {
         const t = i / Math.max(footCountPerSide - 1, 1);
         const isLeft = i % 2 === 0;
-        const strideOffset = isLeft ? -16 : 16;
+        const strideOffset = isLeft ? -14 : 14;
+        const edgeFade = Math.sin(t * Math.PI) * 0.5;
+
         return {
-          x: round(baseX + strideOffset + Math.sin(t * Math.PI) * 12),
-          y: round(740 - t * 680),
+          x: round(baseX + strideOffset + Math.sin(t * Math.PI) * 10),
+          y: round(650 - t * 450),
           isLeft,
+          opacity: round(edgeFade),
         };
       });
     };
 
-    const leftFootprints = buildTrail(round(120 + rand() * 80));
-    const rightFootprints = buildTrail(round(1000 + rand() * 80));
+    const leftFootprints = buildTrail(round(120 + rand() * 60));
+    const rightFootprints = buildTrail(round(1020 + rand() * 60));
 
     return {
-      spirals,
-      handmadeSpirals,
+      circularDotMotifs,
+      imageMotifs,
+      hypnoticSpirals,
+      dottedUMotifs,
       snakes,
-      uShapes,
       hands,
       leftFootprints,
       rightFootprints,
       showFeet,
     };
-  }, [variant, showFeet]);
+  }, [variant, showFeet, motif1Id, motif2Id, motif3Id]);
 
   return (
     <div aria-hidden="true" className={`cultural-pattern cultural-pattern--${variant} ${className}`}>
+      <style jsx>{`
+        @keyframes drawSpiralFromCenter {
+          0% { stroke-dashoffset: 1000; opacity: 0.15; }
+          45% { stroke-dashoffset: 0; opacity: 0.85; }
+          55% { stroke-dashoffset: 0; opacity: 0.85; }
+          100% { stroke-dashoffset: -1000; opacity: 0.15; }
+        }
+
+        @keyframes spiralPulseWave {
+          0%, 100% { transform: scale(0.2); opacity: 0; }
+          50% { transform: scale(1.05); opacity: 0.5; }
+        }
+
+        @keyframes slowContainerRotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes dashTravelForward {
+          from { stroke-dashoffset: 0; }
+          to { stroke-dashoffset: -50; }
+        }
+
+        @keyframes dashTravelReverse {
+          from { stroke-dashoffset: 0; }
+          to { stroke-dashoffset: 50; }
+        }
+
+        .draw-hypnotic-spiral {
+          stroke-dasharray: 1000;
+          animation: drawSpiralFromCenter ease-in-out infinite alternate;
+        }
+        .spiral-pulse-ring {
+          animation: spiralPulseWave ease-in-out infinite alternate;
+          transform-origin: center;
+        }
+        .slow-spiral-rotation {
+          animation: slowContainerRotate 22s linear infinite;
+        }
+        .dash-travel-normal {
+          animation: dashTravelForward linear infinite;
+        }
+        .dash-travel-reverse {
+          animation: dashTravelReverse linear infinite;
+        }
+        .cultural-sky-spiral-rotate {
+          animation: slowContainerRotate linear infinite;
+        }
+      `}</style>
+
       <div className="cultural-pattern__dotfield opacity-30" />
 
       <svg
@@ -190,7 +244,61 @@ export default function CulturalPattern({
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
-          {/* Human Footprint Pointing Upward */}
+          <mask id={sideFadeMaskId}>
+            <rect x="0" y="0" width="1200" height="800" fill="white" />
+            <rect x="0" y="0" width="1200" height="800" fill="url(#pw-edge-gradient)" />
+          </mask>
+
+          <linearGradient id="pw-edge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="black" stopOpacity="0.3" />
+            <stop offset="12%" stopColor="white" stopOpacity="0" />
+            <stop offset="88%" stopColor="white" stopOpacity="0" />
+            <stop offset="100%" stopColor="black" stopOpacity="0.3" />
+          </linearGradient>
+
+          {/* Motif 1: People Symbol Meeting Place */}
+          <g id={motif1Id}>
+            <circle cx="0" cy="0" r="14" fill="#FF7A3D" />
+            <circle cx="0" cy="0" r="24" stroke="#E85D26" strokeWidth="3" strokeDasharray="3 3" fill="none" />
+            <circle cx="0" cy="0" r="36" stroke="#FF7A3D" strokeWidth="4" fill="none" />
+            {Array.from({ length: 8 }).map((_, i) => {
+              const a = i * 45;
+              return (
+                <g key={i} transform={`rotate(${a})`}>
+                  <path d="M -7 -46 A 7 7 0 0 1 7 -46" stroke="#FF7A3D" strokeWidth="4" strokeLinecap="round" fill="none" />
+                  <circle cx="0" cy="-56" r="3" fill="#E85D26" />
+                </g>
+              );
+            })}
+          </g>
+
+          {/* Motif 2: Concentric Ring & Outer Orbit Dots */}
+          <g id={motif2Id}>
+            <circle cx="0" cy="0" r="16" fill="#E85D26" />
+            <circle cx="0" cy="0" r="28" stroke="#FF7A3D" strokeWidth="4" fill="none" />
+            <circle cx="0" cy="0" r="42" stroke="#E85D26" strokeWidth="6" strokeDasharray="5 5" fill="none" />
+            <circle cx="0" cy="0" r="56" stroke="#FF7A3D" strokeWidth="3" fill="none" />
+            {Array.from({ length: 12 }).map((_, i) => {
+              const a = (i * 30 * Math.PI) / 180;
+              return <circle key={i} cx={68 * Math.cos(a)} cy={68 * Math.sin(a)} r="3.5" fill="#FF8C42" />;
+            })}
+          </g>
+
+          {/* Motif 3: Sunburst Rays Meeting Place */}
+          <g id={motif3Id}>
+            <circle cx="0" cy="0" r="18" fill="#FF8C42" />
+            <circle cx="0" cy="0" r="32" stroke="#E85D26" strokeWidth="3" fill="none" />
+            {Array.from({ length: 10 }).map((_, i) => {
+              const a = i * 36;
+              return (
+                <g key={i} transform={`rotate(${a})`}>
+                  <line x1="0" y1="-36" x2="0" y2="-48" stroke="#FF7A3D" strokeWidth="3.5" strokeLinecap="round" />
+                  <circle cx="0" cy="-55" r="3.5" fill="#E85D26" />
+                </g>
+              );
+            })}
+          </g>
+
           <g id={footRightId}>
             <path
               d="M 0 18 
@@ -203,13 +311,12 @@ export default function CulturalPattern({
                  C 2 2, 7 8, 7 13 
                  C 7 16, 4 18, 0 18 Z"
               fill="#E85D26"
-              opacity="0.85"
             />
-            <ellipse cx="-4" cy="-35" rx="3.2" ry="4" fill="#E85D26" opacity="0.9" />
-            <ellipse cx="1" cy="-34" rx="2.4" ry="3" fill="#E85D26" opacity="0.9" />
-            <ellipse cx="5" cy="-32" rx="2.1" ry="2.6" fill="#E85D26" opacity="0.9" />
-            <ellipse cx="8.5" cy="-29.5" rx="1.8" ry="2.2" fill="#E85D26" opacity="0.9" />
-            <ellipse cx="11.5" cy="-26.5" rx="1.5" ry="1.9" fill="#E85D26" opacity="0.9" />
+            <ellipse cx="-4" cy="-35" rx="3.2" ry="4" fill="#E85D26" />
+            <ellipse cx="1" cy="-34" rx="2.4" ry="3" fill="#E85D26" />
+            <ellipse cx="5" cy="-32" rx="2.1" ry="2.6" fill="#E85D26" />
+            <ellipse cx="8.5" cy="-29.5" rx="1.8" ry="2.2" fill="#E85D26" />
+            <ellipse cx="11.5" cy="-26.5" rx="1.5" ry="1.9" fill="#E85D26" />
           </g>
 
           <g id={handId}>
@@ -223,18 +330,18 @@ export default function CulturalPattern({
           </g>
         </defs>
 
-        <g>
-          {/* Dot Spirals (Rotating & Breathing) */}
-          {layout.spirals.map((sp, si) => {
-            const dots = ringDots(sp.cx, sp.cy, sp.rings, sp.startR, sp.gap);
+        <g mask={`url(#${sideFadeMaskId})`}>
+          {/* 1. Circular Dot Motifs */}
+          {layout.circularDotMotifs.map((motif, mi) => {
+            const dots = generateGraduatedCircularDots(motif.cx, motif.cy, motif.rings, motif.startR, motif.gap);
             return (
               <g
-                key={`sky-${si}`}
+                key={`circle-motif-${mi}`}
                 className="cultural-sky-spiral-rotate"
                 style={{
-                  transformOrigin: `${sp.cx}px ${sp.cy}px`,
-                  animationDuration: `${28 + si * 6}s`,
-                  animationDirection: si % 2 === 0 ? "normal" : "reverse",
+                  transformOrigin: `${motif.cx}px ${motif.cy}px`,
+                  animationDuration: `${motif.speed}s`,
+                  animationDirection: motif.dir as "normal" | "reverse",
                 }}
               >
                 {dots.map((d, di) => (
@@ -244,53 +351,115 @@ export default function CulturalPattern({
                     cy={d.y}
                     r={d.r}
                     fill="#FF6B35"
-                    opacity={0.85}
-                    className="cultural-dot-pulse"
-                    style={{ animationDelay: `${(di % 5) * 0.3}s` }}
+                    opacity={0.75}
                   />
                 ))}
               </g>
             );
           })}
 
-          {/* Handmade Stroke Spirals */}
-          {layout.handmadeSpirals.map((hs, hsi) => (
+          {/* 2. Scaled-Up Image Motifs */}
+          {layout.imageMotifs.map((im, idx) => (
             <g
-              key={`hm-spiral-${hsi}`}
-              transform={`translate(${hs.x}, ${hs.y}) rotate(${hs.rot}) scale(${hs.scale})`}
+              key={`img-motif-${idx}`}
               className="cultural-sky-spiral-rotate"
               style={{
-                transformOrigin: "0px 0px",
-                animationDuration: `${22 + hsi * 5}s`,
-                animationDirection: hsi % 2 === 0 ? "reverse" : "normal",
+                transformOrigin: `${im.x}px ${im.y}px`,
+                animationDuration: `${im.speed}s`,
+                animationDirection: im.dir as "normal" | "reverse",
               }}
             >
-              <path
-                d={hs.path}
-                fill="none"
-                stroke="#E85D26"
-                strokeWidth="4"
-                strokeDasharray="6 8"
-                strokeLinecap="round"
-                opacity="0.3"
-                className="cultural-vertical-snake"
-                style={{ animationDuration: `${10 + hsi * 3}s` }}
-              />
-              <path
-                d={hs.path}
-                fill="none"
-                stroke="#FF8C42"
-                strokeWidth="2.5"
-                strokeDasharray="6 8"
-                strokeLinecap="round"
-                opacity="0.85"
-                className="cultural-vertical-snake"
-                style={{ animationDuration: `${10 + hsi * 3}s` }}
-              />
+              <g transform={`translate(${im.x}, ${im.y}) scale(${im.scale})`} opacity="0.85">
+                <use href={`#${im.type}`} />
+              </g>
             </g>
           ))}
 
-          {/* Arc Snakes (Flowing Animated Lines across all 3 zones) */}
+          {/* 3. Accelerated Hypnotic Spirals */}
+          {layout.hypnoticSpirals.map((sp, spi) => {
+            const pathData = generateHypnoticSpiralPath(sp.turns, sp.radius);
+            return (
+              <g
+                key={`hypno-spiral-${spi}`}
+                transform={`translate(${sp.x}, ${sp.y}) rotate(${sp.rot})`}
+                style={{ transformOrigin: `${sp.x}px ${sp.y}px` }}
+              >
+                <g className="slow-spiral-rotation" style={{ transformOrigin: "0px 0px" }}>
+                  <circle
+                    cx="0"
+                    cy="0"
+                    r={sp.radius * 0.9}
+                    fill="none"
+                    stroke="#FF8C42"
+                    strokeWidth="1.5"
+                    strokeDasharray="4 6"
+                    className="spiral-pulse-ring"
+                    style={{ animationDuration: `${sp.speed}s`, animationDelay: `${-spi * 0.8}s` }}
+                  />
+
+                  <path
+                    d={pathData}
+                    fill="none"
+                    stroke="#E85D26"
+                    strokeWidth="4.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    opacity="0.3"
+                    className="draw-hypnotic-spiral"
+                    style={{ animationDuration: `${sp.speed}s`, animationDelay: `${-spi * 0.8}s` }}
+                  />
+
+                  <path
+                    d={pathData}
+                    fill="none"
+                    stroke="#FF7A3D"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    opacity="0.85"
+                    className="draw-hypnotic-spiral"
+                    style={{ animationDuration: `${sp.speed}s`, animationDelay: `${-spi * 0.8}s` }}
+                  />
+
+                  <circle cx="0" cy="0" r="3.5" fill="#FF6B35" opacity="0.9" />
+                </g>
+              </g>
+            );
+          })}
+
+          {/* 4. Dotted Traveling U-Shapes */}
+          {layout.dottedUMotifs.map((u, ui) => (
+            <g
+              key={`dotted-u-${ui}`}
+              transform={`translate(${u.x}, ${u.y}) rotate(${u.rot})`}
+            >
+              {Array.from({ length: u.layers }, (_, l) => {
+                const w = 24 + l * 14;
+                const h = 30 + l * 14;
+                const dotRadius = Math.max(1.5, round(3.2 - l * 0.4));
+                
+                return (
+                  <path
+                    key={l}
+                    d={generateUShapePath(w, h)}
+                    fill="none"
+                    stroke="#FF7A3D"
+                    strokeWidth={dotRadius * 2}
+                    strokeDasharray={`0.1 ${round(dotRadius * 3 + 2)}`}
+                    strokeLinecap="round"
+                    opacity={0.85 - l * 0.12}
+                    transform={`translate(${-w / 2}, ${-h / 2})`}
+                    className={u.dir === 1 ? "dash-travel-normal" : "dash-travel-reverse"}
+                    style={{
+                      animationDuration: `${u.speed + l * 1}s`,
+                    }}
+                  />
+                );
+              })}
+            </g>
+          ))}
+
+          {/* 5. Snake Arc Waves */}
           {layout.snakes.map((snake, i) => (
             <g
               key={`arc-snake-${i}`}
@@ -303,9 +472,9 @@ export default function CulturalPattern({
                 strokeWidth="5"
                 strokeDasharray="8 12"
                 strokeLinecap="round"
-                opacity="0.25"
+                opacity="0.2"
                 className="cultural-vertical-snake"
-                style={{ animationDuration: `${14 + i * 4}s` }}
+                style={{ animationDuration: `${7 + i * 2}s` }}
               />
               <path
                 d={snake.path}
@@ -314,57 +483,28 @@ export default function CulturalPattern({
                 strokeWidth="3"
                 strokeDasharray="8 12"
                 strokeLinecap="round"
-                opacity="0.85"
+                opacity="0.7"
                 className="cultural-vertical-snake"
-                style={{ animationDuration: `${14 + i * 4}s` }}
+                style={{ animationDuration: `${7 + i * 2}s` }}
               />
             </g>
           ))}
 
-          {/* U-Shapes (Pulsing Meeting Symbols) */}
-          {layout.uShapes.map((u, ui) => (
-            <g
-              key={`ushape-${ui}`}
-              transform={`translate(${u.x}, ${u.y}) rotate(${u.rot}) scale(${u.scale})`}
-              className="cultural-u-shape-pulse"
-              style={{ animationDelay: `${-ui * 1.2}s` }}
-            >
-              {Array.from({ length: u.layers }, (_, l) => {
-                const w = 40 + l * 18;
-                const h = 50 + l * 18;
-                return (
-                  <path
-                    key={l}
-                    d={generateUShapePath(w, h)}
-                    fill="none"
-                    stroke="#FF7A3D"
-                    strokeWidth={3 - l * 0.4}
-                    strokeDasharray="6 8"
-                    strokeLinecap="round"
-                    opacity={0.85 - l * 0.15}
-                    transform={`translate(${-w / 2}, ${-h / 2})`}
-                  />
-                );
-              })}
-            </g>
-          ))}
-
-          {/* Handprints (Floating Drift Motion) */}
+          {/* 6. Handprints */}
           {layout.hands.map((h, i) => (
             <g
               key={`hand-${i}`}
               className="cultural-hand-float"
-              style={{ animationDelay: `${-i * 1.5}s` }}
+              style={{ animationDelay: `${-i * 1}` }}
               transform={`translate(${h.x}, ${h.y}) rotate(${h.rot}) scale(${h.flip ? -h.scale : h.scale}, ${h.scale})`}
             >
               <use href={`#${handId}`} />
             </g>
           ))}
 
-          {/* Dual Footprint Trails (Left AND Right Margins) */}
+          {/* 7. Reduced Footprint Trails */}
           {layout.showFeet && (
             <>
-              {/* Left Side Trail */}
               <g className="cultural-footprints-left">
                 {layout.leftFootprints.map((fp, i) => {
                   const next = layout.leftFootprints[Math.min(i + 1, layout.leftFootprints.length - 1)];
@@ -376,8 +516,8 @@ export default function CulturalPattern({
                   return (
                     <g
                       key={`fp-left-${i}`}
-                      opacity="0.85"
-                      transform={`translate(${fp.x}, ${fp.y}) rotate(${angle}) scale(${fp.isLeft ? -0.85 : 0.85}, 0.85)`}
+                      opacity={fp.opacity}
+                      transform={`translate(${fp.x}, ${fp.y}) rotate(${angle}) scale(${fp.isLeft ? -0.65 : 0.65}, 0.65)`}
                     >
                       <use href={`#${footRightId}`} />
                     </g>
@@ -385,7 +525,6 @@ export default function CulturalPattern({
                 })}
               </g>
 
-              {/* Right Side Trail */}
               <g className="cultural-footprints-right">
                 {layout.rightFootprints.map((fp, i) => {
                   const next = layout.rightFootprints[Math.min(i + 1, layout.rightFootprints.length - 1)];
@@ -397,8 +536,8 @@ export default function CulturalPattern({
                   return (
                     <g
                       key={`fp-right-${i}`}
-                      opacity="0.85"
-                      transform={`translate(${fp.x}, ${fp.y}) rotate(${angle}) scale(${fp.isLeft ? -0.85 : 0.85}, 0.85)`}
+                      opacity={fp.opacity}
+                      transform={`translate(${fp.x}, ${fp.y}) rotate(${Number(angle).toFixed(4)}) scale(${fp.isLeft ? -0.65 : 0.65}, 0.65)`}
                     >
                       <use href={`#${footRightId}`} />
                     </g>

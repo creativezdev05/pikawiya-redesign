@@ -1,5 +1,8 @@
 import React from "react";
-import { Heart, Compass, Award, Lightbulb, Users, Flame, ArrowRight, ShieldCheck, HandHeart, Landmark } from "lucide-react";
+import { 
+  Heart, Compass, Award, Lightbulb, Users, Flame, 
+  ArrowRight, ShieldCheck, HandHeart, Landmark, Sparkles, Target, Compass as PathIcon 
+} from "lucide-react";
 import NextImage from "next/image";
 import Link from "next/link";
 import CulturalPattern from "./CulturalPattern";
@@ -34,183 +37,237 @@ export default function AboutSection() {
 
   return (
     <>
-      {/* WHO WE ARE — navy (after white mission) */}
-      <section className="relative overflow-hidden landing-ink py-20 md:py-28 text-sand dark:text-ink">
+      {/* 1. WHO WE ARE — Deep Navy with Layered Card Highlights */}
+      <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
         <CulturalPattern variant="about" showFeet />
         <div aria-hidden="true" className="cultural-background cultural-background--about" />
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
-        {/* <div className="absolute inset-0 z-0 landing-ink-veil" /> */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid lg:grid-cols-[1.35fr_1fr] gap-12 lg:gap-16 items-center">
-            <div className="space-y-6">
-              <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-                <span className="h-px w-10 bg-ochre" /> Who we are
-              </span>
-              <PageTitle as="h2" onDark className="text-[clamp(1.9rem,4vw,3.1rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
-                Proudly Aboriginal. Driven by purpose.
-              </PageTitle>
-              <p className="text-sand/80 text-base md:text-lg leading-relaxed max-w-xl">
-                Pika Wiya Health Service is an{" "}
-                <strong className="accent-text">Aboriginal Community Controlled Health Organisation</strong>,
-                operating with care for community on Country. We deliver professional,{" "}
-                <strong className="accent-text">culturally safe healthcare</strong> grounded in lived
-                experience, accountability, and strong regional capability.
-              </p>
-              <p className="text-sand/80 text-base leading-relaxed max-w-xl">
-                Guided by our Board and constitution, we bring{" "}
-                <strong className="accent-text">clinical care, family support, cultural guidance</strong> and
-                community wellbeing together under one shared vision —{" "}
-                <strong className="accent-text">health our way, for our people</strong>.
-              </p>
+        
+        {/* Soft Ambient Glows */}
+        <div className="absolute top-10 right-10 w-80 h-80 bg-ochre/10 rounded-full blur-3xl pointer-events-none" />
 
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Content Area */}
+            <div className="lg:col-span-7 space-y-8">
+              <div className="space-y-4">
+                <span className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
+                  <span className="w-2 h-2 rounded-full bg-ochre animate-pulse" /> Who We Are
+                </span>
+                
+                <PageTitle as="h2" onDark className="text-[clamp(2rem,4vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-white">
+                  Proudly Aboriginal. Driven by Purpose & Lore.
+                </PageTitle>
+              </div>
+
+              <div className="space-y-4 text-sand/85 text-base md:text-lg leading-relaxed font-light">
+                <p>
+                  Pika Wiya Health Service is an{" "}
+                  <strong className="text-white font-semibold underline decoration-ochre/60 underline-offset-4">
+                    Aboriginal Community Controlled Health Organisation
+                  </strong>
+                  , operating with care for community on Country. Born from emergency care in remote lands, we deliver professional,{" "}
+                  <strong className="text-ochre font-semibold">culturally safe healthcare</strong> grounded in lived experience and accountability.
+                </p>
+                <p>
+                  Guided by our Board, elders, and constitution, we bring{" "}
+                  <strong className="text-white font-medium">clinical care, family support, and cultural guidance</strong> together under one shared vision —{" "}
+                  <strong className="accent-text font-semibold">health our way, for our people</strong>.
+                </p>
+              </div>
+
+              {/* 2x2 Feature Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 {highlights.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <div key={item.label} className="flex items-start gap-3">
-                      <div className="mt-0.5 w-9 h-9 shrink-0 flex items-center justify-center rounded-full bg-ochre/15 text-ochre border border-ochre/30">
-                        <Icon className="w-4 h-4" />
+                    <div 
+                      key={item.label} 
+                      className="p-4 rounded-xl bg-white/[0.04] border border-white/10 backdrop-blur-sm flex items-start gap-3.5 transition-all duration-300 hover:border-ochre/40 hover:bg-white/[0.07]"
+                    >
+                      <div className="mt-0.5 w-10 h-10 shrink-0 flex items-center justify-center rounded-lg bg-ochre/20 text-ochre border border-ochre/30">
+                        <Icon className="w-5 h-5" />
                       </div>
                       <div>
                         <p className="text-sm font-bold text-white">{item.label}</p>
-                        <p className="text-xs text-sand/60 mt-0.5 leading-relaxed">{item.desc}</p>
+                        <p className="text-xs text-sand/65 mt-0.5 leading-relaxed">{item.desc}</p>
                       </div>
                     </div>
                   );
                 })}
               </div>
 
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 text-ochre font-semibold text-sm hover:gap-3 transition-all mt-2"
-              >
-                Read our full story <ArrowRight className="w-4 h-4" />
-              </Link>
+              <div className="pt-2">
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-ochre/15 border border-ochre/30 text-ochre font-semibold text-sm hover:bg-ochre hover:text-white transition-all duration-300 group"
+                >
+                  <span>Read Our Full Story & History</span>
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </div>
             </div>
 
-            <div className="relative aspect-square max-h-[520px] w-full overflow-hidden border border-ochre/30 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
-              <NextImage
-                src="/assets/patterns/pat1.jpg"
-                alt="Aboriginal artwork — cultural storytelling through pattern and Country"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-              
+            {/* Right Artwork Display Card */}
+            <div className="lg:col-span-5 relative">
+              <div className="relative aspect-square max-h-[500px] w-full overflow-hidden rounded-2xl border-2 border-ochre/30 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] group">
+                <NextImage
+                  src="/assets/patterns/pat1.jpg"
+                  alt="Aboriginal artwork — cultural storytelling through pattern and Country"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                
+                {/* Artwork Overlay Scrim & Culture Tag */}
+                <div className="absolute inset-0 bg-gradient-to-t from-navy via-transparent to-transparent opacity-80" />
+                <div className="absolute bottom-5 left-5 right-5 p-4 rounded-xl bg-navy/85 backdrop-blur-md border border-white/10">
+                  <p className="text-ochre text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                    <Sparkles className="w-3.5 h-3.5" /> Traditional Storytelling
+                  </p>
+                  <p className="text-white text-xs mt-1 text-sand/80">
+                    Connecting ancestral wisdom with modern community care across South Australia.
+                  </p>
+                </div>
+              </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* VISION — white */}
-      <section className="relative overflow-hidden landing-paper py-20 md:py-24">
+      {/* 2. VISION — Clean Light Theme with Numbered Cards Grid */}
+      <section className="relative overflow-hidden landing-paper py-20 md:py-32">
         <CulturalPattern variant="vision" className="cultural-pattern--light" />
+        
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid lg:grid-cols-[0.82fr_1.18fr] gap-10 lg:gap-12 items-start">
-            <div className="space-y-10">
-              <div className="max-w-2xl space-y-4">
-                <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-                  <span className="h-px w-10 bg-ochre" /> Looking ahead
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            {/* Left Header & Large Graphic Block */}
+            <div className="lg:col-span-5 space-y-8 sticky top-24">
+              <div className="space-y-4">
+                <span className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
+                  <span className="w-2 h-2 rounded-full bg-ochre animate-pulse" /> Looking Ahead
                 </span>
-                <PageTitle as="h3" className="text-[clamp(1.8rem,3.8vw,3rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
-                  Our Vision
+                
+                <PageTitle as="h3" className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-ink">
+                  Our Strategic Vision
                 </PageTitle>
-                <p className="text-ink/70 text-base md:text-lg">
+
+                <p className="text-ink/75 text-base md:text-lg font-light leading-relaxed">
                   Setting benchmarks in{" "}
-                  <strong className="accent-text">holistic Aboriginal healthcare</strong> — grounded by culture,
-                  trusted by community.
+                  <strong className="text-ink font-semibold border-b-2 border-ochre/40">
+                    holistic Aboriginal healthcare
+                  </strong>{" "}
+                  — grounded by lore, community control, and clinical excellence.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {visionPoints.map((point, index) => (
-                  <div
-                    key={index}
-                    className="zoom-box group relative bg-page border border-border border-t-2 border-t-ochre/70 p-5 md:p-6 space-y-3 origin-center hover:z-10 hover:border-ochre hover:border-t-ochre hover:shadow-[0_22px_44px_-20px_rgba(26,22,21,0.38)]"
-                  >
-                    <span className="text-ochre font-extrabold text-2xl tracking-tight">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <p className="text-ink/70 text-sm leading-relaxed transition-colors duration-300 group-hover:text-ink">
-                      {point}
-                    </p>
-                  </div>
-                ))}
+              {/* Graphic Feature Box */}
+              <div className="relative w-full overflow-hidden rounded-2xl border border-ochre/30 shadow-xl bg-white p-2 group">
+                <NextImage
+                  src="/assets/about-us-01.png"
+                  alt="Pika Wiya Health Service — community and culture"
+                  width={1400}
+                  height={1400}
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="h-auto w-full object-contain rounded-xl transition-transform duration-700 group-hover:scale-102"
+                />
               </div>
             </div>
 
-            <div className="relative w-full overflow-hidden border border-ochre/25 shadow-[0_20px_50px_-24px_rgba(26,22,21,0.3)]">
-              <NextImage
-                src="/assets/about-us-01.png"
-                alt="Pika Wiya Health Service — community and culture"
-                width={1400}
-                height={1400}
-                sizes="(max-width: 1024px) 100vw, 58vw"
-                className="h-auto w-full object-contain object-center"
-              />
+            {/* Right Vision Points List */}
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {visionPoints.map((point, index) => (
+                <div
+                  key={index}
+                  className="group relative bg-white border border-ochre/15 rounded-2xl p-6 space-y-3 transition-all duration-300 hover:border-ochre hover:shadow-xl hover:-translate-y-1"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-ochre font-extrabold text-2xl tracking-tight">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div className="w-7 h-7 rounded-full bg-ochre/10 text-ochre flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Target className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
+                  <p className="text-ink/80 text-sm leading-relaxed font-normal group-hover:text-ink transition-colors">
+                    {point}
+                  </p>
+                </div>
+              ))}
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* VALUES — navy */}
-      <section className="relative overflow-hidden landing-ink py-20 md:py-24 text-sand dark:text-ink">
+      {/* 3. VALUES — Modern Dark Flashlight Grid */}
+      <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
         <CulturalPattern variant="values" />
         <div aria-hidden="true" className="cultural-background cultural-background--values" />
-        {/* <div className="absolute inset-0 z-0 landing-ink-veil" /> */}
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 space-y-12">
-          <div className="max-w-2xl space-y-3">
-            <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-              <span className="h-px w-10 bg-ochre" /> How we work
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 space-y-14">
+          
+          <div className="max-w-2xl space-y-4">
+            <span className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
+              <span className="w-2 h-2 rounded-full bg-ochre" /> How We Work
             </span>
-            <PageTitle as="h3" onDark className="text-[clamp(1.8rem,3.8vw,3rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
-              Our Values
+            
+            <PageTitle as="h3" onDark className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-white">
+              Guiding Values
             </PageTitle>
-            <p className="text-sand/75">
-              The principles guiding every <strong className="accent-text">program and interaction</strong>.
+
+            <p className="text-sand/75 text-base md:text-lg font-light">
+              The foundational principles guiding every <strong className="text-white font-medium">clinical interaction, outreach program, and community partnership</strong>.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {values.map((val) => {
               const IconComponent = val.icon;
               return (
                 <FlashlightContainer
                   key={val.name}
-                  className="border border-sand/15 bg-white/[0.03] p-6 space-y-4 hover:border-ochre/60 hover:bg-ochre/10 transition"
+                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-7 space-y-5 backdrop-blur-sm transition-all duration-300 hover:border-ochre/60 hover:bg-navy/80 group"
                 >
-                  <div className="w-11 h-11 rounded-full bg-ochre/15 border border-ochre/25 flex items-center justify-center text-ochre">
-                    <IconComponent className="w-5 h-5" />
+                  <div className="w-12 h-12 rounded-xl bg-ochre/15 border border-ochre/30 flex items-center justify-center text-ochre transition-all duration-300 group-hover:bg-ochre group-hover:text-white">
+                    <IconComponent className="w-6 h-6" />
                   </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-white">{val.name}</h4>
-                    <p className="text-sand/65 text-sm mt-1.5 leading-relaxed">{val.desc}</p>
+                  <div className="space-y-2">
+                    <h4 className="text-xl font-bold text-white group-hover:text-ochre-light transition-colors">{val.name}</h4>
+                    <p className="text-sand/70 text-sm leading-relaxed group-hover:text-sand transition-colors">{val.desc}</p>
                   </div>
                 </FlashlightContainer>
               );
             })}
           </div>
+
         </div>
       </section>
 
-      {/* PURPOSE BANNER — ochre accent break */}
-      <section className="relative overflow-hidden bg-ochre">
-        <div className="absolute inset-0 opacity-20">
+      {/* 4. PURPOSE BANNER — High-Contrast Cultural Statement */}
+      <section className="relative overflow-hidden bg-ochre py-16 md:py-20 shadow-inner">
+        {/* Subtle Background Pattern Mask */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: "radial-gradient(rgba(255,255,255,0.35) 1.2px, transparent 1.2px)",
-              backgroundSize: "18px 18px",
+              backgroundImage: "radial-gradient(rgba(255,255,255,0.4) 1.2px, transparent 1.2px)",
+              backgroundSize: "20px 20px",
             }}
           />
         </div>
-        <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-10 py-14 md:py-16">
-          <span className="text-white/85 uppercase tracking-[0.14em] text-sm font-bold">Our Purpose</span>
-          <p className="text-2xl md:text-4xl font-extrabold text-white mt-3 leading-tight tracking-[-0.02em] max-w-4xl">
+
+        <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-10 text-center space-y-4">
+          <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/15 text-white text-xs font-extrabold uppercase tracking-widest backdrop-blur-md">
+            <PathIcon className="w-3.5 h-3.5" /> Our Overarching Purpose
+          </span>
+          <blockquote className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight max-w-4xl mx-auto">
             &quot;To provide health care our way to our people so our community is healthy at every age.&quot;
-          </p>
+          </blockquote>
         </div>
       </section>
     </>

@@ -10,10 +10,18 @@
   --ink: #1a1615;
   --muted: rgba(26, 22, 21, 0.72);
   --border: rgba(26, 22, 21, 0.12);
-  --navy: #152b4bfd;
+  /* --navy: #152b4bfd; */
+  --navy: #161e1a;
+  --paper: #F7F4EF;
   --input: #ffffff;
   --input-disabled: #e3e3e3;
   --input-disabled-border: #b4b4b4;
+
+  /* Title blend gradient variables */
+  --title-blend-from: #00060f;
+  --title-blend-mid: #4a2c1e;
+  --title-blend-to: #c25324;
+  --title-blend-end: #f08a62;
 }
 
 @theme inline {
@@ -36,344 +44,15 @@
   --color-earth-dark: #0f0d0c;
   --color-sand: #F7F4EF;
   --color-sand-dark: #E8E2D5;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans, var(--font-inter), Arial, sans-serif);
+  --font-mono: var(--font-geist-mono, monospace);
 }
 
-@keyframes ticker {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-33.333%);
-  }
-}
-
-.animate-ticker {
-  display: flex;
-  width: max-content;
-  animation: ticker 35s linear infinite;
-}
-
-.animate-ticker:hover {
-  animation-play-state: paused;
-}
-@keyframes culturalSpin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes culturalSpin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-/* Continuous Rotation for Spirals */
-@keyframes cultural-sky-rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.cultural-sky-spiral-rotate {
-  animation: cultural-sky-rotate 30s linear infinite;
-}
-
-/* Pulsing Dots inside Spirals */
-@keyframes cultural-dot-pulse-anim {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.85;
-  }
-  50% {
-    transform: scale(1.3);
-    opacity: 1;
-  }
-}
-
-.cultural-dot-pulse {
-  animation: cultural-dot-pulse-anim 3s ease-in-out infinite;
-}
-
-/* Snake Arc Flow Animation */
-@keyframes cultural-snake-dash {
-  to {
-    stroke-dashoffset: -100;
-  }
-}
-
-.cultural-vertical-snake {
-  animation: cultural-snake-dash 12s linear infinite;
-}
-
-/* U-Shape Meeting Symbol Pulse */
-@keyframes cultural-u-pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.85;
-  }
-  50% {
-    transform: scale(1.08);
-    opacity: 1;
-  }
-}
-
-.cultural-u-shape-pulse {
-  animation: cultural-u-pulse 4s ease-in-out infinite;
-}
-
-/* Floating Handprint Motion */
-@keyframes cultural-hand-float-anim {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-.cultural-hand-float {
-  animation: cultural-hand-float-anim 5s ease-in-out infinite;
-}
-/* //// */
-
-.cultural-sky-spiral-rotate {
-  animation: culturalSpin linear infinite;
-  will-change: transform;
-}
-
-@keyframes culturalSnakeSlither {
-  0% {
-    stroke-dashoffset: 0;
-  }
-  100% {
-    stroke-dashoffset: 120;
-  }
-}
-
-
-@keyframes culturalUShapePulse {
-  0%, 100% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.95;
-    transform: scale(1.05);
-  }
-}
-
-.cultural-u-shape-pulse {
-  animation: culturalUShapePulse 6s ease-in-out infinite;
-}
-/* /////////////// */
-
-
-/* Continuous dash offset flow for snake paths */
-@keyframes dashFlow {
-  from {
-    stroke-dashoffset: 0;
-  }
-  to {
-    stroke-dashoffset: -200;
-  }
-}
-
-
-/* Axis rotation for spiral dot clusters */
-@keyframes axisRotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.cultural-sky-spiral-rotate {
-  animation: axisRotate linear infinite;
-}
-
-/* Subtle pulse glow for U-shaped pattern arches */
-@keyframes uShapePulse {
-  0%, 100% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.95;
-    transform: scale(1.04);
-  }
-}
-
-.cultural-u-shape-pulse {
-  animation: uShapePulse 4.5s ease-in-out infinite;
-}
-
-/* If you have keyframe animations for the spirals, check keyframe opacity */
-@keyframes spiralFade {
-  0% {
-    opacity: 0.3; /* Change from 0 to 0.3 or higher */
-  }
-  50% {
-    opacity: 0.9;
-  }
-  100% {
-    opacity: 0.3;
-  }
-}
-
-/* Smooth 2D spin on its center axis */
-@keyframes spin-axis {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* 3D coin-flip style spin around the Y-axis */
-@keyframes spin-y-axis {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(360deg);
-  }
-}
-
-.pattern-field__shape {
-  /* Fix the pivot point directly to the center of the shape */
-  transform-origin: center center;
-  
-  /* Apply the animation: infinite linear rotation */
-  animation: spin-axis 60s linear infinite;
-  
-  /* Keep rendering smooth during GPU transformations */
-  will-change: transform;
-}
-@keyframes spin-tilted {
-  from {
-    transform: rotate(var(--tilt, 0deg)) rotate(0deg);
-  }
-  to {
-    transform: rotate(var(--tilt, 0deg)) rotate(360deg);
-  }
-}
-
-/* Theme accent for bold paragraph highlights */
-.accent-text {
-  color: #E85D26 !important;
-  font-weight: 700;
-}
-
-.btn-ochre {
-  background-color: #E85D26;
-  color: #ffffff !important;
-}
-
-.btn-ochre:hover {
-  background-color: #B83D0E;
-  color: #ffffff !important;
-}
-
-/* Orange reads poorly on navy — use white bold there instead */
-.landing-ink .accent-text {
-  color: #ffffff !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --background: #14110f;
-    --foreground: #f7f4ef;
-    --page: #14110f;
-    --surface: #1f1b19;
-    --ink: #f7f4ef;
-    --muted: rgba(247, 244, 239, 0.72);
-    --border: rgba(247, 244, 239, 0.12);
-    --navy: #000208;
-    --input: #2b2625;
-    --input-disabled: #3f3835;
-    --input-disabled-border: rgba(247, 244, 239, 0.4);
-  }
-}
-
-/* Landing bands invert in dark mode: navy↔page, so the page is not all navy */
-.landing-ink {
-  mask-image: none;
-  -webkit-mask-image: none;
-}
-
-.landing-paper {
-  background-color: var(--paper);
-}
-
-.landing-ink-veil {
-  background-color: color-mix(in srgb, var(--navy) 72%, transparent);
-}
-
-.landing-ink-veil--soft {
-  background: var(--navy);
-}
-
-@media (prefers-color-scheme: dark) {
-  .landing-ink {
-    background-color: var(--page);
-  }
-
-  .landing-paper {
-    background-color: var(--navy);
-  }
-
-  .landing-ink-veil,
-  .landing-ink-veil--soft {
-    background-color: color-mix(in srgb, var(--page) 78%, transparent);
-  }
-
-  .landing-paper .title-blend {
-    --title-blend-from: #ffffff;
-    --title-blend-mid: #f5e6d3;
-    --title-blend-to: #c25324;
-    --title-blend-end: #de8a5b;
-  }
-
-  .landing-ink .title-blend--on-dark {
-    --title-blend-from: #ffffff;
-    --title-blend-mid: #f5e6d3;
-    --title-blend-to: #c25324;
-    --title-blend-end: #de8a5b;
-  }
-
-  .landing-paper .cultural-pattern--light .cultural-pattern__logo {
-    mix-blend-mode: screen;
-    opacity: 0.16;
-  }
-
-  /* Bands invert: paper is navy, ink is page — swap accent colour with them */
-  .landing-ink .accent-text {
-    color: #E85D26 !important;
-  }
-
-  .landing-paper .accent-text {
-    color: #ffffff !important;
-  }
-}
-
+/* ── Base Styles ── */
 body {
   background-color: var(--page);
   color: var(--ink);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
 
 button {
@@ -405,12 +84,9 @@ textarea:disabled {
   color: color-mix(in srgb, var(--ink) 62%, transparent);
 }
 
+/* ── Component Styles ── */
 .zoom-box {
-  transition:
-    transform 0.4s ease,
-    box-shadow 0.4s ease,
-    border-color 0.4s ease,
-    z-index 0s;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, z-index 0s;
 }
 
 .zoom-box:hover {
@@ -422,21 +98,40 @@ textarea:disabled {
   background-color: var(--header-background);
 }
 
-/* Title blend — full-line gradient with a shifting ochre band */
-:root {
-  --title-blend-from: #00060f;
-  --title-blend-mid: #4a2c1e;
-  --title-blend-to: #c25324;
-  --title-blend-end: #f08a62;
+.accent-text {
+  color: #E85D26 !important;
+  font-weight: 700;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --title-blend-from: #ffffff;
-    --title-blend-mid: #f5e6d3;
-    --title-blend-to: #c25324;
-    --title-blend-end: #de8a5b;
-  }
+.btn-ochre {
+  background-color: #E85D26;
+  color: #ffffff !important;
+}
+
+.btn-ochre:hover {
+  background-color: #B83D0E;
+  color: #ffffff !important;
+}
+
+.landing-ink .accent-text {
+  color: #ffffff !important;
+}
+
+.landing-ink {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+.landing-paper {
+  background-color: var(--paper);
+}
+
+.landing-ink-veil {
+  background-color: color-mix(in srgb, var(--navy) 72%, transparent);
+}
+
+.landing-ink-veil--soft {
+  background: var(--navy);
 }
 
 .title-blend {
@@ -463,16 +158,88 @@ textarea:disabled {
   --title-blend-end: #de8a5b;
 }
 
+/* ── Dark Mode Overrides ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --background: #14110f;
+    --foreground: #f7f4ef;
+    --page: #14110f;
+    --surface: #1f1b19;
+    --ink: #f7f4ef;
+    --muted: rgba(247, 244, 239, 0.72);
+    --border: rgba(247, 244, 239, 0.12);
+    --navy: #000208;
+    --paper: #1f1b19;
+    --input: #2b2625;
+    --input-disabled: #3f3835;
+    --input-disabled-border: rgba(247, 244, 239, 0.4);
+
+    --title-blend-from: #ffffff;
+    --title-blend-mid: #f5e6d3;
+    --title-blend-to: #c25324;
+    --title-blend-end: #de8a5b;
+  }
+
+  .landing-ink {
+    background-color: var(--page);
+  }
+
+  .landing-paper {
+    background-color: var(--navy);
+  }
+
+  .landing-ink-veil,
+  .landing-ink-veil--soft {
+    background-color: color-mix(in srgb, var(--page) 78%, transparent);
+  }
+
+  .landing-paper .title-blend,
+  .landing-ink .title-blend--on-dark {
+    --title-blend-from: #ffffff;
+    --title-blend-mid: #f5e6d3;
+    --title-blend-to: #c25324;
+    --title-blend-end: #de8a5b;
+  }
+
+  .landing-paper .cultural-pattern--light .cultural-pattern__logo {
+    mix-blend-mode: screen;
+    opacity: 0.16;
+  }
+
+  .landing-ink .accent-text {
+    color: #E85D26 !important;
+  }
+
+  .landing-paper .accent-text {
+    color: #ffffff !important;
+  }
+
+  .contrast-card {
+    background-color: #2b2625;
+    border-color: rgba(232, 93, 38, 0.4);
+  }
+}
+
+/* ── Generic Animations ── */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+.animate-ticker {
+  display: flex;
+  width: max-content;
+  animation: ticker 35s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
 @keyframes title-blend-shift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .title-blend {
-    animation: none;
-    background-position: 80% 50%;
-  }
 }
 
 @keyframes heroFloat {
@@ -480,22 +247,12 @@ textarea:disabled {
   50% { transform: scale(1.05) translateY(6px); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .page-hero__media {
-    animation: none !important;
-  }
+@keyframes axisRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* Dark-mode lift for earth contrast cards sitting on page navy */
-@media (prefers-color-scheme: dark) {
-  .contrast-card {
-    background-color: #2b2625;
-    border-color: rgba(232, 93, 38, 0.4);
-  }
-}
-
-/* ── Aboriginal cultural pattern system (concept-art footprints, sky spirals, logo) ── */
-
+/* ── Cultural Pattern System ── */
 .cultural-background {
   position: absolute;
   inset: 0;
@@ -561,24 +318,9 @@ textarea:disabled {
   border-radius: 4px;
 }
 
-.cultural-pattern__logo--tl {
-  top: 10%;
-  left: 4%;
-  right: auto;
-}
-
-.cultural-pattern__logo--tr {
-  top: 8%;
-  right: 4%;
-  left: auto;
-}
-
-.cultural-pattern__logo--br {
-  top: auto;
-  bottom: 16%;
-  right: 5%;
-  left: auto;
-}
+.cultural-pattern__logo--tl { top: 10%; left: 4%; right: auto; }
+.cultural-pattern__logo--tr { top: 8%; right: 4%; left: auto; }
+.cultural-pattern__logo--br { top: auto; bottom: 16%; right: 5%; left: auto; }
 
 .cultural-pattern__canvas {
   position: absolute;
@@ -599,50 +341,31 @@ textarea:disabled {
   color: #e8955e;
   opacity: 0.8;
 }
-/* Animated vertical dash movement along stroke path */
-@keyframes dashFlow {
-  from {
-    stroke-dashoffset: 0;
-  }
-  to {
-    stroke-dashoffset: -240;
-  }
+
+.cultural-sky-spiral-rotate {
+  animation: axisRotate 30s linear infinite;
+  will-change: transform;
 }
 
-/* Light-surface pattern treatment — only in light mode so dark pages keep screen blend */
-@media (prefers-color-scheme: light) {
-  .cultural-pattern--light .cultural-pattern__dotfield {
-    background-image: radial-gradient(rgba(232, 93, 38, 0.12) 1px, transparent 1px);
-    background-size: 18px 18px;
-    opacity: 0.1;
-  }
-
-  .cultural-pattern--light .cultural-pattern__logo {
-    opacity: 0.12;
-    mix-blend-mode: multiply;
-  }
-
-  .cultural-pattern--light .cultural-pattern__canvas {
-    opacity: 0.14;
-  }
-
-  .cultural-pattern--light .cultural-pattern__songline-strip {
-    color: #e85d26;
-    opacity: 0.55;
-  }
+.cultural-sky-spiral {
+  transform-origin: center;
+  animation: spiralBreathing 4s infinite ease-in-out;
 }
 
-/* Horizontal snake dot pulse wave */
-@keyframes snakePulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.4;
-  }
-  50% {
-    transform: scale(1.45);
-    opacity: 1;
-    fill: #FFB070;
-  }
+.cultural-dot-pulse {
+  animation: cultural-dot-pulse-anim 3s ease-in-out infinite;
+}
+
+.cultural-vertical-snake {
+  animation: cultural-snake-dash 12s linear infinite;
+}
+
+.cultural-u-shape-pulse {
+  animation: uShapePulse 4.5s ease-in-out infinite;
+}
+
+.cultural-hand-float {
+  animation: cultural-hand-float-anim 5s ease-in-out infinite;
 }
 
 .cultural-snake-dot {
@@ -650,75 +373,9 @@ textarea:disabled {
   transform-origin: center;
   animation: snakePulse 2.8s infinite ease-in-out;
 }
-/* Opacity-only animations — GPU friendly, no filter/layout thrash */
-@keyframes logo-breathe {
-  0%, 100% { opacity: 0.1; transform: scale(1); }
-  50% { opacity: 0.2; transform: scale(1.03); }
-}
-
-@keyframes sky-spiral-glow {
-  0%, 100% { opacity: 0.1; }
-  50% { opacity: 0.16; }
-}
-
-/* Flame-rise: bright at bottom of cycle, fades as it "travels" up */
-@keyframes flame-rise {
-  0%, 8% { opacity: 0.04; }
-  22%, 38% { opacity: 0.2; }
-  55% { opacity: 0.14; }
-  75%, 100% { opacity: 0.05; }
-}
-
-@keyframes footprint-walk {
-  0%, 6% { opacity: 0.06; }
-  14%, 34% { opacity: 1; }
-  50%, 100% { opacity: 0.25; }
-}
-
-@keyframes hand-pulse {
-  0%, 100% { opacity: 0.18; }
-  50% { opacity: 0.55; }
-}
-/* Flame dots rising & floating animation */
-@keyframes flameRise {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translateY(-20px) scale(1.25);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-40px) scale(0.8);
-    opacity: 0.2;
-  }
-}
 
 .cultural-flame-dot {
   animation: flameRise 3.5s infinite ease-in-out;
-}
-
-/* Spiral breathing & rotating animation */
-@keyframes spiralBreathing {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.85;
-  }
-  50% {
-    transform: scale(1.12);
-    opacity: 1;
-  }
-}
-/* Ensure the sky spiral class isn't hiding the elements */
-.cultural-sky-spiral {
-  transform-origin: center;
-  animation: spiralBreathing 4s infinite ease-in-out;
-}
-
-.cultural-flame-dot {
-  opacity: 0.2;
-  animation: flame-rise 4.2s ease-in-out infinite;
 }
 
 .cultural-footprint {
@@ -746,52 +403,82 @@ textarea:disabled {
   bottom: 8%;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .cultural-pattern__logo,
-  .cultural-sky-spiral,
-  .cultural-flame-dot,
-  .cultural-footprint,
-  .cultural-handprint {
-    animation: none !important;
-  }
-
-  .cultural-flame-dot,
-  .cultural-footprint,
-  .cultural-sky-spiral,
-  .cultural-handprint {
-    opacity: 0.4;
-  }
-
-  .cultural-pattern__logo {
-    opacity: 0.12;
-  }
+/* ── Cultural Keyframe Animations ── */
+@keyframes cultural-dot-pulse-anim {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.3); opacity: 1; }
 }
 
-@media (max-width: 768px) {
-  .cultural-pattern__canvas,
-  .cultural-pattern--light .cultural-pattern__canvas {
-    opacity: 0.16;
-  }
+@keyframes cultural-snake-dash {
+  to { stroke-dashoffset: -100; }
+}
 
-  .cultural-pattern__dotfield,
+@keyframes uShapePulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.04); }
+}
+
+@keyframes cultural-hand-float-anim {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes snakePulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.45); opacity: 1; fill: #FFB070; }
+}
+
+@keyframes logo-breathe {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.2; transform: scale(1.03); }
+}
+
+@keyframes flameRise {
+  0% { transform: translateY(0) scale(1); opacity: 0.9; }
+  50% { transform: translateY(-20px) scale(1.25); opacity: 1; }
+  100% { transform: translateY(-40px) scale(0.8); opacity: 0.2; }
+}
+
+@keyframes spiralBreathing {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+
+@keyframes footprint-walk {
+  0%, 6% { opacity: 0.06; }
+  14%, 34% { opacity: 1; }
+  50%, 100% { opacity: 0.25; }
+}
+
+@keyframes hand-pulse {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.55; }
+}
+
+/* ── Light Mode Cultural Pattern Adjustments ── */
+@media (prefers-color-scheme: light) {
   .cultural-pattern--light .cultural-pattern__dotfield {
+    background-image: radial-gradient(rgba(232, 93, 38, 0.12) 1px, transparent 1px);
+    background-size: 18px 18px;
     opacity: 0.1;
   }
 
-  .cultural-pattern__songline-strip,
-  .cultural-pattern--light .cultural-pattern__songline-strip {
-    opacity: 0.28;
+  .cultural-pattern--light .cultural-pattern__logo {
+    opacity: 0.12;
+    mix-blend-mode: multiply;
   }
 
-  .cultural-pattern__logo,
-  .cultural-pattern--light .cultural-pattern__logo {
-    width: 72px;
-    height: 72px;
-    opacity: 0.08;
+  .cultural-pattern--light .cultural-pattern__canvas {
+    opacity: 0.14;
+  }
+
+  .cultural-pattern--light .cultural-pattern__songline-strip {
+    color: #e85d26;
+    opacity: 0.55;
   }
 }
 
-/* Living pattern field — edge motifs on white/navy pages, not a tinted backdrop */
+/* ── Pattern Field System ── */
 .pattern-field {
   position: absolute;
   inset: 0;
@@ -817,6 +504,9 @@ textarea:disabled {
   inset: 0;
   overflow: hidden;
   rotate: var(--tilt, 0deg);
+  transform-origin: center center;
+  animation: axisRotate 60s linear infinite;
+  will-change: transform;
 }
 
 .pattern-field__shape--circle {
@@ -974,25 +664,16 @@ textarea:disabled {
 }
 
 @media (prefers-color-scheme: light) {
-  .pattern-field__piece {
-    --pattern-opacity: 0.88;
-  }
-
-  .pattern-field__piece--cross {
-    --pattern-opacity: 0.55;
-  }
+  .pattern-field__piece { --pattern-opacity: 0.88; }
+  .pattern-field__piece--cross { --pattern-opacity: 0.55; }
 }
 
 @media (prefers-color-scheme: dark) {
-  .pattern-field__piece {
-    --pattern-opacity: 0.8;
-  }
-
-  .pattern-field__piece--cross {
-    --pattern-opacity: 0.5;
-  }
+  .pattern-field__piece { --pattern-opacity: 0.8; }
+  .pattern-field__piece--cross { --pattern-opacity: 0.5; }
 }
 
+/* ── Pattern Field Keyframes ── */
 @keyframes pattern-enter {
   from { opacity: 0; }
   to { opacity: var(--pattern-opacity); }
@@ -1095,43 +776,7 @@ textarea:disabled {
   50% { transform: translate3d(36px, 16px, 0); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .pattern-field__piece,
-  .pattern-field__swap {
-    animation: none;
-  }
-
-  .pattern-field__piece {
-    opacity: var(--pattern-opacity);
-  }
-
-  .pattern-field__swap:first-child {
-    opacity: 1;
-  }
-}
-
-@media (max-width: 768px) {
-  .pattern-field {
-    -webkit-mask-image: radial-gradient(ellipse 92% 78% at 50% 42%, transparent 36%, #000 78%);
-    mask-image: radial-gradient(ellipse 92% 78% at 50% 42%, transparent 36%, #000 78%);
-  }
-
-  .pattern-field__piece {
-    --pattern-opacity: 0.28;
-    width: min(38vw, 150px);
-    height: min(44vw, 170px);
-  }
-
-  .pattern-field__piece--cross {
-    display: none;
-  }
-
-  .pattern-field__piece img {
-    filter: blur(14px);
-  }
-}
-
-/* Transparent branch logo — no box, artwork only */
+/* ── Transparent Branch Logo System ── */
 .tr-logo {
   position: absolute;
   z-index: 5;
@@ -1149,10 +794,7 @@ textarea:disabled {
   z-index: 2;
 }
 
-.tr-logo--hero.tr-logo--inset {
-  right: 16%;
-}
-
+.tr-logo--hero.tr-logo--inset { right: 16%; }
 .tr-logo--tr { top: 12vh; right: 0; }
 .tr-logo--tl { top: 14vh; left: 0; }
 .tr-logo--br { bottom: 8%; right: -2%; }
@@ -1172,49 +814,17 @@ textarea:disabled {
   object-position: center;
 }
 
-.tr-logo--float {
-  animation: tr-logo-float 7s ease-in-out infinite;
-}
-
-.tr-logo--pulse {
-  animation: tr-logo-pulse 4.8s ease-in-out infinite;
-}
-
-.tr-logo--sway {
-  animation: tr-logo-sway 6.2s ease-in-out infinite;
-}
-
-.tr-logo--drift {
-  animation: tr-logo-drift 8s ease-in-out infinite;
-}
-
-.tr-logo--glow {
-  animation: tr-logo-glow 3.6s ease-in-out infinite;
-}
-
-.tr-logo--breathe {
-  animation: tr-logo-breathe 5.4s ease-in-out infinite;
-}
-
-.tr-logo--bob {
-  animation: tr-logo-bob 4.2s ease-in-out infinite;
-}
-
-.tr-logo--shimmer {
-  animation: tr-logo-shimmer 3.2s ease-in-out infinite;
-}
-
-.tr-logo--tilt {
-  animation: tr-logo-tilt 7.4s ease-in-out infinite;
-}
-
-.tr-logo--orbit {
-  animation: tr-logo-orbit 9s ease-in-out infinite;
-}
-
-.tr-logo--wave {
-  animation: tr-logo-wave 6.8s ease-in-out infinite;
-}
+.tr-logo--float { animation: tr-logo-float 7s ease-in-out infinite; }
+.tr-logo--pulse { animation: tr-logo-pulse 4.8s ease-in-out infinite; }
+.tr-logo--sway { animation: tr-logo-sway 6.2s ease-in-out infinite; }
+.tr-logo--drift { animation: tr-logo-drift 8s ease-in-out infinite; }
+.tr-logo--glow { animation: tr-logo-glow 3.6s ease-in-out infinite; }
+.tr-logo--breathe { animation: tr-logo-breathe 5.4s ease-in-out infinite; }
+.tr-logo--bob { animation: tr-logo-bob 4.2s ease-in-out infinite; }
+.tr-logo--shimmer { animation: tr-logo-shimmer 3.2s ease-in-out infinite; }
+.tr-logo--tilt { animation: tr-logo-tilt 7.4s ease-in-out infinite; }
+.tr-logo--orbit { animation: tr-logo-orbit 9s ease-in-out infinite; }
+.tr-logo--wave { animation: tr-logo-wave 6.8s ease-in-out infinite; }
 
 @keyframes tr-logo-float {
   0%, 100% { transform: translate3d(0, 0, 0); }
@@ -1273,13 +883,87 @@ textarea:disabled {
   50% { transform: translate3d(8px, -16px, 0) rotate(-3deg); }
 }
 
+/* ── Reduced Motion & Mobile Responsiveness ── */
 @media (prefers-reduced-motion: reduce) {
+  .title-blend {
+    animation: none;
+    background-position: 80% 50%;
+  }
+
+  .page-hero__media,
+  .cultural-pattern__logo,
+  .cultural-sky-spiral,
+  .cultural-flame-dot,
+  .cultural-footprint,
+  .cultural-handprint,
+  .pattern-field__piece,
+  .pattern-field__swap,
   .tr-logo {
     animation: none !important;
+  }
+
+  .cultural-flame-dot,
+  .cultural-footprint,
+  .cultural-sky-spiral,
+  .cultural-handprint {
+    opacity: 0.4;
+  }
+
+  .cultural-pattern__logo {
+    opacity: 0.12;
+  }
+
+  .pattern-field__piece {
+    opacity: var(--pattern-opacity);
+  }
+
+  .pattern-field__swap:first-child {
+    opacity: 1;
   }
 }
 
 @media (max-width: 768px) {
+  .cultural-pattern__canvas,
+  .cultural-pattern--light .cultural-pattern__canvas {
+    opacity: 0.16;
+  }
+
+  .cultural-pattern__dotfield,
+  .cultural-pattern--light .cultural-pattern__dotfield {
+    opacity: 0.1;
+  }
+
+  .cultural-pattern__songline-strip,
+  .cultural-pattern--light .cultural-pattern__songline-strip {
+    opacity: 0.28;
+  }
+
+  .cultural-pattern__logo,
+  .cultural-pattern--light .cultural-pattern__logo {
+    width: 72px;
+    height: 72px;
+    opacity: 0.08;
+  }
+
+  .pattern-field {
+    -webkit-mask-image: radial-gradient(ellipse 92% 78% at 50% 42%, transparent 36%, #000 78%);
+    mask-image: radial-gradient(ellipse 92% 78% at 50% 42%, transparent 36%, #000 78%);
+  }
+
+  .pattern-field__piece {
+    --pattern-opacity: 0.28;
+    width: min(38vw, 150px);
+    height: min(44vw, 170px);
+  }
+
+  .pattern-field__piece--cross {
+    display: none;
+  }
+
+  .pattern-field__piece img {
+    filter: blur(14px);
+  }
+
   .tr-logo {
     z-index: 0;
     width: 92px;
@@ -1312,24 +996,48 @@ textarea:disabled {
     bottom: 12%;
   }
 
-  .tr-logo--tr {
-    right: -22%;
-    left: auto;
+  .tr-logo--tr { right: -22%; left: auto; }
+  .tr-logo--tl { left: -22%; right: auto; }
+  .tr-logo--br { right: -22%; bottom: 4%; }
+  .tr-logo--bl { left: -22%; bottom: 4%; }
+}
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
   }
-
-  .tr-logo--tl {
-    left: -22%;
-    right: auto;
-  }
-
-  .tr-logo--br {
-    right: -22%;
-    bottom: 4%;
-  }
-
-  .tr-logo--bl {
-    left: -22%;
-    bottom: 4%;
+  to {
+    transform: rotate(360deg);
   }
 }
 
+@keyframes reverseSpinSlow {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pulseGentle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.25;
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 40s linear infinite;
+}
+
+.animate-reverse-spin-slow {
+  animation: reverseSpinSlow 50s linear infinite;
+}
+
+.animate-pulse-gentle {
+  animation: pulseGentle 6s ease-in-out infinite;
+}

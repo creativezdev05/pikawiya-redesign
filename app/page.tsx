@@ -9,13 +9,19 @@ import {
   ZoomOut,
   RotateCcw,
   X,
-  Heart,
-  Users,
+  HeartHandshake,
   UserCheck,
   Sparkles,
   Shield,
   Compass,
   ArrowRight,
+  Stethoscope,   // Clinical Care & GP
+  Baby,          // Maternal, Child & Family Support
+  Users,         // Gender-Specific / Community Health
+  Flame,         // Youth Energy & Active Sports
+  Sun,           // Cultural Knowledge & Connection
+  Smile,
+  UserRound         // Emotional Wellbeing & Mental Health
 } from "lucide-react";
 import NextImage from "next/image";
 import Link from "next/link";
@@ -29,50 +35,78 @@ import PatternField from "@/components/PatternField";
 import PartnersTicker from "@/components/PartnersTicker";
 import ButtonLink from "@/components/ButtonLink";
 import FlashlightContainer from "@/components/FlashlightContainer";
-
-const mainServices = [
+import CoreServicesSection from "@/components/CoreServicesSection";
+import MissionSection from "@/components/MissionSection";
+import GovernanceHeritageSection from "@/components/GovernanceHeritageSection";
+import ContactSection from "@/components/ContactSection";
+import OurStory from "@/components/OurStory";
+export const mainServices = [
   {
     name: "Clinical Health Care",
-    icon: Heart,
+    icon: Stethoscope,
     desc: "General Practitioner care, chronic disease management, and primary nursing.",
     image: "/assets/services/core-services/clinic-health-care.jpg",
     objectPosition: "center 90%",
     imageClass: "scale-[1.22] -translate-y-[16%]",
+    badgeBg: "bg-teal-500/10 border-teal-500/30 text-teal-400",
+    iconColor: "text-teal-400 group-hover:scale-110",
+    glowColor: "group-hover:shadow-[0_10px_35px_rgba(20,184,166,0.35)]",
+    borderColor: "hover:border-teal-500/50",
   },
   {
     name: "Family Support",
-    icon: Users,
+    icon: UserRound,
     desc: "Maternal and child health services, parenting programs, and early intervention.",
     image: "/assets/services/core-services/family-support.jpg",
     objectPosition: "center 52%",
+    badgeBg: "bg-rose-500/10 border-rose-500/30 text-rose-400",
+    iconColor: "text-rose-400 group-hover:scale-110",
+    glowColor: "group-hover:shadow-[0_10px_35px_rgba(244,63,94,0.35)]",
+    borderColor: "hover:border-rose-500/50",
   },
   {
     name: "Women's & Men's Health",
-    icon: UserCheck,
+    icon: HeartHandshake,
     desc: "Gender-specific clinical care, health checks, and preventative education.",
     image: "/assets/services/core-services/men-women-health.jpg",
     objectPosition: "center 62%",
+    badgeBg: "bg-indigo-500/10 border-indigo-500/30 text-indigo-400",
+    iconColor: "text-indigo-400 group-hover:scale-110",
+    glowColor: "group-hover:shadow-[0_10px_35px_rgba(99,102,241,0.35)]",
+    borderColor: "hover:border-indigo-500/50",
   },
   {
     name: "Youth Programs",
-    icon: Sparkles,
+    icon: Flame,
     desc: "Youth engagement, physical health, active sports, and community leadership.",
     image: "/assets/services/core-services/youth-programe.jpg",
     objectPosition: "center 72%",
+    badgeBg: "bg-orange-500/10 border-orange-500/30 text-orange-400",
+    iconColor: "text-orange-400 group-hover:scale-110",
+    glowColor: "group-hover:shadow-[0_10px_35px_rgba(249,115,22,0.35)]",
+    borderColor: "hover:border-orange-500/50",
   },
   {
     name: "Cultural Support",
-    icon: Compass,
+    icon: Sun,
     desc: "Care grounded in community connection, traditional knowledge, and Elders' wisdom.",
     image: "/assets/services/core-services/cultural-support.jpg",
     objectPosition: "center 68%",
+    badgeBg: "bg-amber-500/10 border-amber-500/30 text-amber-400",
+    iconColor: "text-amber-400 group-hover:scale-110",
+    glowColor: "group-hover:shadow-[0_10px_35px_rgba(245,158,11,0.35)]",
+    borderColor: "hover:border-amber-500/50",
   },
   {
     name: "Emotional Wellbeing",
-    icon: Shield,
+    icon: Smile,
     desc: "Social and emotional wellbeing support, mental health services, and counseling.",
     image: "/assets/services/core-services/emotional-wellbeing.jpg",
     objectPosition: "center 64%",
+    badgeBg: "bg-sky-500/10 border-sky-500/30 text-sky-400",
+    iconColor: "text-sky-400 group-hover:scale-110",
+    glowColor: "group-hover:shadow-[0_10px_35px_rgba(14,165,233,0.35)]",
+    borderColor: "hover:border-sky-500/50",
   },
 ];
 
@@ -255,298 +289,19 @@ const handleTouchEnd = () => {
 
       <Navbar />
 
-      {/* SECTION 2: 360 EXPLORATION BANNER */}
-      <section className="relative w-full h-screen bg-black flex flex-col items-center justify-center overflow-hidden">
-        <motion.div
-          animate={isZoomingIn ? { scale: 2.5, opacity: 0 } : { scale: 1, opacity: 1 }}
-          transition={{ duration: 0.7, ease: "easeInOut" }}
-          className="relative w-full h-full flex items-center justify-center origin-center"
-        >
-          <NextImage
-            src={imageUrl}
-            alt="Pika Wiya Facility View"
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
+      <OurStory />
 
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 space-y-4">
-            <Compass className="w-16 h-16 text-ochre animate-pulse" />
-            <PageTitle as="h2" onDark className="text-3xl font-bold">
-              Our Story Starts From Here
-            </PageTitle>
-            <p className="text-sm max-w-md text-gray-300">
-              Take a virtual walk through our facilities with pan and zoom capabilities.
-            </p>
-            <button
-              onClick={handleStartExploring}
-              disabled={isZoomingIn}
-              className="px-8 py-3 bg-ochre hover:bg-ochre-dark font-semibold text-white rounded-full transition transform hover:scale-105 shadow-lg cursor-pointer"
-            >
-              {isZoomingIn ? "Zooming In..." : "Start 360 Exploration"}
-            </button>
-          </div>
-        </motion.div>
-      </section>
+      <CoreServicesSection mainServices={mainServices} />
 
-      {/* FULLSCREEN 360 CANVAS MODAL */}
-      <AnimatePresence>
-        {isExploring && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-50 bg-black flex items-center justify-center overflow-hidden"
-          >
-            <canvas
-              ref={canvasRef}
-              width={1280}
-              height={720}
-              // Mouse Controls
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onWheel={handleWheel}
-              // Touch Controls (Mobile)
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              className="w-full h-full object-cover cursor-grab active:cursor-grabbing touch-none select-none"
-            />
-
-            <div className="absolute top-6 right-6 flex items-center gap-3 bg-black/70 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 z-50">
-              <button
-                onClick={() => setZoom((prev) => Math.min(prev * 1.2, 4))}
-                className="p-2 text-white hover:text-ochre transition cursor-pointer"
-                title="Zoom In"
-              >
-                <ZoomIn className="w-5 h-5" />
-              </button>
-
-              <button
-                onClick={() => setZoom((prev) => Math.max(prev / 1.2, 0.5))}
-                className="p-2 text-white hover:text-ochre transition cursor-pointer"
-                title="Zoom Out"
-              >
-                <ZoomOut className="w-5 h-5" />
-              </button>
-
-              <button
-                onClick={handleReset}
-                className="p-2 text-white hover:text-ochre transition cursor-pointer"
-                title="Reset View"
-              >
-                <RotateCcw className="w-5 h-5" />
-              </button>
-
-              <div className="w-px h-6 bg-white/20 mx-1" />
-
-              <button
-                onClick={() => setIsExploring(false)}
-                className="flex items-center gap-1 px-3 py-1.5 bg-red-600/80 hover:bg-red-600 text-white text-xs font-semibold rounded-full transition cursor-pointer"
-              >
-                <X className="w-4 h-4" /> Exit 360
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* CORE SERVICES — tall cultural columns */}
-      <section className="relative overflow-hidden landing-ink pt-10 pb-20 md:pt-14 md:pb-28">
-        {/* <PatternField variant="landing_services" /> */}
-        <CulturalPattern variant="services" showFeet />
-        <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6">
-            <div className="max-w-2xl space-y-4">
-              <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-                <span className="h-px w-10 bg-ochre" /> What we provide
-              </span>
-              <PageTitle as="h2" onDark className="text-[clamp(1.8rem,3.8vw,3rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
-                Our Core Services
-              </PageTitle>
-              <p className="text-sand/75 text-base md:text-lg leading-relaxed">
-                Comprehensive clinical and community services delivered with{" "}
-                <strong className="accent-text">respect, cultural safety</strong>, and community control.
-              </p>
-            </div>
-            <ButtonLink href="/services"
-              className="btn-ochre inline-flex items-center justify-center gap-2 self-start md:self-auto px-6 py-3.5 text-sm font-semibold rounded-md transition">
-              View All Services &nbsp;<ArrowRight className="w-4 h-4" />
-            </ButtonLink>
-            {/* <Link
-              href="/services"
-              className="btn-ochre inline-flex items-center justify-center gap-2 self-start md:self-auto px-6 py-3.5 text-sm font-semibold rounded-md transition"
-            >
-              View All Services <ArrowRight className="w-4 h-4" />
-            </Link> */}
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-            {mainServices.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={idx}
-                  className="zoom-box group relative aspect-[5/4] overflow-hidden border border-ochre/25 origin-center hover:z-20 hover:border-ochre hover:shadow-[0_28px_55px_-18px_rgba(0,0,0,0.55)]"
-                >
-                  <NextImage
-                    src={item.image}
-                    alt=""
-                    fill
-                    sizes="(max-width: 1024px) 50vw, 33vw"
-                    className={`object-cover transition duration-700 group-hover:scale-[1.28] ${
-                      "imageClass" in item && item.imageClass
-                        ? item.imageClass
-                        : "scale-[1.12] -translate-y-[8%]"
-                    }`}
-                    style={{ objectPosition: item.objectPosition }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/55 to-navy/20 transition duration-500 group-hover:from-navy/95 group-hover:via-navy/70" />
-                  <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-end">
-                    <div className="translate-y-0 transition duration-500 md:group-hover:-translate-y-1">
-                      <div className="w-10 h-10 rounded-full bg-ochre/20 border border-ochre/40 text-ochre flex items-center justify-center mb-4 transition duration-500 group-hover:bg-ochre group-hover:text-white group-hover:border-ochre">
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <h3 className="text-base md:text-lg font-bold text-white mb-2 leading-snug">{item.name}</h3>
-                      <p className="text-sand/75 text-xs md:text-sm leading-relaxed transition-colors duration-300 group-hover:text-sand">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* MISSION STATEMENT — white */}
-      <section className="relative overflow-hidden landing-paper py-20 md:py-24">
-        <CulturalPattern variant="mission" className="cultural-pattern--light" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-14 items-center">
-          <div className="space-y-5">
-            <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-              <span className="h-px w-10 bg-ochre" /> Mission statement
-            </span>
-            <PageTitle as="h3" className="text-[clamp(1.7rem,3.5vw,2.75rem)] font-extrabold leading-[1.1] tracking-[-0.02em]">
-              Empowering community through health, dignity and culture
-            </PageTitle>
-            <p className="text-ink/75 text-base md:text-lg leading-relaxed max-w-2xl">
-              Pika Wiya Health Service Aboriginal Corporation will provide a{" "}
-              <strong className="accent-text">culturally appropriate service</strong> to Aboriginal and Torres
-              Strait Islander people, addressing preventative, promotive and curative aspects of health, which
-              encourages our community to achieve greater{" "}
-              <strong className="accent-text">dignity and quality of life</strong> equal with all Australians.
-            </p>
-          </div>
-
-          <div className="relative min-h-[420px] md:min-h-[480px] overflow-hidden border border-ochre/30 group">
-            <NextImage
-              src="/assets/about/Rachael-Schmerl.jpeg"
-              alt="Rachael Schmerl, Chief Executive Officer of Pika Wiya Health Service"
-              fill
-              sizes="(max-width: 1024px) 100vw, 40vw"
-              className="object-cover object-center scale-[1.15] -translate-y-[6%] transition duration-700 group-hover:scale-[1.18]"
-            />
-            {/* Stylish name banner */}
-            <div className="absolute bottom-5 left-5 right-5">
-              <FlashlightContainer className="relative overflow-hidden bg-navy/92 border-l-4 border-ochre px-5 py-4 backdrop-blur-sm shadow-lg">
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0 opacity-20 pointer-events-none"
-                  style={{
-                    backgroundImage: "radial-gradient(rgba(232,93,38,0.45) 1px, transparent 1px)",
-                    backgroundSize: "10px 10px",
-                  }}
-                />
-                <p className="relative text-ochre text-xs font-bold uppercase tracking-[0.18em]">
-                  Rachael Schmerl
-                </p>
-                <p className="relative text-white text-base md:text-lg font-semibold mt-1">
-                  Chief Executive Officer
-                </p>
-              </FlashlightContainer>
-            </div>
-          </div>
-        </div>
-      </section>
+      <MissionSection />
 
       <AboutHome />
 
       {/* CULTURAL HERITAGE — white (after navy values / ochre purpose) */}
-      <section className="relative overflow-hidden landing-paper py-20 md:py-28">
-        <CulturalPattern variant="heritage" className="cultural-pattern--light" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-            <div className="relative min-h-[380px] md:min-h-[460px] overflow-hidden border border-ochre/30 order-2 lg:order-1">
-              <NextImage
-                src="/assets/home/services-heritage-800.webp"
-                alt="Aboriginal cultural heritage artwork"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-            <div className="space-y-6 order-1 lg:order-2">
-              <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-                <span className="h-px w-10 bg-ochre" /> Governance &amp; Culture
-              </span>
-              <PageTitle as="h2" className="text-[clamp(1.8rem,3.8vw,2.9rem)] font-extrabold leading-[1.08] tracking-[-0.02em]">
-                Walking with our ancestors. Building for community.
-              </PageTitle>
-              <p className="text-ink/75 leading-relaxed text-base md:text-lg max-w-xl">
-                Pika Wiya Health Service operates under the guidance of our{" "}
-                <strong className="accent-text">Aboriginal Board of Directors</strong> and constitution. We
-                walk paths shaped by our ancestors — honouring tradition while ensuring{" "}
-                <strong className="accent-text">community priorities</strong> drive every aspect of our care.
-              </p>
-              <div className="flex flex-wrap gap-3 pt-2">
-                <Link
-                  href="/governance"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-ochre hover:bg-ochre-dark text-white text-sm font-semibold transition"
-                >
-                  Governance &amp; Rule Book
-                </Link>
-                <Link
-                  href="/about"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-border hover:bg-ink/5 text-ink text-sm font-semibold transition"
-                >
-                  Learn About PWHS
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <GovernanceHeritageSection />
 
       {/* CONTACT — navy */}
-      <section className="relative overflow-hidden landing-ink py-20 md:py-28 px-6 md:px-10">
-        <CulturalPattern variant="contact" showFeet />
-        <div aria-hidden="true" className="cultural-background cultural-background--contact" />
-        <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
-
-        {/* <div className="absolute inset-0 z-0 landing-ink-veil" /> */}
-        <div className="relative z-10 max-w-5xl mx-auto">
-          <div className="text-center mb-10 space-y-4">
-            <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
-              <span className="h-px w-10 bg-ochre" /> Connect with us <span className="h-px w-10 bg-ochre" />
-            </span>
-            <PageTitle as="h2" onDark className="text-[clamp(1.8rem,3.8vw,2.9rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
-              Get in Touch
-            </PageTitle>
-            <p className="text-sand/70 max-w-2xl mx-auto">
-              Complete the form below to connect with our health services team or{" "}
-              <strong className="accent-text">request an appointment</strong>.
-            </p>
-          </div>
-          <div className="border border-white/10 border-t-4 border-t-ochre bg-surface p-8 md:p-12 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.45)]">
-            <ContactForm />
-          </div>
-        </div>
-      </section>
+      <ContactSection />
       <PartnersTicker />
       <Footer />
     </div>

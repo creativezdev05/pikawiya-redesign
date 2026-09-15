@@ -11,7 +11,7 @@ const config: Config = {
       colors: {
         ochre: {
           DEFAULT: "#E85D26",
-          dark: "#B83D0E",
+          dark: "#F08A62",
           light: "#F08A62",
         },
         earth: {

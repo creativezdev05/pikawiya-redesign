@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
-import { motion, HTMLMotionProps } from "framer-motion";
+import { motion, Variants, HTMLMotionProps } from "framer-motion";
 
 interface ButtonLinkProps extends HTMLMotionProps<"a"> {
   children: ReactNode;
   icon?: ReactNode;
 }
 
-const buttonVariants = {
+const buttonVariants : Variants = {
   initial: { backgroundColor: "#e85d26", scale: 1 },
   hover: { 
     backgroundColor: "#b83d0e", 
@@ -16,7 +16,7 @@ const buttonVariants = {
   tap: { scale: 0.98 }
 };
 
-const flashVariants = {
+const flashVariants : Variants = {
   initial: { left: "-100%" },
   hover: { 
     left: "200%", 
@@ -25,7 +25,7 @@ const flashVariants = {
 };
 
 // Simplified to purely handle smooth inline shifts without stacking
-const contentVariants = {
+const contentVariants : Variants = {
   initial: { x: 0 },
   hover: { x: 1 } 
 };
