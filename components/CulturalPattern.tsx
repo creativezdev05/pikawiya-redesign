@@ -80,7 +80,6 @@ function generateHypnoticSpiralPath(turns = 4.5, maxRadius = 80, pointsPerTurn =
   return path;
 }
 
-// Inverted/opposite direction U-shape path (complementary curve)
 function generateInvertedUShapePath(width: number, height: number) {
   const r = width / 2;
   return `M 0 ${height} L 0 ${r} A ${r} ${r} 0 0 1 ${width} ${r} L ${width} ${height}`;
@@ -99,6 +98,53 @@ function generateFixedLongSnakePath(xStart: number, yStart: number, width = 1200
     path += ` Q ${controlX} ${controlY}, ${nextX} ${yStart}`;
   }
   return path;
+}
+
+function generateSnakeMiddleDotPoints(xStart: number, yStart1 = 25, yStart2 = 48, width = 1200, turns = 12) {
+  const segmentWidth = width / turns;
+  const dots: { x: number; y: number }[] = [];
+  const midY = (yStart1 + yStart2) / 2;
+  const arcHeight = 6;
+
+  for (let i = 0; i < turns; i++) {
+    const sweep = i % 2 === 0 ? 1 : 0;
+    const nextX = xStart + (i + 1) * segmentWidth;
+    const controlX = xStart + (i + 0.5) * segmentWidth;
+    const dotX = round(controlX);
+    const dotY = round(midY + (sweep === 1 ? arcHeight * 0.5 : -arcHeight * 0.5));
+    dots.push({ x: dotX, y: dotY });
+
+    if (i === turns - 1) {
+      dots.push({ x: round(nextX), y: round(midY) });
+    }
+  }
+  return dots;
+}
+
+function generateExtendedSidePatternPath(xStart: number, yStart: number, length = 750, segments = 16) {
+  let path1 = `M ${xStart} ${yStart}`;
+  let path2 = `M ${xStart} ${yStart + 18}`;
+  let path3 = `M ${xStart} ${yStart + 36}`;
+  let path4 = `M ${xStart} ${yStart + 54}`;
+  const segLen = length / segments;
+
+  const dots: { x: number; y: number }[] = [];
+  for (let i = 0; i < segments; i++) {
+    const nextX = xStart + (i + 1) * segLen;
+    const ctrlX = xStart + (i + 0.5) * segLen;
+    const wave = i % 2 === 0 ? 14 : -14;
+    
+    path1 = `${path1} Q ${ctrlX} ${yStart + wave}, ${nextX} ${yStart}`;
+    path2 = `${path2} Q ${ctrlX} ${yStart + 18 + wave}, ${nextX} ${yStart + 18}`;
+    path3 = `${path3} Q ${ctrlX} ${yStart + 36 + wave}, ${nextX} ${yStart + 36}`;
+    path4 = `${path4} Q ${ctrlX} ${yStart + 54 + wave}, ${nextX} ${yStart + 54}`;
+
+    dots.push({ x: round(ctrlX), y: round(yStart + 9 + wave * 0.5) });
+    dots.push({ x: round(ctrlX), y: round(yStart + 27 + wave * 0.5) });
+    dots.push({ x: round(ctrlX), y: round(yStart + 45 + wave * 0.5) });
+  }
+
+  return { line1: path1, line2: path2, line3: path3, line4: path4, dots };
 }
 
 export default function CulturalPattern({
@@ -122,9 +168,11 @@ export default function CulturalPattern({
   const motif3Id = `pw-motif-3-${uid}`;
 
   const fixedSnakes = [
-    generateFixedLongSnakePath(0, 25, 1200, 12),
-    generateFixedLongSnakePath(0, 48, 1200, 12),
+    { path1: generateFixedLongSnakePath(0, 25, 1200, 12), path2: generateFixedLongSnakePath(0, 48, 1200, 12), dots: generateSnakeMiddleDotPoints(0, 25, 48, 1200, 12) },
   ];
+
+  const rightSidePattern = generateExtendedSidePatternPath(0, 0, 750, 16);
+  const leftSidePattern = generateExtendedSidePatternPath(0, 0, 750, 16);
 
   const layout = useMemo(() => {
     const rand = mulberry32(seedFrom(`pattern-${variant}`));
@@ -141,7 +189,14 @@ export default function CulturalPattern({
       ...(motif3Config ?? []).map((pt) => ({ x: pt.x ?? 100, y: pt.y ?? 480, type: motif3Id, scale: 1.25, speed: 24, dir: "normal" })),
     ];
 
-    const hypnoticSpirals = (spiralsConfig ?? []).map((pt) => ({
+    const effectiveSpiralsConfig = 
+      spiralsConfig !== undefined 
+        ? spiralsConfig 
+        : variant === "heritage" 
+          ? [{ x: 150, y: 250 }, { x: 1050, y: 550 }] 
+          : [];
+
+    const hypnoticSpirals = effectiveSpiralsConfig.map((pt) => ({
       x: pt.x ?? 120,
       y: pt.y ?? 220,
       turns: 4.8, radius: 75, speed: 4.0, rot: round(rand() * 360),
@@ -215,6 +270,10 @@ export default function CulturalPattern({
         @keyframes dashTravelForward {
           from { stroke-dashoffset: 0; }
           to { stroke-dashoffset: -50; }
+        }
+        @keyframes blinkSequence {
+          0%, 100% { opacity: 0.2; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.2); }
         }
         .draw-hypnotic-spiral {
           stroke-dasharray: 1000;
@@ -305,10 +364,10 @@ export default function CulturalPattern({
         </defs>
 
         <g>
-          {fixedSnakes.map((pathData, i) => (
+          {fixedSnakes.map((snake, i) => (
             <g key={`fixed-snake-${i}`}>
               <path
-                d={pathData}
+                d={snake.path1}
                 fill="none"
                 stroke="#E85D26"
                 strokeWidth="2"
@@ -319,7 +378,7 @@ export default function CulturalPattern({
                 style={{ animationDuration: `${16 + i * 4}s` }}
               />
               <path
-                d={pathData}
+                d={snake.path2}
                 fill="none"
                 stroke="#FF8C42"
                 strokeWidth="1.2"
@@ -329,8 +388,120 @@ export default function CulturalPattern({
                 className="cultural-vertical-snake"
                 style={{ animationDuration: `${16 + i * 4}s` }}
               />
+              {snake.dots.map((dot, di) => (
+                <circle
+                  key={`snake-dot-${i}-${di}`}
+                  cx={dot.x}
+                  cy={dot.y}
+                  r="2.5"
+                  fill="#FF7A3D"
+                  style={{
+                    animation: `blinkSequence 1.5s infinite ease-in-out`,
+                    animationDelay: `${di * 0.12}s`,
+                    transformOrigin: `${dot.x}px ${dot.y}px`,
+                  }}
+                />
+              ))}
             </g>
           ))}
+
+          {/* Extended Left-Side Pattern Sweeping Upward at -45 deg */}
+          <g transform="translate(20, 780) rotate(-75)">
+            <path
+              d={leftSidePattern.line1}
+              fill="none"
+              stroke="#E85D26"
+              strokeWidth="2"
+              strokeDasharray="6 4"
+              opacity="0.4"
+            />
+            <path
+              d={leftSidePattern.line2}
+              fill="none"
+              stroke="#FF8C42"
+              strokeWidth="2.5"
+              strokeDasharray="3 6"
+              opacity="0.8"
+            />
+            <path
+              d={leftSidePattern.line3}
+              fill="none"
+              stroke="#FF7A3D"
+              strokeWidth="2"
+              strokeDasharray="4 4"
+              opacity="0.6"
+            />
+            <path
+              d={leftSidePattern.line4}
+              fill="none"
+              stroke="#E85D26"
+              strokeWidth="1.5"
+              opacity="0.5"
+            />
+            {leftSidePattern.dots.map((dot, ldi) => (
+              <circle
+                key={`ls-dot-${ldi}`}
+                cx={dot.x}
+                cy={dot.y}
+                r="2.2"
+                fill="#FF6B35"
+                style={{
+                  animation: `blinkSequence 1.2s infinite ease-in-out`,
+                  animationDelay: `${ldi * 0.1}s`,
+                  transformOrigin: `${dot.x}px ${dot.y}px`,
+                }}
+              />
+            ))}
+          </g>
+
+          {/* Extended Right-Side Pattern Sweeping Upward at -105 deg */}
+          <g transform="translate(1180, 780) rotate(-105)">
+            <path
+              d={rightSidePattern.line1}
+              fill="none"
+              stroke="#E85D26"
+              strokeWidth="2"
+              strokeDasharray="6 4"
+              opacity="0.4"
+            />
+            <path
+              d={rightSidePattern.line2}
+              fill="none"
+              stroke="#FF8C42"
+              strokeWidth="2.5"
+              strokeDasharray="3 6"
+              opacity="0.8"
+            />
+            <path
+              d={rightSidePattern.line3}
+              fill="none"
+              stroke="#FF7A3D"
+              strokeWidth="2"
+              strokeDasharray="4 4"
+              opacity="0.6"
+            />
+            <path
+              d={rightSidePattern.line4}
+              fill="none"
+              stroke="#E85D26"
+              strokeWidth="1.5"
+              opacity="0.5"
+            />
+            {rightSidePattern.dots.map((dot, rdi) => (
+              <circle
+                key={`rs-dot-${rdi}`}
+                cx={dot.x}
+                cy={dot.y}
+                r="2.2"
+                fill="#FF6B35"
+                style={{
+                  animation: `blinkSequence 1.2s infinite ease-in-out`,
+                  animationDelay: `${rdi * 0.1}s`,
+                  transformOrigin: `${dot.x}px ${dot.y}px`,
+                }}
+              />
+            ))}
+          </g>
 
           {layout.circularDotMotifs.map((motif, mi) => {
             const dots = generateGraduatedCircularDots(motif.cx, motif.cy, motif.rings, motif.startR, motif.gap);

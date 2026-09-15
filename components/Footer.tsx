@@ -8,7 +8,17 @@ export default function Footer() {
 
   return (
     <footer className="relative overflow-hidden bg-navy text-sand border-t border-ochre/30 mt-auto">
-      <CulturalPattern variant="footer" className="cultural-pattern--footer" />
+      {/* <CulturalPattern variant="footer" className="cultural-pattern--footer" /> */}
+      <CulturalPattern 
+        variant="footer"
+        motif1Config={[{ x: -920, y: 150 }]}
+        motif2Config={[{ x: 2200, y: 650 }]}
+        motif3Config={[{ x: -920, y: 460 }]}
+        dotsConfig={[{ x: 390, y: 200 }, { x: 2070, y: 300 }]}
+        spiralsConfig={[{ x: 500, y: 200 }]}
+        uShapeConfig={[{ x: -1040 , y: 700 }]}
+        showFeet
+      />
       <div aria-hidden="true" className="cultural-background cultural-background--footer" />
       <div className="absolute inset-0 bg-navy/78" />
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-16">
