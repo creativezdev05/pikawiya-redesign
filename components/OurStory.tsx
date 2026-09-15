@@ -237,7 +237,7 @@ export default function OurStory() {
       {/* Snap Scroll Viewport with perspective container */}
       <div className="relative z-10 h-screen w-full overflow-y-scroll snap-y snap-mandatory no-scrollbar [perspective:1200px]">
         {storyMilestones.map((milestone, index) => (
-          <div
+          <motion.div
             key={milestone.id}
             onViewportEnter={() => setActiveCardIndex(index)}
             className="flex h-screen w-full items-center justify-center p-4 sm:p-8 snap-center snap-always"
@@ -295,7 +295,7 @@ export default function OurStory() {
                 </div>
               </div>
             </motion.article>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

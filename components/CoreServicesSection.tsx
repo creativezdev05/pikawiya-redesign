@@ -23,7 +23,7 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
       {/* Background Cultural Elements - Updated variant to core-service for matching consistent pattern layout */}
       {/* <CulturalPattern variant="core-service" showFeet /> */}
       <CulturalPattern 
-        variant="core-services"
+        variant="core-service"
         motif1Config={[{ x: 95, y: -80 }]}
         motif2Config={[{ x: 1050, y: 800 }]}
         motif3Config={[{ x: 100, y: 500 }]}

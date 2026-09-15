@@ -40,7 +40,7 @@ export default function AboutSection() {
       {/* 1. WHO WE ARE — Deep Navy with Layered Card Highlights */}
       <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
         <CulturalPattern 
-        variant="core-services"
+        variant="about"
         motif1Config={[{ x: -30, y: 150 }]}
         motif2Config={[{ x: 1200, y: 650 }]}
         motif3Config={[{ x: -20, y: 460 }]}
@@ -225,15 +225,15 @@ export default function AboutSection() {
       {/* 3. VALUES — Modern Dark Flashlight Grid */}
       <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
         <CulturalPattern 
-        variant="values"
-        motif1Config={[{ x: -30, y: 150 }]}
-        motif2Config={[{ x: 1300, y: 650 }]}
-        motif3Config={[{ x: -50, y: 460 }]}
-        dotsConfig={[{ x: 130, y: 200 }, { x: 1170, y: 200 }]}
-        spiralsConfig={[{ x: 300, y: 400 }]}
-        uShapeConfig={[{ x: -40 , y: 700 }]}
-        showFeet
-      />
+          variant="values"
+          motif1Config={[{ x: -30, y: 150 }]}
+          motif2Config={[{ x: 1300, y: 650 }]}
+          motif3Config={[{ x: -50, y: 460 }]}
+          dotsConfig={[{ x: 130, y: 200 }, { x: 1170, y: 200 }]}
+          spiralsConfig={[{ x: 300, y: 400 }]}
+          uShapeConfig={[{ x: -40 , y: 700 }]}
+          showFeet
+        />
         <div aria-hidden="true" className="cultural-background cultural-background--values" />
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
 
