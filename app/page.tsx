@@ -27,6 +27,8 @@ import PageTitle from "@/components/PageTitle";
 import TrLogo from "@/components/TrLogo";
 import PatternField from "@/components/PatternField";
 import PartnersTicker from "@/components/PartnersTicker";
+import ButtonLink from "@/components/ButtonLink";
+import FlashlightContainer from "@/components/FlashlightContainer";
 
 const mainServices = [
   {
@@ -357,13 +359,6 @@ const handleTouchEnd = () => {
         <CulturalPattern variant="services" showFeet />
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-<div className="relative mt-6 mb-4 md:mt-4 md:mb-6 h-[7.5rem] md:h-[9.5rem] flex justify-end -mr-4 md:-mr-8">
-  <TrLogo 
-    motion="wave" 
-    placement="tr" 
-    className="tr-logo--core h-full w-auto scale-110 md:scale-200 origin-right -translate-x-12 translate-y-3 md:-translate-x-18 md:translate-y-5" 
-  />
-</div>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 gap-6">
             <div className="max-w-2xl space-y-4">
               <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
@@ -377,12 +372,16 @@ const handleTouchEnd = () => {
                 <strong className="accent-text">respect, cultural safety</strong>, and community control.
               </p>
             </div>
-            <Link
+            <ButtonLink href="/services"
+              className="btn-ochre inline-flex items-center justify-center gap-2 self-start md:self-auto px-6 py-3.5 text-sm font-semibold rounded-md transition">
+              View All Services &nbsp;<ArrowRight className="w-4 h-4" />
+            </ButtonLink>
+            {/* <Link
               href="/services"
               className="btn-ochre inline-flex items-center justify-center gap-2 self-start md:self-auto px-6 py-3.5 text-sm font-semibold rounded-md transition"
             >
               View All Services <ArrowRight className="w-4 h-4" />
-            </Link>
+            </Link> */}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
@@ -454,7 +453,7 @@ const handleTouchEnd = () => {
             />
             {/* Stylish name banner */}
             <div className="absolute bottom-5 left-5 right-5">
-              <div className="relative overflow-hidden bg-navy/92 border-l-4 border-ochre px-5 py-4 backdrop-blur-sm shadow-lg">
+              <FlashlightContainer className="relative overflow-hidden bg-navy/92 border-l-4 border-ochre px-5 py-4 backdrop-blur-sm shadow-lg">
                 <div
                   aria-hidden="true"
                   className="absolute inset-0 opacity-20 pointer-events-none"
@@ -469,7 +468,7 @@ const handleTouchEnd = () => {
                 <p className="relative text-white text-base md:text-lg font-semibold mt-1">
                   Chief Executive Officer
                 </p>
-              </div>
+              </FlashlightContainer>
             </div>
           </div>
         </div>
@@ -527,7 +526,9 @@ const handleTouchEnd = () => {
       <section className="relative overflow-hidden landing-ink py-20 md:py-28 px-6 md:px-10">
         <CulturalPattern variant="contact" showFeet />
         <div aria-hidden="true" className="cultural-background cultural-background--contact" />
-        <div className="absolute inset-0 z-0 landing-ink-veil" />
+        <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
+
+        {/* <div className="absolute inset-0 z-0 landing-ink-veil" /> */}
         <div className="relative z-10 max-w-5xl mx-auto">
           <div className="text-center mb-10 space-y-4">
             <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">

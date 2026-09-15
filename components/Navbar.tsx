@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, CalendarCheck, Phone } from "lucide-react";
+import ButtonLink from "@/components/ButtonLink";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,13 +62,13 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-2.5 shrink-0">
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-ochre hover:bg-ochre-dark text-white text-xs font-semibold transition"
-          >
-            <CalendarCheck className="w-4 h-4" />
+          <ButtonLink href="/contact"
+            className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-ochre hover:bg-ochre-dark text-white text-xs font-semibold transition">
+            <CalendarCheck className="w-4 h-4" />&nbsp;
             Book Appointment
-          </Link>
+          </ButtonLink>
+          
+          
           <a
             href="tel:0886429991"
             className="inline-flex items-center gap-2 px-3.5 py-2.5 border border-ochre/60 text-ochre hover:bg-ochre/10 text-xs font-semibold transition"

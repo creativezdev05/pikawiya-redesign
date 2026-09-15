@@ -87,15 +87,6 @@ export default function AboutPage() {
       <div className="relative mt-6 mb-4 md:mt-4 md:mb-6 h-[7.5rem] md:h-[9.5rem] flex justify-end -mr-16 md:-mr-20">
         <TrLogo motion="wave" placement="tr" className="tr-logo--core h-full w-auto scale-110 md:scale-200 origin-right" />
       </div>
-      {/* Purpose Highlight Banner */}
-      <div className="bg-ochre/10 border border-ochre/30 rounded-2xl p-8 md:p-10 text-center max-w-4xl mx-auto">
-        <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
-          Our Purpose
-        </span>
-        <p className="text-2xl md:text-3xl font-bold text-ink mt-2 leading-snug">
-          “To provide health care our way to our people so our community is healthy at every age.”
-        </p>
-      </div>
 
       {/* Culture & Artwork Banner (Original Content) */}
       <div className="contrast-card grid md:grid-cols-2 gap-12 items-center bg-earth text-sand p-8 md:p-12 rounded-2xl shadow-xl border border-transparent">

@@ -8,7 +8,6 @@ type CulturalPatternProps = {
   showFeet?: boolean;
 };
 
-/** Deterministic seed from variant — stable across SSR, different per section */
 function seedFrom(str: string) {
   let h = 2166136261;
   for (let i = 0; i < str.length; i++) {
@@ -30,339 +29,385 @@ function mulberry32(seed: number) {
 
 const round = (n: number) => Math.round(n * 10) / 10;
 
-function ringDots(cx: number, cy: number, rings: number, startR: number, gap: number, density = 8) {
+function ringDots(cx: number, cy: number, rings: number, startR: number, gap: number) {
   const pts: { x: number; y: number; r: number }[] = [];
   for (let ring = 0; ring < rings; ring++) {
     const radius = startR + ring * gap;
-    const count = Math.max(6, Math.round(density + ring * 3.5));
+    const count = Math.max(8, Math.round(10 + ring * 4));
     for (let i = 0; i < count; i++) {
       const a = (i / count) * Math.PI * 2;
       pts.push({
         x: round(cx + Math.cos(a) * radius),
         y: round(cy + Math.sin(a) * radius),
-        r: ring === 0 ? 2.1 : 1.5,
+        r: ring === 0 ? 3.0 : 2.2,
       });
     }
   }
-  pts.push({ x: round(cx), y: round(cy), r: 2.8 });
+  pts.push({ x: round(cx), y: round(cy), r: 3.8 });
   return pts;
 }
 
-/** Vertical flame-like column: bright at bottom, fading upward */
-function flameColumn(x: number, yBottom: number, height: number, count: number) {
-  return Array.from({ length: count }, (_, i) => {
-    const t = i / (count - 1);
-    const sway = Math.sin(t * Math.PI * 2.2 + x * 0.01) * (8 + t * 10);
-    return {
-      x: x + sway,
-      y: yBottom - t * height,
-      r: 2.4 - t * 1.2,
-      // bottom bright first, wave travels upward
-      delay: i * 0.14,
-    };
-  });
+function generateArcSnakePath(xBase: number, yBase: number, radius = 35, turns = 6, rotDeg = 0) {
+  let path = `M 0 0`;
+  for (let i = 0; i < turns; i++) {
+    const sweep = i % 2 === 0 ? 1 : 0;
+    const yTarget = (i + 1) * radius * 2;
+    path += ` A ${radius} ${radius} 0 0 ${sweep} 0 ${yTarget}`;
+  }
+  return { path, xBase: round(xBase), yBase: round(yBase), rotDeg: round(rotDeg) };
+}
+
+function generateHandmadeSpiralPath(turns = 3.5, maxR = 65) {
+  const pts: string[] = [];
+  const steps = Math.round(turns * 24);
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const angle = t * turns * Math.PI * 2;
+    const r = t * maxR;
+    const x = round(Math.cos(angle) * r);
+    const y = round(Math.sin(angle) * r);
+    if (i === 0) pts.push(`M ${x} ${y}`);
+    else pts.push(`L ${x} ${y}`);
+  }
+  return pts.join(" ");
+}
+
+function generateUShapePath(width: number, height: number) {
+  const r = width / 2;
+  return `M 0 0 L 0 ${height - r} A ${r} ${r} 0 0 0 ${width} ${height - r} L ${width} 0`;
 }
 
 export default function CulturalPattern({
   className = "",
   variant = "about",
-  showFeet = false,
+  showFeet = true,
 }: CulturalPatternProps) {
   const uid = useId().replace(/:/g, "");
-  const footId = `pw-foot-${uid}`;
+  const footRightId = `pw-foot-right-${uid}`;
   const handId = `pw-hand-${uid}`;
 
   const layout = useMemo(() => {
     const rand = mulberry32(seedFrom(variant));
-    const pick = <T,>(arr: T[]) => arr[Math.floor(rand() * arr.length)];
 
-    // Walking path — right → left (RTL)
-    const startY = 560 + rand() * 100;
-    const footCount = showFeet ? 5 : 0;
-    const footprints = Array.from({ length: footCount }, (_, i) => {
-      const t = i / Math.max(footCount - 1, 1);
-      return {
-        x: round(1080 - t * 920),
-        y: round(startY + Math.sin(t * Math.PI * 0.85 + rand()) * 18 - t * 40),
-      };
-    });
-
-    const spiralCount = variant === "vision" ? 2 : 2 + Math.floor(rand() * 2);
-
-  const spirals = Array.from({ length: spiralCount }, (_, i) => {
-    const onRight = i % 2 === 1;
-
-    // Custom positioning specifically for the "vision" variant
-    if (variant === "vision") {
-      return {
-        // Adjust horizontal position (X-axis: 0 to 1200)
-        cx: round(onRight ? 950 : 250), 
-        // Adjust vertical position (Y-axis: 0 to 800)
-        cy: round(onRight ? 100 : 350), 
-        rings: 4,
-        startR: 10,
-        gap: 14,
-      };
-    }
-
-    
-
-    // Default positioning for all other variants
-    return {
-      cx: round(onRight ? 980 + rand() * 160 : 70 + rand() * 140),
-      cy: round(i < 2 ? 90 + rand() * 160 : 520 + rand() * 180),
-      rings: 3 + Math.floor(rand() * 3),
-      startR: round(8 + rand() * 6),
-      gap: round(11 + rand() * 5),
+    // Three horizontal placement bands across full 1200px width
+    const pickX = (zone: "left" | "center" | "right") => {
+      if (zone === "left") return round(50 + rand() * 250);
+      if (zone === "center") return round(450 + rand() * 300);
+      return round(880 + rand() * 250);
     };
-  });
 
-    // Flame columns rising bottom → top
-    const flameCount = 3 + Math.floor(rand() * 3);
-    const flames = Array.from({ length: flameCount }, () => {
-      const col = flameColumn(
-        round(80 + rand() * 1040),
-        round(720 + rand() * 40),
-        round(220 + rand() * 180),
-        10 + Math.floor(rand() * 4)
-      );
-      return col.map((d) => ({ ...d, x: round(d.x), y: round(d.y), r: round(d.r) }));
-    });
+    // 1. Dot Spirals (Left, Center & Right)
+    const spirals = [
+      { cx: pickX("left"), cy: round(140 + rand() * 180), rings: 4, startR: 12, gap: 14 },
+      { cx: pickX("center"), cy: round(360 + rand() * 160), rings: 5, startR: 14, gap: 16 },
+      { cx: pickX("right"), cy: round(480 + rand() * 200), rings: 4, startR: 12, gap: 14 },
+    ];
 
-    // Fewer handprints — 0–1 most of the time, rarely 2
-    const showHands = pick([false, false, false, true]);
-    const handCount = showHands ? (rand() > 0.7 ? 2 : 1) : 0;
-    const hands = Array.from({ length: handCount }, () => ({
-      x: round(100 + rand() * 1000),
-      y: round(120 + rand() * 480),
-      rot: round(-35 + rand() * 70),
-      scale: round(1.05 + rand() * 0.55),
-      flip: rand() > 0.5,
-    }));
+    // 2. Stroke Spirals (Distributed)
+    const handmadeSpirals = [
+      {
+        x: pickX("right"),
+        y: round(120 + rand() * 160),
+        rot: round(rand() * 360),
+        scale: round(0.9 + rand() * 0.3),
+        path: generateHandmadeSpiralPath(3.5, 65),
+      },
+      {
+        x: pickX("left"),
+        y: round(440 + rand() * 200),
+        rot: round(rand() * 360),
+        scale: round(0.9 + rand() * 0.3),
+        path: generateHandmadeSpiralPath(3.5, 65),
+      },
+      {
+        x: pickX("center"),
+        y: round(600 + rand() * 140),
+        rot: round(rand() * 360),
+        scale: round(0.8 + rand() * 0.3),
+        path: generateHandmadeSpiralPath(3.0, 55),
+      },
+    ];
 
-    const showLogo = false;
-    const logoPos = pick(["tr", "tl", "br"] as const);
+    // 3. Snake Arc Waves (Left, Center, Right)
+    const snakes = [
+      generateArcSnakePath(pickX("left"), round(40 + rand() * 100), round(24 + rand() * 8), 5, round(-15 + rand() * 30)),
+      generateArcSnakePath(pickX("center"), round(180 + rand() * 140), round(28 + rand() * 8), 4, round(-25 + rand() * 50)),
+      generateArcSnakePath(pickX("right"), round(80 + rand() * 120), round(24 + rand() * 8), 5, round(-15 + rand() * 30)),
+    ];
 
-    return { footprints, spirals, flames, hands, showFeet, showHands: handCount > 0, showLogo, logoPos };
+    // 4. U-Shapes (Community meeting icons)
+    const uShapes = [
+      { x: pickX("left"), y: round(280 + rand() * 180), rot: round(rand() * 360), scale: round(0.85 + rand() * 0.3), layers: 4 },
+      { x: pickX("center"), y: round(150 + rand() * 200), rot: round(rand() * 360), scale: round(0.95 + rand() * 0.3), layers: 5 },
+      { x: pickX("right"), y: round(320 + rand() * 220), rot: round(rand() * 360), scale: round(0.85 + rand() * 0.3), layers: 4 },
+    ];
+
+    // 5. Handprints (Left, Center, Right)
+    const hands = [
+      { x: pickX("left"), y: round(160 + rand() * 450), rot: round(-30 + rand() * 60), scale: round(1.1 + rand() * 0.3), flip: false },
+      { x: pickX("center"), y: round(480 + rand() * 250), rot: round(-20 + rand() * 40), scale: round(1.2 + rand() * 0.3), flip: true },
+      { x: pickX("right"), y: round(180 + rand() * 450), rot: round(-30 + rand() * 60), scale: round(1.1 + rand() * 0.3), flip: true },
+    ];
+
+    // 6. Dual Vertical Human Footprint Trails (Stepping up Left AND Right margins simultaneously)
+    const footCountPerSide = showFeet ? 10 : 0;
+    
+    const buildTrail = (baseX: number) => {
+      return Array.from({ length: footCountPerSide }, (_, i) => {
+        const t = i / Math.max(footCountPerSide - 1, 1);
+        const isLeft = i % 2 === 0;
+        const strideOffset = isLeft ? -16 : 16;
+        return {
+          x: round(baseX + strideOffset + Math.sin(t * Math.PI) * 12),
+          y: round(740 - t * 680),
+          isLeft,
+        };
+      });
+    };
+
+    const leftFootprints = buildTrail(round(120 + rand() * 80));
+    const rightFootprints = buildTrail(round(1000 + rand() * 80));
+
+    return {
+      spirals,
+      handmadeSpirals,
+      snakes,
+      uShapes,
+      hands,
+      leftFootprints,
+      rightFootprints,
+      showFeet,
+    };
   }, [variant, showFeet]);
 
   return (
     <div aria-hidden="true" className={`cultural-pattern cultural-pattern--${variant} ${className}`}>
-      <div className="cultural-pattern__dotfield" />
-
-      {layout.showLogo && (
-        <img
-          src="/assets/PWHS_Logo_Mark.png"
-          alt=""
-          className={`cultural-pattern__logo cultural-pattern__logo--${layout.logoPos}`}
-          draggable={false}
-        />
-      )}
+      <div className="cultural-pattern__dotfield opacity-30" />
 
       <svg
-        className="cultural-pattern__canvas"
+        className="cultural-pattern__canvas overflow-visible"
         viewBox="0 0 1200 800"
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
-          <g id={footId}>
-            <ellipse cx="0" cy="1" rx="14" ry="20" fill="#E85D26" opacity="0.12" />
+          {/* Human Footprint Pointing Upward */}
+          <g id={footRightId}>
             <path
-              d="M-1.5 -20
-                 C-9 -20 -13 -13 -13 -5
-                 C-13 4 -10 11 -7 15
-                 C-4 19 -1.5 21 0 21
-                 C1.5 21 4 19 7 15
-                 C10 11 13 4 13 -5
-                 C13 -13 9 -20 1.5 -20
-                 C0.5 -20 -0.5 -20 -1.5 -20Z"
+              d="M 0 18 
+                 C -6 18, -10 12, -10 4 
+                 C -10 -4, -6 -9, -4 -12 
+                 C -3 -13.5, -4.5 -18, -7 -22 
+                 C -9 -25, -7 -29, -2 -31 
+                 C 3 -33, 8 -30, 9 -23 
+                 C 10 -16, 7 -10, 4 -4 
+                 C 2 2, 7 8, 7 13 
+                 C 7 16, 4 18, 0 18 Z"
               fill="#E85D26"
-              opacity="0.45"
+              opacity="0.85"
             />
-            <path
-              d="M-1 -16
-                 C-6.5 -16 -9 -11 -9 -5
-                 C-9 3 -7 9 -4.5 13
-                 C-2.5 16 -0.8 17.5 0 17.5
-                 C0.8 17.5 2.5 16 4.5 13
-                 C7 9 9 3 9 -5
-                 C9 -11 6.5 -16 1 -16Z"
-              fill="#C25324"
-              opacity="0.55"
-            />
-            <circle cx="0" cy="11" r="6.5" fill="none" stroke="#FFB070" strokeWidth="1.3" opacity="0.95" />
-            <circle cx="0" cy="11" r="4.2" fill="none" stroke="#FFD0A8" strokeWidth="1.15" />
-            <circle cx="0" cy="11" r="2.2" fill="none" stroke="#FFE8D0" strokeWidth="1" />
-            <circle cx="0" cy="11" r="0.9" fill="#FFF5EB" />
-            <circle cx="0" cy="-3" r="5" fill="none" stroke="#FFB070" strokeWidth="1.15" opacity="0.9" />
-            <circle cx="0" cy="-3" r="2.8" fill="none" stroke="#FFD0A8" strokeWidth="1" />
-            <circle cx="0" cy="-3" r="1.1" fill="#FFE8D0" />
-            <circle cx="-5" cy="4" r="1.15" fill="#FFC090" />
-            <circle cx="5" cy="4" r="1.15" fill="#FFC090" />
-            <circle cx="-4.5" cy="-10" r="1.05" fill="#FFE0C0" />
-            <circle cx="4.5" cy="-10" r="1.05" fill="#FFE0C0" />
-            <circle cx="0" cy="-11" r="1.05" fill="#FFE0C0" />
-            <circle cx="-8" cy="-22" r="2.6" fill="#E85D26" opacity="0.9" />
-            <circle cx="-4" cy="-24.5" r="2.8" fill="#E85D26" opacity="0.95" />
-            <circle cx="0" cy="-25.5" r="2.9" fill="#E85D26" />
-            <circle cx="4" cy="-24.5" r="2.8" fill="#E85D26" opacity="0.95" />
-            <circle cx="8" cy="-22" r="2.6" fill="#E85D26" opacity="0.9" />
-            <circle cx="-8" cy="-22" r="0.95" fill="#FFD0A8" />
-            <circle cx="-4" cy="-24.5" r="1" fill="#FFD0A8" />
-            <circle cx="0" cy="-25.5" r="1.05" fill="#FFE8D0" />
-            <circle cx="4" cy="-24.5" r="1" fill="#FFD0A8" />
-            <circle cx="8" cy="-22" r="0.95" fill="#FFD0A8" />
+            <ellipse cx="-4" cy="-35" rx="3.2" ry="4" fill="#E85D26" opacity="0.9" />
+            <ellipse cx="1" cy="-34" rx="2.4" ry="3" fill="#E85D26" opacity="0.9" />
+            <ellipse cx="5" cy="-32" rx="2.1" ry="2.6" fill="#E85D26" opacity="0.9" />
+            <ellipse cx="8.5" cy="-29.5" rx="1.8" ry="2.2" fill="#E85D26" opacity="0.9" />
+            <ellipse cx="11.5" cy="-26.5" rx="1.5" ry="1.9" fill="#E85D26" opacity="0.9" />
           </g>
 
-          {/* Realistic human hand stencil (Aboriginal rock-art style) */}
           <g id={handId}>
-            {/* Palm */}
             <path
-              d="M-11 8
-                 C-13 2 -12 -4 -9 -8
-                 C-6 -11 -2 -12 2 -11
-                 C7 -10 11 -6 12 -1
-                 C13 5 12 12 10 18
-                 C8 24 4 28 0 29
-                 C-5 30 -10 24 -11 18
-                 C-12 14 -11 10 -11 8Z"
+              d="M-11 8 C-13 2 -12 -4 -9 -8 C-6 -11 -2 -12 2 -11 C7 -10 11 -6 12 -1 C13 5 12 12 10 18 C8 24 4 28 0 29 C-5 30 -10 24 -11 18 Z"
               fill="#E85D26"
-              opacity="0.7"
+              opacity="0.85"
             />
-            {/* Thumb */}
-            <path
-              d="M-9 -6
-                 C-14 -8 -18 -4 -19 1
-                 C-20 6 -17 10 -13 9
-                 C-10 8 -8 4 -8 0
-                 C-8 -3 -8 -5 -9 -6Z"
-              fill="#E85D26"
-              opacity="0.7"
-            />
-            {/* Index */}
-            <path
-              d="M-6 -10 C-7 -22 -6 -32 -4.5 -34 C-2.5 -36 -1 -32 -1 -20 L-1.5 -10 C-3 -11 -5 -11 -6 -10Z"
-              fill="#E85D26"
-              opacity="0.7"
-            />
-            {/* Middle */}
-            <path
-              d="M0 -11 C-0.5 -24 0 -36 1.5 -38 C3.5 -40 5 -35 5 -22 L4 -11 C2.5 -12 1 -12 0 -11Z"
-              fill="#E85D26"
-              opacity="0.72"
-            />
-            {/* Ring */}
-            <path
-              d="M6 -10 C6.5 -22 7 -32 8.5 -34 C10.5 -36 12 -31 11.5 -19 L10 -10 C8.5 -11 7 -11 6 -10Z"
-              fill="#E85D26"
-              opacity="0.7"
-            />
-            {/* Pinky */}
-            <path
-              d="M11 -6 C12.5 -16 13 -24 14.5 -25.5 C16 -27 17 -23 16 -14 L14 -6 C13 -7 12 -7 11 -6Z"
-              fill="#E85D26"
-              opacity="0.68"
-            />
+            <path d="M-6 -10 L-4.5 -34 C-2.5 -36 -1 -32 -1 -20 L-1.5 -10 Z" fill="#E85D26" opacity="0.85" />
+            <path d="M0 -11 L1.5 -38 C3.5 -40 5 -35 5 -22 L4 -11 Z" fill="#E85D26" opacity="0.9" />
           </g>
         </defs>
 
-        {/* Sky spirals */}
-{layout.spirals.map((sp, si) => {
-  const dots = ringDots(sp.cx, sp.cy, sp.rings, sp.startR, sp.gap, 7);
-  return (
-    <g 
-      key={`sky-${si}`} 
-      className="cultural-sky-spiral" 
-      style={{ animationDelay: `${-si * 1.5}s`, opacity: 1 }} /* <-- Ensure group opacity is 1 */
-    >
-      {dots.map((d, di) => (
-        <circle 
-          key={di} 
-          cx={d.x} 
-          cy={d.y} 
-          r={d.r} 
-          fill="#E85D26" 
-          opacity={0.85} /* <-- Increase individual dot opacity from hidden/low to 0.85 */
-        />
-      ))}
-    </g>
-  );
-})}
+        <g>
+          {/* Dot Spirals (Rotating & Breathing) */}
+          {layout.spirals.map((sp, si) => {
+            const dots = ringDots(sp.cx, sp.cy, sp.rings, sp.startR, sp.gap);
+            return (
+              <g
+                key={`sky-${si}`}
+                className="cultural-sky-spiral-rotate"
+                style={{
+                  transformOrigin: `${sp.cx}px ${sp.cy}px`,
+                  animationDuration: `${28 + si * 6}s`,
+                  animationDirection: si % 2 === 0 ? "normal" : "reverse",
+                }}
+              >
+                {dots.map((d, di) => (
+                  <circle
+                    key={di}
+                    cx={d.x}
+                    cy={d.y}
+                    r={d.r}
+                    fill="#FF6B35"
+                    opacity={0.85}
+                    className="cultural-dot-pulse"
+                    style={{ animationDelay: `${(di % 5) * 0.3}s` }}
+                  />
+                ))}
+              </g>
+            );
+          })}
 
-        {/* Flame-rise dots — bright at bottom, travel up & fade */}
-        {layout.flames.map((col, ci) => (
-          <g key={`flame-${ci}`} className="cultural-flame-col">
-            {col.map((d, di) => (
-              <circle
-                key={di}
-                cx={d.x}
-                cy={d.y}
-                r={d.r}
-                fill="#E85D26"
-                className="cultural-flame-dot"
-                style={{ animationDelay: `${-(ci * 0.6 + d.delay)}s` }}
+          {/* Handmade Stroke Spirals */}
+          {layout.handmadeSpirals.map((hs, hsi) => (
+            <g
+              key={`hm-spiral-${hsi}`}
+              transform={`translate(${hs.x}, ${hs.y}) rotate(${hs.rot}) scale(${hs.scale})`}
+              className="cultural-sky-spiral-rotate"
+              style={{
+                transformOrigin: "0px 0px",
+                animationDuration: `${22 + hsi * 5}s`,
+                animationDirection: hsi % 2 === 0 ? "reverse" : "normal",
+              }}
+            >
+              <path
+                d={hs.path}
+                fill="none"
+                stroke="#E85D26"
+                strokeWidth="4"
+                strokeDasharray="6 8"
+                strokeLinecap="round"
+                opacity="0.3"
+                className="cultural-vertical-snake"
+                style={{ animationDuration: `${10 + hsi * 3}s` }}
               />
-            ))}
-          </g>
-        ))}
+              <path
+                d={hs.path}
+                fill="none"
+                stroke="#FF8C42"
+                strokeWidth="2.5"
+                strokeDasharray="6 8"
+                strokeLinecap="round"
+                opacity="0.85"
+                className="cultural-vertical-snake"
+                style={{ animationDuration: `${10 + hsi * 3}s` }}
+              />
+            </g>
+          ))}
 
-        {/* Handprints */}
-        {layout.showHands &&
-          layout.hands.map((h, i) => (
+          {/* Arc Snakes (Flowing Animated Lines across all 3 zones) */}
+          {layout.snakes.map((snake, i) => (
+            <g
+              key={`arc-snake-${i}`}
+              transform={`translate(${snake.xBase}, ${snake.yBase}) rotate(${snake.rotDeg})`}
+            >
+              <path
+                d={snake.path}
+                fill="none"
+                stroke="#E85D26"
+                strokeWidth="5"
+                strokeDasharray="8 12"
+                strokeLinecap="round"
+                opacity="0.25"
+                className="cultural-vertical-snake"
+                style={{ animationDuration: `${14 + i * 4}s` }}
+              />
+              <path
+                d={snake.path}
+                fill="none"
+                stroke="#FF8C42"
+                strokeWidth="3"
+                strokeDasharray="8 12"
+                strokeLinecap="round"
+                opacity="0.85"
+                className="cultural-vertical-snake"
+                style={{ animationDuration: `${14 + i * 4}s` }}
+              />
+            </g>
+          ))}
+
+          {/* U-Shapes (Pulsing Meeting Symbols) */}
+          {layout.uShapes.map((u, ui) => (
+            <g
+              key={`ushape-${ui}`}
+              transform={`translate(${u.x}, ${u.y}) rotate(${u.rot}) scale(${u.scale})`}
+              className="cultural-u-shape-pulse"
+              style={{ animationDelay: `${-ui * 1.2}s` }}
+            >
+              {Array.from({ length: u.layers }, (_, l) => {
+                const w = 40 + l * 18;
+                const h = 50 + l * 18;
+                return (
+                  <path
+                    key={l}
+                    d={generateUShapePath(w, h)}
+                    fill="none"
+                    stroke="#FF7A3D"
+                    strokeWidth={3 - l * 0.4}
+                    strokeDasharray="6 8"
+                    strokeLinecap="round"
+                    opacity={0.85 - l * 0.15}
+                    transform={`translate(${-w / 2}, ${-h / 2})`}
+                  />
+                );
+              })}
+            </g>
+          ))}
+
+          {/* Handprints (Floating Drift Motion) */}
+          {layout.hands.map((h, i) => (
             <g
               key={`hand-${i}`}
-              className="cultural-handprint"
-              style={{ animationDelay: `${-i * 1.2}s` }}
+              className="cultural-hand-float"
+              style={{ animationDelay: `${-i * 1.5}s` }}
               transform={`translate(${h.x}, ${h.y}) rotate(${h.rot}) scale(${h.flip ? -h.scale : h.scale}, ${h.scale})`}
             >
               <use href={`#${handId}`} />
             </g>
           ))}
 
-        {/* Walking footprints — RTL path, toes face travel (not twisted) */}
-        {layout.showFeet && (
-          <g className="cultural-footprints">
-            {layout.footprints.map((fp, i) => {
-              const next = layout.footprints[Math.min(i + 1, layout.footprints.length - 1)];
-              const prev = layout.footprints[Math.max(i - 1, 0)];
-              // Direction of travel along RTL path (right → left)
-              const dx = i < layout.footprints.length - 1 ? next.x - fp.x : fp.x - prev.x;
-              const dy = i < layout.footprints.length - 1 ? next.y - fp.y : fp.y - prev.y;
-              // Toes drawn at -Y; +90 aligns them with travel direction in SVG
-              const angle = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
-              const side = i % 2 === 0 ? -11 : 11;
-              return (
-                <g
-                  key={`fp-${i}`}
-                  className="cultural-footprint"
-                  style={{ animationDelay: `${i * 0.55}s` }}
-                  transform={`translate(${fp.x + side}, ${fp.y}) rotate(${angle}) scale(1.3)`}
-                >
-                  <use href={`#${footId}`} />
-                </g>
-              );
-            })}
-          </g>
-        )}
-      </svg>
+          {/* Dual Footprint Trails (Left AND Right Margins) */}
+          {layout.showFeet && (
+            <>
+              {/* Left Side Trail */}
+              <g className="cultural-footprints-left">
+                {layout.leftFootprints.map((fp, i) => {
+                  const next = layout.leftFootprints[Math.min(i + 1, layout.leftFootprints.length - 1)];
+                  const prev = layout.leftFootprints[Math.max(i - 1, 0)];
+                  const dx = i < layout.leftFootprints.length - 1 ? next.x - fp.x : fp.x - prev.x;
+                  const dy = i < layout.leftFootprints.length - 1 ? next.y - fp.y : fp.y - prev.y;
+                  const angle = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
 
-      {/* Bottom rising spark strip */}
-      <svg className="cultural-pattern__songline-strip" viewBox="0 0 1200 48" preserveAspectRatio="none">
-        {Array.from({ length: 24 }, (_, i) => {
-          const x = 40 + i * 48;
-          const y = 34 - (i % 5) * 3;
-          return (
-            <circle
-              key={i}
-              cx={x}
-              cy={y}
-              r={2}
-              fill="currentColor"
-              className="cultural-flame-dot"
-              style={{ animationDelay: `${-i * 0.16}s` }}
-            />
-          );
-        })}
+                  return (
+                    <g
+                      key={`fp-left-${i}`}
+                      opacity="0.85"
+                      transform={`translate(${fp.x}, ${fp.y}) rotate(${angle}) scale(${fp.isLeft ? -0.85 : 0.85}, 0.85)`}
+                    >
+                      <use href={`#${footRightId}`} />
+                    </g>
+                  );
+                })}
+              </g>
+
+              {/* Right Side Trail */}
+              <g className="cultural-footprints-right">
+                {layout.rightFootprints.map((fp, i) => {
+                  const next = layout.rightFootprints[Math.min(i + 1, layout.rightFootprints.length - 1)];
+                  const prev = layout.rightFootprints[Math.max(i - 1, 0)];
+                  const dx = i < layout.rightFootprints.length - 1 ? next.x - fp.x : fp.x - prev.x;
+                  const dy = i < layout.rightFootprints.length - 1 ? next.y - fp.y : fp.y - prev.y;
+                  const angle = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
+
+                  return (
+                    <g
+                      key={`fp-right-${i}`}
+                      opacity="0.85"
+                      transform={`translate(${fp.x}, ${fp.y}) rotate(${angle}) scale(${fp.isLeft ? -0.85 : 0.85}, 0.85)`}
+                    >
+                      <use href={`#${footRightId}`} />
+                    </g>
+                  );
+                })}
+              </g>
+            </>
+          )}
+        </g>
       </svg>
     </div>
   );

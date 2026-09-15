@@ -4,6 +4,7 @@ import NextImage from "next/image";
 import Link from "next/link";
 import CulturalPattern from "./CulturalPattern";
 import PageTitle from "./PageTitle";
+import FlashlightContainer from "@/components/FlashlightContainer";
 
 export default function AboutSection() {
   const values = [
@@ -37,7 +38,8 @@ export default function AboutSection() {
       <section className="relative overflow-hidden landing-ink py-20 md:py-28 text-sand dark:text-ink">
         <CulturalPattern variant="about" showFeet />
         <div aria-hidden="true" className="cultural-background cultural-background--about" />
-        <div className="absolute inset-0 z-0 landing-ink-veil" />
+        <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
+        {/* <div className="absolute inset-0 z-0 landing-ink-veil" /> */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
           <div className="grid lg:grid-cols-[1.35fr_1fr] gap-12 lg:gap-16 items-center">
             <div className="space-y-6">
@@ -155,7 +157,9 @@ export default function AboutSection() {
       <section className="relative overflow-hidden landing-ink py-20 md:py-24 text-sand dark:text-ink">
         <CulturalPattern variant="values" />
         <div aria-hidden="true" className="cultural-background cultural-background--values" />
-        <div className="absolute inset-0 z-0 landing-ink-veil" />
+        {/* <div className="absolute inset-0 z-0 landing-ink-veil" /> */}
+        <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
+
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 space-y-12">
           <div className="max-w-2xl space-y-3">
             <span className="inline-flex items-center gap-2.5 text-ochre text-sm md:text-base font-bold uppercase tracking-[0.14em]">
@@ -173,7 +177,7 @@ export default function AboutSection() {
             {values.map((val) => {
               const IconComponent = val.icon;
               return (
-                <div
+                <FlashlightContainer
                   key={val.name}
                   className="border border-sand/15 bg-white/[0.03] p-6 space-y-4 hover:border-ochre/60 hover:bg-ochre/10 transition"
                 >
@@ -184,7 +188,7 @@ export default function AboutSection() {
                     <h4 className="text-lg font-bold text-white">{val.name}</h4>
                     <p className="text-sand/65 text-sm mt-1.5 leading-relaxed">{val.desc}</p>
                   </div>
-                </div>
+                </FlashlightContainer>
               );
             })}
           </div>
