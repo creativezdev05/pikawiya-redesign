@@ -20,8 +20,18 @@ export type ServiceItem = {
 export default function CoreServicesSection({ mainServices }: { mainServices: ServiceItem[] }) {
   return (
     <section className="relative overflow-hidden landing-ink py-16 md:py-28">
-      {/* Background Cultural Elements */}
-      <CulturalPattern variant="services" showFeet />
+      {/* Background Cultural Elements - Updated variant to core-service for matching consistent pattern layout */}
+      {/* <CulturalPattern variant="core-service" showFeet /> */}
+      <CulturalPattern 
+        variant="core-services"
+        motif1Config={[{ x: 95, y: -80 }]}
+        motif2Config={[{ x: 1050, y: 800 }]}
+        motif3Config={[{ x: 100, y: 500 }]}
+        dotsConfig={[{ x: 130, y: 200 }, { x: 1070, y: 300 }]}
+        spiralsConfig={[{ x: 300, y: 400 }]}
+        uShapeConfig={[{ x: 100, y: 900 }]}
+
+      />
       <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
       
       {/* Subtle Warm Backdrop Blur & Ambient Glow */}
@@ -111,11 +121,7 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
                           item.badgeBg || "bg-earth-dark/80 border-ochre/30"
                         }`}
                       >
-                        <Icon 
-                          className={`w-5 h-5 transition-transform duration-300 group-hover:rotate-6 ${
-                            item.iconColor || "text-ochre"
-                          }`} 
-                        />
+                        <ArrowUpRight className="w-4 h-4" />
                       </div>
                     </div>
                   </div>

@@ -11,6 +11,16 @@ export default function MissionSection() {
     <section className="relative overflow-hidden landing-paper py-20 md:py-32">
       {/* Background Cultural Motif */}
       <CulturalPattern variant="mission" className="cultural-pattern--light" />
+      <CulturalPattern 
+        variant="mission"
+        motif1Config={[{ x: -50, y: 150 }]}
+        motif2Config={[{ x: 1300, y: 650 }]}
+        motif3Config={[{ x: -65, y: 460 }]}
+        dotsConfig={[{ x: 130, y: 200 }, { x: 1270, y: 300 }]}
+        spiralsConfig={[{ x: 300, y: 400 }]}
+        uShapeConfig={[{ x: -80 , y: 700 }]}
+        showFeet
+      />
 
       {/* Ambient background glow accents */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-72 h-72 bg-ochre/5 rounded-full blur-3xl pointer-events-none" />

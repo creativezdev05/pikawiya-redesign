@@ -8,7 +8,17 @@ export default function ContactSection() {
   return (
     <section className="relative overflow-hidden landing-ink py-20 md:py-32 px-6 md:px-10 text-sand dark:text-ink">
       {/* Background Cultural Artwork */}
-      <CulturalPattern variant="contact" showFeet />
+      {/* <CulturalPattern variant="contact" showFeet /> */}
+      <CulturalPattern 
+          variant="contact"
+          motif1Config={[{ x: 30, y: 150 }]}
+          motif2Config={[{ x: 1150, y: 650 }]}
+          motif3Config={[{ x: 30, y: 460 }]}
+          dotsConfig={[{ x: 200, y: 200 }, { x: 1170, y: 200 }]}
+          spiralsConfig={[{ x: 300, y: 400 }]}
+          uShapeConfig={[{ x: 40 , y: 700 }]}
+          showFeet
+        />
       <div aria-hidden="true" className="cultural-background cultural-background--contact" />
       <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
 

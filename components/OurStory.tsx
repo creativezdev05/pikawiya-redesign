@@ -95,95 +95,6 @@ const storyMilestones: StoryMilestone[] = [
   },
 ];
 
-function MilestoneCard({
-  milestone,
-  index,
-  setActiveCardIndex,
-}: {
-  milestone: StoryMilestone;
-  index: number;
-  setActiveCardIndex: (i: number) => void;
-}) {
-  const cardRef = useRef<HTMLDivElement | null>(null);
-
-  // Track scroll progress specifically for this milestone section
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "end start"],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 30,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  // Slow, gradual scale from small (0.4) to full size (1) as you scroll through
-  const scale = useTransform(smoothProgress, [0.15, 0.55], [0.4, 1]);
-  const opacity = useTransform(smoothProgress, [0.1, 0.3], [0, 1]);
-
-  return (
-    <motion.div
-      ref={cardRef}
-      onViewportEnter={() => setActiveCardIndex(index)}
-      className="flex h-screen w-full items-center justify-center p-4 sm:p-8 snap-center snap-always [perspective:1200px]"
-    >
-      <motion.article
-        style={{
-          scale,
-          opacity,
-        }}
-        className="relative h-[82vh] w-full max-w-5xl rounded-3xl bg-neutral-900/90 border-2 border-orange-500/30 backdrop-blur-xl overflow-hidden group [transform-style:preserve-3d] shadow-2xl shadow-orange-500/10"
-      >
-        {/* Image Container */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="relative h-full w-full">
-            <Image
-              src={milestone.imageSrc}
-              alt={milestone.imageAlt}
-              fill
-              sizes="100vw"
-              priority={index === 0}
-              className="object-cover transition-transform duration-1000 group-hover:scale-105"
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/60 to-neutral-950/20" />
-        </div>
-
-        {/* Glowing Top/Bottom Border Accents */}
-        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-orange-500/60 to-transparent" />
-        <div className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-orange-500/60 to-transparent" />
-
-        {/* Card Main Overlay Content */}
-        <div className="relative z-10 flex h-full flex-col justify-between p-8 sm:p-14">
-          {/* Year & Badge Header */}
-          <div className="flex items-center justify-between">
-            <span className="rounded-xl bg-neutral-950/80 backdrop-blur-md px-4 py-1.5 text-xl font-bold text-orange-400 border border-orange-500/40 font-mono shadow-xl">
-              {milestone.year}
-            </span>
-            <span className="rounded-md bg-orange-500/20 backdrop-blur-md px-3 py-1 text-xs font-semibold text-orange-300 border border-orange-500/30">
-              {milestone.tag}
-            </span>
-          </div>
-
-          {/* Details & Text Content */}
-          <div className="max-w-2xl space-y-4">
-            <p className="text-sm font-semibold text-orange-400 uppercase tracking-widest">
-              {milestone.subtitle}
-            </p>
-            <h3 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg">
-              {milestone.title}
-            </h3>
-            <p className="text-base sm:text-lg text-neutral-300 leading-relaxed">
-              {milestone.description}
-            </p>
-          </div>
-        </div>
-      </motion.article>
-    </motion.div>
-  );
-}
-
 export default function OurStory() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -199,6 +110,16 @@ export default function OurStory() {
     damping: 25,
     restDelta: 0.0001,
   });
+
+  const endGlowIntensity = useTransform(
+    smoothProgress,
+    [0, 0.7, 1],
+    [
+      "0px 0px 30px rgba(249, 115, 22, 0.15)",
+      "0px 0px 60px rgba(249, 115, 22, 0.35)",
+      "0px 0px 120px rgba(249, 115, 22, 0.7)",
+    ]
+  );
 
   // High-Density Galaxy Starfield Engine
   useEffect(() => {
@@ -313,15 +234,68 @@ export default function OurStory() {
         </div>
       </div>
 
-      {/* Snap Scroll Viewport */}
-      <div className="relative z-10 h-screen w-full overflow-y-scroll snap-y snap-mandatory no-scrollbar">
+      {/* Snap Scroll Viewport with perspective container */}
+      <div className="relative z-10 h-screen w-full overflow-y-scroll snap-y snap-mandatory no-scrollbar [perspective:1200px]">
         {storyMilestones.map((milestone, index) => (
-          <MilestoneCard
+          <div
             key={milestone.id}
-            milestone={milestone}
-            index={index}
-            setActiveCardIndex={setActiveCardIndex}
-          />
+            onViewportEnter={() => setActiveCardIndex(index)}
+            className="flex h-screen w-full items-center justify-center p-4 sm:p-8 snap-center snap-always"
+          >
+            <motion.article
+              initial={{ scale: 0.2, z: -800, opacity: 0 }}
+              whileInView={{ scale: 1, z: 0, opacity: 1 }}
+              viewport={{ amount: 0.5 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              style={{ boxShadow: endGlowIntensity }}
+              className="relative h-[82vh] w-full max-w-5xl rounded-3xl bg-neutral-900/90 border-2 border-orange-500/30 backdrop-blur-xl overflow-hidden group [transform-style:preserve-3d]"
+            >
+              {/* Image Container */}
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="relative h-full w-full">
+                  <Image
+                    src={milestone.imageSrc}
+                    alt={milestone.imageAlt}
+                    fill
+                    sizes="100vw"
+                    priority={index === 0}
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/60 to-neutral-950/20" />
+              </div>
+
+              {/* Glowing Top/Bottom Border Accents */}
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-orange-500/60 to-transparent" />
+              <div className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-orange-500/60 to-transparent" />
+
+              {/* Card Main Overlay Content */}
+              <div className="relative z-10 flex h-full flex-col justify-between p-8 sm:p-14">
+                {/* Year & Badge Header */}
+                <div className="flex items-center justify-between">
+                  <span className="rounded-xl bg-neutral-950/80 backdrop-blur-md px-4 py-1.5 text-xl font-bold text-orange-400 border border-orange-500/40 font-mono shadow-xl">
+                    {milestone.year}
+                  </span>
+                  <span className="rounded-md bg-orange-500/20 backdrop-blur-md px-3 py-1 text-xs font-semibold text-orange-300 border border-orange-500/30">
+                    {milestone.tag}
+                  </span>
+                </div>
+
+                {/* Details & Text Content */}
+                <div className="max-w-2xl space-y-4">
+                  <p className="text-sm font-semibold text-orange-400 uppercase tracking-widest">
+                    {milestone.subtitle}
+                  </p>
+                  <h3 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg">
+                    {milestone.title}
+                  </h3>
+                  <p className="text-base sm:text-lg text-neutral-300 leading-relaxed">
+                    {milestone.description}
+                  </p>
+                </div>
+              </div>
+            </motion.article>
+          </div>
         ))}
       </div>
     </section>

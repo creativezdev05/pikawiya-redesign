@@ -9,7 +9,17 @@ export default function GovernanceHeritageSection() {
   return (
     <section className="relative overflow-hidden landing-paper py-20 md:py-32">
       {/* Background Cultural Pattern */}
-      <CulturalPattern variant="heritage" className="cultural-pattern--light" />
+      {/* <CulturalPattern variant="heritage" className="cultural-pattern--light" /> */}
+      <CulturalPattern 
+          variant="heritage"
+          motif1Config={[{ x: -50, y: 150 }]}
+          motif2Config={[{ x: 1300, y: 650 }]}
+          motif3Config={[{ x: -60, y: 460 }]}
+          dotsConfig={[{ x: 130, y: 100 }, { x: 1270, y: 200 }]}
+          spiralsConfig={[{ x: 300, y: 400 }]}
+          uShapeConfig={[{ x: -40 , y: 700 }]}
+          showFeet
+        />
 
       {/* Subtle Ambient Glow */}
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-80 h-80 bg-ochre/5 rounded-full blur-3xl pointer-events-none" />
