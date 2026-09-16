@@ -148,14 +148,14 @@ export default function OurStory() {
       x: (Math.random() - 0.5) * 7000,
       y: (Math.random() - 0.5) * 7000,
       z: Math.random() * maxDepth,
-      color: Math.random() > 0.35 ? "#f97316" : "#ffffff",
+      color: Math.random() > 0.35 ? "#f5d5bf" : "#ffffff",
       baseRadius: Math.random() * 4.5 + 0.8,
     }));
 
     let cameraZ = 0;
 
     const render = () => {
-      ctx.fillStyle = "#0a0a0a";
+      ctx.fillStyle = "#04010f";
       ctx.fillRect(0, 0, width, height);
 
       const cx = width / 2;

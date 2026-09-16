@@ -3,6 +3,7 @@ import { PhoneCall, MapPin, Clock, MessageSquare, ShieldAlert } from "lucide-rea
 import CulturalPattern from "./CulturalPattern";
 import PageTitle from "./PageTitle";
 import ContactForm from "./ContactForm";
+import {motion} from "framer-motion"
 
 export default function ContactSection() {
   return (
@@ -11,13 +12,15 @@ export default function ContactSection() {
       {/* <CulturalPattern variant="contact" showFeet /> */}
       <CulturalPattern 
           variant="contact"
-          motif1Config={[{ x: 30, y: 150 }]}
-          motif2Config={[{ x: 1150, y: 650 }]}
-          motif3Config={[{ x: 30, y: 460 }]}
-          dotsConfig={[{ x: 200, y: 200 }, { x: 1170, y: 200 }]}
-          spiralsConfig={[{ x: 300, y: 400 }]}
+          motif1Config={[{ x: 200, y: 200 }]}
+          // motif2Config={[{ x: 1150, y: 650 }]}
+          // motif3Config={[{ x: 30, y: 460 }]}
+          dotsConfig={[{ x: 1170, y: 200 }]}
+           dashedOrbitsConfig={[{ x: 100, y: 200 }, { x: 300, y: 400 } , { x: 1000, y: 300 }]}
           uShapeConfig={[{ x: 40 , y: 700 }]}
-          showFeet
+                  cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
+        cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
+          // showFeet
         />
       <div aria-hidden="true" className="cultural-background cultural-background--contact" />
       <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
@@ -28,7 +31,11 @@ export default function ContactSection() {
       <div className="relative z-10 max-w-6xl mx-auto space-y-12">
         
         {/* Section Header */}
-        <div className="text-center space-y-4 max-w-3xl mx-auto">
+        <motion.div
+        whileHover={{ x: 12 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          style={{ cursor: "pointer" }}
+        className="text-center space-y-4 max-w-3xl mx-auto">
           <span className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
             <MessageSquare className="w-3.5 h-3.5" /> Connect With Us
           </span>
@@ -47,7 +54,7 @@ export default function ContactSection() {
               request an appointment
             </strong>.
           </p>
-        </div>
+        </motion.div>
 
         {/* Form & Quick Contact Cards Grid */}
         <div className="grid lg:grid-cols-12 gap-8 items-start">

@@ -8,6 +8,8 @@ import Link from "next/link";
 import CulturalPattern from "./CulturalPattern";
 import PageTitle from "./PageTitle";
 import FlashlightContainer from "@/components/FlashlightContainer";
+import {motion} from "framer-motion";
+import TypedText from "@/components/TypedText";
 
 export default function AboutSection() {
   const values = [
@@ -34,6 +36,7 @@ export default function AboutSection() {
     "We aspire to be part of an Aboriginal community that is healthy at all ages and across generations.",
     "We demonstrate good governance and exceed the expectations of our funding bodies.",
   ];
+  const textStr = 'To provide health care our way to our people so our community is healthy at every age.'
 
   return (
     <>
@@ -41,13 +44,15 @@ export default function AboutSection() {
       <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
         <CulturalPattern 
         variant="about"
-        motif1Config={[{ x: -30, y: 150 }]}
-        motif2Config={[{ x: 1200, y: 650 }]}
-        motif3Config={[{ x: -20, y: 460 }]}
-        dotsConfig={[{ x: 130, y: 200 }, { x: 1170, y: 300 }]}
-        spiralsConfig={[{ x: 300, y: 400 }]}
-        uShapeConfig={[{ x: -40 , y: 700 }]}
-        showFeet
+        // motif1Config={[{ x: -30, y: 150 }]}
+        // motif2Config={[{ x: 1200, y: 650 }]}
+        // motif3Config={[{ x: -20, y: 460 }]}
+        dotsConfig={[{ x: -10, y: 200 }]}
+        dashedOrbitsConfig={[{ x: 1000, y: 200 }, { x: 1000, y: 200 } , { x: 1000, y: 100 }]}
+        uShapeConfig={[{ x: -100 , y: 700 }]}
+        cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
+        cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
+        // showFeet
       />
         <div aria-hidden="true" className="cultural-background cultural-background--about" />
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
@@ -61,13 +66,29 @@ export default function AboutSection() {
             {/* Left Content Area */}
             <div className="lg:col-span-7 space-y-8">
               <div className="space-y-4">
-                <span className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
-                  <span className="w-2 h-2 rounded-full bg-ochre animate-pulse" /> Who We Are
-                </span>
-                
-                <PageTitle as="h2" onDark className="text-[clamp(2rem,4vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-white">
-                  Proudly Aboriginal. Driven by Purpose & Lore.
-                </PageTitle>
+                <motion.div
+                  whileHover={{
+                    scale:1.2,
+                    rotate:5,
+                   
+                  }}
+                whileTap={{ scale: 2 }}
+                className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest"
+              >
+              <span className="w-2 h-2 rounded-full bg-ochre animate-pulse" /> Who We Are
+              </motion.div>
+                <motion.div
+                  whileHover={{
+                    scale:1.2,
+                    rotate:5,
+                    borderRadius: ["20%", "20%", "50%", "50%", "20%"],
+                  }}
+                whileTap={{ scale: 2 }}
+              >
+                  <PageTitle as="h2" onDark className="text-[clamp(2rem,4vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-white">
+                    Proudly Aboriginal. Driven by Purpose & Lore.
+                  </PageTitle>
+                </motion.div>
               </div>
 
               <div className="space-y-4 text-sand/85 text-base md:text-lg leading-relaxed font-light">
@@ -151,13 +172,32 @@ export default function AboutSection() {
         {/* <CulturalPattern variant="vision" className="cultural-pattern--light" /> */}
         <CulturalPattern 
         variant="vision"
-        motif1Config={[{ x: -30, y: 150 }]}
-        motif2Config={[{ x: 1200, y: 650 }]}
-        motif3Config={[{ x: -20, y: 460 }]}
-        dotsConfig={[{ x: 130, y: 200 }, { x: 1170, y: 300 }]}
-        spiralsConfig={[{ x: 300, y: 400 }]}
+        // motif1Config={[{ x: -30, y: 150 }]}
+        // motif2Config={[{ x: 30, y: 200 }]}
+        motif3Config={[{ x: 30, y: 200 }]}
+        dotsConfig={[ { x: 1170, y: 300 }]}
+         dashedOrbitsConfig={[{ x: 700, y: 600 }, { x: 600, y: 700 } , { x: 1000, y: 300 }]}
         uShapeConfig={[{ x: -40 , y: 700 }]}
-        showFeet
+        cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
+        cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
+        flowPathsConfig={[
+        {
+          startX: "90%",
+          startY: "0%",
+          endX: "0%",
+          endY: "0%",
+          controlX: "80%",
+          controlY: "15%",
+          speed: 10,
+          dotCount: 20,
+          strokeColor: "#E66023",
+          dotColor: "#E66023",
+          length: "100%",
+          x: "0%",
+          y:"5%"
+        },
+      ]}
+        // showFeet
       />
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
@@ -166,13 +206,27 @@ export default function AboutSection() {
             {/* Left Header & Large Graphic Block */}
             <div className="lg:col-span-5 space-y-8 sticky top-24">
               <div className="space-y-4">
-                <span className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
+                <motion.div
+                whileHover={{
+                  y: -4,
+                    scale: 1.02,
+                    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.15)"
+                  }}
+                className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
                   <span className="w-2 h-2 rounded-full bg-ochre animate-pulse" /> Looking Ahead
-                </span>
-                
+                </motion.div>
+                <motion.div
+                whileHover={{
+                  y: -4,
+                    scale: 1.02,
+                    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.15)"
+                  }}
+                whileTap={{ scale: 2 }}
+                >
                 <PageTitle as="h3" className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-ink">
                   Our Strategic Vision
                 </PageTitle>
+                </motion.div>
 
                 <p className="text-ink/75 text-base md:text-lg font-light leading-relaxed">
                   Setting benchmarks in{" "}
@@ -226,13 +280,15 @@ export default function AboutSection() {
       <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
         <CulturalPattern 
           variant="values"
-          motif1Config={[{ x: -30, y: 150 }]}
-          motif2Config={[{ x: 1300, y: 650 }]}
-          motif3Config={[{ x: -50, y: 460 }]}
-          dotsConfig={[{ x: 130, y: 200 }, { x: 1170, y: 200 }]}
-          spiralsConfig={[{ x: 300, y: 400 }]}
-          uShapeConfig={[{ x: -40 , y: 700 }]}
-          showFeet
+          motif1Config={[{ x: -35, y: 250 }]}
+          // motif2Config={[{ x: 1300, y: 650 }]}
+          // motif3Config={[{ x: -50, y: 460 }]}
+          dotsConfig={[ { x: 1170, y: 200 }]}
+          dashedOrbitsConfig={[{ x: 800, y: 200 }, { x: 900, y: 300 } , { x: 1000, y: 150 }]}
+          uShapeConfig={[{ x: -120 , y: 700 }]}
+          cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
+          cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
+          // showFeet
         />
         <div aria-hidden="true" className="cultural-background cultural-background--values" />
         <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
@@ -240,13 +296,30 @@ export default function AboutSection() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 space-y-14">
           
           <div className="max-w-2xl space-y-4">
-            <span className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
+            <motion.div
+              whileHover={{
+                skewX: -10, 
+                color: "",
+                x: 8 
+                }}
+                transition={{ type: "tween", ease: "easeOut", duration: 0.15 }}
+              whileTap={{ scale: 2 }}
+              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
               <span className="w-2 h-2 rounded-full bg-ochre" /> How We Work
-            </span>
-            
+            </motion.div>
+            <motion.div
+                whileHover={{
+                  skewX: -10, 
+                  color: "#ff0055",
+                  x: 8 
+                  }}
+                  transition={{ type: "tween", ease: "easeOut", duration: 0.15 }}
+                whileTap={{ scale: 2 }}
+                >
             <PageTitle as="h3" onDark className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-white">
               Guiding Values
             </PageTitle>
+            </motion.div>
 
             <p className="text-sand/75 text-base md:text-lg font-light">
               The foundational principles guiding every <strong className="text-white font-medium">clinical interaction, outreach program, and community partnership</strong>.
@@ -294,7 +367,7 @@ export default function AboutSection() {
             <PathIcon className="w-3.5 h-3.5" /> Our Overarching Purpose
           </span>
           <blockquote className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight max-w-4xl mx-auto">
-            &quot;To provide health care our way to our people so our community is healthy at every age.&quot;
+            <TypedText textStr={textStr}/>
           </blockquote>
         </div>
       </section>

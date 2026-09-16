@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, BookOpen, ShieldCheck, Footprints } from "lucide-react";
 import CulturalPattern from "./CulturalPattern";
 import PageTitle from "./PageTitle";
+import { motion } from "framer-motion";
 
 export default function GovernanceHeritageSection() {
   return (
@@ -12,13 +13,32 @@ export default function GovernanceHeritageSection() {
       {/* <CulturalPattern variant="heritage" className="cultural-pattern--light" /> */}
       <CulturalPattern 
           variant="heritage"
-          motif1Config={[{ x: -50, y: 150 }]}
-          motif2Config={[{ x: 1300, y: 650 }]}
-          motif3Config={[{ x: -60, y: 460 }]}
+          // motif1Config={[{ x: -50, y: 150 }]}
+          // motif2Config={[{ x: 1300, y: 650 }]}
+          // motif3Config={[{ x: -60, y: 460 }]}
           dotsConfig={[{ x: 130, y: 100 }, { x: 1270, y: 200 }]}
-          spiralsConfig={[{ x: 300, y: 400 }]}
+          dashedOrbitsConfig={[{ x: 100, y: 200 }, { x: 300, y: 400 } , { x: 1000, y: 300 }]}
           uShapeConfig={[{ x: -40 , y: 700 }]}
-          showFeet
+          cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
+          cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
+          flowPathsConfig={[
+          {
+            startX: "100%",
+            startY: "0%",
+            endX: "0%",
+            endY: "100%",
+            controlX: "95%",
+            controlY: "85%",
+            speed: 10,
+            dotCount: 20,
+            strokeColor: "#E66023",
+            dotColor: "#E66023",
+            // x: "10%",
+            // y: "10%",
+            length: "100%"
+          },
+        ]}
+          // showFeet
         />
 
       {/* Subtle Ambient Glow */}
@@ -66,18 +86,24 @@ export default function GovernanceHeritageSection() {
             
             {/* Header Area */}
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
+              <motion.div
+              whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 2 }}
+              className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
                 <span className="w-2 h-2 rounded-full bg-ochre animate-pulse" />
               Community-Led Healing
-            	</div>
+            	</motion.div>
               
-              <PageTitle 
-                as="h2" 
-                className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-ink"
-              >
-                Walking with our ancestors. 
-                Building for community.
-              </PageTitle>
+              <motion.div  whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 2 }}>
+                <PageTitle
+                  as="h2" 
+                  className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-ink"
+                >
+                  Walking with our ancestors. 
+                  Building for community.
+                </PageTitle>
+              </motion.div>
             </div>
 
             {/* Main Paragraph */}

@@ -11,13 +11,45 @@ export default function Footer() {
       {/* <CulturalPattern variant="footer" className="cultural-pattern--footer" /> */}
       <CulturalPattern 
         variant="footer"
-        motif1Config={[{ x: -920, y: 150 }]}
-        motif2Config={[{ x: 2200, y: 650 }]}
-        motif3Config={[{ x: -920, y: 460 }]}
+        // motif1Config={[{ x: -920, y: 150 }]}
+        // motif2Config={[{ x: 2200, y: 650 }]}
+        // motif3Config={[{ x: -920, y: 460 }]}
         dotsConfig={[{ x: 390, y: 200 }, { x: 2070, y: 300 }]}
-        spiralsConfig={[{ x: 500, y: 200 }]}
+        dashedOrbitsConfig={[{ x: 300, y: 400 }, { x: 200, y: 800 }]}
         uShapeConfig={[{ x: -1040 , y: 700 }]}
-        showFeet
+        cornerTLConfig={{ x: -1100, y: 0 }}       // Pin strictly to top-left edge
+        cornerBRConfig={{ x: 2200, y: 800 }}  // Pin strictly to bottom-right edge
+        // showFeet
+        flowPathsConfig={[
+        {
+          startX: "0%",
+          startY: "0%",
+          endX: "90%",
+          endY: "10%",
+          controlX: "5%",
+          controlY: "10%",
+          speed: 10,
+          dotCount: 20,
+          strokeColor: "#E66023",
+          dotColor: "#E66023",
+          x: "10%",
+          y: "0%",
+          length: "100%"
+        }, {
+          startX: "0%",
+          startY: "10%",
+          endX: "90%",
+          endY: "20%",
+          controlX: "0%",
+          controlY: "0%",
+          speed: 10,
+          dotCount: 20,
+          strokeColor: "#E66023",
+          dotColor: "#E66023",
+          x: "-10%",
+          y: "80%",
+          length: "100%"
+        }]}
       />
       <div aria-hidden="true" className="cultural-background cultural-background--footer" />
       <div className="absolute inset-0 bg-navy/78" />

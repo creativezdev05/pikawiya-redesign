@@ -92,6 +92,7 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
 
   return (
     <div ref={containerRef} className="relative h-[350vh] bg-black">
+      
       {/* Sticky Fullscreen Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
         <video
