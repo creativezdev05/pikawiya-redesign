@@ -4,15 +4,22 @@ import PageTitle from "@/components/PageTitle";
 import PatternField from "@/components/PatternField";
 import { FileText, Download, BookOpen, ShieldCheck, Parasol } from "lucide-react";
 import PartnersTicker from "@/components/PartnersTicker";
+import FramerMouseGradient from "@/components/FramerMouseGradient";
 
 export default function CorporateDocumentsPage() {
   return (
     <div className="relative min-h-screen bg-page text-ink overflow-hidden">
-      {/* <PatternField variant="wave" logoMotion="breathe" logoPlacement="br" /> */}
-      <PatternField variant="inward" logoMotion="bob"  />
+      <FramerMouseGradient/>
       <Navbar />
-      
       <main className="relative z-10 max-w-5xl mx-auto px-4 py-16 space-y-12">
+        <div 
+          className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
+          style={{ 
+            backgroundImage: "url('/assets/background-pattern.png')",
+            backgroundSize: "cover",
+            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+          }}
+        />
         {/* Header Section */}
         <div className="space-y-4">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center gap-1.5">

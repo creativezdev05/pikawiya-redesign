@@ -16,7 +16,7 @@ export default function Footer() {
         // motif3Config={[{ x: -920, y: 460 }]}
         dotsConfig={[{ x: 390, y: 200 }, { x: 2070, y: 300 }]}
         dashedOrbitsConfig={[{ x: 300, y: 400 }, { x: 200, y: 800 }]}
-        uShapeConfig={[{ x: -1040 , y: 700 }]}
+        uShapeConfig={[{ x: -1370 , y: 750 }]}
         cornerTLConfig={{ x: -1100, y: 0 }}       // Pin strictly to top-left edge
         cornerBRConfig={{ x: 2200, y: 800 }}  // Pin strictly to bottom-right edge
         // showFeet

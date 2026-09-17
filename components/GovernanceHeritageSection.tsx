@@ -9,9 +9,20 @@ import { motion } from "framer-motion";
 export default function GovernanceHeritageSection() {
   return (
     <section className="relative overflow-hidden landing-paper py-20 md:py-32">
+      <div 
+        className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
+        style={{ 
+          backgroundImage: "url('/assets/background-pattern.png')",
+          backgroundSize: "cover",
+          /* Swap out the filter string below to change the color */
+          filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+        }}
+      />
+      {/* Tailwind custom keyframes inline */}
+      
       {/* Background Cultural Pattern */}
       {/* <CulturalPattern variant="heritage" className="cultural-pattern--light" /> */}
-      <CulturalPattern 
+      {/* <CulturalPattern 
           variant="heritage"
           // motif1Config={[{ x: -50, y: 150 }]}
           // motif2Config={[{ x: 1300, y: 650 }]}
@@ -39,7 +50,7 @@ export default function GovernanceHeritageSection() {
           },
         ]}
           // showFeet
-        />
+        /> */}
 
       {/* Subtle Ambient Glow */}
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-80 h-80 bg-ochre/5 rounded-full blur-3xl pointer-events-none" />

@@ -16,8 +16,8 @@ export default function ContactSection() {
           // motif2Config={[{ x: 1150, y: 650 }]}
           // motif3Config={[{ x: 30, y: 460 }]}
           dotsConfig={[{ x: 1170, y: 200 }]}
-           dashedOrbitsConfig={[{ x: 100, y: 200 }, { x: 300, y: 400 } , { x: 1000, y: 300 }]}
-          uShapeConfig={[{ x: 40 , y: 700 }]}
+           dashedOrbitsConfig={[{ x: 100, y: 500 }, { x: 300, y: 600 } , { x: 1000, y: 300 }]}
+          uShapeConfig={[{ x: -50 , y: 750 }]}
                   cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
         cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
           // showFeet

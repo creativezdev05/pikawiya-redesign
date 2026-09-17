@@ -9,6 +9,7 @@ type OrbitConfig = {
   speed?: number;
   pathWidth?: number;
   pathHeight?: number;
+
 };
 
 type PointConfig = {

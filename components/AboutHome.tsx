@@ -48,8 +48,8 @@ export default function AboutSection() {
         // motif2Config={[{ x: 1200, y: 650 }]}
         // motif3Config={[{ x: -20, y: 460 }]}
         dotsConfig={[{ x: -10, y: 200 }]}
-        dashedOrbitsConfig={[{ x: 1000, y: 200 }, { x: 1000, y: 200 } , { x: 1000, y: 100 }]}
-        uShapeConfig={[{ x: -100 , y: 700 }]}
+        dashedOrbitsConfig={[{ x: 900, y: 200, pathHeight:150, pathWidth:300, speed:10 }, { x: 200, y: 400, pathHeight:120, pathWidth:420, speed:10 } , { x: 300, y: 600, pathHeight:120, pathWidth:400, speed:10 }]}
+        uShapeConfig={[{ x: -170 , y: 750 }]}
         cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
         cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
         // showFeet
@@ -169,8 +169,19 @@ export default function AboutSection() {
 
       {/* 2. VISION — Clean Light Theme with Numbered Cards Grid */}
       <section className="relative overflow-hidden landing-paper py-20 md:py-32">
+        <div 
+          className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
+          style={{ 
+            backgroundImage: "url('/assets/background-pattern.png')",
+            backgroundSize: "cover",
+            /* Swap out the filter string below to change the color */
+            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+          }}
+        />
+        {/* Tailwind custom keyframes inline */}
+        
         {/* <CulturalPattern variant="vision" className="cultural-pattern--light" /> */}
-        <CulturalPattern 
+        {/* <CulturalPattern 
         variant="vision"
         // motif1Config={[{ x: -30, y: 150 }]}
         // motif2Config={[{ x: 30, y: 200 }]}
@@ -198,7 +209,7 @@ export default function AboutSection() {
         },
       ]}
         // showFeet
-      />
+      /> */}
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -285,7 +296,7 @@ export default function AboutSection() {
           // motif3Config={[{ x: -50, y: 460 }]}
           dotsConfig={[ { x: 1170, y: 200 }]}
           dashedOrbitsConfig={[{ x: 800, y: 200 }, { x: 900, y: 300 } , { x: 1000, y: 150 }]}
-          uShapeConfig={[{ x: -120 , y: 700 }]}
+          uShapeConfig={[{ x: -220 , y: 750 }]}
           cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
           cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
           // showFeet

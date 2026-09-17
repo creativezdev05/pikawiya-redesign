@@ -3,10 +3,20 @@ import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
 import PatternField from "@/components/PatternField";
 import PartnersTicker from "@/components/PartnersTicker";
+import FramerMouseGradient from "@/components/FramerMouseGradient";
 
 export default function TermsOfUsePage() {
   return (
     <div className="relative min-h-screen bg-page text-ink flex flex-col justify-between overflow-hidden">
+      <FramerMouseGradient/>
+      <div 
+          className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
+          style={{ 
+            backgroundImage: "url('/assets/background-pattern.png')",
+            backgroundSize: "contain",
+            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+          }}
+        />
       <PatternField variant="twirl" logoMotion="tilt" logoPlacement="br" />
       <div className="relative z-10">
         <Navbar />

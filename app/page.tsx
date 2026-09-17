@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, MouseEvent, WheelEvent } from "react";
 import HeroVideo from "@/components/HeroVideo";
 import AboutHome from "@/components/AboutHome";
 import { motion, AnimatePresence } from "framer-motion";
+import FramerMouseGradient from "@/components/FramerMouseGradient";
 import {
   ZoomIn,
   ZoomOut,

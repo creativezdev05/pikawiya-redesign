@@ -16,6 +16,7 @@ import {
   Award, 
   CheckCircle2 
 } from "lucide-react";
+import FramerMouseGradient from "@/components/FramerMouseGradient";
 
 export default function AboutPage() {
   const values = [
@@ -63,124 +64,127 @@ export default function AboutPage() {
 
   return (
     <div className="relative min-h-screen bg-page text-ink overflow-hidden">
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-10">
-          <Image
-            src="/assets/abstract-topographic-line-art-seamless-pattern-free-png.png"
-            alt=""
-            fill
-            className="object-cover object-center"
-            priority={false}
-          />
-      </div>
-      {/* <PatternField variant="rise"/> */}
+      
       <Navbar />
       <PageHero
         eyebrow="About Pika Wiya"
-        title="Grounded in Culture, Driven by Community"
+        title="Thriving in Culture, Built for Community"
         description="Pika Wiya Health Service is an Aboriginal Community Controlled Health Organisation (ACCHO) committed to delivering high-quality, culturally safe healthcare across Port Augusta and regional South Australia."
-        imageSrc="/assets/patterns/pat1.jpg"
+        imageSrc="/assets/aboutus2.png"
         imageAlt="Aboriginal waterhole and songline dot painting"
-        trLogo="float"
+        pageName="about"
       />
 
-      <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-16 md:space-y-24">
-      <div className="relative mt-6 mb-4 md:mt-4 md:mb-6 h-[7.5rem] md:h-[9.5rem] flex justify-end -mr-16 md:-mr-20">
-        <TrLogo motion="wave" placement="tr" className="tr-logo--core h-full w-auto scale-110 md:scale-200 origin-right" />
-      </div>
+      {/* Wrapper container for the rest of the page with the background pattern locked inside */}
+      <div className="relative overflow-hidden">
+        <FramerMouseGradient/>
+        {/* Animated Background Pattern spanning behind all main content sections */}
+        <div 
+          className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
+          style={{ 
+            backgroundImage: "url('/assets/background-pattern.png')",
+            backgroundSize: "cover",
+            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+          }}
+        />
 
-      {/* Culture & Artwork Banner (Original Content) */}
-      <div className="contrast-card grid md:grid-cols-2 gap-12 items-center bg-earth text-sand p-8 md:p-12 rounded-2xl shadow-xl border border-transparent">
-        <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-ochre/30">
-          <Image
-            src="/assets/5+98 (1).jpeg"
-            alt="Aboriginal Dot Painting Artwork"
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="space-y-6">
-          <PageTitle as="h2" onDark className="text-3xl font-bold">
-            Our Cultural Heritage
-          </PageTitle>
-          <p className="text-sand/80 leading-relaxed">
-            Our name and emblem reflect deep roots within the community. We work closely with Traditional Owners, Elders, and local families to ensure health services honor connection to land, culture, and traditional healing principles.
-          </p>
-          <p className="text-sand/80 leading-relaxed">
-            From our main facility in Port Augusta to outreach health programs, every aspect of our care is designed to offer a safe, respectful environment for Aboriginal people.
-          </p>
-          <div className="pt-2">
-            <Link
-              href="/governance"
-              className="inline-block px-6 py-3 bg-ochre hover:bg-ochre-dark text-white font-medium rounded-md text-sm transition"
-            >
-              View Governance &amp; Rule Book
-            </Link>
+        <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-16 md:space-y-24">
+          
+          {/* Culture & Artwork Banner */}
+          <div className="contrast-card grid md:grid-cols-2 gap-12 items-center bg-earth text-sand p-8 md:p-12 rounded-2xl shadow-xl border border-transparent">
+            <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-ochre/30">
+              <Image
+                src="/assets/cultural-heritage.jpg"
+                alt="Aboriginal Dot Painting Artwork"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="space-y-6">
+              <PageTitle as="h2" onDark className="text-3xl font-bold">
+                Our Cultural Heritage
+              </PageTitle>
+              <p className="text-sand/80 leading-relaxed">
+                Our name and emblem reflect deep roots within the community. We work closely with Traditional Owners, Elders, and local families to ensure health services honor connection to land, culture, and traditional healing principles.
+              </p>
+              <p className="text-sand/80 leading-relaxed">
+                From our main facility in Port Augusta to outreach health programs, every aspect of our care is designed to offer a safe, respectful environment for Aboriginal people.
+              </p>
+              <div className="pt-2">
+                <Link
+                  href="/governance"
+                  className="inline-block px-6 py-3 bg-ochre hover:bg-ochre-dark text-white font-medium rounded-md text-sm transition"
+                >
+                  View Governance &amp; Rule Book
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* Mission Statement Split Section Card */}
-      <div className="grid md:grid-cols-2 gap-12 items-center bg-surface text-ink p-8 md:p-12 rounded-2xl shadow-lg border border-border">
-        <div className="space-y-6">
-          <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
-            Who We Are
-          </span>
-          <PageTitle as="h2" className="text-3xl md:text-4xl font-bold">
-            A Service Built for Aboriginal &amp; Torres Strait Islander People
-          </PageTitle>
-          <p className="text-ink/80 text-lg leading-relaxed">
-            Pika Wiya Health Service Aboriginal Corporation is an Aboriginal Community Controlled Health Service which offers comprehensive primary health, social and emotional wellbeing support to Aboriginal people in Port Augusta, with clinics located in Port Augusta, Davenport Community, Copley and Nepabunna. Pika Wiya Health Service Aboriginal Corporation employs staff made up of mixed disciplines that includes General Practitioners, Nursing, Allied Health, Aboriginal Health Practitioners, Reception, Finance and Administration staff.
-          </p>
-        </div>
-        <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-border shadow-md">
-          <Image
-            src="/assets/about-us-01.png"
-            alt="Pika Wiya Health Community Facility"
-            fill
-            className="object-cover"
-          />
-        </div>
-      </div>
+          {/* Mission Statement Split Section Card */}
+          <div className="grid md:grid-cols-2 gap-12 items-center bg-surface text-ink p-8 md:p-12 rounded-2xl shadow-lg border border-border">
+            <div className="space-y-6">
+              <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
+                Who We Are
+              </span>
+              <PageTitle as="h2" className="text-3xl md:text-4xl font-bold">
+                A Service Built for Aboriginal &amp; Torres Strait Islander People
+              </PageTitle>
+              <p className="text-ink/80 text-lg leading-relaxed">
+                Pika Wiya Health Service Aboriginal Corporation is an Aboriginal Community Controlled Health Service which offers comprehensive primary health, social and emotional wellbeing support to Aboriginal people in Port Augusta, with clinics located in Port Augusta, Davenport Community, Copley and Nepabunna. Pika Wiya Health Service Aboriginal Corporation employs staff made up of mixed disciplines that includes General Practitioners, Nursing, Allied Health, Aboriginal Health Practitioners, Reception, Finance and Administration staff.
+              </p>
+            </div>
+            <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-border shadow-md">
+              <Image
+                src="/assets/about-us-01.png"
+                alt="Pika Wiya Health Community Facility"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
 
-      {/* Regional & History Connection Card */}
-      <div className="grid md:grid-cols-2 gap-12 items-center bg-surface text-ink p-8 md:p-12 rounded-2xl shadow-lg border border-border">
-        <div className="space-y-6">
-          <PageTitle as="h2" className="text-3xl font-bold">
-            History of Pika Wiya Health Service
-          </PageTitle>
-          <div className="space-y-4 text-ink/75 leading-relaxed text-base">
-            <p>
-              In the early 1970s, a group of Aboriginal women meeting in Port Augusta heard word of a sick man in the sandhills outside town. One of the women was a nurse, and together the group travelled to where the man lay, too weak to move, and did what they could. In the days and weeks that followed the women learned of others suffering from injuries and illnesses, and decided that Port Augusta needed a Health Service specifically for the Aboriginal community.
-            </p>
-            <p>
-              State and Federal government were not interested, but the women were undeterred. They wrote to the World Council of Churches in Geneva, Switzerland to explain their plight and ask for help. The Council were moved by the request and granted enough funding to establish the Aboriginal Medical Service, Port Augusta.
-            </p>
-            <p>
-              The Aboriginal Medical Service in Redfern, New South Wales offered assistance in spite of that service’s own struggles. A doctor was loaned to Port Augusta and was able to travel from Redfern intermittently. Resources were scarce; when visiting, the doctor slept on the floor of the clinic, and bandages were washed and reused. Years passed, but the persistence shown by those first women remained. The service grew, and was incorporated in December 1984 as Pika Wiya Health Service Inc.
-            </p>
+          {/* Regional & History Connection Card */}
+          <div className="grid md:grid-cols-2 gap-12 items-center bg-surface text-ink p-8 md:p-12 rounded-2xl shadow-lg border border-border">
+            <div className="space-y-6">
+              <PageTitle as="h2" className="text-3xl font-bold">
+                History of Pika Wiya Health Service
+              </PageTitle>
+              <div className="space-y-4 text-ink/75 leading-relaxed text-base">
+                <p>
+                  In the early 1970s, a group of Aboriginal women meeting in Port Augusta heard word of a sick man in the sandhills outside town. One of the women was a nurse, and together the group travelled to where the man lay, too weak to move, and did what they could. In the days and weeks that followed the women learned of others suffering from injuries and illnesses, and decided that Port Augusta needed a Health Service specifically for the Aboriginal community.
+                </p>
+                <p>
+                  State and Federal government were not interested, but the women were undeterred. They wrote to the World Council of Churches in Geneva, Switzerland to explain their plight and ask for help. The Council were moved by the request and granted enough funding to establish the Aboriginal Medical Service, Port Augusta.
+                </p>
+                <p>
+                  The Aboriginal Medical Service in Redfern, New South Wales offered assistance in spite of that service’s own struggles. A doctor was loaned to Port Augusta and was able to travel from Redfern intermittently. Resources were scarce; when visiting, the doctor slept on the floor of the clinic, and bandages were washed and reused. Years passed, but the persistence shown by those first women remained. The service grew, and was incorporated in December 1984 as Pika Wiya Health Service Inc.
+                </p>
+              </div>
+              <div className="pt-2">
+                <Link
+                  href="/contact"
+                  className="inline-block px-6 py-3 bg-ochre hover:bg-ochre-dark text-white font-medium rounded-md text-sm transition"
+                >
+                  Get in Touch with Our Team
+                </Link>
+              </div>
+            </div>
+            <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-border shadow-md">
+              <Image
+                src="/assets/about-us-02.png"
+                alt="Flinders Ranges Mountain Landscape and Outreach Region"
+                fill
+                className="object-cover"
+              />
+            </div>
           </div>
-          <div className="pt-2">
-            <Link
-              href="/contact"
-              className="inline-block px-6 py-3 bg-ochre hover:bg-ochre-dark text-white font-medium rounded-md text-sm transition"
-            >
-              Get in Touch with Our Team
-            </Link>
-          </div>
+        </main>
+
+        <div className="relative z-10">
+          <PartnersTicker />       
+          <Footer />
         </div>
-        <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-border shadow-md">
-          <Image
-            src="/assets/about-us-02.png"
-            alt="Flinders Ranges Mountain Landscape and Outreach Region"
-            fill
-            className="object-cover"
-          />
-        </div>
-      </div>
-      </main>
-      <div className="relative z-10">
-        <PartnersTicker />        
-        <Footer />
       </div>
     </div>
   );

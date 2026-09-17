@@ -178,6 +178,11 @@ textarea:disabled {
     --title-blend-mid: #f5e6d3;
     --title-blend-to: #c25324;
     --title-blend-end: #de8a5b;
+
+    --title-blend-aboutus-from: #ddc2a8;
+    --title-blend-aboutus-mid: #c4a883;
+    --title-blend-aboutus-to: #300f01;
+    --title-blend-aboutus-end: #140902;
   }
 
   .landing-ink {
@@ -195,6 +200,14 @@ textarea:disabled {
 
   .landing-paper .title-blend,
   .landing-ink .title-blend--on-dark {
+    --title-blend-from: #ffffff;
+    --title-blend-mid: #f5e6d3;
+    --title-blend-to: #c25324;
+    --title-blend-end: #de8a5b;
+  }
+
+    .landing-paper .title-blend-about-us,
+  .landing-ink .title-blend-aboutus--on-dark {
     --title-blend-from: #ffffff;
     --title-blend-mid: #f5e6d3;
     --title-blend-to: #c25324;
@@ -1040,4 +1053,12 @@ textarea:disabled {
 
 .animate-pulse-gentle {
   animation: pulseGentle 6s ease-in-out infinite;
+}
+@keyframes drift {
+  0% { transform: translate(0px, 0px); }
+  50% { transform: translate(-15px, 10px); }
+  100% { transform: translate(0px, 0px); }
+}
+.animate-drift {
+  animation: drift 5s ease-in-out infinite;
 }

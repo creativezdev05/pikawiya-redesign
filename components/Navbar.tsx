@@ -25,9 +25,10 @@ export default function Navbar() {
     { name: "Services", href: "/services" },
     { name: "Forms", href: "/forms" },
     { name: "Vaccines", href: "/vaccines" },
-    { name: "News & Announcements", href: "/news" },
-    { name: "Corporate Documents", href: "/corporate-documents" },
+    { name: "News", href: "/news" },
+    { name: "Documents", href: "/corporate-documents" },
     { name: "Contact", href: "/contact" },
+    
   ];
 
   return (
@@ -94,6 +95,13 @@ export default function Navbar() {
             <Phone className="w-3.5 h-3.5" />
             <span className="hidden 2xl:inline">Call</span>
           </a>
+          <ButtonLink
+            href="#"
+            className="ml-auto inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-ochre/50 text-white hover:bg-ochre hover:text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap"
+          >
+            <span>Admin</span>
+          </ButtonLink>
+
         </div>
 
         {/* Mobile Toggle */}

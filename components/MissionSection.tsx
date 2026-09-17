@@ -5,14 +5,28 @@ import { Quote, ShieldCheck, Heart } from 'lucide-react';
 import PageTitle from './PageTitle';
 import FlashlightContainer from './FlashlightContainer';
 import CulturalPattern from './CulturalPattern';
-import {motion}  from "framer-motion"
+import {motion}  from "framer-motion";
+import FramerMouseGradient from './FramerMouseGradient';
 
 export default function MissionSection() {
   return (
     <section className="relative overflow-hidden landing-paper py-20 md:py-32">
+      <FramerMouseGradient/>
+      {/* 2. Your PNG Pattern Layer with Custom Color & Drift Animation */}
+      <div 
+        className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
+        style={{ 
+          backgroundImage: "url('/assets/background-pattern.png')",
+          backgroundSize: "cover",
+          /* Swap out the filter string below to change the color */
+          filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+        }}
+      />
+      {/* Tailwind custom keyframes inline */}
+      
       {/* Background Cultural Motif */}
       {/* <CulturalPattern variant="mission" className="cultural-pattern--light" /> */}
-      <CulturalPattern 
+      {/* <CulturalPattern 
         variant="mission"
         // motif1Config={[{ x: -50, y: 150 }]}
         motif2Config={[{ x: 1300, y: 300 }]}
@@ -34,13 +48,10 @@ export default function MissionSection() {
           dotCount: 20,
           strokeColor: "#E66023",
           dotColor: "#E66023",
-          // x: "10%",
-          // y: "10%",
           length: "100%"
         },
       ]}
-        // showFeet
-      />
+      /> */}
 
       {/* Ambient background glow accents */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-72 h-72 bg-ochre/5 rounded-full blur-3xl pointer-events-none" />

@@ -4,14 +4,23 @@ import PageTitle from "@/components/PageTitle";
 import PatternField from "@/components/PatternField";
 import { Briefcase, Mail, HeartHandshake, CheckCircle2 } from "lucide-react";
 import PartnersTicker from "@/components/PartnersTicker";
+import FramerMouseGradient from "@/components/FramerMouseGradient";
 
 export default function CareersPage() {
   return (
     <div className="relative min-h-screen bg-page text-ink overflow-hidden">
-      <PatternField variant="inward" logoMotion="glow" logoPlacement="tr" />
+      <FramerMouseGradient/>
       <Navbar />
 
       <main className="relative z-10 max-w-4xl mx-auto px-4 py-16 space-y-10">
+        <div 
+          className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
+          style={{ 
+            backgroundImage: "url('/assets/background-pattern.png')",
+            backgroundSize: "contain",
+            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+          }}
+        />
         {/* Header Section */}
         <div className="space-y-3 text-center max-w-2xl mx-auto">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">

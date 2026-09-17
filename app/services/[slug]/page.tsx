@@ -15,6 +15,7 @@ import {
   ArrowLeft,
   ShieldCheck,
 } from "lucide-react";
+import FramerMouseGradient from "@/components/FramerMouseGradient";
 
 export const revalidate = 60;
 
@@ -61,19 +62,20 @@ export default async function ServiceDetailPage({
 
   return (
     <div className="relative min-h-screen bg-page text-ink flex flex-col overflow-hidden">
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-10">
-          <Image
-            src="/assets/PWHS_Logo_Mark.png"
-            alt=""
-            fill
-            className="object-cover object-center"
-            priority={false}
-          />
-        </div>
+      <FramerMouseGradient/>
       {/* <PatternField variant="twirl" logoMotion="sway" logoPlacement="br" /> */}
       <Navbar />
 
       <main className="relative z-10 max-w-6xl mx-auto px-4 py-12 md:py-16 space-y-10 w-full">
+        
+        <div 
+          className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
+          style={{ 
+            backgroundImage: "url('/assets/background-pattern.png')",
+            backgroundSize: "cover",
+            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+          }}
+        />
         <Link
           href="/services"
           className="inline-flex items-center text-sm font-medium text-ink/60 hover:text-ochre transition gap-2 group"

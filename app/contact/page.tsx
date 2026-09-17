@@ -5,14 +5,22 @@ import PageTitle from "@/components/PageTitle";
 import PatternField from "@/components/PatternField";
 import { MapPin, Phone, Mail, Clock, AlertCircle } from "lucide-react";
 import PartnersTicker from "@/components/PartnersTicker";
+import FramerMouseGradient from "@/components/FramerMouseGradient";
 
 export default function ContactPage() {
   return (
     <div className="relative min-h-screen bg-page text-ink overflow-hidden">
-      <PatternField variant="inward" logoMotion="drift" logoPlacement="tl" />
+      <FramerMouseGradient/>
       <Navbar />
-
       <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-12">
+        <div 
+          className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
+          style={{ 
+            backgroundImage: "url('/assets/background-pattern.png')",
+            backgroundSize: "contain",
+            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+          }}
+        />
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider">

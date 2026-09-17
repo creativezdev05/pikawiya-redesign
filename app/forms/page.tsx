@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import PageTitle from "@/components/PageTitle";
-import { AlertTriangle, CheckCircle2, MessageSquare, UserPlus, MapPin, Volume2, VolumeX } from "lucide-react";
+import { AlertTriangle, CheckCircle2, MessageSquare, UserPlus, MapPin, Volume2, VolumeX, Search, FileText, ChevronRight } from "lucide-react";
 import Turnstile from "react-turnstile";
 import Image from "next/image";
+import FramerMouseGradient from "@/components/FramerMouseGradient";
 
 // Field sequence definitions
 const MEMBERSHIP_FIELD_ORDER = [
@@ -78,6 +79,15 @@ async function submitFormToServer(formType: "membership" | "address" | "feedback
   const result = (await response.json()) as { error?: string };
   if (!response.ok) throw new Error(result.error || "Unable to submit this form securely.");
 }
+const allForms = [
+    { id: "form-1", title: "Membership Application", category: "Online Client Services", description: "Submit a membership application, update your address, share feedback, or lodge a complaint with Pika Wiya Health Service." },
+    { id: "form-2", title: "Change of Address Form", category: "Online Client Services", description: "Submit a membership application, update your address, share feedback, or lodge a complaint with Pika Wiya Health Service." },
+    { id: "form-3", title: "Feedback", category: "Online Client Services", description: "Submit a membership application, update your address, share feedback, or lodge a complaint with Pika Wiya Health Service." },
+    { id: "form-4", title: "Complaints", category: "Online Client Services", description: "Submit a membership application, update your address, share feedback, or lodge a complaint with Pika Wiya Health Service." },
+    // ... imagine up to 30 items here
+  ];
+
+  
 
 export default function FormsPage() {
   const [activeTab, setActiveTab] = useState<"membership" | "address" | "feedback" | "complaint">("membership");
@@ -340,7 +350,7 @@ export default function FormsPage() {
 
       playSubmissionSound();
       speakText("Your membership application has been successfully submitted.");
-      setSubmitted(true);
+      setSubmitted(false);
     } catch (err) {
       const error = err as Error;
       const msg = error.message || "Failed to submit membership application.";
@@ -436,827 +446,818 @@ export default function FormsPage() {
     }
   };
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeFormId, setActiveFormId] = useState(allForms[0].id);
+
+  // Filter forms based on search input (great for scaling to 30+ items)
+  const filteredForms = allForms.filter((form) =>
+    form.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const activeForm = allForms.find((f) => f.id === activeFormId) || allForms[0];
+
   return (
     <div className="min-h-screen bg-page text-ink">
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-10">
-          <Image
-            src="/assets/Jap-016925-Tarisse.jpg"
-            alt=""
-            fill
-            className="object-cover object-center"
-            priority={false}
-          />
-        </div>
+      <FramerMouseGradient/>
       <Navbar />
+        
+      <main className="max-w-16xl mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* LEFT SIDEBAR: Vertical Tab List (4 Cols on Large Screens) */}
+          <aside className="lg:col-span-4 bg-surface rounded-2xl border border-border p-4 shadow-sm sticky top-24">
+            
+            {/* Search Box to quickly filter through 25-30 forms */}
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink/40" />
+              <input
+                type="text"
+                placeholder="Search forms..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 text-sm bg-page border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ochre/50 text-ink"
+              />
+            </div>
 
-      <main className="max-w-4xl mx-auto px-4 py-16">
-        {/* Header & Mute Button Bar */}
-        <div className="flex justify-between items-start mb-10">
-          <div className="text-center w-full">
-            <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
-              Online Client Services
-            </span>
-            <PageTitle className="text-4xl font-bold mt-1 mb-3">Client Forms</PageTitle>
-            <p className="text-ink/70 max-w-xl mx-auto text-sm">
-              Submit a membership application, update your address, share feedback, or lodge a complaint with Pika Wiya Health Service.
-            </p>
-          </div>
+            {/* Scrollable list container for up to 30 items */}
+            <div className="space-y-1 max-h-[550px] overflow-y-auto pr-1 custom-scrollbar">
+              {filteredForms.length > 0 ? (
+                filteredForms.map((form) => {
+                  const isActive = form.id === activeFormId;
+                  return (
+                    <button
+                      key={form.id}
+                      // onClick={() => setActiveFormId(form.id)}
+                       onClick={() => {
+                        setActiveFormId(form.id);
+                        setSubmitted(false);
+                        setErrorMsg(null);
+                        setTurnstileToken(null);}}
+                      className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-sm font-medium transition-all ${
+                        isActive
+                          ? "bg-ochre text-white shadow-md shadow-ochre/20"
+                          : "text-ink/80 hover:bg-page hover:text-ink"
+                      }`}
+                    >
+                      <div className="flex items-center space-x-3 truncate">
+                        <FileText className={`w-4 h-4 shrink-0 ${isActive ? "text-white" : "text-ochre"}`} />
+                        <span className="truncate">{form.title}</span>
+                      </div>
+                      <ChevronRight className={`w-4 h-4 shrink-0 opacity-60 ${isActive ? "translate-x-0.5" : ""}`} />
+                    </button>
+                  );
+                })
+              ) : (
+                <p className="text-center text-xs text-ink/50 py-6">No forms found matching your search.</p>
+              )}
+            </div>
+          </aside>
 
-          {/* Speech Audio Toggle Button */}
-          <button
-            type="button"
-            onClick={() => {
-              const nextMute = !isMuted;
-              setIsMuted(nextMute);
-              if (nextMute && typeof window !== "undefined") {
-                window.speechSynthesis?.cancel();
-              }
-            }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-border bg-surface text-ink/80 hover:text-ink text-xs font-medium transition shadow-sm"
-            title={isMuted ? "Unmute Voice Guidance" : "Mute Voice Guidance"}
-          >
-            {isMuted ? (
-              <>
-                <VolumeX className="w-4 h-4 text-red-500" />
-                <span>Muted</span>
-              </>
-            ) : (
-              <>
-                <Volume2 className="w-4 h-4 text-ochre" />
-                <span>Audio On</span>
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Tab Selection */}
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
-          <button
-            onClick={() => {
-              setActiveTab("membership");
-              setSubmitted(false);
-              setErrorMsg(null);
-              setTurnstileToken(null);
-            }}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition ${
-              activeTab === "membership"
-                ? "bg-earth text-white shadow-md"
-                : "bg-surface text-ink/70 hover:text-ink border border-border"
-            }`}
-          >
-            <UserPlus className="w-4 h-4 text-ochre" />
-            Membership Application
-          </button>
-
-          <button
-            onClick={() => {
-              setActiveTab("address");
-              setSubmitted(false);
-              setErrorMsg(null);
-              setTurnstileToken(null);
-            }}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition ${
-              activeTab === "address"
-                ? "bg-earth text-white shadow-md"
-                : "bg-surface text-ink/70 hover:text-ink border border-border"
-            }`}
-          >
-            <MapPin className="w-4 h-4 text-ochre" />
-            Change of Address Form
-          </button>
-
-          <button
-            onClick={() => {
-              setActiveTab("feedback");
-              setSubmitted(false);
-              setErrorMsg(null);
-              setTurnstileToken(null);
-            }}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition ${
-              activeTab === "feedback"
-                ? "bg-earth text-white shadow-md"
-                : "bg-surface text-ink/70 hover:text-ink border border-border"
-            }`}
-          >
-            <MessageSquare className="w-4 h-4 text-ochre" />
-            Feedback
-          </button>
-
-          <button
-            onClick={() => {
-              setActiveTab("complaint");
-              setSubmitted(false);
-              setErrorMsg(null);
-              setTurnstileToken(null);
-            }}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition ${
-              activeTab === "complaint"
-                ? "bg-earth text-white shadow-md"
-                : "bg-surface text-ink/70 hover:text-ink border border-border"
-            }`}
-          >
-            <AlertTriangle className="w-4 h-4 text-ochre" />
-            Complaint
-          </button>
-        </div>
-
-        {/* Success Confirmation */}
-        {submitted ? (
-          <div className="bg-surface p-12 rounded-2xl shadow-sm border border-border text-center space-y-4">
-            <CheckCircle2 className="w-16 h-16 text-ochre mx-auto" />
-            <h2 className="text-2xl font-bold text-ink">Submission Successful</h2>
-            <p className="text-ink/70 text-sm max-w-md mx-auto">
-              Your information has been updated cleanly in the database under your ICN number.
-            </p>
-            <button
-              onClick={() => {
-                setSubmitted(false);
-                setTurnstileToken(null);
-              }}
-              className="mt-4 px-6 py-2.5 bg-ochre text-white text-sm font-medium rounded-md hover:bg-ochre-dark transition"
-            >
-              Submit Another Request
-            </button>
-          </div>
-        ) : (
-          <div className="bg-surface p-8 md:p-12 rounded-2xl shadow-sm border border-border bg-white relative z-10">
-            {errorMsg && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg dark:bg-red-950/40 dark:border-red-800 dark:text-red-300">
-                {errorMsg}
-              </div>
-            )}
-
-            {/* MEMBERSHIP FORM */}
-            {activeTab === "membership" && (
-              <form onSubmit={handleMembershipSubmit} className="space-y-8">
-                <div>
-                  <h2 className="text-2xl font-bold text-ink mb-1">Membership Application</h2>
-                  <p className="text-xs text-ink/60">Fill in each field sequentially to unlock the form.</p>
-                </div>
-
-                <div className="grid md:grid-cols-4 gap-6">
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">ICN Number</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. ICN-10293"
-                      value={membershipData.icn_number}
-                      onFocus={() => speakText("ICN Number input field")}
-                      onChange={(e) => handleMembershipChange("icn_number", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre font-mono"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Surname</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isMembershipFieldUnlocked("surname")}
-                      value={membershipData.surname}
-                      onFocus={() => speakText("Surname input field")}
-                      onChange={(e) => handleMembershipChange("surname", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">First Name</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isMembershipFieldUnlocked("first_name")}
-                      value={membershipData.first_name}
-                      onFocus={() => speakText("First Name input field")}
-                      onChange={(e) => handleMembershipChange("first_name", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Last Name</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isMembershipFieldUnlocked("last_name")}
-                      value={membershipData.last_name}
-                      onFocus={() => speakText("Last Name input field")}
-                      onChange={(e) => handleMembershipChange("last_name", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Address</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isMembershipFieldUnlocked("address")}
-                      value={membershipData.address}
-                      onFocus={() => speakText("Address input field")}
-                      onChange={(e) => handleMembershipChange("address", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Postcode</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isMembershipFieldUnlocked("postcode")}
-                      value={membershipData.postcode}
-                      onFocus={() => speakText("Postcode input field")}
-                      onChange={(e) => handleMembershipChange("postcode", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Telephone Number</label>
-                    <input
-                      type="tel"
-                      required
-                      disabled={!isMembershipFieldUnlocked("phone")}
-                      value={membershipData.phone}
-                      onFocus={() => speakText("Telephone Number input field")}
-                      onChange={(e) => handleMembershipChange("phone", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
-                    <input
-                      type="email"
-                      required
-                      disabled={!isMembershipFieldUnlocked("email")}
-                      value={membershipData.email}
-                      onFocus={() => speakText("Email address input field")}
-                      onChange={(e) => handleMembershipChange("email", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Birth</label>
-                    <input
-                      type="date"
-                      required
-                      disabled={!isMembershipFieldUnlocked("date_of_birth")}
-                      value={membershipData.date_of_birth}
-                      onFocus={() => speakText("Date of Birth field")}
-                      onChange={(e) => handleMembershipChange("date_of_birth", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Place of Birth</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isMembershipFieldUnlocked("place_of_birth")}
-                      value={membershipData.place_of_birth}
-                      onFocus={() => speakText("Place of Birth input field")}
-                      onChange={(e) => handleMembershipChange("place_of_birth", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
-                {/* WITNESS SECTION */}
-                <div className="border-t border-border pt-6 space-y-6">
-                  <div>
-                    <h3 className="text-lg font-bold text-ink">Witness Information</h3>
-                    <p className="text-xs text-ink/60">Details of the witness attesting to this application.</p>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Name</label>
-                      <input
-                        type="text"
-                        required
-                        disabled={!isMembershipFieldUnlocked("witness_name")}
-                        value={membershipData.witness_name}
-                        onFocus={() => speakText("Witness Name input field")}
-                        onChange={(e) => handleMembershipChange("witness_name", e.target.value)}
-                        className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Phone</label>
-                      <input
-                        type="tel"
-                        required
-                        disabled={!isMembershipFieldUnlocked("witness_phone")}
-                        value={membershipData.witness_phone}
-                        onFocus={() => speakText("Witness Phone input field")}
-                        onChange={(e) => handleMembershipChange("witness_phone", e.target.value)}
-                        className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Address</label>
-                      <input
-                        type="text"
-                        required
-                        disabled={!isMembershipFieldUnlocked("witness_address")}
-                        value={membershipData.witness_address}
-                        onFocus={() => speakText("Witness Address input field")}
-                        onChange={(e) => handleMembershipChange("witness_address", e.target.value)}
-                        className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Date</label>
-                      <input
-                        type="date"
-                        required
-                        disabled={!isMembershipFieldUnlocked("witness_date")}
-                        value={membershipData.witness_date}
-                        onFocus={() => speakText("Witness Date field")}
-                        onChange={(e) => handleMembershipChange("witness_date", e.target.value)}
-                        className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Cloudflare Turnstile Captcha */}
-                <div
-                  className={`my-4 transition-opacity ${
-                    areAllMembershipFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"
-                  }`}
-                >
-                  <Turnstile
-                    sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
-                    theme="auto"
-                    onVerify={(token) => {
-                      setTurnstileToken(token);
-                      speakText("Security verification complete.");
-                    }}
-                    onExpire={() => setTurnstileToken(null)}
-                    onError={() => setTurnstileToken(null)}
-                  />
-                </div>
-
+          {/* RIGHT CONTENT AREA: Active Form Details (8 Cols on Large Screens) */}
+          <section className="lg:col-span-8 bg-surface rounded-2xl border border-border p-6 md:p-8 shadow-sm">
+            <div className="space-y-6">
+              <div>
+                <span className="inline-block px-3 py-1 bg-ochre/10 text-ochre text-xs font-semibold rounded-full mb-3">
+                  {activeForm.category}
+                </span>
+                <h2 className="text-2xl md:text-3xl font-bold text-ink">
+                  {activeForm.title}
+                </h2>
+                <p className="text-ink/75 mt-2 text-base leading-relaxed">
+                  {activeForm.description}
+                </p>
+                {/* Speech Audio Toggle Button */}
                 <button
-                  type="submit"
-                  disabled={isSubmitting || !areAllMembershipFieldsFilled || !turnstileToken}
-                  className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  type="button"
+                  onClick={() => {
+                    const nextMute = !isMuted;
+                    setIsMuted(nextMute);
+                    if (nextMute && typeof window !== "undefined") {
+                      window.speechSynthesis?.cancel();
+                    }
+                  }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-border bg-surface text-ink/80 hover:text-ink text-xs font-medium transition shadow-sm"
+                  title={isMuted ? "Unmute Voice Guidance" : "Mute Voice Guidance"}
                 >
-                  {isSubmitting ? "Submitting Application..." : "Submit Membership Application"}
-                </button>
-              </form>
-            )}
-
-            {/* CHANGE OF ADDRESS FORM */}
-            {activeTab === "address" && (
-              <form onSubmit={handleAddressSubmit} className="space-y-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-ink mb-1">Change of Address Form</h2>
-                  <p className="text-xs text-ink/60">Fill in each field sequentially to unlock the form.</p>
-                </div>
-
-                <div className="grid md:grid-cols-4 gap-6">
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">ICN Number</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. ICN-10293"
-                      value={addressData.icn_number}
-                      onFocus={() => speakText("ICN Number input field")}
-                      onChange={(e) => handleAddressChange("icn_number", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre font-mono"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Surname</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isAddressFieldUnlocked("surname")}
-                      value={addressData.surname}
-                      onFocus={() => speakText("Surname input field")}
-                      onChange={(e) => handleAddressChange("surname", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">First Name</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isAddressFieldUnlocked("first_name")}
-                      value={addressData.first_name}
-                      onFocus={() => speakText("First Name input field")}
-                      onChange={(e) => handleAddressChange("first_name", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Last Name</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isAddressFieldUnlocked("last_name")}
-                      value={addressData.last_name}
-                      onFocus={() => speakText("Last Name input field")}
-                      onChange={(e) => handleAddressChange("last_name", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Previous Address</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isAddressFieldUnlocked("previous_address")}
-                      value={addressData.previous_address}
-                      onFocus={() => speakText("Previous Address input field")}
-                      onChange={(e) => handleAddressChange("previous_address", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Previous Postcode</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isAddressFieldUnlocked("previous_postcode")}
-                      value={addressData.previous_postcode}
-                      onFocus={() => speakText("Previous Postcode input field")}
-                      onChange={(e) => handleAddressChange("previous_postcode", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">New Address</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isAddressFieldUnlocked("new_address")}
-                      value={addressData.new_address}
-                      onFocus={() => speakText("New Address input field")}
-                      onChange={(e) => handleAddressChange("new_address", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">New Postcode</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isAddressFieldUnlocked("new_postcode")}
-                      value={addressData.new_postcode}
-                      onFocus={() => speakText("New Postcode input field")}
-                      onChange={(e) => handleAddressChange("new_postcode", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Telephone Number</label>
-                    <input
-                      type="tel"
-                      required
-                      disabled={!isAddressFieldUnlocked("phone")}
-                      value={addressData.phone}
-                      onFocus={() => speakText("Telephone Number input field")}
-                      onChange={(e) => handleAddressChange("phone", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
-                    <input
-                      type="email"
-                      required
-                      disabled={!isAddressFieldUnlocked("email")}
-                      value={addressData.email}
-                      onFocus={() => speakText("Email address input field")}
-                      onChange={(e) => handleAddressChange("email", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Birth</label>
-                    <input
-                      type="date"
-                      required
-                      disabled={!isAddressFieldUnlocked("date_of_birth")}
-                      value={addressData.date_of_birth}
-                      onFocus={() => speakText("Date of Birth field")}
-                      onChange={(e) => handleAddressChange("date_of_birth", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Place of Birth</label>
-                    <input
-                      type="text"
-                      required
-                      disabled={!isAddressFieldUnlocked("place_of_birth")}
-                      value={addressData.place_of_birth}
-                      onFocus={() => speakText("Place of Birth input field")}
-                      onChange={(e) => handleAddressChange("place_of_birth", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Update</label>
-                    <input
-                      type="date"
-                      required
-                      disabled={!isAddressFieldUnlocked("change_date")}
-                      value={addressData.change_date}
-                      onFocus={() => speakText("Date of Update field")}
-                      onChange={(e) => handleAddressChange("change_date", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
-                {/* Cloudflare Turnstile Captcha */}
-                <div
-                  className={`my-4 transition-opacity ${
-                    areAllAddressFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"
-                  }`}
-                >
-                  <Turnstile
-                    sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
-                    theme="auto"
-                    onVerify={(token) => {
-                      setTurnstileToken(token);
-                      speakText("Security verification complete.");
-                    }}
-                    onExpire={() => setTurnstileToken(null)}
-                    onError={() => setTurnstileToken(null)}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !areAllAddressFieldsFilled || !turnstileToken}
-                  className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Updating Address Record..." : "Submit Address Change"}
-                </button>
-              </form>
-            )}
-
-            {/* FEEDBACK FORM */}
-            {activeTab === "feedback" && (
-              <form onSubmit={handleFeedbackSubmit} className="space-y-8">
-                <div>
-                  <h2 className="text-2xl font-bold text-ink mb-1">Feedback</h2>
-                  <p className="text-xs text-ink/60">Please complete the form below to provide us with your feedback.</p>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-ink/80 mb-1">Full Name <span className="font-normal text-ink/50">(Optional)</span></label>
-                  <input
-                    type="text"
-                    value={feedbackData.full_name}
-                    onFocus={() => speakText("Full Name input field, optional")}
-                    onChange={(e) => handleFeedbackChange("full_name", e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-ink/80 mb-1">1. On average, how often do you access Pika Wiya Health Service?</label>
-                  <select
-                    required
-                    value={feedbackData.access_frequency}
-                    onFocus={() => speakText("Select how often you access Pika Wiya Health Service")}
-                    onChange={(e) => handleFeedbackChange("access_frequency", e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre"
-                  >
-                    <option value="">Select an option</option>
-                    <option value="Once a month">Once a month</option>
-                    <option value="Once every 3 months">Once every 3 months</option>
-                    <option value="Once every 6 months">Once every 6 months</option>
-                    <option value="More than 12 months">More than 12 months</option>
-                  </select>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">2. What do you like about Pika Wiya Health Service?</label>
-                    <textarea
-                      required
-                      rows={5}
-                      disabled={!isFeedbackFieldUnlocked("what_like")}
-                      value={feedbackData.what_like}
-                      onFocus={() => speakText("What do you like about Pika Wiya Health Service?")}
-                      onChange={(e) => handleFeedbackChange("what_like", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">3. How can we improve our service?</label>
-                    <textarea
-                      required
-                      rows={5}
-                      disabled={!isFeedbackFieldUnlocked("how_improve")}
-                      value={feedbackData.how_improve}
-                      onFocus={() => speakText("How can we improve our service?")}
-                      onChange={(e) => handleFeedbackChange("how_improve", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">4. What do you dislike about our Health Service?</label>
-                    <textarea
-                      required
-                      rows={5}
-                      disabled={!isFeedbackFieldUnlocked("what_dislike")}
-                      value={feedbackData.what_dislike}
-                      onFocus={() => speakText("What do you dislike about our Health Service?")}
-                      onChange={(e) => handleFeedbackChange("what_dislike", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">5. Any other comments or suggestions?</label>
-                    <textarea
-                      required
-                      rows={5}
-                      disabled={!isFeedbackFieldUnlocked("suggestions")}
-                      value={feedbackData.suggestions}
-                      onFocus={() => speakText("Any other comments or suggestions?")}
-                      onChange={(e) => handleFeedbackChange("suggestions", e.target.value)}
-                      className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
-                <div className={`my-4 transition-opacity ${areAllFeedbackFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}>
-                  <Turnstile
-                    sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
-                    theme="auto"
-                    onVerify={(token) => setTurnstileToken(token)}
-                    onExpire={() => setTurnstileToken(null)}
-                    onError={() => setTurnstileToken(null)}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !areAllFeedbackFieldsFilled || !turnstileToken}
-                  className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Submitting Feedback..." : "Submit Feedback"}
-                </button>
-              </form>
-            )}
-
-            {/* COMPLAINT FORM */}
-            {activeTab === "complaint" && (
-              <form onSubmit={handleComplaintSubmit} className="space-y-8">
-                <div>
-                  <h2 className="text-2xl font-bold text-ink mb-1">Complaint Form</h2>
-                  <p className="text-xs text-ink/60">This form ensures that complaints are heard and responded to respectfully.</p>
-                </div>
-
-                <div className="border-t border-border pt-6 space-y-6">
-                  <h3 className="text-lg font-bold text-ink">Complainant Details</h3>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Name of Person Lodging Complaint</label>
-                      <input required type="text" value={complaintData.complainant_name} onFocus={() => speakText("Name of person lodging complaint")} onChange={(e) => handleComplaintChange("complainant_name", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Address</label>
-                      <input required type="text" disabled={!isComplaintFieldUnlocked("complainant_address")} value={complaintData.complainant_address} onFocus={() => speakText("Complainant address")} onChange={(e) => handleComplaintChange("complainant_address", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Daytime Contact No.</label>
-                      <input required type="tel" disabled={!isComplaintFieldUnlocked("daytime_contact")} value={complaintData.daytime_contact} onFocus={() => speakText("Daytime contact number")} onChange={(e) => handleComplaintChange("daytime_contact", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Date</label>
-                      <input required type="date" disabled={!isComplaintFieldUnlocked("complainant_date")} value={complaintData.complainant_date} onChange={(e) => handleComplaintChange("complainant_date", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
-                      <input required type="email" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.email} onFocus={() => speakText("Email address")} onChange={(e) => handleComplaintChange("email", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="border-t border-border pt-6 space-y-6">
-                  <h3 className="text-lg font-bold text-ink">Complaint Details</h3>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Incident <span className="font-normal text-ink/50">(if relevant)</span></label>
-                      <input type="date" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_date} onChange={(e) => handleComplaintChange("incident_date", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Time</label>
-                      <input type="time" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_time} onChange={(e) => handleComplaintChange("incident_time", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Location of Incident</label>
-                      <input required type="text" disabled={!isComplaintFieldUnlocked("incident_location")} value={complaintData.incident_location} onFocus={() => speakText("Location of incident")} onChange={(e) => handleComplaintChange("incident_location", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Who or what is the subject of your complaint?</label>
-                      <input required type="text" disabled={!isComplaintFieldUnlocked("complaint_subject")} value={complaintData.complaint_subject} onFocus={() => speakText("Who or what is the subject of your complaint?")} onChange={(e) => handleComplaintChange("complaint_subject", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Summary of Complaint or Issue</label>
-                      <textarea required rows={6} disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.complaint_summary} onFocus={() => speakText("Summary of complaint or issue")} onChange={(e) => handleComplaintChange("complaint_summary", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="border-t border-border pt-6 space-y-6">
-                  <h3 className="text-lg font-bold text-ink">Witness Details <span className="font-normal text-ink/50 text-xs">(leave blank if not relevant)</span></h3>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <input aria-label="Witness name" placeholder="Name" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_name} onChange={(e) => handleComplaintChange("witness_name", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    <input aria-label="Witness address" placeholder="Address" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_address} onChange={(e) => handleComplaintChange("witness_address", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    <input aria-label="Witness daytime contact number" placeholder="Daytime contact number" type="tel" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_contact} onChange={(e) => handleComplaintChange("witness_contact", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                  </div>
-                </div>
-
-                <div className="border-t border-border pt-6 space-y-6">
-                  <h3 className="text-lg font-bold text-ink">Complaint Outcome</h3>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink/80 mb-1">Is there an outcome you would like?</label>
-                    <select required disabled={!isComplaintFieldUnlocked("desired_outcome")} value={complaintData.desired_outcome} onChange={(e) => handleComplaintChange("desired_outcome", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed">
-                      <option value="">Select an option</option>
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
-                    </select>
-                  </div>
-                  {complaintData.desired_outcome === "yes" && (
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">If yes, please provide details</label>
-                      <textarea required rows={4} value={complaintData.outcome_details} onChange={(e) => handleComplaintChange("outcome_details", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
-                    </div>
+                  {isMuted ? (
+                    <>
+                      <VolumeX className="w-4 h-4 text-red-500" />
+                      <span>Muted</span>
+                    </>
+                  ) : (
+                    <>
+                      <Volume2 className="w-4 h-4 text-ochre" />
+                      <span>Audio On</span>
+                    </>
                   )}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Complainant Signature</label>
-                      <input required type="text" disabled={!isComplaintFieldUnlocked("signature")} value={complaintData.signature} onFocus={() => speakText("Complainant signature")} onChange={(e) => handleComplaintChange("signature", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Date Submitted</label>
-                      <input required type="date" disabled={!isComplaintFieldUnlocked("date_submitted")} value={complaintData.date_submitted} onChange={(e) => handleComplaintChange("date_submitted", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-lg bg-page p-4 text-xs text-ink/70 leading-relaxed space-y-2 border border-border">
-                  <p>
-                    Complaints may be lodged in writing by mail to PO Box 2021, Port Augusta, SA 5700; by fax to the PWHS Board on (08) 8642 9951; in the clinic suggestion box; by email to Lorraine.Merrick@pikawiyahealth.org.au; or by hand delivery to Administration addressed to the CEO and marked confidential.
-                  </p>
-                  <p>
-                    Complaints may also be made verbally by phone or face to face by asking for an Area Supervisor, Manager, or Executive Team Manager. Business hours are Monday to Friday, 8:30am to 5:00pm. Complaints are handled confidentially and there is no cost to lodge a complaint.
-                  </p>
-                  <p>
-                    Complaints are acknowledged and investigated as soon as practicable, and you will be kept informed throughout the process. If your complaint is not resolved, you may contact the Health and Community Services Complaints Commissioner on 1800 232 007 or visit hcscc.sa.gov.au.
-                  </p>
-                </div>
-                <div className={`my-4 transition-opacity ${isComplaintComplete ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}>
-                  <Turnstile
-                    sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
-                    theme="auto"
-                    onVerify={(token) => setTurnstileToken(token)}
-                    onExpire={() => setTurnstileToken(null)}
-                    onError={() => setTurnstileToken(null)}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !isComplaintComplete || !turnstileToken}
-                  className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Submitting Complaint..." : "Submit Complaint"}
                 </button>
-              </form>
-            )}
-          </div>
-        )}
+              </div>
+
+              <hr className="border-border" />
+
+              {/* Form Action / Embed area */}
+              <div className="bg-page p-6 rounded-xl border border-border flex flex-col items-center justify-center text-center space-y-4 min-h-[300px]">
+                {submitted ? (
+                  <div className="bg-surface p-12 rounded-2xl shadow-sm border border-border text-center space-y-4">
+                    <CheckCircle2 className="w-16 h-16 text-ochre mx-auto" />
+                    <h2 className="text-2xl font-bold text-ink">Submission Successful</h2>
+                    <p className="text-ink/70 text-sm max-w-md mx-auto">
+                      Your information has been updated cleanly in the database under your ICN number.
+                    </p>
+                    <button
+                      onClick={() => {
+                        setSubmitted(false);
+                        setTurnstileToken(null);
+                      }}
+                      className="mt-4 px-6 py-2.5 bg-ochre text-white text-sm font-medium rounded-md hover:bg-ochre-dark transition"
+                    >
+                      Submit Another Request
+                    </button>
+                  </div>
+                ) : (
+                  <div className=" relative z-10">
+                    {errorMsg && (
+                      <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg dark:bg-red-950/40 dark:border-red-800 dark:text-red-300">
+                        {errorMsg}
+                      </div>
+                    )}
+
+                  
+                  </div>
+                )}
+                {activeForm.id === 'form-1' &&
+                  <form onSubmit={handleMembershipSubmit} className="space-y-8">
+                    <div>
+                      <h2 className="text-2xl font-bold text-ink mb-1">Membership Application</h2>
+                      <p className="text-xs text-ink/60">Fill in each field sequentially to unlock the form.</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-4 gap-6">
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">ICN Number</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. ICN-10293"
+                          value={membershipData.icn_number}
+                          onFocus={() => speakText("ICN Number input field")}
+                          onChange={(e) => handleMembershipChange("icn_number", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre font-mono"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Surname</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isMembershipFieldUnlocked("surname")}
+                          value={membershipData.surname}
+                          onFocus={() => speakText("Surname input field")}
+                          onChange={(e) => handleMembershipChange("surname", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">First Name</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isMembershipFieldUnlocked("first_name")}
+                          value={membershipData.first_name}
+                          onFocus={() => speakText("First Name input field")}
+                          onChange={(e) => handleMembershipChange("first_name", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Last Name</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isMembershipFieldUnlocked("last_name")}
+                          value={membershipData.last_name}
+                          onFocus={() => speakText("Last Name input field")}
+                          onChange={(e) => handleMembershipChange("last_name", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-6">
+                      <div className="md:col-span-2">
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Address</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isMembershipFieldUnlocked("address")}
+                          value={membershipData.address}
+                          onFocus={() => speakText("Address input field")}
+                          onChange={(e) => handleMembershipChange("address", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Postcode</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isMembershipFieldUnlocked("postcode")}
+                          value={membershipData.postcode}
+                          onFocus={() => speakText("Postcode input field")}
+                          onChange={(e) => handleMembershipChange("postcode", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Telephone Number</label>
+                        <input
+                          type="tel"
+                          required
+                          disabled={!isMembershipFieldUnlocked("phone")}
+                          value={membershipData.phone}
+                          onFocus={() => speakText("Telephone Number input field")}
+                          onChange={(e) => handleMembershipChange("phone", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
+                        <input
+                          type="email"
+                          required
+                          disabled={!isMembershipFieldUnlocked("email")}
+                          value={membershipData.email}
+                          onFocus={() => speakText("Email address input field")}
+                          onChange={(e) => handleMembershipChange("email", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Birth</label>
+                        <input
+                          type="date"
+                          required
+                          disabled={!isMembershipFieldUnlocked("date_of_birth")}
+                          value={membershipData.date_of_birth}
+                          onFocus={() => speakText("Date of Birth field")}
+                          onChange={(e) => handleMembershipChange("date_of_birth", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Place of Birth</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isMembershipFieldUnlocked("place_of_birth")}
+                          value={membershipData.place_of_birth}
+                          onFocus={() => speakText("Place of Birth input field")}
+                          onChange={(e) => handleMembershipChange("place_of_birth", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    {/* WITNESS SECTION */}
+                    <div className="border-t border-border pt-6 space-y-6">
+                      <div>
+                        <h3 className="text-lg font-bold text-ink">Witness Information</h3>
+                        <p className="text-xs text-ink/60">Details of the witness attesting to this application.</p>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Name</label>
+                          <input
+                            type="text"
+                            required
+                            disabled={!isMembershipFieldUnlocked("witness_name")}
+                            value={membershipData.witness_name}
+                            onFocus={() => speakText("Witness Name input field")}
+                            onChange={(e) => handleMembershipChange("witness_name", e.target.value)}
+                            className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Phone</label>
+                          <input
+                            type="tel"
+                            required
+                            disabled={!isMembershipFieldUnlocked("witness_phone")}
+                            value={membershipData.witness_phone}
+                            onFocus={() => speakText("Witness Phone input field")}
+                            onChange={(e) => handleMembershipChange("witness_phone", e.target.value)}
+                            className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-3 gap-6">
+                        <div className="md:col-span-2">
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Address</label>
+                          <input
+                            type="text"
+                            required
+                            disabled={!isMembershipFieldUnlocked("witness_address")}
+                            value={membershipData.witness_address}
+                            onFocus={() => speakText("Witness Address input field")}
+                            onChange={(e) => handleMembershipChange("witness_address", e.target.value)}
+                            className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Date</label>
+                          <input
+                            type="date"
+                            required
+                            disabled={!isMembershipFieldUnlocked("witness_date")}
+                            value={membershipData.witness_date}
+                            onFocus={() => speakText("Witness Date field")}
+                            onChange={(e) => handleMembershipChange("witness_date", e.target.value)}
+                            className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Cloudflare Turnstile Captcha */}
+                    <div
+                      className={`my-4 transition-opacity ${
+                        areAllMembershipFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"
+                      }`}
+                    >
+                      <Turnstile
+                        sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
+                        theme="auto"
+                        onVerify={(token) => {
+                          setTurnstileToken(token);
+                          speakText("Security verification complete.");
+                        }}
+                        onExpire={() => setTurnstileToken(null)}
+                        onError={() => setTurnstileToken(null)}
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !areAllMembershipFieldsFilled || !turnstileToken}
+                      className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? "Submitting Application..." : "Submit Membership Application"}
+                    </button>
+                  </form>
+                }
+                {/* CHANGE OF ADDRESS FORM */}
+                {activeForm.id === "form-2" && (
+                  <form onSubmit={handleAddressSubmit} className="space-y-6">
+                    <div>
+                      <h2 className="text-2xl font-bold text-ink mb-1">Change of Address Form</h2>
+                      <p className="text-xs text-ink/60">Fill in each field sequentially to unlock the form.</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-4 gap-6">
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">ICN Number</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. ICN-10293"
+                          value={addressData.icn_number}
+                          onFocus={() => speakText("ICN Number input field")}
+                          onChange={(e) => handleAddressChange("icn_number", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre font-mono"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Surname</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isAddressFieldUnlocked("surname")}
+                          value={addressData.surname}
+                          onFocus={() => speakText("Surname input field")}
+                          onChange={(e) => handleAddressChange("surname", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">First Name</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isAddressFieldUnlocked("first_name")}
+                          value={addressData.first_name}
+                          onFocus={() => speakText("First Name input field")}
+                          onChange={(e) => handleAddressChange("first_name", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Last Name</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isAddressFieldUnlocked("last_name")}
+                          value={addressData.last_name}
+                          onFocus={() => speakText("Last Name input field")}
+                          onChange={(e) => handleAddressChange("last_name", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-6">
+                      <div className="md:col-span-2">
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Previous Address</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isAddressFieldUnlocked("previous_address")}
+                          value={addressData.previous_address}
+                          onFocus={() => speakText("Previous Address input field")}
+                          onChange={(e) => handleAddressChange("previous_address", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Previous Postcode</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isAddressFieldUnlocked("previous_postcode")}
+                          value={addressData.previous_postcode}
+                          onFocus={() => speakText("Previous Postcode input field")}
+                          onChange={(e) => handleAddressChange("previous_postcode", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-6">
+                      <div className="md:col-span-2">
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">New Address</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isAddressFieldUnlocked("new_address")}
+                          value={addressData.new_address}
+                          onFocus={() => speakText("New Address input field")}
+                          onChange={(e) => handleAddressChange("new_address", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">New Postcode</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isAddressFieldUnlocked("new_postcode")}
+                          value={addressData.new_postcode}
+                          onFocus={() => speakText("New Postcode input field")}
+                          onChange={(e) => handleAddressChange("new_postcode", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Telephone Number</label>
+                        <input
+                          type="tel"
+                          required
+                          disabled={!isAddressFieldUnlocked("phone")}
+                          value={addressData.phone}
+                          onFocus={() => speakText("Telephone Number input field")}
+                          onChange={(e) => handleAddressChange("phone", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
+                        <input
+                          type="email"
+                          required
+                          disabled={!isAddressFieldUnlocked("email")}
+                          value={addressData.email}
+                          onFocus={() => speakText("Email address input field")}
+                          onChange={(e) => handleAddressChange("email", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-6">
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Birth</label>
+                        <input
+                          type="date"
+                          required
+                          disabled={!isAddressFieldUnlocked("date_of_birth")}
+                          value={addressData.date_of_birth}
+                          onFocus={() => speakText("Date of Birth field")}
+                          onChange={(e) => handleAddressChange("date_of_birth", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Place of Birth</label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isAddressFieldUnlocked("place_of_birth")}
+                          value={addressData.place_of_birth}
+                          onFocus={() => speakText("Place of Birth input field")}
+                          onChange={(e) => handleAddressChange("place_of_birth", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Update</label>
+                        <input
+                          type="date"
+                          required
+                          disabled={!isAddressFieldUnlocked("change_date")}
+                          value={addressData.change_date}
+                          onFocus={() => speakText("Date of Update field")}
+                          onChange={(e) => handleAddressChange("change_date", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Cloudflare Turnstile Captcha */}
+                    <div
+                      className={`my-4 transition-opacity ${
+                        areAllAddressFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"
+                      }`}
+                    >
+                      <Turnstile
+                        sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
+                        theme="auto"
+                        onVerify={(token) => {
+                          setTurnstileToken(token);
+                          speakText("Security verification complete.");
+                        }}
+                        onExpire={() => setTurnstileToken(null)}
+                        onError={() => setTurnstileToken(null)}
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !areAllAddressFieldsFilled || !turnstileToken}
+                      className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? "Updating Address Record..." : "Submit Address Change"}
+                    </button>
+                  </form>
+                )}
+
+                {/* FEEDBACK FORM */}
+                {activeForm.id === "form-3" && (
+                  <form onSubmit={handleFeedbackSubmit} className="space-y-8">
+                    <div>
+                      <h2 className="text-2xl font-bold text-ink mb-1">Feedback</h2>
+                      <p className="text-xs text-ink/60">Please complete the form below to provide us with your feedback.</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">Full Name <span className="font-normal text-ink/50">(Optional)</span></label>
+                      <input
+                        type="text"
+                        value={feedbackData.full_name}
+                        onFocus={() => speakText("Full Name input field, optional")}
+                        onChange={(e) => handleFeedbackChange("full_name", e.target.value)}
+                        className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-ink/80 mb-1">1. On average, how often do you access Pika Wiya Health Service?</label>
+                      <select
+                        required
+                        value={feedbackData.access_frequency}
+                        onFocus={() => speakText("Select how often you access Pika Wiya Health Service")}
+                        onChange={(e) => handleFeedbackChange("access_frequency", e.target.value)}
+                        className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre"
+                      >
+                        <option value="">Select an option</option>
+                        <option value="Once a month">Once a month</option>
+                        <option value="Once every 3 months">Once every 3 months</option>
+                        <option value="Once every 6 months">Once every 6 months</option>
+                        <option value="More than 12 months">More than 12 months</option>
+                      </select>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">2. What do you like about Pika Wiya Health Service?</label>
+                        <textarea
+                          required
+                          rows={5}
+                          disabled={!isFeedbackFieldUnlocked("what_like")}
+                          value={feedbackData.what_like}
+                          onFocus={() => speakText("What do you like about Pika Wiya Health Service?")}
+                          onChange={(e) => handleFeedbackChange("what_like", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">3. How can we improve our service?</label>
+                        <textarea
+                          required
+                          rows={5}
+                          disabled={!isFeedbackFieldUnlocked("how_improve")}
+                          value={feedbackData.how_improve}
+                          onFocus={() => speakText("How can we improve our service?")}
+                          onChange={(e) => handleFeedbackChange("how_improve", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">4. What do you dislike about our Health Service?</label>
+                        <textarea
+                          required
+                          rows={5}
+                          disabled={!isFeedbackFieldUnlocked("what_dislike")}
+                          value={feedbackData.what_dislike}
+                          onFocus={() => speakText("What do you dislike about our Health Service?")}
+                          onChange={(e) => handleFeedbackChange("what_dislike", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">5. Any other comments or suggestions?</label>
+                        <textarea
+                          required
+                          rows={5}
+                          disabled={!isFeedbackFieldUnlocked("suggestions")}
+                          value={feedbackData.suggestions}
+                          onFocus={() => speakText("Any other comments or suggestions?")}
+                          onChange={(e) => handleFeedbackChange("suggestions", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    <div className={`my-4 transition-opacity ${areAllFeedbackFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}>
+                      <Turnstile
+                        sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
+                        theme="auto"
+                        onVerify={(token) => setTurnstileToken(token)}
+                        onExpire={() => setTurnstileToken(null)}
+                        onError={() => setTurnstileToken(null)}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !areAllFeedbackFieldsFilled || !turnstileToken}
+                      className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? "Submitting Feedback..." : "Submit Feedback"}
+                    </button>
+                  </form>
+                )}
+
+                {/* COMPLAINT FORM */}
+                {activeForm.id === "form-4" && (
+                  <form onSubmit={handleComplaintSubmit} className="space-y-8">
+                    <div>
+                      <h2 className="text-2xl font-bold text-ink mb-1">Complaint Form</h2>
+                      <p className="text-xs text-ink/60">This form ensures that complaints are heard and responded to respectfully.</p>
+                    </div>
+
+                    <div className="border-t border-border pt-6 space-y-6">
+                      <h3 className="text-lg font-bold text-ink">Complainant Details</h3>
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Name of Person Lodging Complaint</label>
+                          <input required type="text" value={complaintData.complainant_name} onFocus={() => speakText("Name of person lodging complaint")} onChange={(e) => handleComplaintChange("complainant_name", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Address</label>
+                          <input required type="text" disabled={!isComplaintFieldUnlocked("complainant_address")} value={complaintData.complainant_address} onFocus={() => speakText("Complainant address")} onChange={(e) => handleComplaintChange("complainant_address", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Daytime Contact No.</label>
+                          <input required type="tel" disabled={!isComplaintFieldUnlocked("daytime_contact")} value={complaintData.daytime_contact} onFocus={() => speakText("Daytime contact number")} onChange={(e) => handleComplaintChange("daytime_contact", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Date</label>
+                          <input required type="date" disabled={!isComplaintFieldUnlocked("complainant_date")} value={complaintData.complainant_date} onChange={(e) => handleComplaintChange("complainant_date", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
+                          <input required type="email" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.email} onFocus={() => speakText("Email address")} onChange={(e) => handleComplaintChange("email", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-border pt-6 space-y-6">
+                      <h3 className="text-lg font-bold text-ink">Complaint Details</h3>
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Incident <span className="font-normal text-ink/50">(if relevant)</span></label>
+                          <input type="date" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_date} onChange={(e) => handleComplaintChange("incident_date", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Time</label>
+                          <input type="time" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_time} onChange={(e) => handleComplaintChange("incident_time", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Location of Incident</label>
+                          <input required type="text" disabled={!isComplaintFieldUnlocked("incident_location")} value={complaintData.incident_location} onFocus={() => speakText("Location of incident")} onChange={(e) => handleComplaintChange("incident_location", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Who or what is the subject of your complaint?</label>
+                          <input required type="text" disabled={!isComplaintFieldUnlocked("complaint_subject")} value={complaintData.complaint_subject} onFocus={() => speakText("Who or what is the subject of your complaint?")} onChange={(e) => handleComplaintChange("complaint_subject", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Summary of Complaint or Issue</label>
+                          <textarea required rows={6} disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.complaint_summary} onFocus={() => speakText("Summary of complaint or issue")} onChange={(e) => handleComplaintChange("complaint_summary", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-border pt-6 space-y-6">
+                      <h3 className="text-lg font-bold text-ink">Witness Details <span className="font-normal text-ink/50 text-xs">(leave blank if not relevant)</span></h3>
+                      <div className="grid md:grid-cols-3 gap-6">
+                        <input aria-label="Witness name" placeholder="Name" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_name} onChange={(e) => handleComplaintChange("witness_name", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        <input aria-label="Witness address" placeholder="Address" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_address} onChange={(e) => handleComplaintChange("witness_address", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        <input aria-label="Witness daytime contact number" placeholder="Daytime contact number" type="tel" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_contact} onChange={(e) => handleComplaintChange("witness_contact", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                      </div>
+                    </div>
+
+                    <div className="border-t border-border pt-6 space-y-6">
+                      <h3 className="text-lg font-bold text-ink">Complaint Outcome</h3>
+                      <div>
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Is there an outcome you would like?</label>
+                        <select required disabled={!isComplaintFieldUnlocked("desired_outcome")} value={complaintData.desired_outcome} onChange={(e) => handleComplaintChange("desired_outcome", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed">
+                          <option value="">Select an option</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+                      {complaintData.desired_outcome === "yes" && (
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">If yes, please provide details</label>
+                          <textarea required rows={4} value={complaintData.outcome_details} onChange={(e) => handleComplaintChange("outcome_details", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
+                        </div>
+                      )}
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Complainant Signature</label>
+                          <input required type="text" disabled={!isComplaintFieldUnlocked("signature")} value={complaintData.signature} onFocus={() => speakText("Complainant signature")} onChange={(e) => handleComplaintChange("signature", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Date Submitted</label>
+                          <input required type="date" disabled={!isComplaintFieldUnlocked("date_submitted")} value={complaintData.date_submitted} onChange={(e) => handleComplaintChange("date_submitted", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-lg bg-page p-4 text-xs text-ink/70 leading-relaxed space-y-2 border border-border">
+                      <p>
+                        Complaints may be lodged in writing by mail to PO Box 2021, Port Augusta, SA 5700; by fax to the PWHS Board on (08) 8642 9951; in the clinic suggestion box; by email to Lorraine.Merrick@pikawiyahealth.org.au; or by hand delivery to Administration addressed to the CEO and marked confidential.
+                      </p>
+                      <p>
+                        Complaints may also be made verbally by phone or face to face by asking for an Area Supervisor, Manager, or Executive Team Manager. Business hours are Monday to Friday, 8:30am to 5:00pm. Complaints are handled confidentially and there is no cost to lodge a complaint.
+                      </p>
+                      <p>
+                        Complaints are acknowledged and investigated as soon as practicable, and you will be kept informed throughout the process. If your complaint is not resolved, you may contact the Health and Community Services Complaints Commissioner on 1800 232 007 or visit hcscc.sa.gov.au.
+                      </p>
+                    </div>
+                    <div className={`my-4 transition-opacity ${isComplaintComplete ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}>
+                      <Turnstile
+                        sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
+                        theme="auto"
+                        onVerify={(token) => setTurnstileToken(token)}
+                        onExpire={() => setTurnstileToken(null)}
+                        onError={() => setTurnstileToken(null)}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !isComplaintComplete || !turnstileToken}
+                      className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? "Submitting Complaint..." : "Submit Complaint"}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </section>
+
+        </div>
+        
       </main>
     </div>
   );
