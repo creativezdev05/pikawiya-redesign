@@ -749,6 +749,10 @@ export default function CulturalPattern({
           )}
 
           {/* Curved Flow Paths with Position, Length & Flowing Dots */}
+          <g 
+  className="cultural-flow-paths transition-transform duration-200 [--path-offset:0px] [@media(min-width:1500px)_and_(max-width:1845px)]:[--path-offset:-120px]"
+  style={{ transform: 'translateY(var(--path-offset))' }}
+>
           {layout.flowPaths.map((fp) => {
             return (
               <g key={fp.id}>
@@ -781,6 +785,7 @@ export default function CulturalPattern({
               </g>
             );
           })}
+          </g>
 
           {layout.circularDotMotifs.map((motif, mi) => {
             const dots = generateGraduatedCircularDots(

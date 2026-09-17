@@ -21,6 +21,11 @@
   --title-blend-mid: #4a2c1e;
   --title-blend-to: #c25324;
   --title-blend-end: #f08a62;
+
+  --title-blend-aboutus-from: #ddc2a8;
+  --title-blend-aboutus-mid: #c4a883;
+  --title-blend-aboutus-to: #300f01;
+  --title-blend-aboutus-end: #140902;
 }
 
 @theme inline {
@@ -140,6 +145,23 @@ textarea:disabled {
     var(--title-blend-mid),
     var(--title-blend-to) 70%,
     var(--title-blend-end)
+  );
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: title-blend-shift 8s ease-in-out infinite;
+}
+
+.title-blend-aboutus {
+  background-image: linear-gradient(
+    110deg,
+    var(--title-blend-aboutus-from),
+    var(--title-blend-aboutus-mid),
+    var(--title-blend-aboutus-to) 70%,
+    var(--title-blend-aboutus-end)
   );
   background-size: 200% 100%;
   background-position: 0% 50%;

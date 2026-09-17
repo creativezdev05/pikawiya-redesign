@@ -53,7 +53,7 @@ export default function PageHero({
           // motif3Config={[{ x: -20, y: 460 }]}
           dotsConfig={[{ x: "-10%", y: "40%" }]}
           // dashedOrbitsConfig={[{ x: 1000, y: 200 }, { x: 1000, y: 200 } , { x: 1000, y: 100 }]}
-        dashedOrbitsConfig={[{ x: 900, y: 200, pathHeight:150, pathWidth:300, speed:10 }, { x: 200, y: 400, pathHeight:120, pathWidth:420, speed:10 } , { x: 300, y: 600, pathHeight:120, pathWidth:400, speed:10 }]}
+        dashedOrbitsConfig={[{ x: 150, y: 300}, { x: 120, y: 400 } , { x: 170, y: 600 }]}
 
           uShapeConfig={[{ x: "-16%" , y: 750 }]}
           cornerTLConfig={{ x: "15%", y: "-30%" }}       // Pin strictly to top-left edge
@@ -89,14 +89,14 @@ export default function PageHero({
             {eyebrow}
           </span>
           <PageTitle
-            pageName = "aboutus"
+            pageName ="aboutus"
             onDark
             className="mb-5 text-[clamp(2.75rem,7vw,5rem)] font-extrabold leading-[1.05] tracking-[-0.03em]"
           >
             {title}
           </PageTitle>
           {description ? (
-            <p className="max-w-[540px] text-base leading-relaxed text-white/70 md:text-lg">
+            <p className={`max-w-[540px] text-base leading-relaxed md:text-lg ${pageName == 'about' ? 'text-ink/80' : 'text-white/70'}`}>
               {description}
             </p>
           ) : null}

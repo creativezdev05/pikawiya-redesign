@@ -49,7 +49,8 @@ export default function AboutSection() {
         // motif3Config={[{ x: -20, y: 460 }]}
         dotsConfig={[{ x: -10, y: 200 }]}
         dashedOrbitsConfig={[{ x: 900, y: 200, pathHeight:150, pathWidth:300, speed:10 }, { x: 200, y: 400, pathHeight:120, pathWidth:420, speed:10 } , { x: 300, y: 600, pathHeight:120, pathWidth:400, speed:10 }]}
-        uShapeConfig={[{ x: -170 , y: 750 }]}
+        // uShapeConfig={[{ x: -170 , y: 750 }]}
+        uShapeConfig={[{ x: "-13%", y: "90%" }]}
         cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
         cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
         // showFeet
@@ -291,12 +292,12 @@ export default function AboutSection() {
       <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
         <CulturalPattern 
           variant="values"
-          motif1Config={[{ x: -35, y: 250 }]}
+          // motif1Config={[{ x: -35, y: 250 }]}
           // motif2Config={[{ x: 1300, y: 650 }]}
           // motif3Config={[{ x: -50, y: 460 }]}
           dotsConfig={[ { x: 1170, y: 200 }]}
-          dashedOrbitsConfig={[{ x: 800, y: 200 }, { x: 900, y: 300 } , { x: 1000, y: 150 }]}
-          uShapeConfig={[{ x: -220 , y: 750 }]}
+          dashedOrbitsConfig={[{ x: 250, y: 400, pathHeight:250, pathWidth:500, speed:10 }, { x: 350, y: 500, pathHeight:200, pathWidth:500, speed:12 } , { x: 500, y: 600,pathHeight:220, pathWidth:400, speed:14 }]}
+          uShapeConfig={[{ x: "-18%", y: "90%" }]}
           cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
           cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
           // showFeet

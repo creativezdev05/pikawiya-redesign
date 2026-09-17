@@ -12,14 +12,14 @@ export default function ContactSection() {
       {/* <CulturalPattern variant="contact" showFeet /> */}
       <CulturalPattern 
           variant="contact"
-          motif1Config={[{ x: 200, y: 200 }]}
+          // motif1Config={[{ x: 200, y: 200 }]}
           // motif2Config={[{ x: 1150, y: 650 }]}
           // motif3Config={[{ x: 30, y: 460 }]}
           dotsConfig={[{ x: 1170, y: 200 }]}
-           dashedOrbitsConfig={[{ x: 100, y: 500 }, { x: 300, y: 600 } , { x: 1000, y: 300 }]}
-          uShapeConfig={[{ x: -50 , y: 750 }]}
-                  cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
-        cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
+          dashedOrbitsConfig={[{ x: 100, y: 500 }, { x: 300, y: 600 } , { x: 1000, y: 300 }]}
+          uShapeConfig={[{ x: "-5%", y: "90%" }]}
+          cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
+          cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
           // showFeet
         />
       <div aria-hidden="true" className="cultural-background cultural-background--contact" />
