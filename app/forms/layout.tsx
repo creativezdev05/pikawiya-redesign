@@ -9,6 +9,7 @@ export default function FormsLayout({
 }) {
   return (
     <div className="relative min-h-screen overflow-hidden bg-page">
+      
       <div className="relative z-10">
         <div 
           className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"

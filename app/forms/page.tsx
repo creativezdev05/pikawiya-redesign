@@ -7,6 +7,8 @@ import { AlertTriangle, CheckCircle2, MessageSquare, UserPlus, MapPin, Volume2, 
 import Turnstile from "react-turnstile";
 import Image from "next/image";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
+import CulturalPattern from "@/components/CulturalPattern";
+import PageHero from "@/components/PageHero";
 
 // Field sequence definitions
 const MEMBERSHIP_FIELD_ORDER = [
@@ -458,8 +460,22 @@ export default function FormsPage() {
 
   return (
     <div className="min-h-screen bg-page text-ink">
+      <CulturalPattern
+        dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11 } ,
+          { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12 },
+          { x: 400, y: 10, pathHeight:300, pathWidth:700, speed:13 },
+          { x: 500, y: 20, pathHeight:300, pathWidth:700, speed:14 }]}
+      />
       <FramerMouseGradient/>
       <Navbar />
+      <PageHero
+        eyebrow="Pika Wiya Healthcare Services"
+        title="Becoming a Member of Pika Wiya"
+        description="Fill the membership form to become a member."
+        imageSrc="/assets/forms.png"
+        imageAlt="Aboriginal flowing country dot painting"
+        pageName="forms"
+      />
         
       <main className="max-w-16xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

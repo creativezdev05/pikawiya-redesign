@@ -222,18 +222,3 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
     </section>
   );
 }
-<style jsx global>{`
-  .cultural-flow-paths {
-    /* Baseline on your laptop screen */
-    transform: translate(0px, 0px);
-    transform-origin: top center;
-    transition: transform 0.2s ease-out;
-  }
-
- @media screen and (min-width: 1500px) and (max-width: 1845px) {
-  /* Your CSS styles go here */
-  .cultural-flow-paths {
-    transform: translateY(-120px) !important;
-  }
-}
-`}</style>

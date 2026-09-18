@@ -1,19 +1,21 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
-import PatternField from "@/components/PatternField";
+import CulturalPattern from "@/components/CulturalPattern";
 import { Briefcase, Mail, HeartHandshake, CheckCircle2 } from "lucide-react";
 import PartnersTicker from "@/components/PartnersTicker";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
 
 export default function CareersPage() {
   return (
-    <div className="relative min-h-screen bg-page text-ink overflow-hidden">
-      <FramerMouseGradient/>
-      <Navbar />
-
-      <main className="relative z-10 max-w-4xl mx-auto px-4 py-16 space-y-10">
-        <div 
+    <div className="relative min-h-screen bg-navy text-ink overflow-hidden">
+      <CulturalPattern
+            dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11 } ,
+               { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12 },
+              { x: 400, y: 10, pathHeight:300, pathWidth:700, speed:13 },
+              { x: 500, y: 20, pathHeight:300, pathWidth:700, speed:14 }]}
+          />
+      <div 
           className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
           style={{ 
             backgroundImage: "url('/assets/background-pattern.png')",
@@ -21,6 +23,11 @@ export default function CareersPage() {
             filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
           }}
         />
+      <FramerMouseGradient/>
+      <Navbar />
+
+      <main className="relative z-10 max-w-4xl mx-auto px-4 py-16 space-y-10">
+        
         {/* Header Section */}
         <div className="space-y-3 text-center max-w-2xl mx-auto">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
@@ -29,7 +36,7 @@ export default function CareersPage() {
           <PageTitle className="text-4xl md:text-5xl font-bold tracking-tight">
             Vaccinations and Immunisations
           </PageTitle>
-          <p className="text-ink/70 text-base md:text-lg">
+          <p className="text-white/70 text-base md:text-lg">
             Work alongside dedicated healthcare professionals delivering culturally safe care in South Australia.
           </p>
         </div>

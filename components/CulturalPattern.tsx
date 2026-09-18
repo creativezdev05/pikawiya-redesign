@@ -750,9 +750,28 @@ export default function CulturalPattern({
 
           {/* Curved Flow Paths with Position, Length & Flowing Dots */}
           <g 
-  className="cultural-flow-paths transition-transform duration-200 [--path-offset:0px] [@media(min-width:1500px)_and_(max-width:1845px)]:[--path-offset:-120px]"
-  style={{ transform: 'translateY(var(--path-offset))' }}
->
+            className={`cultural-flow-paths transition-transform duration-200 
+              [--path-offset:0px]
+              [@media(min-width:768px)_and_(max-width:793px)]:[--path-offset:-1633px]
+              [@media(min-width:793px)_and_(max-width:828px)]:[--path-offset:-1460px]
+              [@media(min-width:828px)_and_(max-width:858px)]:[--path-offset:-1394px]
+              [@media(min-width:828px)_and_(max-width:886px)]:[--path-offset:-1300px]
+              [@media(min-width:828px)_and_(max-width:927px)]:[--path-offset:-1220px]
+              [@media(min-width:927px)_and_(max-width:1012px)]:[--path-offset:-1080px]
+              [@media(min-width:1012px)_and_(max-width:1100px)]:[--path-offset:-420px]
+              [@media(min-width:1100px)_and_(max-width:1150px)]:[--path-offset:-360px]
+              [@media(min-width:1150px)_and_(max-width:1240px)]:[--path-offset:-300px]
+              [@media(min-width:1240px)_and_(max-width:1330px)]:[--path-offset:-240px]
+              [@media(min-width:1330px)_and_(max-width:1420px)]:[--path-offset:-180px]
+              [@media(min-width:1420px)_and_(max-width:1510px)]:[--path-offset:-120px]
+              [@media(min-width:1510px)_and_(max-width:1600px)]:[--path-offset:-120px]
+              [@media(min-width:1600px)_and_(max-width:1700px)]:[--path-offset:-86px]
+              [@media(min-width:1700px)_and_(max-width:1800px)]:[--path-offset:-60px]
+              [@media(min-width:1800px)_and_(max-width:1900px)]:[--path-offset:-25px]
+              `
+            }
+            style={{ transform: 'translateY(var(--path-offset))' }}
+          >
           {layout.flowPaths.map((fp) => {
             return (
               <g key={fp.id}>

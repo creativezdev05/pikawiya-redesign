@@ -17,6 +17,7 @@ import {
   CheckCircle2 
 } from "lucide-react";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
+import CulturalPattern from "@/components/CulturalPattern";
 
 export default function AboutPage() {
   const values = [
@@ -64,32 +65,37 @@ export default function AboutPage() {
 
   return (
     <div className="relative min-h-screen bg-page text-ink overflow-hidden">
+      <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
       
       <Navbar />
       <PageHero
         eyebrow="About Pika Wiya"
         title="Thriving in Culture, Built for Community"
         description="Pika Wiya Health Service is an Aboriginal Community Controlled Health Organisation (ACCHO) committed to delivering high-quality, culturally safe healthcare across Port Augusta and regional South Australia."
-        imageSrc="/assets/aboutus2.png"
+        imageSrc="/assets/aboutus.png"
+        imageMobileSrc="/assets/aboutus-mobile.png"
         imageAlt="Aboriginal waterhole and songline dot painting"
         pageName="about"
       />
 
       {/* Wrapper container for the rest of the page with the background pattern locked inside */}
       <div className="relative overflow-hidden">
+         <CulturalPattern
+            dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11 } , { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12 }]}
+          />
         <FramerMouseGradient/>
         {/* Animated Background Pattern spanning behind all main content sections */}
         <div 
           className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
           style={{ 
             backgroundImage: "url('/assets/background-pattern.png')",
-            backgroundSize: "cover",
+            backgroundSize: "contain",
             filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
           }}
         />
 
         <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-16 md:space-y-24">
-          
+         
           {/* Culture & Artwork Banner */}
           <div className="contrast-card grid md:grid-cols-2 gap-12 items-center bg-earth text-sand p-8 md:p-12 rounded-2xl shadow-xl border border-transparent">
             <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-ochre/30">

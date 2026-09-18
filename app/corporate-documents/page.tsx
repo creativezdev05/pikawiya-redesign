@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
-import PatternField from "@/components/PatternField";
+import CulturalPattern from "@/components/CulturalPattern";
 import { FileText, Download, BookOpen, ShieldCheck, Parasol } from "lucide-react";
 import PartnersTicker from "@/components/PartnersTicker";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
@@ -9,17 +9,24 @@ import FramerMouseGradient from "@/components/FramerMouseGradient";
 export default function CorporateDocumentsPage() {
   return (
     <div className="relative min-h-screen bg-page text-ink overflow-hidden">
+      <CulturalPattern
+          dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11 } ,
+              { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12 },
+            { x: 400, y: 10, pathHeight:300, pathWidth:700, speed:13 },
+            { x: 500, y: 20, pathHeight:300, pathWidth:700, speed:14 }]}
+        />
+    <div 
+        className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
+        style={{ 
+          backgroundImage: "url('/assets/background-pattern.png')",
+          backgroundSize: "contain",
+          filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+        }}
+      />
       <FramerMouseGradient/>
       <Navbar />
       <main className="relative z-10 max-w-5xl mx-auto px-4 py-16 space-y-12">
-        <div 
-          className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
-          style={{ 
-            backgroundImage: "url('/assets/background-pattern.png')",
-            backgroundSize: "cover",
-            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
-          }}
-        />
+        
         {/* Header Section */}
         <div className="space-y-4">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center gap-1.5">

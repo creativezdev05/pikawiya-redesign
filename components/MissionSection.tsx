@@ -17,7 +17,7 @@ export default function MissionSection() {
         className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
         style={{ 
           backgroundImage: "url('/assets/background-pattern.png')",
-          backgroundSize: "cover",
+          backgroundSize: "contain",
           /* Swap out the filter string below to change the color */
           filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
         }}

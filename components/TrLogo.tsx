@@ -11,7 +11,9 @@ export type TrLogoMotion =
   | "shimmer"
   | "tilt"
   | "orbit"
-  | "wave";
+  | "wave"
+  | "core";
+
 
 export type TrLogoPlacement = "tr" | "tl" | "br" | "bl";
 
@@ -34,7 +36,7 @@ export default function TrLogo({
         alt=""
         fill
         unoptimized
-        sizes="360px"
+        sizes="60px"
         className="tr-logo__img"
       />
     </div>

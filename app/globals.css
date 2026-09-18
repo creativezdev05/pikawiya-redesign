@@ -817,6 +817,7 @@ textarea:disabled {
   width: clamp(170px, 24vw, 300px);
   aspect-ratio: 1;
   pointer-events: none;
+  opacity: 0.2;
 }
 
 .tr-logo--hero {
@@ -830,7 +831,7 @@ textarea:disabled {
 
 .tr-logo--hero.tr-logo--inset { right: 16%; }
 .tr-logo--tr { top: 12vh; right: 0; }
-.tr-logo--tl { top: 14vh; left: 0; }
+.tr-logo--tl { top: 14vh; left: 62;  width: 190px;}
 .tr-logo--br { bottom: 8%; right: -2%; }
 .tr-logo--bl { bottom: 10%; left: -2%; }
 

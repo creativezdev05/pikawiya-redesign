@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
 import CulturalPattern from "./CulturalPattern";
 import PageTitle from "./PageTitle";
+import TrLogo from "./TrLogo";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -9,6 +10,7 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-navy text-sand border-t border-ochre/30 mt-auto">
       {/* <CulturalPattern variant="footer" className="cultural-pattern--footer" /> */}
+      <TrLogo motion="float" placement="tl"/>
       <CulturalPattern 
         variant="footer"
         // motif1Config={[{ x: -920, y: 150 }]}

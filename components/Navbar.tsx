@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, CalendarCheck, Phone } from "lucide-react";
+import { Menu, X, CalendarCheck, Phone, Icon } from "lucide-react";
 import ButtonLink from "@/components/ButtonLink";
 
 export default function Navbar() {
@@ -79,7 +79,7 @@ export default function Navbar() {
         </nav>
 
         {/* Action Buttons - Compact padding & whitespace protection */}
-        <div className="hidden lg:flex items-center gap-2 shrink-0">
+        <div className="hidden lg:flex items-center gap-2 shrink-0 flex-1">
           <ButtonLink
             href="/contact"
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-ochre hover:bg-ochre-dark text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-ochre/20 transition-all duration-300 hover:shadow-ochre/40 whitespace-nowrap"
@@ -99,7 +99,7 @@ export default function Navbar() {
             href="#"
             className="ml-auto inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-ochre/50 text-white hover:bg-ochre hover:text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap"
           >
-            <span>Admin</span>
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg></span>
           </ButtonLink>
 
         </div>
