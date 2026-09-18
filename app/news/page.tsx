@@ -5,32 +5,38 @@ import CulturalPattern from "@/components/CulturalPattern";
 import PageHero from "@/components/PageHero";
 import PartnersTicker from "@/components/PartnersTicker";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
+import { Briefcase } from "lucide-react";
+
 
 export default function NewsPage() {
   return (
-    <div className="flex flex-col relative min-h-screen bg-page text-ink overflow-hidden">
+    <div className="flex flex-col relative min-h-screen bg-navy text-ink overflow-hidden">
       
     
       <FramerMouseGradient/>
       <Navbar />
-      <PageHero
-        eyebrow="Healthcare Services"
-        title="News & Community Announcements"
-        description="Stay updated on community health notices, upcoming vaccination clinics, events, and health alerts."
-        imageSrc="/assets/news-ann.png"
-        imageAlt="Aboriginal flowing country dot painting"
-        pageName="news"
-      />
+      
       <div 
-          className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
+          className="absolute inset-[0%] z-0 opacity-20 pointer-events-none animate-drift"
           style={{ 
-            backgroundImage: "url('/assets/background-pattern.png')",
+            backgroundImage: "url('/assets/background-pattern-new1.png')",
             backgroundSize: "contain",
+            opacity: 0.15,
             filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
           }}
         />
       <div className="flex-1 relative z-10 max-w-5xl mx-auto px-4 py-16">
-        
+        <div className="space-y-3 text-center max-w-2xl mx-auto">
+          <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
+            <Briefcase className="w-4 h-4" /> Healthcare Services
+          </span>
+          <PageTitle className="text-4xl md:text-5xl font-bold tracking-tight">
+            News & Community Announcements
+          </PageTitle>
+          <p className="text-white/70 text-base md:text-lg">
+            News & Community Announcements
+          </p>
+        </div>
         <div className="space-y-6">
           <div className="bg-surface p-6 rounded-xl border border-border shadow-sm">
             <span className="text-xs font-semibold text-ochre uppercase">Community Notice</span>

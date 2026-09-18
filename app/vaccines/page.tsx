@@ -10,10 +10,10 @@ export default function CareersPage() {
   return (
     <div className="relative min-h-screen bg-navy text-ink overflow-hidden">
       <CulturalPattern
-            dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11 } ,
-               { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12 },
-              { x: 400, y: 10, pathHeight:300, pathWidth:700, speed:13 },
-              { x: 500, y: 20, pathHeight:300, pathWidth:700, speed:14 }]}
+            dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10, radius:25 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11, radius:25 } ,
+               { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12, radius:25 },
+              { x: 400, y: 10, pathHeight:300, pathWidth:700, speed:13, radius:25 },
+              { x: 500, y: 20, pathHeight:300, pathWidth:700, speed:14, radius:25 }]}
           />
       <div 
           className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"

@@ -34,7 +34,7 @@ export default function PageHero({
     fill: true,
     priority: true,
     sizes: "100vw",
-    className: "object-cover object-[72%_center] scale-[1.08]"
+    className: "object-contain object-[72%_center] scale-[1.08]"
   };
 
   // 2. Generate Next.js optimized sets for desktop (>= 960px)
@@ -49,7 +49,7 @@ export default function PageHero({
     src: imageMobileSrc || imageSrc,
   });
   return (
-    <section className="relative z-10 flex min-h-[100svh] items-center overflow-hidden  md:min-h-screen">
+    <section className="relative z-10 flex w-full aspect-[16/9] md:aspect-[21/9] items-center overflow-hidden">
       {pageName === 'news' &&
         <CulturalPattern 
           variant="about"
@@ -92,7 +92,7 @@ export default function PageHero({
             <source media="(max-width: 959px)" srcSet={mobileSrcSet} />
             
             {/* Native img tag that handles styles and properties injected from getImageProps */}
-            <img {...restImgProps} />
+            <img {...restImgProps} className="h-full w-full object-cover object-bottom" />
           </picture>
 
         </div>
@@ -125,25 +125,25 @@ export default function PageHero({
         />
       ) : null}
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-20 md:px-8 md:py-28">
-        <div className="max-w-[700px]">
-          <span className="mb-5 block text-xs font-semibold uppercase tracking-[0.18em] text-ochre">
-            {eyebrow}
-          </span>
-          <PageTitle
-            pageName ="aboutus"
-            onDark
-            className="mb-5 text-[clamp(2.75rem,7vw,5rem)] font-extrabold leading-[1.05] tracking-[-0.03em]"
-          >
-            {title}
-          </PageTitle>
-          {description ? (
-            <p className={`max-w-[540px] text-base leading-relaxed md:text-lg ${pageName == 'about' ? 'text-ink/80' : 'text-white/70'}`}>
-              {description}
-            </p>
-          ) : null}
-        </div>
-      </div>
+      <div className="relative z-10  w-full max-w-7xl px-4 pt-12 pb-20 md:pl-15 md:px-15 md:pt-8 md:pb-42 flex flex-col justify-start items-start" style={{paddingLeft:"195px"}}>
+  <div className="max-w-[700px] text-left">
+    <span className="mb-3 block text-xs font-semibold uppercase tracking-[0.18em] text-ochre">
+      {eyebrow}
+    </span>
+    <PageTitle
+      pageName="aboutus"
+      onDark
+      className="mb-4 text-[clamp(2.75rem,7vw,5rem)] font-extrabold leading-[1.05] tracking-[-0.03em]"
+    >
+      {title}
+    </PageTitle>
+    {description ? (
+      <p className={`max-w-[540px] text-base leading-relaxed md:text-lg ${pageName === 'about' ? 'text-ink/80' : 'text-white/70'}`}>
+        {description}
+      </p>
+    ) : null}
+  </div>
+</div>
     </section>
   );
 }

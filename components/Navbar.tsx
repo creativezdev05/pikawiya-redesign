@@ -140,21 +140,24 @@ export default function Navbar() {
           </div>
 
           <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
-            <Link
-              href="/contact"
-              onClick={() => setIsOpen(false)}
-              className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-ochre text-white text-sm font-bold shadow-md shadow-ochre/20"
-            >
-              <CalendarCheck className="w-4 h-4" />
-              <span>Book Appointment</span>
-            </Link>
             
             <a
               href="tel:0886429991"
-              className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl border border-ochre/50 text-ochre text-sm font-bold hover:bg-ochre/10"
+              className="inline-flex items-center justify-center px-5 py-3.5 rounded-xl border border-ochre/50 text-ochre text-sm font-bold hover:bg-ochre/10"
             >
-              <Phone className="w-4 h-4" />
+              {/* Added mr-3 here as well for visual consistency */}
+              <Phone className="w-4 h-4 mr-3 shrink-0" />
               <span>Call (08) 8642 9991</span>
+            </a>
+            <a
+               href="/contact"
+               onClick={() => setIsOpen(false)}  
+              className=""
+            >
+              {/* Added mr-3 here as well for visual consistency */}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" strokeLinecap="round" stroke-linejoin="round" className="lucide lucide-calendar preview-icon"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+
+              <span>Book Appointment</span>
             </a>
           </div>
         </div>

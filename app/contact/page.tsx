@@ -9,18 +9,21 @@ import FramerMouseGradient from "@/components/FramerMouseGradient";
 
 export default function ContactPage() {
   return (
-    <div className="relative min-h-screen bg-page text-ink overflow-hidden">
+    <div className="relative min-h-screen bg-navy text-ink overflow-hidden">
+      
       <FramerMouseGradient/>
       <Navbar />
-      <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-12">
-        <div 
-          className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
+      <div 
+          className="absolute inset-[0%] z-0 opacity-20 pointer-events-none animate-drift"
           style={{ 
-            backgroundImage: "url('/assets/background-pattern.png')",
+            backgroundImage: "url('/assets/background-pattern-new1.png')",
             backgroundSize: "contain",
+            opacity: 0.15,
             filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
           }}
         />
+      <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-12">
+        
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
@@ -29,23 +32,23 @@ export default function ContactPage() {
           <PageTitle className="text-4xl md:text-5xl font-bold mt-2 mb-4">
             Contact Pika Wiya Health Service
           </PageTitle>
-          <p className="text-ink/70 text-lg">
+          <p className="text-white/70 text-lg">
             Have a question about our health programs, appointments, or cultural support services? Reach out to our team below.
           </p>
         </div>
 
         {/* Emergency Notice Banner */}
-        <div className="bg-ochre/10 border border-ochre/30 rounded-xl p-4 flex items-center gap-3 text-ink text-sm max-w-4xl mx-auto">
-          <AlertCircle className="w-5 h-5 text-ochre shrink-0" />
+        <div className="bg-ochre/10 border border-ochre/30 rounded-xl p-4 flex items-center gap-3 text-white text-sm max-w-4xl mx-auto">
+          <AlertCircle className="w-5 h-5 text-white shrink-0" />
           <p>
             <strong>Medical Emergency?</strong> For urgent medical emergencies, please call <strong>000</strong> immediately. For after-hours medical assistance, contact your local hospital.
           </p>
         </div>
 
         {/* Grid Section: Details + Form */}
-        <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto items-start">
+        <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto items-start ">
           {/* Contact Details Panel */}
-          <div className="contrast-card bg-earth text-sand p-8 rounded-2xl space-y-8 shadow-xl border border-transparent">
+          <div className="border border-ochre/30 rounded-xl p-4 contrast-card bg-ochre/10  text-sand p-8 rounded-2xl space-y-8 shadow-xl ">
             <div>
               <h2 className="text-2xl font-bold  mb-2">Clinic Details</h2>
               <p className="text-sand/70 text-sm">

@@ -81,7 +81,7 @@ export default function AboutPage() {
       {/* Wrapper container for the rest of the page with the background pattern locked inside */}
       <div className="relative overflow-hidden">
          <CulturalPattern
-            dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11 } , { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12 }]}
+            dashedOrbitsConfig={[{ x: 200, y: 5, pathHeight:300, pathWidth:300, speed:10, radius: 25 }, { x: 300, y: 25, pathHeight:400, pathWidth:420, speed:11, radius: 25 } , { x: 150, y: 50, pathHeight:500, pathWidth:700, speed:12, radius: 25 }]}
           />
         <FramerMouseGradient/>
         {/* Animated Background Pattern spanning behind all main content sections */}

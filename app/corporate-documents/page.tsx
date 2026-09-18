@@ -8,21 +8,22 @@ import FramerMouseGradient from "@/components/FramerMouseGradient";
 
 export default function CorporateDocumentsPage() {
   return (
-    <div className="relative min-h-screen bg-page text-ink overflow-hidden">
+    <div className="relative min-h-screen bg-navy text-ink overflow-hidden">
       <CulturalPattern
-          dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11 } ,
-              { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12 },
-            { x: 400, y: 10, pathHeight:300, pathWidth:700, speed:13 },
-            { x: 500, y: 20, pathHeight:300, pathWidth:700, speed:14 }]}
+          dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10, radius:25 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11, radius:25 } ,
+              { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12, radius:25 },
+            { x: 400, y: 10, pathHeight:300, pathWidth:700, speed:13, radius:25 },
+            { x: 500, y: 20, pathHeight:300, pathWidth:700, speed:14, radius:25 }]}
         />
     <div 
-        className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
-        style={{ 
-          backgroundImage: "url('/assets/background-pattern.png')",
-          backgroundSize: "contain",
-          filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
-        }}
-      />
+          className="absolute inset-[0%] z-0 opacity-20 pointer-events-none animate-drift"
+          style={{ 
+            backgroundImage: "url('/assets/background-pattern-new1.png')",
+            backgroundSize: "contain",
+            opacity: 0.15,
+            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+          }}
+        />
       <FramerMouseGradient/>
       <Navbar />
       <main className="relative z-10 max-w-5xl mx-auto px-4 py-16 space-y-12">
@@ -35,7 +36,7 @@ export default function CorporateDocumentsPage() {
           <PageTitle className="text-4xl md:text-5xl font-bold tracking-tight">
             Corporate Documents
           </PageTitle>
-          <p className="text-ink/70 text-lg max-w-2xl leading-relaxed">
+          <p className="text-white/70 text-lg max-w-2xl leading-relaxed">
             Access key governance publications, operational rulebooks, and annual performance reports for Pika Wiya Health Service Aboriginal Corporation.
           </p>
         </div>

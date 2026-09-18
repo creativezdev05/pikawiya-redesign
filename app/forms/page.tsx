@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import PageTitle from "@/components/PageTitle";
-import { AlertTriangle, CheckCircle2, MessageSquare, UserPlus, MapPin, Volume2, VolumeX, Search, FileText, ChevronRight } from "lucide-react";
+import { AlertTriangle, CheckCircle2, MessageSquare, UserPlus, MapPin, Volume2, VolumeX, Search, FileText, ChevronRight, Briefcase } from "lucide-react";
 import Turnstile from "react-turnstile";
 import Image from "next/image";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
@@ -459,25 +459,28 @@ export default function FormsPage() {
   const activeForm = allForms.find((f) => f.id === activeFormId) || allForms[0];
 
   return (
-    <div className="min-h-screen bg-page text-ink">
+    <div className="min-h-screen bg-navy text-ink">
       <CulturalPattern
-        dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11 } ,
-          { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12 },
-          { x: 400, y: 10, pathHeight:300, pathWidth:700, speed:13 },
-          { x: 500, y: 20, pathHeight:300, pathWidth:700, speed:14 }]}
+        dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10, radius:25 }, { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11, radius:25 } ,
+          { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12, radius:25 },
+          { x: 400, y: 10, pathHeight:300, pathWidth:700, speed:13, radius:25 },
+          { x: 500, y: 20, pathHeight:300, pathWidth:700, speed:14, radius:25 }]}
       />
       <FramerMouseGradient/>
       <Navbar />
-      <PageHero
-        eyebrow="Pika Wiya Healthcare Services"
-        title="Becoming a Member of Pika Wiya"
-        description="Fill the membership form to become a member."
-        imageSrc="/assets/forms.png"
-        imageAlt="Aboriginal flowing country dot painting"
-        pageName="forms"
-      />
         
       <main className="max-w-16xl mx-auto px-4 py-16">
+        <div className="space-y-3 text-center max-w-2xl mx-auto">
+          <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
+            <Briefcase className="w-4 h-4" /> Join Our Team
+          </span>
+          <PageTitle className="text-4xl md:text-5xl font-bold tracking-tight">
+            Becoming a Member of Pika Wiya
+          </PageTitle>
+          <p className="text-white/70 text-base md:text-lg">
+            Fill the membership form to become a member.
+          </p>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* LEFT SIDEBAR: Vertical Tab List (4 Cols on Large Screens) */}

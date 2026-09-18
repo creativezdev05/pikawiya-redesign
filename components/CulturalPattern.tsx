@@ -763,7 +763,7 @@ export default function CulturalPattern({
               [@media(min-width:1150px)_and_(max-width:1240px)]:[--path-offset:-300px]
               [@media(min-width:1240px)_and_(max-width:1330px)]:[--path-offset:-240px]
               [@media(min-width:1330px)_and_(max-width:1420px)]:[--path-offset:-180px]
-              [@media(min-width:1420px)_and_(max-width:1510px)]:[--path-offset:-120px]
+              [@media(min-width:1420px)_and_(max-width:1510px)]:[--path-offset:-140px]
               [@media(min-width:1510px)_and_(max-width:1600px)]:[--path-offset:-120px]
               [@media(min-width:1600px)_and_(max-width:1700px)]:[--path-offset:-86px]
               [@media(min-width:1700px)_and_(max-width:1800px)]:[--path-offset:-60px]
