@@ -9,6 +9,7 @@ import Image from "next/image";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
 import CulturalPattern from "@/components/CulturalPattern";
 import PageHero from "@/components/PageHero";
+import { trackFormSubmission } from "@/lib/gtag";
 
 // Field sequence definitions
 const MEMBERSHIP_FIELD_ORDER = [
@@ -80,6 +81,10 @@ async function submitFormToServer(formType: "membership" | "address" | "feedback
   });
   const result = (await response.json()) as { error?: string };
   if (!response.ok) throw new Error(result.error || "Unable to submit this form securely.");
+  // 2. Track event on the CLIENT after server execution succeeds
+      if (response.ok) {
+        trackFormSubmission(formType, "success");
+      }
 }
 const allForms = [
     { id: "form-1", title: "Membership Application", category: "Online Client Services", description: "Submit a membership application, update your address, share feedback, or lodge a complaint with Pika Wiya Health Service." },
