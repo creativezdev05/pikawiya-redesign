@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, MouseEvent, WheelEvent } from "react";
 import HeroVideo from "@/components/HeroVideo";
 import AboutHome from "@/components/AboutHome";
+import NewsPopupModal from "@/components/NewsPopupModal";
 import { motion, AnimatePresence } from "framer-motion";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
 import {
@@ -133,21 +134,6 @@ export default function LandingPage() {
 
   const imageRef = useRef<HTMLImageElement | null>(null);
 
-  useEffect(() => {
-    const img = new window.Image();
-    img.crossOrigin = "anonymous";
-    img.src = imageUrl;
-    img.onload = () => {
-      imageRef.current = img;
-      renderCanvas();
-    };
-  }, []);
-  
-    useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
-    }
-  }, []);
 
   const renderCanvas = () => {
     const canvas = canvasRef.current;
@@ -281,8 +267,24 @@ const handleTouchEnd = () => {
   setLastTouchPos(null);
   setTouchStartDist(null);
 };
+useEffect(() => {
+    const img = new window.Image();
+    img.crossOrigin = "anonymous";
+    img.src = imageUrl;
+    img.onload = () => {
+      imageRef.current = img;
+      renderCanvas();
+    };
+  }, []);
+  
+    useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+    }
+  }, []);
   return (
     <div className="relative bg-page min-h-screen">
+      <NewsPopupModal/>
       {/* SECTION 1: SCROLL-DRIVEN HERO VIDEO */}
       {showVideoIntro && (
         <HeroVideo onEnterWebsite={() => setShowVideoIntro(false)} />
