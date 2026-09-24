@@ -96,7 +96,7 @@ export default function Navbar() {
             <span className="hidden 2xl:inline">Call</span>
           </a>
           <ButtonLink
-            href="#"
+            href="https://pikawiya-admin.vercel.app/" target="_blank"
             className="ml-auto inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-ochre/50 text-white hover:bg-ochre hover:text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap"
           >
             <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg></span>

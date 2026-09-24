@@ -6,6 +6,7 @@ import PageHero from "@/components/PageHero";
 import PartnersTicker from "@/components/PartnersTicker";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
 import { Briefcase } from "lucide-react";
+import NewsGrid from "@/components/NewsGrid"; // Import the new grid component
 
 
 export default function NewsPage() {
@@ -37,7 +38,7 @@ export default function NewsPage() {
             News & Community Announcements
           </p>
         </div>
-        <div className="space-y-6">
+        <div className="space-y-6 pb-6">
           <div className="bg-surface p-6 rounded-xl border border-border shadow-sm">
             <span className="text-xs font-semibold text-ochre uppercase">Community Notice</span>
             <h2 className="text-2xl font-bold mt-1 mb-2">Seasonal Health Checks & Vaccine Clinics</h2>
@@ -46,6 +47,8 @@ export default function NewsPage() {
             </p>
           </div>
         </div>
+        {/* Dynamic Posts Grid from Supabase */}
+        <NewsGrid />
       </div>
       <div className="relative z-10">
         <PartnersTicker />
