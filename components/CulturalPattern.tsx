@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 type OrbitConfig = {
   x?: number | string;
@@ -64,7 +64,20 @@ type CulturalPatternProps = {
 
   cornerTLConfig?: CornerConfig;
   cornerBRConfig?: CornerConfig;
+
+  /**
+   * "meet" (default): everything is drawn on a fixed 1200×800 canvas scaled to fit and centred in the container.
+   * "fill": the canvas matches the container, so positions track it at every screen size —
+   *   "%" values are a share of the container's width/height (use for placement), plain numbers are
+   *   design units from the top-left that scale with the motifs (use for edge offsets), and motif
+   *   sizes scale with the container width.
+   */
+  fit?: "meet" | "fill";
 };
+
+// Motif size range in "fill" mode, as a multiple of the 1200px-wide design.
+const FILL_MIN_SCALE = 0.55;
+const FILL_MAX_SCALE = 1.8;
 
 function seedFrom(str: string) {
   let h = 2166136261;
@@ -226,7 +239,28 @@ export default function CulturalPattern({
   flowPathsConfig,
   cornerTLConfig,
   cornerBRConfig,
+  fit = "meet",
 }: CulturalPatternProps) {
+  const isFill = fit === "fill";
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [box, setBox] = useState<{ w: number; h: number } | null>(null);
+
+  useEffect(() => {
+    if (!isFill) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) =>
+      setBox({ w: entry.contentRect.width, h: entry.contentRect.height })
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isFill]);
+
+  const canvasW = isFill && box ? box.w : 1200;
+  const canvasH = isFill && box ? box.h : 800;
+  // Size multiplier for motifs: 1 on the fixed canvas, width-relative (clamped) in fill mode.
+  const size = isFill ? Math.min(FILL_MAX_SCALE, Math.max(FILL_MIN_SCALE, canvasW / 1200)) : 1;
+
   const uid = useId().replace(/:/g, "");
   const footRightId = `pw-foot-right-${uid}`;
   const handId = `pw-hand-${uid}`;
@@ -248,9 +282,24 @@ export default function CulturalPattern({
   const layout = useMemo(() => {
     const rand = mulberry32(seedFrom(`pattern-${variant}`));
 
+    // Resolve a position on the canvas. Fill mode: "%" is a share of the container, numbers scale with the motifs.
+    const isPct = (v: number | string | undefined) => typeof v === "string" && v.trim().endsWith("%");
+    const px = (v: number | string | undefined, def: number) =>
+      isFill
+        ? isPct(v)
+          ? (parseFloat(v as string) / 100) * canvasW
+          : parseCoord(v, def, 1200) * size
+        : parseCoord(v, def, 1200);
+    const py = (v: number | string | undefined, def: number) =>
+      isFill
+        ? isPct(v)
+          ? (parseFloat(v as string) / 100) * canvasH
+          : parseCoord(v, def, 800) * size
+        : parseCoord(v, def, 800);
+
     const circularDotMotifs = (dotsConfig ?? []).map((pt) => ({
-      cx: parseCoord(pt.x, 100, 1200),
-      cy: parseCoord(pt.y, 150, 800),
+      cx: px(pt.x, 100),
+      cy: py(pt.y, 150),
       rings: 4,
       startR: 14,
       gap: 16,
@@ -260,24 +309,24 @@ export default function CulturalPattern({
 
     const imageMotifs = [
       ...(motif1Config ?? []).map((pt) => ({
-        x: parseCoord(pt.x, 90, 1200),
-        y: parseCoord(pt.y, 300, 800),
+        x: px(pt.x, 90),
+        y: py(pt.y, 300),
         type: motif1Id,
         scale: 1.50,
         speed: 22,
         dir: "normal",
       })),
       ...(motif2Config ?? []).map((pt) => ({
-        x: parseCoord(pt.x, 1110, 1200),
-        y: parseCoord(pt.y, 350, 800),
+        x: px(pt.x, 1110),
+        y: py(pt.y, 350),
         type: motif2Id,
         scale: 1.0,
         speed: 20,
         dir: "reverse",
       })),
       ...(motif3Config ?? []).map((pt) => ({
-        x: parseCoord(pt.x, 100, 1200),
-        y: parseCoord(pt.y, 480, 800),
+        x: px(pt.x, 100),
+        y: py(pt.y, 480),
         type: motif3Id,
         scale: 1.25,
         speed: 24,
@@ -296,8 +345,8 @@ export default function CulturalPattern({
         : [];
 
     const orbitingCircles = effectiveOrbitsConfig.map((orbit, index) => ({
-      x: parseCoord(orbit.x, 150 + index * 200, 1200),
-      y: parseCoord(orbit.y, 250 + index * 100, 800),
+      x: px(orbit.x, 150 + index * 200),
+      y: py(orbit.y, 250 + index * 100),
       radius: orbit.radius ?? 40,
       speed: orbit.speed ?? 6 + (index % 3),
       pathWidth: orbit.pathWidth ?? 150 + (index % 2) * 20,
@@ -306,23 +355,24 @@ export default function CulturalPattern({
 
     const flowPaths = (flowPathsConfig ?? []).map((fp, i) => {
       // 1. Resolve base container position
-      const baseX = parseCoord(fp.x, 100 + i * 250, 1200);
-      const baseY = parseCoord(fp.y, 200 + i * 150, 800);
-      const curveLength = parseCoord(fp.length, 400, 1200);
+      const baseX = px(fp.x, 100 + i * 250);
+      const baseY = py(fp.y, 200 + i * 150);
+      const curveLength = px(fp.length, 400);
 
       // 2. Resolve start/end points relative to baseX and baseY (using curveLength as width scope)
       const startX = fp.startX !== undefined ? parseCoord(fp.startX, 0, curveLength) + baseX : baseX;
-      const startY = fp.startY !== undefined ? parseCoord(fp.startY, 0, 800) + baseY : baseY;
+      // Vertical offsets are in 1200×800 design units, scaled like the motifs so the curve keeps its shape.
+      const startY = fp.startY !== undefined ? parseCoord(fp.startY, 0, 800) * size + baseY : baseY;
       
       const endX = fp.endX !== undefined ? parseCoord(fp.endX, curveLength, curveLength) + baseX : startX + curveLength;
-      const endY = fp.endY !== undefined ? parseCoord(fp.endY, 0, 800) + baseY : startY;
+      const endY = fp.endY !== undefined ? parseCoord(fp.endY, 0, 800) * size + baseY : startY;
 
       // 3. Resolve control points relative to the base offset
       const defaultControlX = (startX + endX) / 2;
-      const defaultControlY = Math.min(startY, endY) - 70;
+      const defaultControlY = Math.min(startY, endY) - 70 * size;
       
       const controlX = fp.controlX !== undefined ? parseCoord(fp.controlX, 0, curveLength) + baseX : defaultControlX;
-      const controlY = fp.controlY !== undefined ? parseCoord(fp.controlY, 0, 800) + baseY : defaultControlY;
+      const controlY = fp.controlY !== undefined ? parseCoord(fp.controlY, 0, 800) * size + baseY : defaultControlY;
 
       return {
         id: `flow-path-${uid}-${i}`,
@@ -335,29 +385,29 @@ export default function CulturalPattern({
     });
 
     const hands = (handsConfig ?? []).map((pt) => ({
-      x: parseCoord(pt.x, 140, 1200),
-      y: parseCoord(pt.y, 180, 800),
+      x: px(pt.x, 140),
+      y: py(pt.y, 180),
       rot: round(-30 + rand() * 60),
       scale: round(1.3 + rand() * 0.3),
       flip: rand() > 0.5,
     }));
 
     const uShapes = (uShapeConfig ?? []).map((pt) => ({
-      x: parseCoord(pt.x, 60, 1200),
-      y: parseCoord(pt.y, 720, 800),
+      x: px(pt.x, 60),
+      y: py(pt.y, 720),
     }));
 
     const tlCorner = cornerTLConfig
       ? {
-          x: parseCoord(cornerTLConfig.x, 0, 1200),
-          y: parseCoord(cornerTLConfig.y, 0, 800),
+          x: px(cornerTLConfig.x, 0),
+          y: py(cornerTLConfig.y, 0),
         }
       : null;
 
     const brCorner = cornerBRConfig
       ? {
-          x: parseCoord(cornerBRConfig.x, 1200, 1200),
-          y: parseCoord(cornerBRConfig.y, 800, 800),
+          x: px(cornerBRConfig.x, 1200),
+          y: py(cornerBRConfig.y, 800),
         }
       : null;
 
@@ -370,8 +420,8 @@ export default function CulturalPattern({
         const edgeFade = Math.sin(t * Math.PI) * 0.6;
 
         return {
-          x: round(baseX + strideOffset + Math.sin(t * Math.PI) * 10),
-          y: round(650 - t * 450),
+          x: round(px(baseX + strideOffset + Math.sin(t * Math.PI) * 10, 0)),
+          y: round(py(650 - t * 450, 0)),
           isLeft,
           opacity: round(edgeFade),
         };
@@ -407,6 +457,10 @@ export default function CulturalPattern({
     flowPathsConfig,
     cornerTLConfig,
     cornerBRConfig,
+    isFill,
+    canvasW,
+    canvasH,
+    size,
     motif1Id,
     motif2Id,
     motif3Id,
@@ -415,6 +469,7 @@ export default function CulturalPattern({
 
   return (
     <div
+      ref={containerRef}
       aria-hidden="true"
       className={`absolute inset-0 w-full h-full pointer-events-none overflow-hidden cultural-pattern cultural-pattern--${variant} ${className}`}
     >
@@ -457,10 +512,12 @@ export default function CulturalPattern({
         }
       `}</style>
 
+      {/* Fill mode waits for the first measurement so nothing flashes at the wrong size. */}
+      {(!isFill || box) && (
       <svg
         className="w-full h-full overflow-visible"
-        viewBox="0 0 1200 800"
-        preserveAspectRatio="xMidYMid meet"
+        viewBox={`0 0 ${canvasW} ${canvasH}`}
+        preserveAspectRatio={isFill ? "none" : "xMidYMid meet"}
       >
         <defs>
           <g id={motif1Id}>
@@ -602,7 +659,7 @@ export default function CulturalPattern({
 
         <g>
           {showSnakes && fixedSnakes.map((snake, i) => (
-            <g key={`fixed-snake-${i}`}>
+            <g key={`fixed-snake-${i}`} transform={isFill ? `scale(${canvasW / 1200})` : undefined}>
               <path
                 d={snake.path1}
                 fill="none"
@@ -645,7 +702,7 @@ export default function CulturalPattern({
           {/* Top-Left Fold Corner Pattern */}
           {layout.tlCorner && (
             <g
-              transform={`translate(${layout.tlCorner.x}, ${layout.tlCorner.y}) rotate(135)`}
+              transform={`translate(${layout.tlCorner.x}, ${layout.tlCorner.y}) scale(${size}) rotate(135)`}
             >
               <path
                 d={cornerPattern.line1}
@@ -698,7 +755,7 @@ export default function CulturalPattern({
           {/* Bottom-Right Fold Corner Pattern */}
           {layout.brCorner && (
             <g
-              transform={`translate(${layout.brCorner.x}, ${layout.brCorner.y}) rotate(-45)`}
+              transform={`translate(${layout.brCorner.x}, ${layout.brCorner.y}) scale(${size}) rotate(-45)`}
             >
               <path
                 d={cornerPattern.line1}
@@ -750,7 +807,7 @@ export default function CulturalPattern({
 
           {/* Curved Flow Paths with Position, Length & Flowing Dots */}
           <g 
-            className={`cultural-flow-paths transition-transform duration-200 
+            className={isFill ? "cultural-flow-paths" : `cultural-flow-paths transition-transform duration-200 
               [--path-offset:0px]
               [@media(min-width:768px)_and_(max-width:793px)]:[--path-offset:-1633px]
               [@media(min-width:793px)_and_(max-width:828px)]:[--path-offset:-1460px]
@@ -770,7 +827,7 @@ export default function CulturalPattern({
               [@media(min-width:1800px)_and_(max-width:1900px)]:[--path-offset:-25px]
               `
             }
-            style={{ transform: 'translateY(var(--path-offset))' }}
+            style={isFill ? undefined : { transform: 'translateY(var(--path-offset))' }}
           >
           {layout.flowPaths.map((fp) => {
             return (
@@ -788,7 +845,7 @@ export default function CulturalPattern({
                   const delay = -(fp.speed / fp.dotCount) * di;
                   return (
                     <g key={`flow-dot-${di}`}>
-                      <circle cx="0" cy="0" r="3.5" fill={fp.dotColor} opacity="0.9">
+                      <circle cx="0" cy="0" r={3.5 * size} fill={fp.dotColor} opacity="0.9">
                         <animateMotion
                           dur={`${fp.speed}s`}
                           begin={`${delay}s`}
@@ -808,8 +865,8 @@ export default function CulturalPattern({
 
           {layout.circularDotMotifs.map((motif, mi) => {
             const dots = generateGraduatedCircularDots(
-              motif.cx,
-              motif.cy,
+              0,
+              0,
               motif.rings,
               motif.startR,
               motif.gap
@@ -817,12 +874,15 @@ export default function CulturalPattern({
             return (
               <g
                 key={`circle-motif-${mi}`}
+                transform={`translate(${motif.cx}, ${motif.cy}) scale(${size})`}
+              >
+              <g
                 className="cultural-sky-spiral-rotate"
                 style={{
-                  transformOrigin: `${motif.cx}px ${motif.cy}px`,
+                  transformBox: "fill-box",
+                  transformOrigin: "center",
                   animationDuration: `${motif.speed}s`,
                   animationDirection: motif.dir as "normal" | "reverse",
-                  
                 }}
               >
                 {dots.map((d, di) => (
@@ -836,24 +896,24 @@ export default function CulturalPattern({
                   />
                 ))}
               </g>
+              </g>
             );
           })}
 
           {layout.imageMotifs.map((im, idx) => (
-            <g
-              key={`img-motif-${idx}`}
-              className="cultural-sky-spiral-rotate"
-              style={{
-                transformOrigin: `${im.x}px ${im.y}px`,
-                animationDuration: `${im.speed}s`,
-                animationDirection: im.dir as "normal" | "reverse",
-              }}
-            >
+            <g key={`img-motif-${idx}`} transform={`translate(${im.x}, ${im.y}) scale(${size})`}>
               <g
-                transform={`translate(${im.x}, ${im.y}) scale(${im.scale})`}
-                opacity="0.9"
+                className="cultural-sky-spiral-rotate"
+                style={{
+                  transformBox: "fill-box",
+                  transformOrigin: "center",
+                  animationDuration: `${im.speed}s`,
+                  animationDirection: im.dir as "normal" | "reverse",
+                }}
               >
-                <use href={`#${im.type}`} />
+                <g transform={`scale(${im.scale})`} opacity="0.9">
+                  <use href={`#${im.type}`} />
+                </g>
               </g>
             </g>
           ))}
@@ -863,7 +923,7 @@ export default function CulturalPattern({
             return (
               <g
                 key={`dashed-orbit-${oi}`}
-                transform={`translate(${orbit.x}, ${orbit.y})`}
+                transform={`translate(${orbit.x}, ${orbit.y}) scale(${size})`}
               >
                 <g>
                   <animateMotion
@@ -902,7 +962,7 @@ export default function CulturalPattern({
           {layout.uShapes.map((us, usi) => (
             <g
               key={`u-shape-${usi}`}
-              transform={`translate(${us.x}, ${us.y}) rotate(45)`}
+              transform={`translate(${us.x}, ${us.y}) scale(${size}) rotate(45)`}
             >
               {Array.from({ length: 4 }, (_, l) => {
                 const w = 45 + l * 22;
@@ -930,13 +990,13 @@ export default function CulturalPattern({
           {layout.hands.map((h, i) => (
             <g
               key={`hand-${i}`}
-              className="cultural-hand-float"
-              style={{ animationDelay: `${-i * 1}s` }}
-              transform={`translate(${h.x}, ${h.y}) rotate(${h.rot}) scale(${
+              transform={`translate(${h.x}, ${h.y}) scale(${size}) rotate(${h.rot}) scale(${
                 h.flip ? -h.scale : h.scale
               }, ${h.scale})`}
             >
-              <use href={`#${handId}`} />
+              <g className="cultural-hand-float" style={{ animationDelay: `${-i * 1}s` }}>
+                <use href={`#${handId}`} />
+              </g>
             </g>
           ))}
 
@@ -963,8 +1023,8 @@ export default function CulturalPattern({
                       key={`fp-left-${i}`}
                       opacity={fp.opacity}
                       transform={`translate(${fp.x}, ${fp.y}) rotate(${angle}) scale(${
-                        fp.isLeft ? -0.8 : 0.8
-                      }, 0.8)`}
+                        (fp.isLeft ? -0.8 : 0.8) * size
+                      }, ${0.8 * size})`}
                     >
                       <use href={`#${footRightId}`} />
                     </g>
@@ -994,7 +1054,7 @@ export default function CulturalPattern({
                       opacity={fp.opacity}
                       transform={`translate(${fp.x}, ${fp.y}) rotate(${Number(
                         angle
-                      ).toFixed(4)}) scale(${fp.isLeft ? -0.8 : 0.8}, 0.8)`}
+                      ).toFixed(4)}) scale(${(fp.isLeft ? -0.8 : 0.8) * size}, ${0.8 * size})`}
                     >
                       <use href={`#${footRightId}`} />
                     </g>
@@ -1005,6 +1065,7 @@ export default function CulturalPattern({
           )}
         </g>
       </svg>
+      )}
     </div>
   );
 }

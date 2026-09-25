@@ -39,12 +39,12 @@ export default function Navbar() {
           : "bg-transparent border-b border-transparent py-4"
       }`}
     >
-      <div className="max-w-[1400px] mx-auto px-4 lg:px-6 flex justify-between items-center gap-3">
+      <div className="w-full px-4 lg:px-8 flex justify-between items-center gap-3 xl:grid xl:grid-cols-[1fr_auto_1fr]">
         
         {/* Brand Logo - Re-enable clicks */}
         <Link 
           href="/" 
-          className="pointer-events-auto flex items-center gap-2 shrink-0 transition-transform duration-300 hover:scale-[1.02]"
+          className="pointer-events-auto flex items-center gap-2 shrink-0 justify-self-start transition-transform duration-300 hover:scale-[1.02]"
         >
           <Image
             src="/assets/PWHS_Logo_Orange.png"
@@ -57,7 +57,11 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Links - Re-enable clicks */}
-        <nav className="pointer-events-auto hidden xl:flex items-center gap-0.5 bg-white/[0.06] p-1 rounded-full border border-white/10 backdrop-blur-md shrink-0">
+        <nav
+          className={`pointer-events-auto hidden xl:flex items-center gap-1.5 p-1 rounded-full border backdrop-blur-md shrink-0 transition-colors duration-300 ${
+            scrolled ? "bg-white/[0.06] border-white/10" : "bg-white/30 border-earth/10"
+          }`}
+        >
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
 
@@ -65,10 +69,12 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`relative px-3 py-1.5 rounded-full text-xs font-semibold tracking-tight whitespace-nowrap transition-all duration-300 ${
+                className={`relative px-4 py-1.5 rounded-full text-xs font-semibold tracking-tight whitespace-nowrap transition-all duration-300 ${
                   isActive
                     ? "bg-ochre text-white shadow-md shadow-ochre/30"
-                    : "text-sand/90 hover:text-white hover:bg-white/10"
+                    : scrolled
+                      ? "text-sand/90 hover:text-white hover:bg-white/10"
+                      : "text-earth/85 hover:text-earth hover:bg-earth/10"
                 }`}
               >
                 <span>{link.name}</span>
@@ -77,8 +83,10 @@ export default function Navbar() {
           })}
         </nav>
 
+        {/* Right cell: actions + mobile toggle, pinned to the far right */}
+        <div className="flex items-center justify-end gap-2 justify-self-end">
         {/* Action Buttons - Re-enable clicks */}
-        <div className="pointer-events-auto hidden lg:flex items-center gap-2 shrink-0 flex-1 justify-end">
+        <div className="pointer-events-auto hidden lg:flex items-center gap-2 shrink-0">
           <ButtonLink
             href="/contact"
             className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-ochre hover:bg-ochre-dark text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-ochre/20 transition-all duration-300 hover:shadow-ochre/40 whitespace-nowrap"
@@ -98,7 +106,9 @@ export default function Navbar() {
           <ButtonLink
             href="https://pikawiya-admin.vercel.app/"
             target="_blank"
-            className="inline-flex items-center justify-center p-2 rounded-full border border-ochre/50 text-white hover:bg-ochre hover:text-white transition-all duration-300 whitespace-nowrap"
+            className={`inline-flex items-center justify-center p-2 rounded-full border border-ochre/50 hover:bg-ochre hover:text-white transition-all duration-300 whitespace-nowrap ${
+              scrolled ? "text-white" : "text-earth"
+            }`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -121,11 +131,16 @@ export default function Navbar() {
         {/* Mobile Toggle - Re-enable clicks */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="pointer-events-auto xl:hidden p-2 rounded-xl bg-white/10 border border-white/20 text-sand hover:text-white focus:outline-none backdrop-blur-md"
+          className={`pointer-events-auto xl:hidden p-2 rounded-xl bg-white/10 border focus:outline-none backdrop-blur-md transition-colors duration-300 ${
+            scrolled
+              ? "border-white/20 text-sand hover:text-white"
+              : "border-earth/20 text-earth hover:text-earth/70"
+          }`}
           aria-label="Toggle Navigation Menu"
         >
           {isOpen ? <X className="w-6 h-6 text-ochre" /> : <Menu className="w-6 h-6" />}
         </button>
+        </div>
       </div>
 
       {/* Mobile Menu Drawer - Re-enable clicks */}

@@ -20,26 +20,50 @@ export type ServiceItem = {
 
 export default function CoreServicesSection({ mainServices }: { mainServices: ServiceItem[] }) {
   return (
-    <section className="relative overflow-hidden landing-ink py-16 md:py-28" style={{
-      backgroundImage: `url('/assets/services/core-service.png')`,
-      backgroundSize: 'contain',
-      backgroundPosition: 'center',
-      // backgroundRepeat: 'no-repeat',
-    }}>
+    <section className="relative overflow-hidden landing-ink py-16 md:py-28">
+      {/* Background: the portrait artwork's top (dotted wave) pinned to the top and its bottom (lake, ranges,
+          dotted waves) pinned to the bottom, each full-width and never tiled; their skies fade into a matching
+          sky gradient, so it fits a wide desktop section and a very tall phone section alike. */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(to_bottom,#faf6f0,#fefaf4_55%,#fdedd7)]"
+        aria-hidden="true"
+      >
+        <div className="absolute inset-x-0 top-0 aspect-[2/3] [mask-image:linear-gradient(to_bottom,black_22%,transparent_40%)]">
+          <NextImage
+            src="/assets/services/core-service.png"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-top"
+          />
+        </div>
+        <div className="absolute inset-x-0 bottom-0 aspect-[2/3] [mask-image:linear-gradient(to_top,black_45%,transparent_65%)]">
+          <NextImage
+            src="/assets/services/core-service.png"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-bottom"
+          />
+        </div>
+      </div>
       {/* Background Cultural Elements - Updated variant to core-service for matching consistent pattern layout */}
       {/* <CulturalPattern variant="core-service" showFeet /> */}
       
+      {/* Positions taken from the 1920px layout: "%" tracks the section, numbers are offsets from the top edge
+          that scale with the motifs — so the layout holds at every screen size. */}
       <CulturalPattern 
         variant="core-service"
+        fit="fill"
         // motif1Config={[{ x: 7, y: 200 }]}
         // motif1Config={[{ x: 7, y: 200 }]}
         // motif2Config={[{ x: 1050, y: 800 }]}
         // motif3Config={[{ x: 100, y: 500 }]}
-        dotsConfig={[{ x: 120, y: 100 },{ x: 1070, y: 500 }]}
-        dashedOrbitsConfig={[{ x: 300, y: 400 }, { x: 200, y: 800 }]}
-        uShapeConfig={[{ x: 17, y: 900 }]}
-        cornerTLConfig={{ x: "30%", y: "-50%" }}       // Pin strictly to top-left edge
-        cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
+        dotsConfig={[{ x: "10%", y: "23%" }, { x: "89%", y: "59%" }]}
+        dashedOrbitsConfig={[{ x: "25%", y: "50%" }, { x: "17%", y: "86%" }]}
+        uShapeConfig={[{ x: "1.5%", y: "95.5%" }]}
+        cornerTLConfig={{ x: 360, y: -250 }}       // Pin strictly to top-left edge
+        cornerBRConfig={{ x: "80%", y: "101%" }}  // Pin strictly to bottom-right edge
         flowPathsConfig={[
         {
           startX: "0%",
@@ -53,7 +77,7 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
           strokeColor: "#E66023",
           dotColor: "#E66023",
           x: "10%",
-          y: "-20%",
+          y: -10,
           length: "100%"
         },
       ]}
