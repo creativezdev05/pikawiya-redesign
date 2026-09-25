@@ -5,13 +5,16 @@
   --background: #ffffff;
   --foreground: #1a1615;
   --header-background: #00060fee;
-  --page: #ffffff;
+  --page: #faf8f3;
   --surface: #ffffff;
   --ink: #1a1615;
   --muted: rgba(26, 22, 21, 0.9);
   --border: rgba(26, 22, 21, 0.25);
-  --navy: #04010f;
-  --paper: #f5f6f7;
+  /* --navy: #04010f;
+  --paper: #f5f6f7; */
+  /* --navy: #2c1f0a; */
+  --navy: #2e3130;
+  --paper: #E4CBAB
   --input: #ffffff;
   --input-disabled: #e3e3e3;
   --input-disabled-border: #b4b4b4;
@@ -294,6 +297,7 @@ textarea:disabled {
   pointer-events: none;
   z-index: 0;
   background-image: url("/assets/home/dot-pattern-dark.webp");
+  /* background-image: url("/assets/home/dot-pattern-dark-1.png"); */
   background-size: 280px 280px;
   background-repeat: repeat;
   opacity: 0.55; /* Increased from 0.18 */
@@ -312,7 +316,7 @@ textarea:disabled {
 .cultural-background--about,
 .cultural-background--values,
 .cultural-background--footer {
-  opacity: 0.6; /* Increased from 0.22 */
+  opacity: 1; /* Increased from 0.22 */
 }
 
 .cultural-pattern {
@@ -321,7 +325,7 @@ textarea:disabled {
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
-  color: #e85d26;
+  color: #383d8b;
   contain: layout paint;
   content-visibility: auto;
   contain-intrinsic-size: 800px;

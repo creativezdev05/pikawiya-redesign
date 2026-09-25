@@ -6,6 +6,7 @@ import AboutHome from "@/components/AboutHome";
 import NewsPopupModal from "@/components/NewsPopupModal";
 import { motion, AnimatePresence } from "framer-motion";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
+import PageHero from "@/components/PageHero";
 import {
   ZoomIn,
   ZoomOut,
@@ -42,6 +43,8 @@ import MissionSection from "@/components/MissionSection";
 import GovernanceHeritageSection from "@/components/GovernanceHeritageSection";
 import ContactSection from "@/components/ContactSection";
 import OurStory from "@/components/OurStory";
+
+
 export const mainServices = [
   {
     name: "Clinical Health Care",
@@ -292,7 +295,16 @@ useEffect(() => {
 
       <Navbar />
 
-      <OurStory />
+      {/* <OurStory /> */}
+      <PageHero
+        eyebrow="About Pika Wiya"
+        title="Thriving in Culture, Built for Community"
+        description="Pika Wiya Health Service is an Aboriginal Community Controlled Health Organisation (ACCHO) committed to delivering high-quality, culturally safe healthcare across Port Augusta and regional South Australia."
+        imageSrc="/assets/home-2nd.png"
+        imageMobileSrc="/assets/home-2nd.png"
+        imageAlt="Aboriginal waterhole and songline dot painting"
+        pageName="home"
+      />
 
       <CoreServicesSection mainServices={mainServices} />
 

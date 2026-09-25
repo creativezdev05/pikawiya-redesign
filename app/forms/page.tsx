@@ -10,6 +10,7 @@ import FramerMouseGradient from "@/components/FramerMouseGradient";
 import CulturalPattern from "@/components/CulturalPattern";
 import PageHero from "@/components/PageHero";
 import { trackFormSubmission } from "@/lib/gtag";
+import { isValidEmail, isValidPhone, sanitizePhoneInput } from "@/lib/validators";
 
 // Field sequence definitions
 const MEMBERSHIP_FIELD_ORDER = [
@@ -100,7 +101,15 @@ export default function FormsPage() {
   const [activeTab, setActiveTab] = useState<"membership" | "address" | "feedback" | "complaint">("membership");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  // For global submission banner errors (e.g., "Server error, try again")
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // For per-field real-time validation errors (e.g., email, phone)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  // Checks if any field error string exists and is non-empty
+  const hasFieldErrors = Object.values(fieldErrors).some(
+    (error) => Boolean(error) && error.length > 0
+  );
 
   // Audio State
   const [isMuted, setIsMuted] = useState(false);
@@ -250,20 +259,61 @@ export default function FormsPage() {
     return true;
   };
 
-  const handleMembershipChange = (key: keyof typeof membershipData, value: string) => {
-    setMembershipData((prev) => {
-      const updated = { ...prev, [key]: value };
-      const index = MEMBERSHIP_FIELD_ORDER.indexOf(key as typeof MEMBERSHIP_FIELD_ORDER[number]);
+const handleMembershipChange = (
+  key: keyof typeof membershipData,
+  value: string
+) => {
+  // Sanitize phone input
+  let finalValue = value;
+  if (key === "phone" || key === "witness_phone") {
+    finalValue = sanitizePhoneInput(value);
+  }
 
-      if (!value.trim()) {
-        for (let i = index + 1; i < MEMBERSHIP_FIELD_ORDER.length; i++) {
-          const subsequentKey = MEMBERSHIP_FIELD_ORDER[i];
-          updated[subsequentKey as keyof typeof membershipData] = "";
-        }
+  // Validate current field
+  let validationError = "";
+  if (key === "email" && finalValue.trim()) {
+    if (!isValidEmail(finalValue)) {
+
+      validationError = "Please enter a valid email address.";
+    }
+  } else if ((key === "phone" || key === "witness_phone") && finalValue.trim()) {
+    if (!isValidPhone(finalValue)) {
+      validationError = "Phone number must contain only numbers (and optional leading +).";
+    }
+  }
+
+  // Clear global submission banner on typing
+  if (errorMsg) setErrorMsg(null);
+
+  // Update field errors object
+  setFieldErrors((prev) => ({
+    ...prev,
+    [key]: validationError,
+  }));
+
+  // Update membership data and perform sequential clearing
+  setMembershipData((prev) => {
+    const updated = { ...prev, [key]: finalValue };
+    const index = MEMBERSHIP_FIELD_ORDER.indexOf(
+      key as (typeof MEMBERSHIP_FIELD_ORDER)[number]
+    );
+
+    if (!finalValue.trim() && index !== -1) {
+      for (let i = index + 1; i < MEMBERSHIP_FIELD_ORDER.length; i++) {
+        const subsequentKey = MEMBERSHIP_FIELD_ORDER[i];
+        updated[subsequentKey as keyof typeof membershipData] = "";
+
+        // Also clear field errors for subsequent cleared fields
+        setFieldErrors((prevErrors) => {
+          const newErrors = { ...prevErrors };
+          delete newErrors[subsequentKey as string];
+          return newErrors;
+        });
       }
-      return updated;
-    });
-  };
+    }
+    return updated;
+  });
+};
 
   const areAllMembershipFieldsFilled = MEMBERSHIP_FIELD_ORDER.every(
     (key) => membershipData[key as keyof typeof membershipData]?.trim().length > 0
@@ -284,6 +334,33 @@ export default function FormsPage() {
 
   const handleAddressChange = (key: keyof typeof addressData, value: string) => {
     setAddressData((prev) => {
+    // Sanitize phone input
+      let finalValue = value;
+      if (key === "phone" ) {
+        finalValue = sanitizePhoneInput(value);
+      }
+
+      // Validate current field
+      let validationError = "";
+      if (key === "email" && finalValue.trim()) {
+        if (!isValidEmail(finalValue)) {
+
+          validationError = "Please enter a valid email address.";
+        }
+      } else if ((key === "phone" ) && finalValue.trim()) {
+        if (!isValidPhone(finalValue)) {
+          validationError = "Phone number must contain only numbers (and optional leading +).";
+        }
+      }
+
+      // Clear global submission banner on typing
+      if (errorMsg) setErrorMsg(null);
+
+      // Update field errors object
+      setFieldErrors((prev) => ({
+        ...prev,
+        [key]: validationError,
+      }));
       const updated = { ...prev, [key]: value };
       const index = ADDRESS_FIELD_ORDER.indexOf(key as typeof ADDRESS_FIELD_ORDER[number]);
 
@@ -326,6 +403,34 @@ export default function FormsPage() {
   };
 
   const handleComplaintChange = (key: keyof typeof complaintData, value: string) => {
+    // Sanitize phone input
+  let finalValue = value;
+  if (key === "daytime_contact" || key === "witness_contact") {
+    finalValue = sanitizePhoneInput(value);
+  }
+
+  // Validate current field
+  let validationError = "";
+  if (key === "email" && finalValue.trim()) {
+    if (!isValidEmail(finalValue)) {
+
+      validationError = "Please enter a valid email address.";
+    }
+  } else if ((key === "daytime_contact" || key === "witness_contact") && finalValue.trim()) {
+    if (!isValidPhone(finalValue)) {
+      validationError = "Phone number must contain only numbers (and optional leading +).";
+    }
+  }
+
+  // Clear global submission banner on typing
+  if (errorMsg) setErrorMsg(null);
+
+  // Update field errors object
+  setFieldErrors((prev) => ({
+    ...prev,
+    [key]: validationError,
+  }));
+
     setComplaintData((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -515,6 +620,7 @@ export default function FormsPage() {
                        onClick={() => {
                         setActiveFormId(form.id);
                         setSubmitted(false);
+                        setFieldErrors({});
                         setErrorMsg(null);
                         setTurnstileToken(null);}}
                       className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-sm font-medium transition-all ${
@@ -718,6 +824,9 @@ export default function FormsPage() {
                           onChange={(e) => handleMembershipChange("email", e.target.value)}
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
+                        {fieldErrors.email && (
+                          <p className="mt-1 text-xs text-red-500">{fieldErrors.email}</p>
+                        )}
                       </div>
                     </div>
 
@@ -830,7 +939,7 @@ export default function FormsPage() {
 
                     <button
                       type="submit"
-                      disabled={isSubmitting || !areAllMembershipFieldsFilled || !turnstileToken}
+                      disabled={isSubmitting || !areAllMembershipFieldsFilled || !turnstileToken || hasFieldErrors}
                       className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? "Submitting Application..." : "Submit Membership Application"}
@@ -974,6 +1083,9 @@ export default function FormsPage() {
                           onChange={(e) => handleAddressChange("email", e.target.value)}
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
+                        {fieldErrors.email && (
+                          <p className="mt-1 text-xs text-red-500">{fieldErrors.email}</p>
+                        )}
                       </div>
                     </div>
 
@@ -1036,7 +1148,7 @@ export default function FormsPage() {
 
                     <button
                       type="submit"
-                      disabled={isSubmitting || !areAllAddressFieldsFilled || !turnstileToken}
+                      disabled={isSubmitting || !areAllAddressFieldsFilled || !turnstileToken || hasFieldErrors}
                       className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? "Updating Address Record..." : "Submit Address Change"}
@@ -1142,7 +1254,7 @@ export default function FormsPage() {
                     </div>
                     <button
                       type="submit"
-                      disabled={isSubmitting || !areAllFeedbackFieldsFilled || !turnstileToken}
+                      disabled={isSubmitting || !areAllFeedbackFieldsFilled || !turnstileToken || hasFieldErrors}
                       className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? "Submitting Feedback..." : "Submit Feedback"}
@@ -1180,6 +1292,9 @@ export default function FormsPage() {
                         <div className="md:col-span-2">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
                           <input required type="email" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.email} onFocus={() => speakText("Email address")} onChange={(e) => handleComplaintChange("email", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                          {fieldErrors.email && (
+                            <p className="mt-1 text-xs text-red-500">{fieldErrors.email}</p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1269,7 +1384,7 @@ export default function FormsPage() {
                     </div>
                     <button
                       type="submit"
-                      disabled={isSubmitting || !isComplaintComplete || !turnstileToken}
+                      disabled={isSubmitting || !isComplaintComplete || !turnstileToken || hasFieldErrors}
                       className="w-full py-3 bg-ochre hover:bg-ochre-dark text-white font-semibold rounded-md transition shadow-sm text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? "Submitting Complaint..." : "Submit Complaint"}

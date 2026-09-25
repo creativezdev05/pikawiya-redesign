@@ -44,17 +44,17 @@ export default function NewsPopupModal() {
     </button>
 
     {/* Image Container */}
-    {latestPost.image_url && (
+    {/* {latestPost.image_url && ( */}
       <div className="relative mb-5 -mx-6 -mt-6 h-52 w-[calc(100%+3rem)] overflow-hidden bg-gray-100 dark:bg-gray-800">
         <Image
-          src={latestPost.image_url}
-          alt={latestPost.title}
+          src={latestPost.image_url ? latestPost.image_url : '/assets/patterns/pat1.jpg'}
+          alt={latestPost.title ? latestPost.title : "pikawiya post"}
           fill
           sizes="(max-width: 768px) 100vw, 512px"
           className="object-cover transition-transform duration-300 hover:scale-105"
         />
       </div>
-    )}
+    {/* )} */}
 
     {/* Title */}
     <h3 className="mb-2.5 text-xl font-bold tracking-tight text-gray-900 dark:text-white">

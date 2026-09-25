@@ -20,7 +20,12 @@ export type ServiceItem = {
 
 export default function CoreServicesSection({ mainServices }: { mainServices: ServiceItem[] }) {
   return (
-    <section className="relative overflow-hidden landing-ink py-16 md:py-28">
+    <section className="relative overflow-hidden landing-ink py-16 md:py-28" style={{
+      backgroundImage: `url('/assets/services/core-service.png')`,
+      backgroundSize: 'contain',
+      backgroundPosition: 'center',
+      // backgroundRepeat: 'no-repeat',
+    }}>
       {/* Background Cultural Elements - Updated variant to core-service for matching consistent pattern layout */}
       {/* <CulturalPattern variant="core-service" showFeet /> */}
       
@@ -54,11 +59,11 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
       ]}
 
       />
-      <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
+      {/* <div className="absolute inset-0 z-0 landing-ink-veil--soft" /> */}
       
       {/* Subtle Warm Backdrop Blur & Ambient Glow */}
-      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-ochre/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 -right-20 w-96 h-96 bg-navy/80 rounded-full blur-3xl pointer-events-none" />
+      {/* <div className="absolute top-1/4 -left-20 w-96 h-96 bg-ochre/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 -right-20 w-96 h-96 bg-navy/80 rounded-full blur-3xl pointer-events-none" /> */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
         
