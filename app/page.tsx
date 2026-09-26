@@ -303,7 +303,7 @@ useEffect(() => {
         description="Pika Wiya Health Service is an Aboriginal Community Controlled Health Organisation (ACCHO) committed to delivering high-quality, culturally safe healthcare across Port Augusta and regional South Australia."
         ctaLabel="Explore Our Journey"
         ctaHref="/about"
-        imageSrc="/assets/home/home-hero.webp"
+        imageSrc="/assets/home/home-hero1.jpg"
         imageAlt="Sunlit lake and township ringed by red ranges"
         pageName="home"
       />

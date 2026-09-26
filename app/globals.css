@@ -20,10 +20,10 @@
   --input-disabled-border: #b4b4b4;
 
   /* Title blend gradient variables */
-  --title-blend-from: #00060f;
-  --title-blend-mid: #4a2c1e;
+  --title-blend-from: #ffffff;
+  --title-blend-mid: #f5e6d3;
   --title-blend-to: #c25324;
-  --title-blend-end: #f08a62;
+  --title-blend-end: #de8a5b;
 
   --title-blend-aboutus-from: #ddc2a8;
   --title-blend-aboutus-mid: #c4a883;
@@ -51,8 +51,8 @@
   --color-earth-dark: #0f0d0c;
   --color-sand: #F7F4EF;
   --color-sand-dark: #E8E2D5;
-  --font-sans: var(--font-geist-sans, var(--font-inter), Arial, sans-serif);
-  --font-mono: var(--font-geist-mono, monospace);
+  --font-sans: var(--font-raleway), var(--font-geist-sans), Arial, sans-serif;
+
 }
 
 /* ── Base Styles ── */
@@ -61,6 +61,8 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
 }
+
+
 
 button {
   cursor: pointer;

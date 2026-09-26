@@ -21,31 +21,18 @@ export type ServiceItem = {
 export default function CoreServicesSection({ mainServices }: { mainServices: ServiceItem[] }) {
   return (
     <section className="relative overflow-hidden landing-ink py-16 md:py-28">
-      {/* Background: the portrait artwork's top (dotted wave) pinned to the top and its bottom (lake, ranges,
-          dotted waves) pinned to the bottom, each full-width and never tiled; their skies fade into a matching
-          sky gradient, so it fits a wide desktop section and a very tall phone section alike. */}
+      {/* Background: one image covering the whole section */}
       <div
-        className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(to_bottom,#faf6f0,#fefaf4_55%,#fdedd7)]"
+        className="pointer-events-none absolute inset-0 z-0 bg-[#faf6f0]"
         aria-hidden="true"
       >
-        <div className="absolute inset-x-0 top-0 aspect-[2/3] [mask-image:linear-gradient(to_bottom,black_22%,transparent_40%)]">
-          <NextImage
-            src="/assets/services/core-service.png"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover object-top"
-          />
-        </div>
-        <div className="absolute inset-x-0 bottom-0 aspect-[2/3] [mask-image:linear-gradient(to_top,black_45%,transparent_65%)]">
-          <NextImage
-            src="/assets/services/core-service.png"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover object-bottom"
-          />
-        </div>
+        <NextImage
+          src="/assets/home/without_gredient_without_pettern_3rd_bg.png"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
       </div>
       {/* Background Cultural Elements - Updated variant to core-service for matching consistent pattern layout */}
       {/* <CulturalPattern variant="core-service" showFeet /> */}

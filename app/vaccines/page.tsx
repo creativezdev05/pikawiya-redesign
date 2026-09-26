@@ -5,6 +5,7 @@ import CulturalPattern from "@/components/CulturalPattern";
 import { Briefcase, Mail, HeartHandshake, CheckCircle2 } from "lucide-react";
 import PartnersTicker from "@/components/PartnersTicker";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
+import NextImage from "next/image";
 
 export default function CareersPage() {
   return (
@@ -26,9 +27,18 @@ export default function CareersPage() {
       <FramerMouseGradient/>
       <Navbar />
 
-      <main className="relative z-10 max-w-4xl mx-auto px-4 py-16 space-y-10">
-        
-        {/* Header Section */}
+      {/* Full-width header with background image */}
+      <section className="relative z-10 w-full px-4 py-20 md:py-28">
+        <div className="absolute inset-0 -z-10">
+          <NextImage
+            src="/assets/news_bg.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-top opacity-90"
+          />
+        </div>
         <div className="space-y-3 text-center max-w-2xl mx-auto">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
             <Briefcase className="w-4 h-4" /> Join Our Team
@@ -40,7 +50,9 @@ export default function CareersPage() {
             Work alongside dedicated healthcare professionals delivering culturally safe care in South Australia.
           </p>
         </div>
+      </section>
 
+      <main className="relative z-10 max-w-4xl mx-auto px-4 py-16 space-y-10">
         {/* Current Vacancies Status Card */}
         <div className="bg-surface p-8 md:p-10 rounded-3xl border border-border shadow-sm space-y-8">
           <div className="space-y-4">

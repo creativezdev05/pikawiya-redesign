@@ -92,7 +92,31 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
 
   return (
     <div ref={containerRef} className="relative h-[350vh] bg-black">
-      
+      {/* Action Controls — kept outside the sticky viewport: `position: sticky` creates its own stacking
+          context, which trapped these under the fixed Navbar (z-50) no matter their z-index. Here they're a
+          fixed layer above the nav, offset below the header and the device safe area. */}
+      <div className="fixed right-4 top-[calc(env(safe-area-inset-top)+5.5rem)] z-[60] flex flex-wrap items-center justify-end gap-3 sm:right-8 sm:top-[calc(env(safe-area-inset-top)+7rem)] sm:gap-4">
+        <button
+          onClick={handleExitVideo}
+          className="flex items-center gap-2 px-5 py-2.5 bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white text-sm font-semibold rounded-full transition shadow-lg cursor-pointer"
+        >
+          <SkipForward className="w-4 h-4 text-ochre" />
+          Skip Intro
+        </button>
+
+        {isVideoEnded && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            onClick={handleExitVideo}
+            className="flex items-center gap-2 px-6 py-2.5 bg-ochre hover:bg-ochre-dark text-white text-sm font-bold rounded-full transition shadow-xl cursor-pointer"
+          >
+            Enter Website
+            <ArrowRight className="w-4 h-4" />
+          </motion.button>
+        )}
+      </div>
+
       {/* Sticky Fullscreen Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
         <video
@@ -106,29 +130,6 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
         </video>
 
         <div className="absolute inset-0 bg-black/30 z-10" />
-
-        {/* Action Controls */}
-        <div className="absolute top-8 right-8 z-30 flex items-center gap-4">
-          <button
-            onClick={handleExitVideo}
-            className="flex items-center gap-2 px-5 py-2.5 bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white text-sm font-semibold rounded-full transition shadow-lg cursor-pointer"
-          >
-            <SkipForward className="w-4 h-4 text-ochre" />
-            Skip Intro
-          </button>
-
-          {isVideoEnded && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              onClick={handleExitVideo}
-              className="flex items-center gap-2 px-6 py-2.5 bg-ochre hover:bg-ochre-dark text-white text-sm font-bold rounded-full transition shadow-xl cursor-pointer"
-            >
-              Enter Website
-              <ArrowRight className="w-4 h-4" />
-            </motion.button>
-          )}
-        </div>
 
         {/* Hero Title Overlay */}
         <div className="relative z-20 text-center max-w-3xl px-4 pointer-events-none">

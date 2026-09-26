@@ -17,6 +17,20 @@ type PointConfig = {
   y?: number | string;
 };
 
+/** Dot-orbit motif. Size fields are optional so existing placements keep their look. */
+type DotsConfig = PointConfig & {
+  rings?: number;
+  startR?: number;
+  gap?: number;
+  /** Seconds per full rotation. */
+  speed?: number;
+  /**
+   * "sun" (default): multicoloured dot-painting sun — yellow centre, red/peach/orange/blue rings that turn
+   * in alternating directions. "classic": the original single-colour rotating rings.
+   */
+  pattern?: "sun" | "classic";
+};
+
 type CornerConfig = {
   x?: number | string;
   y?: number | string;
@@ -53,7 +67,7 @@ type CulturalPatternProps = {
   showFeet?: boolean;
   showSnakes?: boolean;
 
-  dotsConfig?: PointConfig[];
+  dotsConfig?: DotsConfig[];
   motif1Config?: PointConfig[];
   motif2Config?: PointConfig[];
   motif3Config?: PointConfig[];
@@ -115,30 +129,80 @@ function parseCoord(
   return isNaN(parsed) ? defaultVal : parsed;
 }
 
+/**
+ * Concentric rings of dots. With `rand`, each dot is nudged off its ideal spot and sized a little
+ * differently — like dots pressed by hand with a stick — while staying deterministic for SSR.
+ */
 function generateGraduatedCircularDots(
   cx: number,
   cy: number,
   rings: number,
   startR: number,
-  gap: number
+  gap: number,
+  rand?: () => number
 ) {
-  const pts: { x: number; y: number; r: number }[] = [];
+  const jitter = (amount: number) => (rand ? (rand() - 0.5) * 2 * amount : 0);
+  const pts: { x: number; y: number; r: number; o: number }[] = [];
   for (let ring = 0; ring < rings; ring++) {
     const radius = startR + ring * gap;
     const count = Math.max(8, Math.round(12 + ring * 6));
-    const dotRadius = Math.max(1.8, round(4.5 - ring * 0.5));
+    const dotRadius = Math.max(1.8, 4.5 - ring * 0.5);
+    // Each ring starts at a slightly different angle so the dots don't line up into spokes.
+    const phase = jitter(Math.PI / count);
 
     for (let i = 0; i < count; i++) {
-      const a = (i / count) * Math.PI * 2;
+      const a = phase + ((i + jitter(0.18)) / count) * Math.PI * 2;
+      const rr = radius + jitter(gap * 0.12);
       pts.push({
-        x: round(cx + Math.cos(a) * radius),
-        y: round(cy + Math.sin(a) * radius),
-        r: dotRadius,
+        x: round(cx + Math.cos(a) * rr),
+        y: round(cy + Math.sin(a) * rr),
+        r: round(Math.max(1.2, dotRadius * (1 + jitter(0.22)))),
+        o: round(0.8 + jitter(0.15)),
       });
     }
   }
-  pts.push({ x: round(cx), y: round(cy), r: 5.5 });
+  pts.push({ x: round(cx), y: round(cy), r: 5.5, o: 0.8 });
   return pts;
+}
+
+// Ring sequence of the sun motif, inside → out, as in the dot-painting reference.
+// `at` = radius as a share of the outer radius, `dot` = dot radius as a share of the outer radius.
+const SUN_RINGS = [
+  { at: 0.2, dot: 0.02, color: "#E4502A", opacity: 0.95 },
+  { at: 0.265, dot: 0.018, color: "#FFC9A6", opacity: 0.75 },
+  { at: 0.33, dot: 0.022, color: "#FFB287", opacity: 0.85 },
+  { at: 0.4, dot: 0.024, color: "#7F96A5", opacity: 0.9 },
+  { at: 0.47, dot: 0.024, color: "#FFB88F", opacity: 0.8 },
+  { at: 0.54, dot: 0.026, color: "#FF914F", opacity: 0.9 },
+  { at: 0.62, dot: 0.034, color: "#E24E22", opacity: 0.95 },
+  { at: 0.7, dot: 0.027, color: "#FFB88F", opacity: 0.8 },
+  { at: 0.775, dot: 0.029, color: "#FF9A5A", opacity: 0.85 },
+  { at: 0.855, dot: 0.031, color: "#7D93A1", opacity: 0.9 },
+  { at: 0.94, dot: 0.033, color: "#8DB6D3", opacity: 0.9 },
+] as const;
+
+/**
+ * Dots for each ring of the sun motif, evenly spaced (about one dot-width apart) with a little seeded
+ * hand-placed jitter. Deterministic, so server and client render the same.
+ */
+function generateSunRings(outerR: number, rand: () => number) {
+  const jitter = (amount: number) => (rand() - 0.5) * 2 * amount;
+  return SUN_RINGS.map((ring) => {
+    const radius = ring.at * outerR;
+    const dotR = Math.max(1.2, ring.dot * outerR);
+    const count = Math.max(10, Math.round((2 * Math.PI * radius) / (dotR * 2.35)));
+    const phase = jitter(Math.PI / count);
+    const dots = Array.from({ length: count }, (_, i) => {
+      const a = phase + ((i + jitter(0.12)) / count) * Math.PI * 2;
+      const rr = radius + jitter(dotR * 0.18);
+      return {
+        x: round(Math.cos(a) * rr),
+        y: round(Math.sin(a) * rr),
+        r: round(dotR * (1 + jitter(0.12))),
+      };
+    });
+    return { ...ring, radius: round(radius), dotR: round(dotR), dots };
+  });
 }
 
 function generateInvertedUShapePath(width: number, height: number) {
@@ -300,11 +364,12 @@ export default function CulturalPattern({
     const circularDotMotifs = (dotsConfig ?? []).map((pt) => ({
       cx: px(pt.x, 100),
       cy: py(pt.y, 150),
-      rings: 4,
-      startR: 14,
-      gap: 16,
-      speed: 24,
+      rings: pt.rings ?? 4,
+      startR: pt.startR ?? 14,
+      gap: pt.gap ?? 16,
+      speed: pt.speed ?? 24,
       dir: rand() > 0.5 ? "normal" : "reverse",
+      pattern: pt.pattern ?? "sun",
     }));
 
     const imageMotifs = [
@@ -509,6 +574,26 @@ export default function CulturalPattern({
         }
         .cultural-sky-spiral-rotate {
           animation: slowContainerRotate linear infinite;
+        }
+        @keyframes sunPulse {
+          0%,
+          100% {
+            transform: scale(1);
+            opacity: 0.9;
+          }
+          50% {
+            transform: scale(1.12);
+            opacity: 1;
+          }
+        }
+        .cultural-sun-pulse {
+          animation: sunPulse 4s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .cultural-sky-spiral-rotate,
+          .cultural-sun-pulse {
+            animation: none;
+          }
         }
       `}</style>
 
@@ -864,12 +949,72 @@ export default function CulturalPattern({
           </g>
 
           {layout.circularDotMotifs.map((motif, mi) => {
+            if (motif.pattern === "sun") {
+              // Same footprint as the classic motif: the outer ring sits at startR + (rings - 1) × gap.
+              const outerR = motif.startR + (motif.rings - 1) * motif.gap;
+              const rings = generateSunRings(outerR, mulberry32(seedFrom(`sun-${variant}-${mi}`)));
+              const glowId = `pw-sun-glow-${uid}-${mi}`;
+              const coreId = `pw-sun-core-${uid}-${mi}`;
+              return (
+                <g key={`circle-motif-${mi}`} transform={`translate(${motif.cx}, ${motif.cy}) scale(${size})`}>
+                  <defs>
+                    {/* Warm peach haze behind the rings, like the soft light between the dots in the reference */}
+                    <radialGradient id={glowId}>
+                      <stop offset="0%" stopColor="#FFF4E0" stopOpacity="0.9" />
+                      <stop offset="22%" stopColor="#FFD2B0" stopOpacity="0.55" />
+                      <stop offset="70%" stopColor="#FFB88F" stopOpacity="0.28" />
+                      <stop offset="100%" stopColor="#FFB88F" stopOpacity="0" />
+                    </radialGradient>
+                    <radialGradient id={coreId}>
+                      <stop offset="0%" stopColor="#FFFBE6" />
+                      <stop offset="45%" stopColor="#FFE14D" />
+                      <stop offset="100%" stopColor="#FFC53D" />
+                    </radialGradient>
+                  </defs>
+                  <circle r={outerR * 1.02} fill={`url(#${glowId})`} />
+
+                  {rings.map((ring, ri) => (
+                    // Each ring turns on its own: alternate directions, outer rings slower.
+                    <g
+                      key={ri}
+                      className="cultural-sky-spiral-rotate"
+                      style={{
+                        transformBox: "fill-box",
+                        transformOrigin: "center",
+                        animationDuration: `${round(motif.speed * (0.55 + ring.at))}s`,
+                        animationDirection: (ri % 2 === 0) === (motif.dir === "normal") ? "normal" : "reverse",
+                      }}
+                    >
+                      {/* Soft glow band under the ring */}
+                      <circle
+                        r={ring.radius}
+                        fill="none"
+                        stroke={ring.color}
+                        strokeWidth={ring.dotR * 2.6}
+                        opacity={0.16}
+                      />
+                      {ring.dots.map((d, di) => (
+                        <circle key={di} cx={d.x} cy={d.y} r={d.r} fill={ring.color} opacity={ring.opacity} />
+                      ))}
+                    </g>
+                  ))}
+
+                  {/* Sun: cream halo round a glowing yellow core, gently pulsing */}
+                  <g className="cultural-sun-pulse" style={{ transformBox: "fill-box", transformOrigin: "center" }}>
+                    <circle r={outerR * 0.15} fill="#FFF3DC" opacity={0.85} />
+                    <circle r={outerR * 0.1} fill={`url(#${coreId})`} />
+                  </g>
+                </g>
+              );
+            }
+
             const dots = generateGraduatedCircularDots(
               0,
               0,
               motif.rings,
               motif.startR,
-              motif.gap
+              motif.gap,
+              mulberry32(seedFrom(`dots-${variant}-${mi}`))
             );
             return (
               <g
@@ -892,7 +1037,7 @@ export default function CulturalPattern({
                     cy={d.y}
                     r={d.r}
                     fill="#FF6B35"
-                    opacity={0.8}
+                    opacity={d.o}
                   />
                 ))}
               </g>

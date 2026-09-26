@@ -91,7 +91,17 @@ export default function NewsGrid() {
                   <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
                 </div>
               ) : (
-                <div className="h-24 w-full bg-gradient-to-r from-ochre/20 to-navy/40" />
+                // <div className="h-24 w-full bg-gradient-to-r from-ochre/20 to-navy/40" />
+                <div className="relative h-48 w-full overflow-hidden bg-black/20">
+                  <Image
+                    src='/assets/patterns/pat1.jpg'
+                    alt={post.title || "Community Announcement"}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
+                </div>
               )}
 
               {/* Content Box */}

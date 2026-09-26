@@ -3,7 +3,7 @@
 import { getImageProps } from "next/image";
 import TrLogo, { type TrLogoMotion, type TrLogoPlacement } from "./TrLogo";
 import CulturalPattern from "./CulturalPattern";
-import HomeStoryHero from "./HomeStoryHero";
+import HomeStoryHero, { CORNER_DOTS } from "./HomeStoryHero";
 
 type PageHeroProps = {
   eyebrow: string;
@@ -86,7 +86,6 @@ export default function PageHero({
             { x: 200, y: 400, pathHeight: 120, pathWidth: 420, speed: 10 },
             { x: 300, y: 600, pathHeight: 120, pathWidth: 400, speed: 10 },
           ]}
-          dotsConfig={[{ x: "-25%", y: "40%" }]}
           uShapeConfig={[{ x: "-15%", y: 750 }]}
           cornerTLConfig={{ x: "40%", y: "-30%" }}
         />
@@ -106,7 +105,6 @@ export default function PageHero({
       {pageName === "about" && (
         <CulturalPattern
           variant="about"
-          dotsConfig={[{ x: "-18%", y: "28%" }]}
           dashedOrbitsConfig={[
             { x: 1000, y: 200 },
             { x: 1000, y: 200 },
@@ -152,6 +150,11 @@ export default function PageHero({
           />
         )}
       </div>
+
+      {/* Corner dot arc — fill mode so "100%" is the section's real corner, not the fixed 1200×800 canvas. */}
+      {(pageName === "news" || pageName === "service" || pageName === "about") && (
+        <CulturalPattern variant="about" fit="fill" className="z-[1]" dotsConfig={CORNER_DOTS} />
+      )}
 
       {trLogo ? (
         <TrLogo
