@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -18,9 +18,76 @@ interface ImageCarouselProps {
   rounded?: boolean;
 }
 
+// "Broken into bars": the photo is sliced into vertical strips. On enter,
+// the strips fly in from alternating above/below and lock into place,
+// staggered, so the image looks like it's assembling itself. On exit, the
+// same strips fly back out the way they came, staggered in reverse, so it
+// looks like the image is breaking apart before the next one assembles.
+const BAR_COUNT = 9;
+const BAR_STAGGER = 0.04;
+const BAR_ENTER_DURATION = 0.85;
+const BAR_EXIT_DURATION = 0.75;
+const BAR_ENTER_EASE = [0.16, 1, 0.3, 1] as const;
+const BAR_EXIT_EASE = [0.65, 0, 0.35, 1] as const;
+
+// The duotone-to-color "reveal" plays once per slide and holds on full
+// color (see .animate-carousel-duotone / .animate-carousel-leak in
+// globals.css) — it must never repeat while the same photo is showing.
+const REVEAL_DURATION_MS = 2800;
+
+function ImageBars({ slide }: { slide: CarouselSlide }) {
+  const barWidthPct = 100 / BAR_COUNT;
+
+  return (
+    <>
+      {Array.from({ length: BAR_COUNT }).map((_, i) => {
+        const goingUp = i % 2 === 0;
+
+        return (
+          <motion.div
+            key={`${slide.src}-${i}`}
+            className="absolute top-0 h-full overflow-hidden"
+            style={{ left: `${i * barWidthPct}%`, width: `${barWidthPct}%` }}
+            initial={{ y: goingUp ? "-105%" : "105%", opacity: 0 }}
+            animate={{
+              y: "0%",
+              opacity: 1,
+              transition: { duration: BAR_ENTER_DURATION, delay: i * BAR_STAGGER, ease: BAR_ENTER_EASE },
+            }}
+            exit={{
+              y: goingUp ? "105%" : "-105%",
+              opacity: 0,
+              transition: {
+                duration: BAR_EXIT_DURATION,
+                delay: (BAR_COUNT - 1 - i) * BAR_STAGGER,
+                ease: BAR_EXIT_EASE,
+              },
+            }}
+          >
+            <div
+              className="absolute top-0 h-full"
+              style={{ width: `${BAR_COUNT * 100}%`, left: `-${i * 100}%` }}
+            >
+              <Image
+                src={slide.src}
+                alt={slide.alt}
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover animate-carousel-duotone"
+                style={{ animationDuration: `${REVEAL_DURATION_MS}ms` }}
+              />
+            </div>
+          </motion.div>
+        );
+      })}
+    </>
+  );
+}
+
 export default function ImageCarousel({
   slides,
-  autoPlayInterval = 4500,
+  autoPlayInterval = 3000,
   className = "",
   heightClassName = "h-[60vh] min-h-[380px] max-h-[640px]",
   rounded = true,
@@ -61,25 +128,22 @@ export default function ImageCarousel({
       onMouseLeave={() => setIsPaused(false)}
     >
       <AnimatePresence mode="sync">
-        <motion.div
-          key={currentSlide.src}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="absolute inset-0"
-        >
-          <Image
-            src={currentSlide.src}
-            alt={currentSlide.alt}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/10" />
-        </motion.div>
+        <ImageBars key={currentSlide.src} slide={currentSlide} />
       </AnimatePresence>
+
+      {/* Light leak sweep, timed to bloom in as the duotone filter above lifts into full color.
+          Keyed to the slide so it plays once fresh per photo instead of looping. */}
+      <div
+        key={currentSlide.src}
+        className="pointer-events-none absolute inset-[-35%] animate-carousel-leak"
+        style={{
+          background: "radial-gradient(circle, rgba(255,208,140,0.6), rgba(255,208,140,0) 62%)",
+          mixBlendMode: "screen",
+          animationDuration: `${REVEAL_DURATION_MS}ms`,
+        }}
+      />
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/10" />
 
       {slides.length > 1 && (
         <>

@@ -94,7 +94,7 @@ export default function AboutPage() {
       <ImageCarousel
         rounded={false}
         heightClassName="h-[100dvh]"
-        autoPlayInterval={2000}
+        autoPlayInterval={3000}
         slides={[
           { src: "/assets/about/1.png", alt: "Aboriginal waterhole and songline dot painting" },
           { src: "/assets/about/2.png", alt: "Aboriginal waterhole and songline dot painting" },
@@ -150,7 +150,7 @@ export default function AboutPage() {
         <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-16 md:space-y-24">
          
           {/* Culture & Artwork Banner */}
-          <div className="contrast-card grid md:grid-cols-2 gap-12 items-center bg-earth text-sand p-8 md:p-12 rounded-2xl shadow-xl border border-transparent">
+          <div className="contrast-card grid md:grid-cols-2 gap-12 items-center bg-[#1b2433] text-sand p-8 md:p-12 rounded-2xl shadow-xl border border-transparent">
             <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-ochre/30">
               <Image
                 src="/assets/cultural-heritage.jpg"
@@ -159,7 +159,7 @@ export default function AboutPage() {
                 className="object-cover"
               />
             </div>
-            <div className="space-y-6">
+            <div className="space-y-6 ">
               <PageTitle as="h2" onDark className="text-3xl font-bold">
                 Our Cultural Heritage
               </PageTitle>

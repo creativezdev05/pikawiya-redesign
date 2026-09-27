@@ -732,8 +732,6 @@ const handleMembershipChange = (
                 </p>
               </div>
 
-              <hr className="border-border" />
-
               {/* Form Action / Embed area */}
               <div className="card-3d bg-page p-6 rounded-xl flex flex-col items-center justify-center text-center space-y-4 min-h-[300px]">
                 {submitted ? (
@@ -766,13 +764,8 @@ const handleMembershipChange = (
                 )}
                 {activeForm.id === 'form-1' &&
                   <form onSubmit={handleMembershipSubmit} className="space-y-8">
-                    <div>
-                      <h2 className="text-2xl font-bold text-ink mb-1">Membership Application</h2>
-                      <p className="text-xs text-ink/60">Fill in each field sequentially to unlock the form.</p>
-                    </div>
-
-                    <div className="grid md:grid-cols-4 gap-6">
-                      <div>
+                    <div className="grid md:grid-cols-12 gap-6">
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">ICN Number</label>
                         <input
                           type="text"
@@ -784,7 +777,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre font-mono"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Surname</label>
                         <input
                           type="text"
@@ -796,7 +789,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">First Name</label>
                         <input
                           type="text"
@@ -808,7 +801,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Last Name</label>
                         <input
                           type="text"
@@ -822,8 +815,8 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-6">
-                      <div className="md:col-span-2">
+                    <div className="grid md:grid-cols-12 gap-6">
+                      <div className="md:col-span-9">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Address</label>
                         <input
                           type="text"
@@ -835,7 +828,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Postcode</label>
                         <input
                           type="text"
@@ -849,8 +842,8 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
+                    <div className="grid md:grid-cols-12 gap-6">
+                      <div className="md:col-span-4">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Telephone Number</label>
                         <input
                           type="tel"
@@ -862,7 +855,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-8">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
                         <input
                           type="email"
@@ -879,8 +872,8 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
+                    <div className="grid md:grid-cols-12 gap-6">
+                      <div className="md:col-span-4">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Birth</label>
                         <input
                           type="date"
@@ -892,7 +885,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-8">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Place of Birth</label>
                         <input
                           type="text"
@@ -913,8 +906,8 @@ const handleMembershipChange = (
                         <p className="text-xs text-ink/60">Details of the witness attesting to this application.</p>
                       </div>
 
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div>
+                      <div className="grid md:grid-cols-12 gap-6">
+                        <div className="md:col-span-8">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Name</label>
                           <input
                             type="text"
@@ -926,7 +919,7 @@ const handleMembershipChange = (
                             className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                           />
                         </div>
-                        <div>
+                        <div className="md:col-span-4">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Phone</label>
                           <input
                             type="tel"
@@ -940,8 +933,8 @@ const handleMembershipChange = (
                         </div>
                       </div>
 
-                      <div className="grid md:grid-cols-3 gap-6">
-                        <div className="md:col-span-2">
+                      <div className="grid md:grid-cols-12 gap-6">
+                        <div className="md:col-span-8">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Address</label>
                           <input
                             type="text"
@@ -953,7 +946,7 @@ const handleMembershipChange = (
                             className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                           />
                         </div>
-                        <div>
+                        <div className="md:col-span-4">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Date</label>
                           <input
                             type="date"
@@ -970,7 +963,7 @@ const handleMembershipChange = (
 
                     {/* Cloudflare Turnstile Captcha */}
                     <div
-                      className={`my-4 transition-opacity ${
+                      className={`my-4 text-left transition-opacity ${
                         areAllMembershipFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"
                       }`}
                     >
@@ -998,13 +991,8 @@ const handleMembershipChange = (
                 {/* CHANGE OF ADDRESS FORM */}
                 {activeForm.id === "form-2" && (
                   <form onSubmit={handleAddressSubmit} className="space-y-6">
-                    <div>
-                      <h2 className="text-2xl font-bold text-ink mb-1">Change of Address Form</h2>
-                      <p className="text-xs text-ink/60">Fill in each field sequentially to unlock the form.</p>
-                    </div>
-
-                    <div className="grid md:grid-cols-4 gap-6">
-                      <div>
+                    <div className="grid md:grid-cols-12 gap-6">
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">ICN Number</label>
                         <input
                           type="text"
@@ -1016,7 +1004,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre font-mono"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Surname</label>
                         <input
                           type="text"
@@ -1028,7 +1016,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">First Name</label>
                         <input
                           type="text"
@@ -1040,7 +1028,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Last Name</label>
                         <input
                           type="text"
@@ -1054,8 +1042,8 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-6">
-                      <div className="md:col-span-2">
+                    <div className="grid md:grid-cols-12 gap-6">
+                      <div className="md:col-span-9">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Previous Address</label>
                         <input
                           type="text"
@@ -1067,7 +1055,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Previous Postcode</label>
                         <input
                           type="text"
@@ -1081,8 +1069,8 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-6">
-                      <div className="md:col-span-2">
+                    <div className="grid md:grid-cols-12 gap-6">
+                      <div className="md:col-span-9">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">New Address</label>
                         <input
                           type="text"
@@ -1094,7 +1082,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">New Postcode</label>
                         <input
                           type="text"
@@ -1108,8 +1096,8 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
+                    <div className="grid md:grid-cols-12 gap-6">
+                      <div className="md:col-span-4">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Telephone Number</label>
                         <input
                           type="tel"
@@ -1121,7 +1109,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-8">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
                         <input
                           type="email"
@@ -1138,8 +1126,8 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-6">
-                      <div>
+                    <div className="grid md:grid-cols-12 gap-6">
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Birth</label>
                         <input
                           type="date"
@@ -1151,7 +1139,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-6">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Place of Birth</label>
                         <input
                           type="text"
@@ -1163,7 +1151,7 @@ const handleMembershipChange = (
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
                       </div>
-                      <div>
+                      <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Update</label>
                         <input
                           type="date"
@@ -1179,7 +1167,7 @@ const handleMembershipChange = (
 
                     {/* Cloudflare Turnstile Captcha */}
                     <div
-                      className={`my-4 transition-opacity ${
+                      className={`my-4 text-left transition-opacity ${
                         areAllAddressFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"
                       }`}
                     >
@@ -1208,37 +1196,33 @@ const handleMembershipChange = (
                 {/* FEEDBACK FORM */}
                 {activeForm.id === "form-3" && (
                   <form onSubmit={handleFeedbackSubmit} className="space-y-8">
-                    <div>
-                      <h2 className="text-2xl font-bold text-ink mb-1">Feedback</h2>
-                      <p className="text-xs text-ink/60">Please complete the form below to provide us with your feedback.</p>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">Full Name <span className="font-normal text-ink/50">(Optional)</span></label>
-                      <input
-                        type="text"
-                        value={feedbackData.full_name}
-                        onFocus={() => speakText("Full Name input field, optional")}
-                        onChange={(e) => handleFeedbackChange("full_name", e.target.value)}
-                        className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold text-ink/80 mb-1">1. On average, how often do you access Pika Wiya Health Service?</label>
-                      <select
-                        required
-                        value={feedbackData.access_frequency}
-                        onFocus={() => speakText("Select how often you access Pika Wiya Health Service")}
-                        onChange={(e) => handleFeedbackChange("access_frequency", e.target.value)}
-                        className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre"
-                      >
-                        <option value="">Select an option</option>
-                        <option value="Once a month">Once a month</option>
-                        <option value="Once every 3 months">Once every 3 months</option>
-                        <option value="Once every 6 months">Once every 6 months</option>
-                        <option value="More than 12 months">More than 12 months</option>
-                      </select>
+                    <div className="grid md:grid-cols-12 gap-6">
+                      <div className="md:col-span-5">
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">Full Name <span className="font-normal text-ink/50">(Optional)</span></label>
+                        <input
+                          type="text"
+                          value={feedbackData.full_name}
+                          onFocus={() => speakText("Full Name input field, optional")}
+                          onChange={(e) => handleFeedbackChange("full_name", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre"
+                        />
+                      </div>
+                      <div className="md:col-span-7">
+                        <label className="block text-xs font-semibold text-ink/80 mb-1">1. On average, how often do you access Pika Wiya Health Service?</label>
+                        <select
+                          required
+                          value={feedbackData.access_frequency}
+                          onFocus={() => speakText("Select how often you access Pika Wiya Health Service")}
+                          onChange={(e) => handleFeedbackChange("access_frequency", e.target.value)}
+                          className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre"
+                        >
+                          <option value="">Select an option</option>
+                          <option value="Once a month">Once a month</option>
+                          <option value="Once every 3 months">Once every 3 months</option>
+                          <option value="Once every 6 months">Once every 6 months</option>
+                          <option value="More than 12 months">More than 12 months</option>
+                        </select>
+                      </div>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-6">
@@ -1292,7 +1276,7 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className={`my-4 transition-opacity ${areAllFeedbackFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}>
+                    <div className={`my-4 text-left transition-opacity ${areAllFeedbackFieldsFilled ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}>
                       <Turnstile
                         sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
                         theme="auto"
@@ -1314,31 +1298,25 @@ const handleMembershipChange = (
                 {/* COMPLAINT FORM */}
                 {activeForm.id === "form-4" && (
                   <form onSubmit={handleComplaintSubmit} className="space-y-8">
-                    <div>
-                      <h2 className="text-2xl font-bold text-ink mb-1">Complaint Form</h2>
-                      <p className="text-xs text-ink/60">This form ensures that complaints are heard and responded to respectfully.</p>
-                    </div>
-
                     <div className="border-t border-border pt-6 space-y-6">
-                      <h3 className="text-lg font-bold text-ink">Complainant Details</h3>
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div>
+                      <div className="grid md:grid-cols-12 gap-6">
+                        <div className="md:col-span-6">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Name of Person Lodging Complaint</label>
                           <input required type="text" value={complaintData.complainant_name} onFocus={() => speakText("Name of person lodging complaint")} onChange={(e) => handleComplaintChange("complainant_name", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
                         </div>
-                        <div>
+                        <div className="md:col-span-6">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Address</label>
                           <input required type="text" disabled={!isComplaintFieldUnlocked("complainant_address")} value={complaintData.complainant_address} onFocus={() => speakText("Complainant address")} onChange={(e) => handleComplaintChange("complainant_address", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
-                        <div>
+                        <div className="md:col-span-3">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Daytime Contact No.</label>
                           <input required type="tel" disabled={!isComplaintFieldUnlocked("daytime_contact")} value={complaintData.daytime_contact} onFocus={() => speakText("Daytime contact number")} onChange={(e) => handleComplaintChange("daytime_contact", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
-                        <div>
+                        <div className="md:col-span-3">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Date</label>
                           <input required type="date" disabled={!isComplaintFieldUnlocked("complainant_date")} value={complaintData.complainant_date} onChange={(e) => handleComplaintChange("complainant_date", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
-                        <div className="md:col-span-2">
+                        <div className="md:col-span-6">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
                           <input required type="email" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.email} onFocus={() => speakText("Email address")} onChange={(e) => handleComplaintChange("email", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                           {fieldErrors.email && (
@@ -1350,24 +1328,24 @@ const handleMembershipChange = (
 
                     <div className="border-t border-border pt-6 space-y-6">
                       <h3 className="text-lg font-bold text-ink">Complaint Details</h3>
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div>
+                      <div className="grid md:grid-cols-12 gap-6">
+                        <div className="md:col-span-3">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Incident <span className="font-normal text-ink/50">(if relevant)</span></label>
                           <input type="date" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_date} onChange={(e) => handleComplaintChange("incident_date", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
-                        <div>
+                        <div className="md:col-span-3">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Time</label>
                           <input type="time" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_time} onChange={(e) => handleComplaintChange("incident_time", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
-                        <div className="md:col-span-2">
+                        <div className="md:col-span-6">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Location of Incident</label>
                           <input required type="text" disabled={!isComplaintFieldUnlocked("incident_location")} value={complaintData.incident_location} onFocus={() => speakText("Location of incident")} onChange={(e) => handleComplaintChange("incident_location", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
-                        <div className="md:col-span-2">
+                        <div className="md:col-span-12">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Who or what is the subject of your complaint?</label>
                           <input required type="text" disabled={!isComplaintFieldUnlocked("complaint_subject")} value={complaintData.complaint_subject} onFocus={() => speakText("Who or what is the subject of your complaint?")} onChange={(e) => handleComplaintChange("complaint_subject", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
-                        <div className="md:col-span-2">
+                        <div className="md:col-span-12">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Summary of Complaint or Issue</label>
                           <textarea required rows={6} disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.complaint_summary} onFocus={() => speakText("Summary of complaint or issue")} onChange={(e) => handleComplaintChange("complaint_summary", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
@@ -1376,22 +1354,24 @@ const handleMembershipChange = (
 
                     <div className="border-t border-border pt-6 space-y-6">
                       <h3 className="text-lg font-bold text-ink">Witness Details <span className="font-normal text-ink/50 text-xs">(leave blank if not relevant)</span></h3>
-                      <div className="grid md:grid-cols-3 gap-6">
-                        <input aria-label="Witness name" placeholder="Name" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_name} onChange={(e) => handleComplaintChange("witness_name", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                        <input aria-label="Witness address" placeholder="Address" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_address} onChange={(e) => handleComplaintChange("witness_address", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                        <input aria-label="Witness daytime contact number" placeholder="Daytime contact number" type="tel" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_contact} onChange={(e) => handleComplaintChange("witness_contact", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                      <div className="grid md:grid-cols-12 gap-6">
+                        <input aria-label="Witness name" placeholder="Name" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_name} onChange={(e) => handleComplaintChange("witness_name", e.target.value)} className="md:col-span-5 w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        <input aria-label="Witness address" placeholder="Address" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_address} onChange={(e) => handleComplaintChange("witness_address", e.target.value)} className="md:col-span-4 w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        <input aria-label="Witness daytime contact number" placeholder="Daytime contact number" type="tel" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_contact} onChange={(e) => handleComplaintChange("witness_contact", e.target.value)} className="md:col-span-3 w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                       </div>
                     </div>
 
                     <div className="border-t border-border pt-6 space-y-6">
                       <h3 className="text-lg font-bold text-ink">Complaint Outcome</h3>
-                      <div>
-                        <label className="block text-xs font-semibold text-ink/80 mb-1">Is there an outcome you would like?</label>
-                        <select required disabled={!isComplaintFieldUnlocked("desired_outcome")} value={complaintData.desired_outcome} onChange={(e) => handleComplaintChange("desired_outcome", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed">
-                          <option value="">Select an option</option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
-                        </select>
+                      <div className="grid md:grid-cols-12 gap-6">
+                        <div className="md:col-span-6">
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">Is there an outcome you would like?</label>
+                          <select required disabled={!isComplaintFieldUnlocked("desired_outcome")} value={complaintData.desired_outcome} onChange={(e) => handleComplaintChange("desired_outcome", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed">
+                            <option value="">Select an option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                          </select>
+                        </div>
                       </div>
                       {complaintData.desired_outcome === "yes" && (
                         <div>
@@ -1399,12 +1379,12 @@ const handleMembershipChange = (
                           <textarea required rows={4} value={complaintData.outcome_details} onChange={(e) => handleComplaintChange("outcome_details", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
                         </div>
                       )}
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div>
+                      <div className="grid md:grid-cols-12 gap-6">
+                        <div className="md:col-span-8">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Complainant Signature</label>
                           <input required type="text" disabled={!isComplaintFieldUnlocked("signature")} value={complaintData.signature} onFocus={() => speakText("Complainant signature")} onChange={(e) => handleComplaintChange("signature", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
-                        <div>
+                        <div className="md:col-span-4">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Date Submitted</label>
                           <input required type="date" disabled={!isComplaintFieldUnlocked("date_submitted")} value={complaintData.date_submitted} onChange={(e) => handleComplaintChange("date_submitted", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
@@ -1422,7 +1402,7 @@ const handleMembershipChange = (
                         Complaints are acknowledged and investigated as soon as practicable, and you will be kept informed throughout the process. If your complaint is not resolved, you may contact the Health and Community Services Complaints Commissioner on 1800 232 007 or visit hcscc.sa.gov.au.
                       </p>
                     </div>
-                    <div className={`my-4 transition-opacity ${isComplaintComplete ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}>
+                    <div className={`my-4 text-left transition-opacity ${isComplaintComplete ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}>
                       <Turnstile
                         sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
                         theme="auto"

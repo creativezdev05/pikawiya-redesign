@@ -35,7 +35,7 @@ export default function Navbar() {
       /* pointer-events-none lets clicks pass through empty transparent areas */
       className={`fixed top-0 left-0 right-0 z-50 pointer-events-none transition-all duration-300 ${
         scrolled
-          ? "bg-earth/95 backdrop-blur-md border-b border-ochre/25 shadow-xl py-2"
+          ? "bg-[#1b2433] backdrop-blur-md border-b border-ochre/25 shadow-xl py-2"
           : "bg-transparent border-b border-transparent py-4"
       }`}
     >

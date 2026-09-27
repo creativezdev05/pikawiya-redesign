@@ -1255,6 +1255,23 @@ textarea:disabled {
 .animate-drift {
   animation: drift 5s ease-in-out infinite;
 }
+/* Plays once per slide, then holds on full color — never repeats while the same photo is showing. */
+@keyframes carousel-duotone {
+  0%, 55% { filter: grayscale(1) sepia(0.3) hue-rotate(172deg) saturate(1.5) contrast(1.05); }
+  100% { filter: grayscale(0) sepia(0) hue-rotate(0deg) saturate(1) contrast(1); }
+}
+.animate-carousel-duotone {
+  animation: carousel-duotone 2.8s ease-in-out forwards;
+}
+@keyframes carousel-leak {
+  0% { transform: translate(-30%, -20%); opacity: 0; }
+  35% { opacity: 1; transform: translate(-6%, -6%); }
+  70% { opacity: 1; transform: translate(18%, 12%); }
+  100% { opacity: 0; transform: translate(32%, 22%); }
+}
+.animate-carousel-leak {
+  animation: carousel-leak 2.8s ease-in-out forwards;
+}
 /* Elevated 3D card lit from the top-right: rim light, solid bottom-left edge, glossy sheen, deep float shadow */
 @layer components {
   .card-3d {
