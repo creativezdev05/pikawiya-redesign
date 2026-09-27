@@ -62,7 +62,7 @@ export default function CareersPage() {
                   />
                 </div>
         <div className="space-y-3 text-center max-w-2xl mx-auto">
-          <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
+          <span className="text-white font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
             <Briefcase className="w-4 h-4" /> Join Our Team
           </span>
           <PageTitle className="text-4xl md:text-5xl font-bold tracking-tight">
@@ -74,9 +74,22 @@ export default function CareersPage() {
         </div>
       </section>
 
-      <main className="relative z-10 max-w-4xl mx-auto px-4 py-16 space-y-10">
-        {/* Current Vacancies Status Card */}
-        <div className="card-3d bg-surface p-8 md:p-10 rounded-3xl  space-y-8">
+      <main className="relative z-10 max-w-[1600px] mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+          {/* Left: Feature Image */}
+          <div className="relative h-72 sm:h-96 lg:h-auto rounded-3xl overflow-hidden shadow-2xl">
+            <NextImage
+              src="/assets/patterns/pat1.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-navy/10 to-transparent" />
+          </div>
+
+          {/* Right: Current Vacancies Status Card */}
+          <div className="card-3d bg-surface p-8 md:p-10 rounded-3xl  space-y-8">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-page text-ink/80 text-xs font-medium border border-border">
               <span className="w-2 h-2 rounded-full bg-ochre" />
@@ -127,6 +140,7 @@ export default function CareersPage() {
             <p className="text-ink/70 text-sm leading-relaxed italic">
               We will keep your details on file and be in touch should a suitable opportunity arise. Thank you for your interest in joining the Pika Wiya Health Service Aboriginal Corporation team, we look forward to hearing from you.
             </p>
+          </div>
           </div>
         </div>
       </main>

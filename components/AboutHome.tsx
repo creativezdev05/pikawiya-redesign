@@ -43,15 +43,10 @@ export default function AboutSection() {
       {/* 1. WHO WE ARE — Deep Navy with Layered Card Highlights */}
       <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
         {/* Page background: fixed to the viewport so it sits behind the whole page while scrolling */}
-              
-                <NextImage
-                  src="/assets/home/without_gredient_without_pettern_3rd_bg.png"
-                  alt=""
-                  fill
-                  priority
-                  sizes="100vw"
-                  className="object-cover object-center"
-                />
+       <div
+        className="pointer-events-none absolute inset-0 z-0 bg-[#1b2433]"
+        aria-hidden="true"
+      />
               
         <CulturalPattern 
         variant="about"
@@ -66,7 +61,7 @@ export default function AboutSection() {
         cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
         // showFeet
       />
-        <div aria-hidden="true" className="cultural-background cultural-background--about" />
+        {/* <div aria-hidden="true" className="cultural-background cultural-background--about" /> */}
         {/* <div className="absolute inset-0 z-0 landing-ink-veil--soft" /> */}
         
         {/* Soft Ambient Glows */}
@@ -79,22 +74,22 @@ export default function AboutSection() {
             <div className="lg:col-span-7 space-y-8">
               <div className="space-y-4">
                 <motion.div
-                  whileHover={{
-                    scale:1.2,
-                    rotate:5,
-                   
+                  whileHover={{ 
+                    scale: 1.2,
+                     
                   }}
+                transition={{ type: "spring", stiffness: 400, damping: 70 }}
                 whileTap={{ scale: 2 }}
                 className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest"
               >
               <span className="w-2 h-2 rounded-full bg-ochre animate-pulse" /> Who We Are
               </motion.div>
                 <motion.div
-                  whileHover={{
-                    scale:1.2,
-                    rotate:5,
-                    borderRadius: ["20%", "20%", "50%", "50%", "20%"],
+                   whileHover={{ 
+                    scale: 1.2,
+                     
                   }}
+                transition={{ type: "spring", stiffness: 400, damping: 70 }}
                 whileTap={{ scale: 2 }}
               >
                   <PageTitle as="h2" onDark className="text-[clamp(2rem,4vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-white">
@@ -114,7 +109,7 @@ export default function AboutSection() {
                 </p>
                 <p>
                   Guided by our Board, elders, and constitution, we bring{" "}
-                  <strong className="text-white font-medium">clinical care, family support, and cultural guidance</strong> together under one shared vision —{" "}
+                  <strong className="text-white font-medium">clinical care, family support, and cultural guidance</strong> together under one shared vision <br/>{" "}
                   <strong className="accent-text font-semibold">health our way, for our people</strong>.
                 </p>
               </div>
@@ -181,15 +176,24 @@ export default function AboutSection() {
 
       {/* 2. VISION — Clean Light Theme with Numbered Cards Grid */}
       <section className="relative overflow-hidden landing-paper py-20 md:py-32">
-        <div 
-          className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
-          style={{ 
-            backgroundImage: "url('/assets/background-pattern.png')",
-            backgroundSize: "contain",
-            /* Swap out the filter string below to change the color */
-            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
-          }}
-        />
+        <NextImage
+                    src="/assets/home/main_page_2nd_bg.png"
+                    alt=""
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover object-center"
+                  />
+                {/* </div> */}
+                <div 
+                  className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
+                  style={{ 
+                    backgroundImage: "url('/assets/background-pattern-new1.png')",
+                    backgroundSize: "contain",
+                    /* Swap out the filter string below to change the color */
+                    filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+                  }}
+                />
         {/* Tailwind custom keyframes inline */}
         
         {/* <CulturalPattern variant="vision" className="cultural-pattern--light" /> */}
@@ -224,6 +228,7 @@ export default function AboutSection() {
       /> */}
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+          
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             
             {/* Left Header & Large Graphic Block */}
@@ -242,13 +247,14 @@ export default function AboutSection() {
                 whileHover={{
                   y: -4,
                     scale: 1.02,
-                    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.15)"
                   }}
                 whileTap={{ scale: 2 }}
                 >
-                <PageTitle as="h3" className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-ink">
+                <h3
+                  className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-[#C25324]"
+                >
                   Our Strategic Vision
-                </PageTitle>
+                </h3>
                 </motion.div>
 
                 <p className="text-ink/75 text-base md:text-lg font-light leading-relaxed">
@@ -301,6 +307,10 @@ export default function AboutSection() {
 
       {/* 3. VALUES — Modern Dark Flashlight Grid */}
       <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
+        <div
+        className="pointer-events-none absolute inset-0 z-0 bg-[#1b2433]"
+        aria-hidden="true"
+      />
         <CulturalPattern 
           variant="values"
           // motif1Config={[{ x: -35, y: 250 }]}
@@ -313,30 +323,28 @@ export default function AboutSection() {
           cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
           // showFeet
         />
-        <div aria-hidden="true" className="cultural-background cultural-background--values" />
-        <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
+        {/* <div aria-hidden="true" className="cultural-background cultural-background--values" /> */}
+        {/* <div className="absolute inset-0 z-0 landing-ink-veil--soft" /> */}
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 space-y-14">
           
           <div className="max-w-2xl space-y-4">
             <motion.div
-              whileHover={{
-                skewX: -10, 
-                color: "",
-                x: 8 
-                }}
-                transition={{ type: "tween", ease: "easeOut", duration: 0.15 }}
-              whileTap={{ scale: 2 }}
+             whileHover={{ 
+                    scale: 1.2,
+                     
+                  }}
+                transition={{ type: "spring", stiffness: 400, damping: 70 }}
+                whileTap={{ scale: 2 }}
               className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
               <span className="w-2 h-2 rounded-full bg-ochre" /> How We Work
             </motion.div>
             <motion.div
-                whileHover={{
-                  skewX: -10, 
-                  color: "#ff0055",
-                  x: 8 
+                 whileHover={{ 
+                    scale: 1.2,
+                     
                   }}
-                  transition={{ type: "tween", ease: "easeOut", duration: 0.15 }}
+                transition={{ type: "spring", stiffness: 400, damping: 70 }}
                 whileTap={{ scale: 2 }}
                 >
             <PageTitle as="h3" onDark className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-white">

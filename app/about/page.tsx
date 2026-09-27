@@ -7,6 +7,7 @@ import PageTitle from "@/components/PageTitle";
 import PageHero from "@/components/PageHero";
 import PatternField from "@/components/PatternField";
 import TrLogo from "@/components/TrLogo";
+import ImageCarousel from "@/components/ImageCarousel";
 import { 
   Heart, 
   Lightbulb, 
@@ -18,6 +19,7 @@ import {
 } from "lucide-react";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
 import CulturalPattern from "@/components/CulturalPattern";
+import NextImage from 'next/image';
 
 export default function AboutPage() {
   const values = [
@@ -68,7 +70,58 @@ export default function AboutPage() {
       <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
       
       <Navbar />
-      <PageHero
+       {/* Page background: fixed to the viewport so it sits behind the whole page while scrolling */}
+            <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+              <NextImage
+                src="/assets/home/main_page_2nd_bg.png"
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-center"
+              />
+            </div>
+      
+            <div 
+                className="absolute inset-[0%] z-0 opacity-20 pointer-events-none animate-drift"
+                style={{ 
+                  backgroundImage: "url('/assets/background-pattern-new1.png')",
+                  backgroundSize: "contain",
+                  opacity: 0.15,
+                  filter: "brightness(0) saturate(100%) invert(96%) sepia(94%) saturate(122%) hue-rotate(32deg) brightness(116%) contrast(98%)"
+                }}
+              />
+      <ImageCarousel
+        rounded={false}
+        heightClassName="h-[100dvh]"
+        autoPlayInterval={2000}
+        slides={[
+          { src: "/assets/about/1.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/2.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/3.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/4.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/5.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/6.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/7.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/8.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/9.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/10.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/11.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/12.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/13.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/14.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/15.jpeg", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/16.png", alt: "Aboriginal waterhole and songline dot painting" },
+          { src: "/assets/about/17.png", alt: "Aboriginal waterhole and songline dot painting" },
+
+
+
+          // { src: "/assets/cultural-heritage.jpg", alt: "Aboriginal Dot Painting Artwork" },
+          // { src: "/assets/about-us-01.png", alt: "Pika Wiya Health Community Facility" },
+          // { src: "/assets/about-us-02.png", alt: "Flinders Ranges Mountain Landscape and Outreach Region" },
+        ]}
+      />
+      {/* <PageHero
         eyebrow="About Pika Wiya"
         title="Thriving in Culture, Built for Community"
         description="Pika Wiya Health Service is an Aboriginal Community Controlled Health Organisation (ACCHO) committed to delivering high-quality, culturally safe healthcare across Port Augusta and regional South Australia."
@@ -76,7 +129,7 @@ export default function AboutPage() {
         imageMobileSrc="/assets/aboutus-mobile.png"
         imageAlt="Aboriginal waterhole and songline dot painting"
         pageName="about"
-      />
+      /> */}
 
       {/* Wrapper container for the rest of the page with the background pattern locked inside */}
       <div className="relative overflow-hidden">
@@ -118,7 +171,7 @@ export default function AboutPage() {
               </p>
               <div className="pt-2">
                 <Link
-                  href="/governance"
+                  href="/corporate-documents"
                   className="inline-block px-6 py-3 bg-ochre hover:bg-ochre-dark text-white font-medium rounded-md text-sm transition"
                 >
                   View Governance &amp; Rule Book
@@ -133,9 +186,9 @@ export default function AboutPage() {
               <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
                 Who We Are
               </span>
-              <PageTitle as="h2" className="text-3xl md:text-4xl font-bold">
+              <h2 className="text-3xl md:text-4xl font-bold text-ochre">
                 A Service Built for Aboriginal &amp; Torres Strait Islander People
-              </PageTitle>
+              </h2>
               <p className="text-ink/80 text-lg leading-relaxed">
                 Pika Wiya Health Service Aboriginal Corporation is an Aboriginal Community Controlled Health Service which offers comprehensive primary health, social and emotional wellbeing support to Aboriginal people in Port Augusta, with clinics located in Port Augusta, Davenport Community, Copley and Nepabunna. Pika Wiya Health Service Aboriginal Corporation employs staff made up of mixed disciplines that includes General Practitioners, Nursing, Allied Health, Aboriginal Health Practitioners, Reception, Finance and Administration staff.
               </p>
@@ -153,9 +206,9 @@ export default function AboutPage() {
           {/* Regional & History Connection Card */}
           <div className="grid md:grid-cols-2 gap-12 items-center bg-surface text-ink p-8 md:p-12 rounded-2xl shadow-lg border border-border">
             <div className="space-y-6">
-              <PageTitle as="h2" className="text-3xl font-bold">
+              <h2 className="text-3xl font-bold text-ochre">
                 History of Pika Wiya Health Service
-              </PageTitle>
+              </h2>
               <div className="space-y-4 text-ink/75 leading-relaxed text-base">
                 <p>
                   In the early 1970s, a group of Aboriginal women meeting in Port Augusta heard word of a sick man in the sandhills outside town. One of the women was a nurse, and together the group travelled to where the man lay, too weak to move, and did what they could. In the days and weeks that followed the women learned of others suffering from injuries and illnesses, and decided that Port Augusta needed a Health Service specifically for the Aboriginal community.

@@ -47,7 +47,7 @@ export default function Navbar() {
           className="pointer-events-auto flex items-center gap-2 shrink-0 justify-self-start transition-transform duration-300 hover:scale-[1.02]"
         >
           <Image
-            src="/assets/PWHS_Logo_Orange.png"
+            src="/assets/pika_wiya_logo.png"
             alt="Pika Wiya Health Service Logo"
             width={180}
             height={60}

@@ -58,7 +58,7 @@ export default function NewsGrid() {
     <div className="space-y-10">
       {/* Loading Skeleton */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[...Array(POSTS_PER_PAGE)].map((_, i) => (
             <div
               key={i}
@@ -72,11 +72,11 @@ export default function NewsGrid() {
         </div>
       ) : (
         /* Posts Cards Grid */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {posts.map((post) => (
             <article
               key={post.id}
-              className="card-3d group relative flex flex-col overflow-hidden  bg-white/5 backdrop-blur-md transition-all duration-300 "
+              className="card-3d group relative flex flex-col overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md transition-all duration-300 "
             >
               {/* Image Preview */}
               {post.image_url ? (

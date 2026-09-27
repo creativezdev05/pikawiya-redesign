@@ -54,7 +54,7 @@ export default function NewsPage() {
           />
         </div>
         <div className="space-y-3 text-center max-w-2xl mx-auto">
-          <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
+          <span className="text-white font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
             <Briefcase className="w-4 h-4" /> Healthcare Services
           </span>
           <PageTitle className="text-4xl md:text-7xl font-bold tracking-tight">
@@ -65,20 +65,22 @@ export default function NewsPage() {
           </p>
         </div>
       </section>
-      <div className="flex-1 relative z-10 w-full max-w-5xl mx-auto px-4 py-16">
+      <div className="flex-1 relative z-10 w-full max-w-[1600px] mx-auto px-4 py-16">
         
         <div className="space-y-6 pb-6">
           <div className="card-3d relative isolate overflow-hidden rounded-2xl p-6 md:p-8 pr-28 md:pr-56 md:min-h-56.25 flex flex-col justify-center">
-            {/* Banner artwork already includes the card's rounded corners, border and shadow */}
-            <NextImage
-              src="/assets/home/banner-bg.png"
-              alt=""
-              fill
-              sizes="(max-width: 1024px) 100vw, 992px"
-              className="object-fill -z-10"
-            />
-            <span className="text-xs font-semibold text-ochre uppercase">Community Notice</span>
-            <h2 className="text-2xl font-bold mt-1 mb-2 text-neutral-900">Seasonal Health Checks & Vaccine Clinics</h2>
+            {/* Banner artwork has its own rounded frame baked in; bleed it past the card so card-3d's edge is the only border */}
+            <div className="absolute inset-x-[-1.2%] inset-y-[-5%] -z-10" aria-hidden="true">
+              <NextImage
+                src="/assets/home/banner-bg.png"
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 100vw, 992px"
+                className="object-cover"
+              />
+            </div>
+            <span className="text-lg font-bold text-ochre uppercase">Community Notice</span>
+            <h2 className="text-1xl font-semibold mt-1 mb-2 text-neutral-900">Seasonal Health Checks & Vaccine Clinics</h2>
             <p className="text-neutral-600 text-sm">
               Pika Wiya is encouraging all community members to drop in for annual health assessments and influenza vaccines. Contact reception to schedule your visit.
             </p>

@@ -7,7 +7,7 @@
   --header-background: #00060fee;
   --page: #faf8f3;
   --surface: #ffffff;
-  --ink: #1a1615;
+  --ink: #0a0a0a;
   --muted: rgba(26, 22, 21, 0.9);
   --border: rgba(26, 22, 21, 0.25);
   /* --navy: #04010f;
@@ -841,6 +841,8 @@ textarea:disabled {
 .tr-logo--br { bottom: 8%; right: -2%; }
 .tr-logo--bl { bottom: 10%; left: -2%; }
 
+.tr-logo--tl.footer-tr-logo { top: 2.5rem; left: 9rem; width: 170px; }
+
 .tr-logo.tr-logo--core {
   top: 0;
   right: 0;
@@ -924,6 +926,159 @@ textarea:disabled {
   50% { transform: translate3d(8px, -16px, 0) rotate(-3deg); }
 }
 
+/* ── Service Hero Icons (clock-face layout, right side) ──
+   Structure: .service-hero-icons > [dial, hover-zone > (spoke > anchor > icon) x N]
+   - spoke: full-size, rotated to the icon's clock angle; spinning it orbits the icon.
+   - anchor: sits at the spoke's 12-o'clock edge, counter-rotated so the icon stays upright.
+   - icon: the visible circle; its own :hover/:focus-visible just pops it — independent
+     of the ancestor spin, so whichever icon the cursor is actually over pops as the
+     wheel turns underneath it. */
+.service-hero-icons {
+  display: none;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .service-hero-icons {
+    display: block;
+    position: absolute;
+    top: 42%;
+    right: 16%;
+    left: auto;
+    width: clamp(260px, 24vw, 360px);
+    aspect-ratio: 1;
+    transform: translateY(-50%);
+    z-index: 6;
+  }
+}
+
+.service-hero-icons__dial {
+  position: absolute;
+  inset: 6%;
+  border-radius: 9999px;
+  border: 2px dashed rgba(194, 83, 36, 0.6);
+  pointer-events: none;
+}
+
+/* Wraps every spoke so hovering ANY icon (a descendant) — or any gap between them —
+   keeps this :hover true, which is what keeps the whole wheel turning smoothly. */
+.service-hero-icons__hover-zone {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  pointer-events: auto;
+}
+
+.service-hero-icon-spoke {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: rotate(var(--base-angle, 0deg));
+}
+
+.service-hero-icons__hover-zone:hover .service-hero-icon-spoke {
+  animation: service-icons-spin 13s linear infinite;
+}
+
+.service-hero-icon-anchor {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: clamp(64px, 7vw, 92px);
+  height: clamp(64px, 7vw, 92px);
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(calc(-1 * var(--base-angle, 0deg)));
+}
+
+.service-hero-icons__hover-zone:hover .service-hero-icon-anchor {
+  animation: service-icons-spin-counter 13s linear infinite;
+}
+
+.service-hero-icon {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(194, 83, 36, 0.25);
+  box-shadow: 0 14px 32px -12px rgba(20, 20, 30, 0.4);
+  opacity: 0;
+  pointer-events: auto;
+  transform: scale(0.3);
+  animation: service-icon-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards var(--pop-delay, 0s);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Pop the one icon the cursor is actually over. Uses a plain transition, not
+   `animation`, so it can never clobber the pop-in's forwards-held opacity (that
+   bug: icon vanishing on hover) — and it keeps working while the wheel spins
+   underneath it. The forwards-held pop-in animation still "owns" `transform` at
+   a higher cascade priority than a normal rule, even after it finishes, so
+   `!important` is needed here for the hover scale to actually win. */
+.service-hero-icon:hover,
+.service-hero-icon:focus-visible {
+  transform: scale(1.22) !important;
+  box-shadow: 0 18px 40px -10px rgba(194, 83, 36, 0.55);
+  z-index: 20;
+}
+
+.service-hero-icon:hover .service-hero-icon__ring,
+.service-hero-icon:focus-visible .service-hero-icon__ring {
+  animation-duration: 1.3s;
+}
+
+.service-hero-icon__glyph {
+  position: relative;
+  width: 62%;
+  height: 62%;
+}
+
+.service-hero-icon__img {
+  object-fit: contain;
+  object-position: center;
+}
+
+.service-hero-icon__ring {
+  position: absolute;
+  inset: -6%;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(194, 83, 36, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  animation: service-icon-ring 3.2s ease-out infinite;
+  animation-delay: var(--ring-delay, 0s);
+}
+
+.service-hero-icon__ring--slow {
+  animation-duration: 3.2s;
+  animation-delay: calc(var(--ring-delay, 0s) + 1.6s);
+}
+
+@keyframes service-icon-pop {
+  0% { opacity: 0; transform: scale(0.3); }
+  60% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes service-icons-spin {
+  from { transform: rotate(var(--base-angle, 0deg)); }
+  to   { transform: rotate(calc(var(--base-angle, 0deg) + 360deg)); }
+}
+
+@keyframes service-icons-spin-counter {
+  from { transform: translate(-50%, -50%) rotate(calc(-1 * var(--base-angle, 0deg))); }
+  to   { transform: translate(-50%, -50%) rotate(calc(-1 * (var(--base-angle, 0deg) + 360deg))); }
+}
+
+@keyframes service-icon-ring {
+  0% { transform: scale(0.85); opacity: 0.55; }
+  70% { opacity: 0.12; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
 /* ── Reduced Motion & Mobile Responsiveness ── */
 @media (prefers-reduced-motion: reduce) {
   .title-blend {
@@ -939,8 +1094,17 @@ textarea:disabled {
   .cultural-handprint,
   .pattern-field__piece,
   .pattern-field__swap,
-  .tr-logo {
+  .tr-logo,
+  .service-hero-icon,
+  .service-hero-icon__ring,
+  .service-hero-icon-spoke,
+  .service-hero-icon-anchor {
     animation: none !important;
+  }
+
+  .service-hero-icon {
+    opacity: 1;
+    transform: none;
   }
 
   .cultural-flame-dot,
@@ -1097,13 +1261,10 @@ textarea:disabled {
     /* stepped solid edge, thickening toward the bottom-left */
     --card-edge:
       -1px 1px 0 #e6d8c3,
-      -2px 2px 0 #dccab0,
-      -3px 3px 0 #d1bc9e,
-      -4px 4px 0 #c6ad8c,
-      -5px 5px 0 #ba9f7c,
-      -6px 6px 0 #ad906d,
-      -7px 7px 0 #a0825f,
-      -8px 8px 0 #927452;
+      -2px 2px 0 #d6c3a7,
+      -3px 3px 0 #c6ad8c,
+      -3px 3px 0 #b39776,
+      -4px 4px 0 #a0825f;
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -1112,20 +1273,20 @@ textarea:disabled {
       radial-gradient(120% 70% at 85% -10%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 60%),
       linear-gradient(200deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 40%, rgba(120, 70, 30, 0.06) 100%);
     border: 1px solid rgba(255, 255, 255, 0.95);
-    transform: translate(4px, -8px);
+    transform: translate(2x, -4px);
     box-shadow:
       /* bright top/right lip, shaded bottom/left lip */
       inset -2px 2px 0 rgba(255, 255, 255, 1),
-      inset 3px -3px 6px -2px rgba(110, 60, 20, 0.2),
+      inset 3px -3px 6px -2px rgba(110, 60, 20, 0.15),
       /* crisp outline so the face separates from the edge */
-      0 0 0 1px rgba(130, 85, 45, 0.25),
+      0 0 0 1px rgba(130, 85, 45, 0.22),
       var(--card-edge),
       /* contact shadow right under the edge */
-      -10px 12px 6px -2px rgba(40, 25, 10, 0.3),
+      -7px 8px 5px -2px rgba(40, 25, 10, 0.22),
       /* layered float shadow cast down-left */
-      -14px 22px 28px -6px rgba(40, 25, 10, 0.3),
-      -24px 42px 60px -14px rgba(40, 25, 10, 0.35),
-      -36px 70px 110px -30px rgba(40, 25, 10, 0.4);
+      -10px 15px 20px -6px rgba(40, 25, 10, 0.2),
+      -16px 28px 42px -12px rgba(40, 25, 10, 0.24),
+      -24px 46px 76px -24px rgba(40, 25, 10, 0.28);
     transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
   }
 
@@ -1167,19 +1328,18 @@ textarea:disabled {
   }
 
   .card-3d:hover {
-    transform: translate(7px, -13px);
+    transform: translate(5px, -9px);
     box-shadow:
       inset -2px 2px 0 rgba(255, 255, 255, 1),
-      inset 3px -3px 6px -2px rgba(110, 60, 20, 0.2),
-      0 0 0 1px rgba(130, 85, 45, 0.3),
+      inset 3px -3px 6px -2px rgba(110, 60, 20, 0.15),
+      0 0 0 1px rgba(130, 85, 45, 0.26),
       var(--card-edge),
-      -9px 9px 0 #867048,
-      -10px 10px 0 #7a6440,
-      -11px 11px 0 #6f5a38,
-      -14px 16px 8px -2px rgba(40, 25, 10, 0.3),
-      -20px 30px 36px -8px rgba(40, 25, 10, 0.3),
-      -32px 56px 80px -18px rgba(40, 25, 10, 0.38),
-      -48px 92px 140px -36px rgba(40, 25, 10, 0.42);
+      -6px 6px 0 #927452,
+      -7px 7px 0 #867048,
+      -10px 11px 6px -2px rgba(40, 25, 10, 0.22),
+      -14px 21px 26px -8px rgba(40, 25, 10, 0.22),
+      -22px 38px 56px -14px rgba(40, 25, 10, 0.27),
+      -32px 62px 100px -28px rgba(40, 25, 10, 0.3);
   }
 
   .card-3d:hover::after {

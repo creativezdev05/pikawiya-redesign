@@ -21,19 +21,11 @@ export type ServiceItem = {
 export default function CoreServicesSection({ mainServices }: { mainServices: ServiceItem[] }) {
   return (
     <section className="relative overflow-hidden landing-ink py-16 md:py-28">
-      {/* Background: one image covering the whole section */}
+      {/* Background: solid navy (same colour as the old bg image, minus its bottom arc) */}
       <div
-        className="pointer-events-none absolute inset-0 z-0 bg-[#faf6f0]"
+        className="pointer-events-none absolute inset-0 z-0 bg-[#1b2433]"
         aria-hidden="true"
-      >
-        <NextImage
-          src="/assets/home/without_gredient_without_pettern_3rd_bg.png"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-      </div>
+      />
       {/* Background Cultural Elements - Updated variant to core-service for matching consistent pattern layout */}
       {/* <CulturalPattern variant="core-service" showFeet /> */}
       
@@ -84,19 +76,21 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
             <motion.div
                     whileHover={{ 
                     scale: 1.2,
-                    rotate: 5,
+                     
                   }}
-                  whileTap={{ scale: 2 }}
+                transition={{ type: "spring", stiffness: 400, damping: 70 }}
+                whileTap={{ scale: 2 }}
             className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest">
               <span className="w-2 h-2 rounded-full bg-ochre animate-pulse" />
               Community-Led Healing
             </motion.div>
             <motion.div  
-                  whileHover={{ 
+                 whileHover={{ 
                     scale: 1.2,
-                    rotate: 5,
+                     
                   }}
-                  whileTap={{ scale: 2 }}>
+                transition={{ type: "spring", stiffness: 400, damping: 70 }}
+                whileTap={{ scale: 2 }}>
             <PageTitle 
               as="h2" 
               onDark 

@@ -160,7 +160,7 @@ export default function ContactForm() {
               value={fullName}
               onFocus={() => speakInstruction("fullName", "Please enter your name")}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full px-4 py-3 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre"
+              className="w-full px-4 py-1 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre"
             />
           </div>
 
@@ -181,7 +181,7 @@ export default function ContactForm() {
               onFocus={() => speakInstruction("phone", "Please enter your phone number")}
               onChange={(e) => setPhone(e.target.value)}
               disabled={isPhoneDisabled}
-              className="w-full px-4 py-3 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+              className="w-full px-4 py-1 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
             />
           </div>
         </div>
@@ -204,7 +204,7 @@ export default function ContactForm() {
               onFocus={() => speakInstruction("email", "Please enter your email address")}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isEmailDisabled}
-              className="w-full px-4 py-3 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+              className="w-full px-4 py-1 rounded-md border border-border  text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
             />
           </div>
 
@@ -223,7 +223,7 @@ export default function ContactForm() {
               onFocus={() => speakInstruction("serviceType", "Please select a required service")}
               onChange={(e) => setServiceType(e.target.value)}
               disabled={isServiceDisabled}
-              className="w-full px-4 py-3 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+              className="w-full px-4 py-1 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
             >
               <option value="General Health Care">General Health Care</option>
               <option value="Family Support">Family Support</option>
@@ -252,7 +252,7 @@ export default function ContactForm() {
             onFocus={() => speakInstruction("message", "Please enter your message")}
             onChange={(e) => setMessage(e.target.value)}
             disabled={isMessageDisabled}
-            className="w-full px-4 py-3 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
+            className="w-full px-4 py-1 rounded-md border border-border bg-input text-ink focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
           ></textarea>
         </div>
 

@@ -615,7 +615,7 @@ const handleMembershipChange = (
           />
         </div>
         <div className="space-y-3 text-center max-w-2xl mx-auto">
-          <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
+          <span className="text-white font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
             <Briefcase className="w-4 h-4" /> Join Our Team
           </span>
           <PageTitle className="text-4xl md:text-5xl font-bold tracking-tight">
@@ -627,7 +627,7 @@ const handleMembershipChange = (
         </div>
       </section>
 
-      <main className="relative z-10 max-w-16xl mx-auto px-4 py-16">
+      <main className="relative z-10 max-w-[1600px] mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* LEFT SIDEBAR: Vertical Tab List (4 Cols on Large Screens) */}
@@ -684,14 +684,16 @@ const handleMembershipChange = (
           <section className="lg:col-span-8 bg-surface rounded-2xl border border-border p-6 md:p-8 shadow-sm">
             <div className="space-y-6">
               <div className="card-3d relative isolate overflow-hidden rounded-2xl p-6 md:p-8 pr-28 md:pr-56 md:min-h-56.25 flex flex-col justify-center">
-                {/* Banner artwork already includes the card's rounded corners, border and shadow */}
-                <NextImage
-                  src="/assets/home/banner-bg.png"
-                  alt=""
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 992px"
-                  className="object-fill -z-10"
-                />
+                {/* Banner artwork has its own rounded frame baked in; bleed it past the card so card-3d's edge is the only border */}
+                <div className="absolute inset-x-[-1.2%] inset-y-[-5%] -z-10" aria-hidden="true">
+                  <NextImage
+                    src="/assets/home/banner-bg.png"
+                    alt=""
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 992px"
+                    className="object-cover"
+                  />
+                </div>
                 <div className="flex flex-wrap items-center gap-3 mb-3">
                   <span className="inline-block px-3 py-1 bg-ochre/10 text-ochre text-xs font-semibold rounded-full">
                     {activeForm.category}

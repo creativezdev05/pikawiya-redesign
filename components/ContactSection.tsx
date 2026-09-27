@@ -10,6 +10,10 @@ export default function ContactSection() {
     <section className="relative overflow-hidden landing-ink py-20 md:py-32 px-6 md:px-10 text-sand dark:text-ink">
       {/* Background Cultural Artwork */}
       {/* <CulturalPattern variant="contact" showFeet /> */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 bg-[#1b2433]"
+        aria-hidden="true"
+      />
       <CulturalPattern 
           variant="contact"
           // motif1Config={[{ x: 200, y: 200 }]}
@@ -22,8 +26,8 @@ export default function ContactSection() {
           cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
           // showFeet
         />
-      <div aria-hidden="true" className="cultural-background cultural-background--contact" />
-      <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
+      {/* <div aria-hidden="true" className="cultural-background cultural-background--contact" />
+      <div className="absolute inset-0 z-0 landing-ink-veil--soft" /> */}
 
       {/* Ambient Lighting Accents */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-ochre/10 rounded-full blur-[120px] pointer-events-none" />

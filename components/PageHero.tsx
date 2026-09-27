@@ -4,6 +4,9 @@ import { getImageProps } from "next/image";
 import TrLogo, { type TrLogoMotion, type TrLogoPlacement } from "./TrLogo";
 import CulturalPattern from "./CulturalPattern";
 import HomeStoryHero, { CORNER_DOTS } from "./HomeStoryHero";
+import PageTitle from "./PageTitle";
+import HomeStoryHeroSlider from "./HomeStoryHeroSlider";
+import ServiceHeroIcons from "./ServiceHeroIcons";
 
 type PageHeroProps = {
   eyebrow: string;
@@ -37,19 +40,22 @@ export default function PageHero({
   trLogoClassName = "",
   pageName = "",
 }: PageHeroProps) {
-  if (pageName === "home") {
-    return (
-      <HomeStoryHero
-        eyebrow={eyebrow}
-        title={title}
-        titleHighlight={titleHighlight}
-        description={description}
-        ctaLabel={ctaLabel}
-        ctaHref={ctaHref}
-        imageSrc={imageSrc}
-        imageAlt={imageAlt}
-      />
-    );
+  // if (pageName === "home") {
+  //   return (
+  //     <HomeStoryHero
+  //       eyebrow={eyebrow}
+  //       title={title}
+  //       titleHighlight={titleHighlight}
+  //       description={description}
+  //       ctaLabel={ctaLabel}
+  //       ctaHref={ctaHref}
+  //       imageSrc={imageSrc}
+  //       imageAlt={imageAlt}
+  //     />
+  //   );
+  // }
+    if (pageName === "home") {
+    return <HomeStoryHeroSlider />;
   }
 
   const commonImgProps = {
@@ -73,7 +79,8 @@ export default function PageHero({
     src: imageMobileSrc || imageSrc,
   });
 
-  const objectPosition = pageName === "about" ? "object-center min-[960px]:object-right" : "object-center";
+  const objectFit = "object-cover";
+  const objectPosition = "object-center";
 
   return (
     <section className="relative z-10 flex min-h-[85dvh] w-full items-center overflow-hidden pt-28 pb-12 lg:min-h-screen lg:pt-32 lg:pb-16">
@@ -126,13 +133,13 @@ export default function PageHero({
             <img
               {...restImgProps}
               /* object-cover never distorts, unlike the old [object-fit:fill] stretch */
-              className={`h-full w-full object-cover ${objectPosition}`}
+              className={`h-full w-full ${objectFit} ${objectPosition}`}
             />
           </picture>
         </div>
 
         {pageName === "about" && (
-          <div className="block lg:hidden">
+          <>
             <div
               className="pointer-events-none absolute inset-0 bg-gradient-to-b from-page/78 via-page/42 to-transparent"
               aria-hidden="true"
@@ -141,7 +148,7 @@ export default function PageHero({
               className="pointer-events-none absolute inset-0 bg-gradient-to-r from-page/95 via-page/40 via-35% to-transparent to-50%"
               aria-hidden="true"
             />
-          </div>
+          </>
         )}
         {pageName === "news" && (
           <div
@@ -156,6 +163,8 @@ export default function PageHero({
         <CulturalPattern variant="about" fit="fill" className="z-[1]" dotsConfig={CORNER_DOTS} />
       )}
 
+      {pageName === "service" && <ServiceHeroIcons />}
+
       {trLogo ? (
         <TrLogo
           motion={trLogo}
@@ -163,9 +172,25 @@ export default function PageHero({
           className={`tr-logo--hero ${trLogoClassName}`.trim()}
         />
       ) : null}
-
       {/* Left Column */}
-      {/* <div className="lg:col-span-8 text-left pl-0 md:pl-4">
+      {pageName === "service" &&
+        <div className="relative z-10 w-full max-w-2xl self-start px-4 text-left sm:px-6 lg:px-10 lg:ml-10 xl:px-12 xl:ml-20">
+          <span className="mb-3 block text-xs font-semibold uppercase tracking-[0.18em] text-ochre">
+            {eyebrow}
+          </span>
+          <h1
+            className="mb-4 text-[clamp(2.5rem,5.5vw,4.5rem)] font-extrabold leading-[1.05] tracking-[-0.03em]"
+          >
+            {title}
+          </h1>
+          {description ? (
+            <p className="max-w-[560px] text-ink leading-relaxed md:text-lg text-ink/80">
+              {description}
+            </p>
+          ) : null}
+        </div>
+      }
+      {/* <div className="relative z-10 w-full max-w-2xl px-4 text-left sm:px-6 lg:px-10 xl:px-12">
         <span className="mb-3 block text-xs font-semibold uppercase tracking-[0.18em] text-ochre">
           {eyebrow}
         </span>
@@ -177,7 +202,7 @@ export default function PageHero({
           {title}
         </PageTitle>
         {description ? (
-          <p className="max-w-[560px] text-base leading-relaxed md:text-lg text-ink/80">
+          <p className="max-w-[560px] text-white leading-relaxed md:text-lg text-ink/80">
             {description}
           </p>
         ) : null}

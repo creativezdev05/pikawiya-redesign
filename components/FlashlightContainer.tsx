@@ -15,7 +15,7 @@ export default function FlashlightContainer({ children, className = "", ...props
     >
       {/* The Flashlight Line element overlay */}
       <motion.span
-        className="absolute top-0 bottom-0 w-1/4 skew-x-12 opacity-25 pointer-events-none z-20"
+        className="absolute top-1/2 -translate-y-1/2 h-150 w-1/3 skew-x-6 opacity-25 pointer-events-none z-20"
         style={{
           left: "-100%", // Static starting position
           background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%)",
@@ -25,7 +25,7 @@ export default function FlashlightContainer({ children, className = "", ...props
           hover: {
             left: ["-100%", "210%"],
             transition: { 
-              duration: 0.8, 
+              duration: 1.2, 
               ease: "easeInOut" 
             }
           }

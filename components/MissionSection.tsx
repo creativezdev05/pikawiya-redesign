@@ -82,7 +82,7 @@ export default function MissionSection() {
                     scale: 1.2,
                      
                   }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 50 }}
                   className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-ochre/10 border border-ochre/20 text-ochre text-xs md:text-sm font-bold uppercase tracking-widest"
                 whileTap={{ scale: 2 }}
               >
@@ -91,10 +91,10 @@ export default function MissionSection() {
               </motion.div>
               <motion.div
                 whileHover={{ 
-                    scale: 1.2,
+                    scale: 1.1,
                      
                   }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 50 }}
                 whileTap={{ scale: 2 }}
               >
                 <h3
@@ -171,7 +171,7 @@ export default function MissionSection() {
 
               {/* Executive Flashlight Banner */}
               <div className="absolute bottom-5 left-5 right-5 z-10">
-                <FlashlightContainer className="relative overflow-hidden rounded-xl bg-navy/95 border-l-4 border-ochre px-6 py-4 backdrop-blur-md shadow-2xl">
+                <FlashlightContainer className="relative overflow-hidden rounded-xl bg-[#1B2433] border-l-4 border-ochre px-6 py-4 backdrop-blur-md shadow-2xl">
                   <div
                     aria-hidden="true"
                     className="absolute inset-0 opacity-20 pointer-events-none"

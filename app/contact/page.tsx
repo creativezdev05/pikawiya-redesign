@@ -149,7 +149,7 @@ export default function ContactPage() {
     <div className="lg:col-span-2">
       <div className="card-3d bg-surface p-5 sm:p-6 lg:p-7 rounded-2xl w-full">
         <h2 className="text-lg sm:text-xl font-bold text-ink mb-1">Send Us an Enquiry</h2>
-        <p className=" text-xs sm:text-sm mb-4 text-[#C25324]">
+        <p className=" text-xs sm:text-sm mb-4 text-ink">
           Fill out the form below and your enquiry will be sent directly to our administrative team.
         </p>
         <ContactForm />

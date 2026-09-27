@@ -34,6 +34,8 @@ type DotsConfig = PointConfig & {
 type CornerConfig = {
   x?: number | string;
   y?: number | string;
+  /** Multiplier on top of the base corner size. */
+  scale?: number;
 };
 
 type FlowPathConfig = {
@@ -466,6 +468,7 @@ export default function CulturalPattern({
       ? {
           x: px(cornerTLConfig.x, 0),
           y: py(cornerTLConfig.y, 0),
+          scale: cornerTLConfig.scale ?? 1,
         }
       : null;
 
@@ -473,6 +476,7 @@ export default function CulturalPattern({
       ? {
           x: px(cornerBRConfig.x, 1200),
           y: py(cornerBRConfig.y, 800),
+          scale: cornerBRConfig.scale ?? 1,
         }
       : null;
 
@@ -787,7 +791,7 @@ export default function CulturalPattern({
           {/* Top-Left Fold Corner Pattern */}
           {layout.tlCorner && (
             <g
-              transform={`translate(${layout.tlCorner.x}, ${layout.tlCorner.y}) scale(${size}) rotate(135)`}
+              transform={`translate(${layout.tlCorner.x}, ${layout.tlCorner.y}) scale(${size * layout.tlCorner.scale}) rotate(135)`}
             >
               <path
                 d={cornerPattern.line1}
@@ -840,7 +844,7 @@ export default function CulturalPattern({
           {/* Bottom-Right Fold Corner Pattern */}
           {layout.brCorner && (
             <g
-              transform={`translate(${layout.brCorner.x}, ${layout.brCorner.y}) scale(${size}) rotate(-45)`}
+              transform={`translate(${layout.brCorner.x}, ${layout.brCorner.y}) scale(${size * layout.brCorner.scale}) rotate(-45)`}
             >
               <path
                 d={cornerPattern.line1}

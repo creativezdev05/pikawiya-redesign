@@ -21,8 +21,9 @@ export default function CorporateDocumentsPage() {
       className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(to_bottom,#faf6f0,#fefaf4_70%,#faf6f0)] overflow-hidden"
       aria-hidden="true"
     >
-      {/* Background Image: Covers 100% width, pins subject to the right */}
-      <div className="absolute inset-0 ">
+      {/* Background Image: Covers 100% width, pins subject to the right.
+          On lg+ the layer is sized by height and shifted right so the lady sits clear of the cards. */}
+      <div className="absolute inset-0 lg:left-auto lg:aspect-1983/793 lg:min-w-[122%] lg:translate-x-[14%]">
         <NextImage
           src="/assets/doc_bg.png"
           alt=""
@@ -65,63 +66,61 @@ export default function CorporateDocumentsPage() {
         </div>
 
         {/* Document Cards Grid - Pushed down with top margin */}
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full items-stretch mt-40 sm:mt-36 lg:mt-38">
-  
-  {/* Document 1: Rule Book */}
-  <div className="card-3d bg-white p-5 sm:p-6 rounded-2xl  flex flex-col justify-between space-y-5  transition-all duration-300">
-    <div className="space-y-3">
-      <div className="w-10 h-10 rounded-xl bg-ochre/15 text-ochre flex items-center justify-center shrink-0">
-        <BookOpen className="w-5 h-5" />
-      </div>
-      <div className="space-y-1.5">
-        <h2 className="text-lg sm:text-xl font-bold text-ink">
-          Rule Book
-        </h2>
-        <p className="text-ink/75 text-xs sm:text-sm leading-relaxed">
-          The official constitution and governance rules outlining membership, board responsibilities, and operational guidelines under CATSI Act regulation.
-        </p>
-      </div>
-    </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full items-stretch mt-40 sm:mt-36 lg:mt-38">
+        
+        {/* Document 1: Rule Book */}
+        <div className="card-3d bg-white p-5 sm:p-6 rounded-2xl min-h-65 sm:min-h-70 flex flex-col justify-between space-y-5  transition-all duration-300">
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-ochre/15 text-ochre flex items-center justify-center shrink-0">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              <h2 className="text-lg sm:text-xl font-bold text-ink pt-1.5">
+                Rule Book
+              </h2>
+            </div>
+            <p className="text-ink/75 text-xs sm:text-sm leading-relaxed">
+              The official constitution and governance rules outlining membership, board responsibilities, and operational guidelines under CATSI Act regulation.
+            </p>
+          </div>
 
-    <a
-      href="https://www.pikawiyahealth.org.au/wp-content/uploads/2024/09/PWHS-Rule-Book-2024.pdf"
-      download
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-white inline-flex items-center justify-center w-full py-3 px-4 bg-ochre hover:bg-ochre-dark text-xs sm:text-sm font-semibold rounded-xl transition shadow-md hover:shadow-lg gap-2 text-center"
-    >
-      <Download className="w-4 h-4 shrink-0" /> Download Rule Book (PDF)
-    </a>
-  </div>
-
-  {/* Document 2: Annual Report */}
-  <div className="card-3d bg-white p-5 sm:p-6 rounded-2xl  flex flex-col justify-between space-y-5  transition-all duration-300">
-    <div className="space-y-3">
-      <div className="w-10 h-10 rounded-xl bg-ochre/15 text-ochre flex items-center justify-center shrink-0">
-        <FileText className="w-5 h-5" />
+         <a
+            href="https://www.pikawiyahealth.org.au/wp-content/uploads/2024/09/PWHS-Rule-Book-2024.pdf"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white inline-flex items-center justify-center w-full py-3 px-4 bg-ochre hover:bg-ochre-dark text-xs sm:text-sm font-semibold rounded-xl transition shadow-md hover:shadow-lg gap-2 text-center"
+          >
+            <Download className="w-4 h-4 shrink-0" />Rule Book</a>
       </div>
-      <div className="space-y-1.5">
-        <h2 className="text-lg sm:text-xl font-bold text-ink">
-          Annual Report
-        </h2>
-        <p className="text-ink/75 text-xs sm:text-sm leading-relaxed">
-          Comprehensive summary of financial statements, community achievements, clinical program outcomes, and service delivery highlights from the past year.
-        </p>
-      </div>
-    </div>
 
-    <a
-      href="https://www.pikawiyahealth.org.au/wp-content/uploads/2025/01/PWHSAC-Annual-Report-2023-2024.pdf"
-      download
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-white inline-flex items-center justify-center w-full py-3 px-4 bg-navy hover:bg-navy/90 text-xs sm:text-sm font-semibold rounded-xl transition shadow-md hover:shadow-lg gap-2 text-center"
-    >
-      <Download className="w-4 h-4 shrink-0" /> Download Annual Report (PDF)
-    </a>
-  </div>
+        {/* Document 2: Annual Report */}
+        <div className="card-3d bg-white p-5 sm:p-6 rounded-2xl min-h-65 sm:min-h-70 flex flex-col justify-between space-y-5  transition-all duration-300">
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-ochre/15 text-ochre flex items-center justify-center shrink-0">
+                <FileText className="w-5 h-5" />
+              </div>
+              <h2 className="text-lg sm:text-xl font-bold text-ink pt-1.5">
+                Annual Report
+              </h2>
+            </div>
+            <p className="text-ink/75 text-xs sm:text-sm leading-relaxed">
+              Comprehensive summary of financial statements, community achievements, clinical program outcomes, and service delivery highlights from the past year.
+            </p>
+          </div>
 
-</div>
+            <a
+              href="https://www.pikawiyahealth.org.au/wp-content/uploads/2025/01/PWHSAC-Annual-Report-2023-2024.pdf"
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white inline-flex items-center justify-center w-full py-3 px-4 bg-navy hover:bg-navy/90 text-xs sm:text-sm font-semibold rounded-xl transition shadow-md hover:shadow-lg gap-2 text-center"
+            >
+              <Download className="w-4 h-4 shrink-0" />Annual Report  </a>
+          </div>
+
+        </div>
       </div>
     </main>
   </div>

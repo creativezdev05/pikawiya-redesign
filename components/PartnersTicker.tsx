@@ -6,11 +6,11 @@ type Partner = {
 };
 
 const PARTNERS: Partner[] = [
-  { name: "Marnbi – Connected Beginnings Education", logo: "/assets/partners/connected.png" },
+  { name: "Marnbi – Connected Beginnings Education", logo: "/assets/partners/connected1.jpeg" },
   { name: "Healthy Dreaming", logo: "/assets/partners/healthy-dreaming.png" },
   { name: "Idnya Service", logo: "/assets/partners/idnya.png" },
   { name: "RDFS ", logo: "/assets/partners/rfds.png" },
-  { name: "Wami Kata", logo: "/assets/partners/wamikata.png" },
+  // { name: "Wami Kata", logo: "/assets/partners/wamikata.png" },
 ];
 
 export default function PartnersTicker() {

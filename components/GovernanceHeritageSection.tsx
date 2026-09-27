@@ -9,15 +9,24 @@ import { motion } from "framer-motion";
 export default function GovernanceHeritageSection() {
   return (
     <section className="relative overflow-hidden landing-paper py-20 md:py-32">
-      <div 
-        className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
-        style={{ 
-          backgroundImage: "url('/assets/background-pattern.png')",
-          backgroundSize: "contain",
-          /* Swap out the filter string below to change the color */
-          filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
-        }}
-      />
+      <NextImage
+                          src="/assets/home/main_page_2nd_bg.png"
+                          alt=""
+                          fill
+                          priority
+                          sizes="100vw"
+                          className="object-cover object-center"
+                        />
+                      {/* </div> */}
+                      <div 
+                        className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
+                        style={{ 
+                          backgroundImage: "url('/assets/background-pattern-new1.png')",
+                          backgroundSize: "contain",
+                          /* Swap out the filter string below to change the color */
+                          filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+                        }}
+                      />
       {/* Tailwind custom keyframes inline */}
       
       {/* Background Cultural Pattern */}
@@ -107,13 +116,12 @@ export default function GovernanceHeritageSection() {
               
               <motion.div  whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 2 }}>
-                <PageTitle
-                  as="h2" 
-                  className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-ink"
+                <h2 
+                  className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-[#C25324]"
                 >
                   Walking with our ancestors. 
                   Building for community.
-                </PageTitle>
+                </h2>
               </motion.div>
             </div>
 
@@ -141,7 +149,7 @@ export default function GovernanceHeritageSection() {
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
-                href="/governance"
+                href="/corporate-documents"
                 className="btn-ochre group inline-flex items-center justify-center gap-2.5 px-7 py-4 bg-ochre hover:bg-ochre-dark text-white text-sm font-semibold rounded-xl shadow-lg shadow-ochre/20 transition-all duration-300 hover:shadow-ochre/40 hover:-translate-y-0.5"
               >
                 <BookOpen className="w-4 h-4" />
