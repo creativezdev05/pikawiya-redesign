@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
 
 type OrbitConfig = {
   x?: number | string;
@@ -207,11 +207,6 @@ function generateSunRings(outerR: number, rand: () => number) {
   });
 }
 
-function generateInvertedUShapePath(width: number, height: number) {
-  const r = width / 2;
-  return `M 0 ${height} L 0 ${r} A ${r} ${r} 0 0 1 ${width} ${r} L ${width} ${height}`;
-}
-
 function generateFixedLongSnakePath(
   xStart: number,
   yStart: number,
@@ -259,35 +254,198 @@ function generateSnakeMiddleDotPoints(
   return dots;
 }
 
-function generateFoldCornerPatternPath(
-  xStart: number,
-  yStart: number,
-  length = 1100,
-  segments = 12
+/** Closed hand-painted outline: points around a circle nudged off-radius, joined with a Catmull-Rom curve. */
+function generateOrganicBlobPath(
+  radius: number,
+  points = 16,
+  jitter = 0.09,
+  rand: () => number = () => 0.5
 ) {
-  let path1 = `M ${xStart} ${yStart}`;
-  let path2 = `M ${xStart} ${yStart + 16}`;
-  let path3 = `M ${xStart} ${yStart + 32}`;
-  let path4 = `M ${xStart} ${yStart + 48}`;
-  const segLen = length / segments;
-
-  const dots: { x: number; y: number }[] = [];
-  for (let i = 0; i < segments; i++) {
-    const nextX = xStart + (i + 1) * segLen;
-    const ctrlX = xStart + (i + 0.5) * segLen;
-    const wave = i % 2 === 0 ? 12 : -12;
-
-    path1 = `${path1} Q ${ctrlX} ${yStart + wave}, ${nextX} ${yStart}`;
-    path2 = `${path2} Q ${ctrlX} ${yStart + 16 + wave}, ${nextX} ${yStart + 16}`;
-    path3 = `${path3} Q ${ctrlX} ${yStart + 32 + wave}, ${nextX} ${yStart + 32}`;
-    path4 = `${path4} Q ${ctrlX} ${yStart + 48 + wave}, ${nextX} ${yStart + 48}`;
-
-    dots.push({ x: round(ctrlX), y: round(yStart + 8 + wave * 0.5) });
-    dots.push({ x: round(ctrlX), y: round(yStart + 24 + wave * 0.5) });
-    dots.push({ x: round(ctrlX), y: round(yStart + 40 + wave * 0.5) });
+  const pts: { x: number; y: number }[] = [];
+  for (let i = 0; i < points; i++) {
+    const a = (i / points) * Math.PI * 2;
+    const rr = radius * (1 + (rand() - 0.5) * 2 * jitter);
+    pts.push({ x: Math.cos(a) * rr, y: Math.sin(a) * rr });
   }
+  const n = pts.length;
+  let d = "";
+  for (let i = 0; i < n; i++) {
+    const p0 = pts[(i - 1 + n) % n];
+    const p1 = pts[i];
+    const p2 = pts[(i + 1) % n];
+    const p3 = pts[(i + 2) % n];
+    const c1x = p1.x + (p2.x - p0.x) / 6;
+    const c1y = p1.y + (p2.y - p0.y) / 6;
+    const c2x = p2.x - (p3.x - p1.x) / 6;
+    const c2y = p2.y - (p3.y - p1.y) / 6;
+    if (i === 0) d += `M ${round(p1.x)} ${round(p1.y)} `;
+    d += `C ${round(c1x)} ${round(c1y)}, ${round(c2x)} ${round(c2y)}, ${round(p2.x)} ${round(p2.y)} `;
+  }
+  return `${d}Z`;
+}
 
-  return { line1: path1, line2: path2, line3: path3, line4: path4, dots };
+type WavePoint = { x: number; y: number; tx: number; ty: number; nx: number; ny: number };
+
+/** A meandering line (two overlaid sine waves, seeded) sampled with tangent/normal for banding dots along it. */
+function generateHandDrawnWave(length: number, steps: number, rand: () => number): WavePoint[] {
+  const amp1 = 12 + rand() * 8;
+  const amp2 = 4 + rand() * 4;
+  const freq1 = ((1.4 + rand() * 0.7) * Math.PI * 2) / length;
+  const freq2 = ((3.5 + rand() * 2) * Math.PI * 2) / length;
+  const phase1 = rand() * Math.PI * 2;
+  const phase2 = rand() * Math.PI * 2;
+  const pts: WavePoint[] = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = (i / steps) * length;
+    const y = amp1 * Math.sin(freq1 * x + phase1) + amp2 * Math.sin(freq2 * x + phase2);
+    const dy =
+      amp1 * freq1 * Math.cos(freq1 * x + phase1) + amp2 * freq2 * Math.cos(freq2 * x + phase2);
+    const len = Math.hypot(1, dy);
+    const tx = 1 / len;
+    const ty = dy / len;
+    pts.push({ x, y, tx, ty, nx: -ty, ny: tx });
+  }
+  return pts;
+}
+
+/** Samples a quadratic bezier with tangent/normal, then nudges it along a seeded meander for an organic line. */
+function sampleQuadraticWithWobble(
+  p0: { x: number; y: number },
+  c: { x: number; y: number },
+  p1: { x: number; y: number },
+  steps: number,
+  rand: () => number
+): WavePoint[] {
+  const wobbleAmp = 4 + rand() * 5;
+  const wobbleFreq = 1.5 + rand() * 1.5;
+  const wobblePhase = rand() * Math.PI * 2;
+  const pts: WavePoint[] = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const mt = 1 - t;
+    const x = mt * mt * p0.x + 2 * mt * t * c.x + t * t * p1.x;
+    const y = mt * mt * p0.y + 2 * mt * t * c.y + t * t * p1.y;
+    const dx = 2 * mt * (c.x - p0.x) + 2 * t * (p1.x - c.x);
+    const dy = 2 * mt * (c.y - p0.y) + 2 * t * (p1.y - c.y);
+    const len = Math.hypot(dx, dy) || 1;
+    const tx = dx / len;
+    const ty = dy / len;
+    const nx = -ty;
+    const ny = tx;
+    const off = wobbleAmp * Math.sin(t * Math.PI * wobbleFreq * 2 + wobblePhase);
+    pts.push({ x: x + nx * off, y: y + ny * off, tx, ty, nx, ny });
+  }
+  return pts;
+}
+
+type RiverLane = { offset: number; color: string; dotR: number; opacity?: number };
+
+/** Dabs dots in parallel lanes along a sampled path, like a hand-painted dotted river/songline. */
+function generateDotRiverDots(
+  points: WavePoint[],
+  lanes: RiverLane[],
+  rand: () => number,
+  stride = 1,
+  wobble = 3
+) {
+  const dots: { x: number; y: number; r: number; color: string; o: number; delayFrac: number }[] = [];
+  lanes.forEach((lane, li) => {
+    for (let i = li % stride; i < points.length; i += stride) {
+      const p = points[i];
+      const along = (rand() - 0.5) * wobble * 2;
+      const across = (rand() - 0.5) * wobble;
+      const off = lane.offset + across;
+      dots.push({
+        x: round(p.x + p.nx * off + p.tx * along),
+        y: round(p.y + p.ny * off + p.ty * along),
+        r: round(Math.max(0.9, lane.dotR * (0.75 + rand() * 0.5))),
+        color: lane.color,
+        delayFrac: round(i / Math.max(1, points.length - 1)),
+        o: round((lane.opacity ?? 0.9) * (0.75 + rand() * 0.25)),
+      });
+    }
+  });
+  return dots;
+}
+
+/** Corner motif: a dotted river meandering along the fold, like the flowing dot-bands of a dot painting. */
+function generateCornerRiverDots(length: number, rand: () => number) {
+  const points = generateHandDrawnWave(length, 60, rand);
+  const palette = ["#2B1710", "#8C2F12", "#E85D26", "#FF8C42", "#FFCB94"];
+  const lanes: RiverLane[] = palette.map((color, i) => ({
+    offset: (i - (palette.length - 1) / 2) * 8.5,
+    color,
+    dotR: 2.7 - i * 0.15,
+    opacity: 0.85,
+  }));
+  return generateDotRiverDots(points, lanes, rand, 1, 3.5);
+}
+
+/** Samples the inverted-U (two verticals + top arc) and dabs tapering dots along it — thin at the open ends. */
+function generateHandDrawnUDots(
+  width: number,
+  height: number,
+  dotCount: number,
+  maxDotR: number,
+  rand: () => number
+) {
+  const r = width / 2;
+  const straightLen = height - r;
+  const arcLen = Math.PI * r;
+  const total = straightLen * 2 + arcLen;
+  const dots: { x: number; y: number; r: number; o: number; delayFrac: number }[] = [];
+  for (let i = 0; i < dotCount; i++) {
+    const u = i / (dotCount - 1);
+    const s = u * total;
+    let x: number, y: number, nx: number, ny: number;
+    if (s < straightLen) {
+      const t = s / straightLen;
+      x = 0;
+      y = height - t * straightLen;
+      nx = 1;
+      ny = 0;
+    } else if (s < straightLen + arcLen) {
+      const t = (s - straightLen) / arcLen;
+      x = r - r * Math.cos(t * Math.PI);
+      y = r - r * Math.sin(t * Math.PI);
+      nx = -Math.cos(t * Math.PI);
+      ny = -Math.sin(t * Math.PI);
+    } else {
+      const t = (s - straightLen - arcLen) / straightLen;
+      x = width;
+      y = r + t * straightLen;
+      nx = 1;
+      ny = 0;
+    }
+    const taper = Math.pow(Math.sin(Math.PI * u), 0.7);
+    const jitter = (rand() - 0.5) * maxDotR * 0.7;
+    dots.push({
+      x: round(x + nx * jitter * 0.4),
+      y: round(y + ny * jitter * 0.4),
+      r: round(Math.max(0.8, maxDotR * (0.35 + 0.65 * taper) * (0.85 + rand() * 0.3))),
+      o: round(0.75 + rand() * 0.2),
+      delayFrac: round(u),
+    });
+  }
+  return dots;
+}
+
+function shadeColor(hex: string, amt: number) {
+  const c = hex.replace("#", "");
+  const num = parseInt(
+    c.length === 3
+      ? c
+          .split("")
+          .map((ch) => ch + ch)
+          .join("")
+      : c,
+    16
+  );
+  const clamp = (v: number) => Math.min(255, Math.max(0, Math.round(v)));
+  const r = clamp(((num >> 16) & 0xff) + amt * 255);
+  const g = clamp(((num >> 8) & 0xff) + amt * 255);
+  const b = clamp((num & 0xff) + amt * 255);
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
 
 export default function CulturalPattern({
@@ -343,7 +501,21 @@ export default function CulturalPattern({
     },
   ];
 
-  const cornerPattern = generateFoldCornerPatternPath(0, 0, 1100, 12);
+  const cornerRiverDots = generateCornerRiverDots(1100, mulberry32(seedFrom("corner-river")));
+
+  // Outer(dark) -> inner(cream) layers for the U-shape petals, precomputed once and drawn outer-first.
+  const uShapeColors = ["#2B1710", "#E85D26", "#FF8C42", "#FFE8C7"];
+  const uShapeLayerRand = mulberry32(seedFrom("u-shape-layers"));
+  const uShapeLayers = uShapeColors.map((color, idx) => {
+    const l = uShapeColors.length - 1 - idx;
+    const w = 45 + l * 22;
+    const h = 55 + l * 22;
+    const maxDotR = Math.max(2.4, round(4.6 - l * 0.35));
+    const r = w / 2;
+    const total = (h - r) * 2 + Math.PI * r;
+    const dotCount = Math.max(20, Math.round(total / 6));
+    return { w, h, color, dots: generateHandDrawnUDots(w, h, dotCount, maxDotR, uShapeLayerRand) };
+  });
 
   const layout = useMemo(() => {
     const rand = mulberry32(seedFrom(`pattern-${variant}`));
@@ -441,13 +613,33 @@ export default function CulturalPattern({
       const controlX = fp.controlX !== undefined ? parseCoord(fp.controlX, 0, curveLength) + baseX : defaultControlX;
       const controlY = fp.controlY !== undefined ? parseCoord(fp.controlY, 0, 800) * size + baseY : defaultControlY;
 
+      // 4. Sample a meandering line across the same span so the river reads as hand-painted, not a clean bezier.
+      const pathRand = mulberry32(seedFrom(`flow-${variant}-${i}`));
+      const span = Math.max(60, Math.hypot(endX - startX, endY - startY));
+      const steps = Math.min(60, Math.max(18, Math.round(span / 20)));
+      const wobblePts = sampleQuadraticWithWobble(
+        { x: startX, y: startY },
+        { x: controlX, y: controlY },
+        { x: endX, y: endY },
+        steps,
+        pathRand
+      );
+
+      const strokeColor = fp.strokeColor ?? "#FF8C42";
+      const dotColor = fp.dotColor ?? "#FF6B35";
+      const lanes: RiverLane[] = [
+        { offset: -10 * size, color: shadeColor(strokeColor, -0.35), dotR: 2.8 * size, opacity: 0.85 },
+        { offset: -3 * size, color: strokeColor, dotR: 3.2 * size, opacity: 0.9 },
+        { offset: 4 * size, color: dotColor, dotR: 3 * size, opacity: 0.9 },
+        { offset: 11 * size, color: shadeColor(dotColor, 0.35), dotR: 2.2 * size, opacity: 0.75 },
+      ];
+      const riverDots = generateDotRiverDots(wobblePts, lanes, pathRand, 1, 3.2 * size);
+
       return {
         id: `flow-path-${uid}-${i}`,
-        d: `M ${startX} ${startY} Q ${controlX} ${controlY}, ${endX} ${endY}`,
-        speed: fp.speed ?? 8,
-        dotCount: fp.dotCount ?? 4,
-        strokeColor: fp.strokeColor ?? "#FF8C42",
-        dotColor: fp.dotColor ?? "#FF6B35",
+        riverDots,
+        // A wave of light sweeping start->end each cycle reads as the dots flowing along the river.
+        flowDuration: fp.speed ?? 8,
       };
     });
 
@@ -551,30 +743,19 @@ export default function CulturalPattern({
             transform: rotate(360deg);
           }
         }
-        @keyframes dashTravelForward {
-          from {
-            stroke-dashoffset: 0;
-          }
-          to {
-            stroke-dashoffset: -50;
-          }
-        }
         @keyframes blinkSequence {
           0%,
           100% {
-            opacity: 0.2;
-            transform: scale(0.8);
+            opacity: calc(var(--base-o, 1) * 0.25);
+            transform: scale(0.82);
           }
           50% {
-            opacity: 1;
-            transform: scale(1.2);
+            opacity: var(--base-o, 1);
+            transform: scale(1.15);
           }
         }
         .slow-spiral-rotation {
           animation: slowContainerRotate 22s linear infinite;
-        }
-        .dash-travel-normal {
-          animation: dashTravelForward linear infinite;
         }
         .cultural-sky-spiral-rotate {
           animation: slowContainerRotate linear infinite;
@@ -788,107 +969,51 @@ export default function CulturalPattern({
             </g>
           ))}
 
-          {/* Top-Left Fold Corner Pattern */}
+          {/* Top-Left Fold Corner Pattern — a dotted river meandering along the fold */}
           {layout.tlCorner && (
             <g
               transform={`translate(${layout.tlCorner.x}, ${layout.tlCorner.y}) scale(${size * layout.tlCorner.scale}) rotate(135)`}
             >
-              <path
-                d={cornerPattern.line1}
-                fill="none"
-                stroke="#E85D26"
-                strokeWidth="2"
-                strokeDasharray="6 4"
-                opacity="0.4"
-              />
-              <path
-                d={cornerPattern.line2}
-                fill="none"
-                stroke="#FF8C42"
-                strokeWidth="2.5"
-                strokeDasharray="3 6"
-                opacity="0.8"
-              />
-              <path
-                d={cornerPattern.line3}
-                fill="none"
-                stroke="#FF7A3D"
-                strokeWidth="2"
-                strokeDasharray="4 4"
-                opacity="0.6"
-              />
-              <path
-                d={cornerPattern.line4}
-                fill="none"
-                stroke="#E85D26"
-                strokeWidth="1.5"
-                opacity="0.5"
-              />
-              {cornerPattern.dots.map((dot, cdi) => (
+              {cornerRiverDots.map((dot, cdi) => (
                 <circle
                   key={`tl-dot-${cdi}`}
                   cx={dot.x}
                   cy={dot.y}
-                  r="2.2"
-                  fill="#FF6B35"
-                  style={{
-                    animation: `blinkSequence 1.2s infinite ease-in-out`,
-                    animationDelay: `${cdi * 0.1}s`,
-                    transformOrigin: `${dot.x}px ${dot.y}px`,
-                  }}
+                  r={dot.r}
+                  fill={dot.color}
+                  style={
+                    {
+                      "--base-o": dot.o,
+                      animation: "blinkSequence 3.4s ease-in-out infinite",
+                      animationDelay: `${round(dot.delayFrac * 3.4)}s`,
+                      transformOrigin: `${dot.x}px ${dot.y}px`,
+                    } as CSSProperties
+                  }
                 />
               ))}
             </g>
           )}
 
-          {/* Bottom-Right Fold Corner Pattern */}
+          {/* Bottom-Right Fold Corner Pattern — a dotted river meandering along the fold */}
           {layout.brCorner && (
             <g
               transform={`translate(${layout.brCorner.x}, ${layout.brCorner.y}) scale(${size * layout.brCorner.scale}) rotate(-45)`}
             >
-              <path
-                d={cornerPattern.line1}
-                fill="none"
-                stroke="#E85D26"
-                strokeWidth="2"
-                strokeDasharray="6 4"
-                opacity="0.4"
-              />
-              <path
-                d={cornerPattern.line2}
-                fill="none"
-                stroke="#FF8C42"
-                strokeWidth="2.5"
-                strokeDasharray="3 6"
-                opacity="0.8"
-              />
-              <path
-                d={cornerPattern.line3}
-                fill="none"
-                stroke="#FF7A3D"
-                strokeWidth="2"
-                strokeDasharray="4 4"
-                opacity="0.6"
-              />
-              <path
-                d={cornerPattern.line4}
-                fill="none"
-                stroke="#E85D26"
-                strokeWidth="1.5"
-                opacity="0.5"
-              />
-              {cornerPattern.dots.map((dot, cdi) => (
+              {cornerRiverDots.map((dot, cdi) => (
                 <circle
                   key={`br-dot-${cdi}`}
                   cx={dot.x}
                   cy={dot.y}
-                  r="2.2"
-                  fill="#FF6B35"
-                  style={{
-                    animation: `blinkSequence 1.2s infinite ease-in-out`,
-                    animationDelay: `${cdi * 0.1}s`,
-                    transformOrigin: `${dot.x}px ${dot.y}px`,
-                  }}
+                  r={dot.r}
+                  fill={dot.color}
+                  style={
+                    {
+                      "--base-o": dot.o,
+                      animation: "blinkSequence 3.4s ease-in-out infinite",
+                      animationDelay: `${round(dot.delayFrac * 3.4)}s`,
+                      transformOrigin: `${dot.x}px ${dot.y}px`,
+                    } as CSSProperties
+                  }
                 />
               ))}
             </g>
@@ -921,32 +1046,23 @@ export default function CulturalPattern({
           {layout.flowPaths.map((fp) => {
             return (
               <g key={fp.id}>
-                <path
-                  id={fp.id}
-                  d={fp.d}
-                  fill="none"
-                  stroke={fp.strokeColor}
-                  strokeWidth="2"
-                  strokeDasharray="8 6"
-                  opacity="0.6"
-                />
-                {Array.from({ length: fp.dotCount }).map((_, di) => {
-                  const delay = -(fp.speed / fp.dotCount) * di;
-                  return (
-                    <g key={`flow-dot-${di}`}>
-                      <circle cx="0" cy="0" r={3.5 * size} fill={fp.dotColor} opacity="0.9">
-                        <animateMotion
-                          dur={`${fp.speed}s`}
-                          begin={`${delay}s`}
-                          repeatCount="indefinite"
-                          rotate="auto"
-                        >
-                          <mpath href={`#${fp.id}`} />
-                        </animateMotion>
-                      </circle>
-                    </g>
-                  );
-                })}
+                {fp.riverDots.map((dot, di) => (
+                  <circle
+                    key={`river-${di}`}
+                    cx={dot.x}
+                    cy={dot.y}
+                    r={dot.r}
+                    fill={dot.color}
+                    style={
+                      {
+                        "--base-o": dot.o,
+                        animation: `blinkSequence ${fp.flowDuration}s ease-in-out infinite`,
+                        animationDelay: `${round(dot.delayFrac * fp.flowDuration)}s`,
+                        transformOrigin: `${dot.x}px ${dot.y}px`,
+                      } as CSSProperties
+                    }
+                  />
+                ))}
               </g>
             );
           })}
@@ -1069,6 +1185,17 @@ export default function CulturalPattern({
 
           {layout.orbitingCircles.map((orbit, oi) => {
             const customPath = `M -${orbit.pathWidth} 0 A ${orbit.pathWidth} ${orbit.pathHeight} 0 1 1 ${orbit.pathWidth} 0 A ${orbit.pathWidth} ${orbit.pathHeight} 0 1 1 -${orbit.pathWidth} 0`;
+            // A small hand-painted "meeting place" token — organic blob ring around graduated dot circles — riding the orbit.
+            const orbitRand = mulberry32(seedFrom(`orbit-${variant}-${oi}`));
+            const blobPath = generateOrganicBlobPath(orbit.radius, 14, 0.11, orbitRand);
+            const motifDots = generateGraduatedCircularDots(
+              0,
+              0,
+              2,
+              orbit.radius * 0.3,
+              orbit.radius * 0.32,
+              orbitRand
+            ).slice(0, -1);
             return (
               <g
                 key={`dashed-orbit-${oi}`}
@@ -1081,27 +1208,21 @@ export default function CulturalPattern({
                     repeatCount="indefinite"
                   />
                   <g>
-                    <circle
-                      cx="0"
-                      cy="0"
-                      r={orbit.radius}
-                      fill="none"
-                      stroke="#FF8C42"
-                      strokeWidth="1.5"
-                      strokeDasharray="6 6"
-                      opacity="0.5"
-                    />
-                    <circle cx="0" cy="0" r="4.5" fill="#FF7A3D" opacity="0.9" />
-                    <circle
-                      cx="0"
-                      cy="0"
-                      r="8"
-                      fill="none"
-                      stroke="#E85D26"
-                      strokeWidth="1.2"
-                      strokeDasharray="2 2"
-                      opacity="0.8"
-                    />
+                    <path d={blobPath} fill="none" stroke="#2B1710" strokeWidth="2.4" opacity="0.55" />
+                    <path d={blobPath} fill="none" stroke="#FF8C42" strokeWidth="1" opacity="0.6" />
+                    {motifDots.map((d, di) => (
+                      <circle
+                        key={di}
+                        cx={d.x}
+                        cy={d.y}
+                        r={d.r}
+                        fill={di % 2 === 0 ? "#FF8C42" : "#FFE8C7"}
+                        opacity={d.o}
+                      />
+                    ))}
+                    <g className="cultural-sun-pulse" style={{ transformBox: "fill-box", transformOrigin: "center" }}>
+                      <circle cx="0" cy="0" r={Math.max(3, orbit.radius * 0.14)} fill="#2B1710" opacity="0.9" />
+                    </g>
                   </g>
                 </g>
               </g>
@@ -1113,26 +1234,27 @@ export default function CulturalPattern({
               key={`u-shape-${usi}`}
               transform={`translate(${us.x}, ${us.y}) scale(${size}) rotate(45)`}
             >
-              {Array.from({ length: 4 }, (_, l) => {
-                const w = 45 + l * 22;
-                const h = 55 + l * 22;
-                const dotRadius = Math.max(2.2, round(4.2 - l * 0.3));
-                return (
-                  <path
-                    key={l}
-                    d={generateInvertedUShapePath(w, h)}
-                    fill="none"
-                    stroke="#FF7A3D"
-                    strokeWidth={dotRadius * 2}
-                    strokeDasharray={`0.1 ${round(dotRadius * 3.5 + 3)}`}
-                    strokeLinecap="round"
-                    opacity={0.92 - l * 0.12}
-                    transform={`translate(${-w / 2}, ${-h / 2})`}
-                    className="dash-travel-normal"
-                    style={{ animationDuration: `${6 + l * 1.2}s` }}
-                  />
-                );
-              })}
+              {uShapeLayers.map((layer, li) => (
+                <g key={li} transform={`translate(${-layer.w / 2}, ${-layer.h / 2})`}>
+                  {layer.dots.map((d, di) => (
+                    <circle
+                      key={di}
+                      cx={d.x}
+                      cy={d.y}
+                      r={d.r}
+                      fill={layer.color}
+                      style={
+                        {
+                          "--base-o": d.o,
+                          animation: `blinkSequence ${2.6 + li * 0.4}s ease-in-out infinite`,
+                          animationDelay: `${round(d.delayFrac * (2.6 + li * 0.4))}s`,
+                          transformOrigin: `${d.x}px ${d.y}px`,
+                        } as CSSProperties
+                      }
+                    />
+                  ))}
+                </g>
+              ))}
             </g>
           ))}
 
