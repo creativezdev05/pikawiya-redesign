@@ -76,7 +76,7 @@ export default function NewsGrid() {
           {posts.map((post) => (
             <article
               key={post.id}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-ochre/50 hover:shadow-xl hover:shadow-ochre/10"
+              className="card-3d group relative flex flex-col overflow-hidden  bg-white/5 backdrop-blur-md transition-all duration-300 "
             >
               {/* Image Preview */}
               {post.image_url ? (

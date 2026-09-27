@@ -13,10 +13,21 @@ export default function MissionSection() {
     <section className="relative overflow-hidden landing-paper py-20 md:py-32">
       <FramerMouseGradient/>
       {/* 2. Your PNG Pattern Layer with Custom Color & Drift Animation */}
+      {/* Page background: fixed to the viewport so it sits behind the whole page while scrolling */}
+      {/* <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true"> */}
+        <NextImage
+          src="/assets/home/main_page_2nd_bg.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      {/* </div> */}
       <div 
         className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
         style={{ 
-          backgroundImage: "url('/assets/background-pattern.png')",
+          backgroundImage: "url('/assets/background-pattern-new1.png')",
           backgroundSize: "contain",
           /* Swap out the filter string below to change the color */
           filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
@@ -86,13 +97,12 @@ export default function MissionSection() {
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 whileTap={{ scale: 2 }}
               >
-                <PageTitle 
-                  as="h3" 
-                  className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-ink"
+                <h3
+                  className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-[#C25324]"
                 >
                   Empowering Community Through 
                 Health, Dignity & Culture
-                </PageTitle>
+                </h3>
               </motion.div>
               
             </div>
@@ -112,7 +122,7 @@ export default function MissionSection() {
 
             {/* Founding Context Highlights (3 Founding Women Origin Pillar) */}
             <div className="grid sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-4 rounded-xl bg-white/60 border border-ochre/20 backdrop-blur-sm space-y-2 shadow-sm">
+              <div className="card-3d p-4 rounded-xl bg-white/60  backdrop-blur-sm space-y-2">
                 <div className="w-8 h-8 rounded-lg bg-ochre/10 text-ochre flex items-center justify-center">
                   <Heart className="w-4 h-4" />
                 </div>
@@ -122,7 +132,7 @@ export default function MissionSection() {
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-white/60 border border-ochre/20 backdrop-blur-sm space-y-2 shadow-sm">
+              <div className="card-3d p-4 rounded-xl bg-white/60  backdrop-blur-sm space-y-2">
                 <div className="w-8 h-8 rounded-lg bg-ochre/10 text-ochre flex items-center justify-center">
                   <ShieldCheck className="w-4 h-4" />
                 </div>

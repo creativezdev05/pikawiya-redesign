@@ -68,7 +68,7 @@ export default function NewsPage() {
       <div className="flex-1 relative z-10 w-full max-w-5xl mx-auto px-4 py-16">
         
         <div className="space-y-6 pb-6">
-          <div className="relative isolate overflow-hidden rounded-2xl p-6 md:p-8 pr-28 md:pr-56 md:min-h-56.25 flex flex-col justify-center">
+          <div className="card-3d relative isolate overflow-hidden rounded-2xl p-6 md:p-8 pr-28 md:pr-56 md:min-h-56.25 flex flex-col justify-center">
             {/* Banner artwork already includes the card's rounded corners, border and shadow */}
             <NextImage
               src="/assets/home/banner-bg.png"

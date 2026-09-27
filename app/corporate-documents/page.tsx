@@ -56,9 +56,9 @@ export default function CorporateDocumentsPage() {
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 shrink-0" /> Governance & Transparency
           </span>
-          <PageTitle className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
             Corporate Documents
-          </PageTitle>
+          </h1>
           <p className="text-ink text-sm sm:text-base leading-relaxed max-w-xl">
             Access key governance publications, operational rulebooks, and annual performance reports for Pika Wiya Health Service Aboriginal Corporation.
           </p>
@@ -68,7 +68,7 @@ export default function CorporateDocumentsPage() {
 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full items-stretch mt-40 sm:mt-36 lg:mt-38">
   
   {/* Document 1: Rule Book */}
-  <div className="bg-white p-5 sm:p-6 rounded-2xl border border-border/80 shadow-xl flex flex-col justify-between space-y-5 hover:shadow-2xl transition-all duration-300">
+  <div className="card-3d bg-white p-5 sm:p-6 rounded-2xl  flex flex-col justify-between space-y-5  transition-all duration-300">
     <div className="space-y-3">
       <div className="w-10 h-10 rounded-xl bg-ochre/15 text-ochre flex items-center justify-center shrink-0">
         <BookOpen className="w-5 h-5" />
@@ -95,7 +95,7 @@ export default function CorporateDocumentsPage() {
   </div>
 
   {/* Document 2: Annual Report */}
-  <div className="bg-white p-5 sm:p-6 rounded-2xl border border-border/80 shadow-xl flex flex-col justify-between space-y-5 hover:shadow-2xl transition-all duration-300">
+  <div className="card-3d bg-white p-5 sm:p-6 rounded-2xl  flex flex-col justify-between space-y-5  transition-all duration-300">
     <div className="space-y-3">
       <div className="w-10 h-10 rounded-xl bg-ochre/15 text-ochre flex items-center justify-center shrink-0">
         <FileText className="w-5 h-5" />

@@ -7,6 +7,8 @@ import PartnersTicker from "@/components/PartnersTicker";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
 import NextImage from "next/image";
 
+export const CORNER_DOTS = [{ x: "100%", y: "0%", rings: 7, startR: 26, gap: 22, speed: 60 }];
+
 export default function CareersPage() {
   return (
     <div className="relative min-h-screen bg-navy text-ink overflow-hidden">
@@ -26,19 +28,39 @@ export default function CareersPage() {
         />
       <FramerMouseGradient/>
       <Navbar />
-
+      <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+              <NextImage
+                src="/assets/home/main_page_2nd_bg.png"
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-center"
+              />
+            </div>
+      
+            <div 
+                className="absolute inset-[0%] z-0 opacity-20 pointer-events-none animate-drift"
+                style={{ 
+                  backgroundImage: "url('/assets/background-pattern-new1.png')",
+                  backgroundSize: "contain",
+                  opacity: 0.15,
+                  filter: "brightness(0) saturate(100%) invert(96%) sepia(94%) saturate(122%) hue-rotate(32deg) brightness(116%) contrast(98%)"
+                }}
+              />
       {/* Full-width header with background image */}
       <section className="relative z-10 w-full px-4 py-20 md:py-28">
+        <CulturalPattern variant="about" fit="fill" className="z-[3]" dotsConfig={CORNER_DOTS} />
         <div className="absolute inset-0 -z-10">
-          <NextImage
-            src="/assets/news_bg.png"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-top opacity-90"
-          />
-        </div>
+                  <NextImage
+                    src="/assets/news_bg_top.png"
+                    alt=""
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover object-top opacity-90"
+                  />
+                </div>
         <div className="space-y-3 text-center max-w-2xl mx-auto">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
             <Briefcase className="w-4 h-4" /> Join Our Team
@@ -54,7 +76,7 @@ export default function CareersPage() {
 
       <main className="relative z-10 max-w-4xl mx-auto px-4 py-16 space-y-10">
         {/* Current Vacancies Status Card */}
-        <div className="bg-surface p-8 md:p-10 rounded-3xl border border-border shadow-sm space-y-8">
+        <div className="card-3d bg-surface p-8 md:p-10 rounded-3xl  space-y-8">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-page text-ink/80 text-xs font-medium border border-border">
               <span className="w-2 h-2 rounded-full bg-ochre" />

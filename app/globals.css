@@ -1091,3 +1091,115 @@ textarea:disabled {
 .animate-drift {
   animation: drift 5s ease-in-out infinite;
 }
+/* Elevated 3D card lit from the top-right: rim light, solid bottom-left edge, glossy sheen, deep float shadow */
+@layer components {
+  .card-3d {
+    /* stepped solid edge, thickening toward the bottom-left */
+    --card-edge:
+      -1px 1px 0 #e6d8c3,
+      -2px 2px 0 #dccab0,
+      -3px 3px 0 #d1bc9e,
+      -4px 4px 0 #c6ad8c,
+      -5px 5px 0 #ba9f7c,
+      -6px 6px 0 #ad906d,
+      -7px 7px 0 #a0825f,
+      -8px 8px 0 #927452;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    /* light falling on the top face from the top-right */
+    background-image:
+      radial-gradient(120% 70% at 85% -10%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 60%),
+      linear-gradient(200deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 40%, rgba(120, 70, 30, 0.06) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    transform: translate(4px, -8px);
+    box-shadow:
+      /* bright top/right lip, shaded bottom/left lip */
+      inset -2px 2px 0 rgba(255, 255, 255, 1),
+      inset 3px -3px 6px -2px rgba(110, 60, 20, 0.2),
+      /* crisp outline so the face separates from the edge */
+      0 0 0 1px rgba(130, 85, 45, 0.25),
+      var(--card-edge),
+      /* contact shadow right under the edge */
+      -10px 12px 6px -2px rgba(40, 25, 10, 0.3),
+      /* layered float shadow cast down-left */
+      -14px 22px 28px -6px rgba(40, 25, 10, 0.3),
+      -24px 42px 60px -14px rgba(40, 25, 10, 0.35),
+      -36px 70px 110px -30px rgba(40, 25, 10, 0.4);
+    transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
+  }
+
+  /* Rim light: bright on the top and right edges, darkening toward the bottom-left */
+  .card-3d::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(215deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 245, 230, 0.7) 25%,
+      rgba(255, 255, 255, 0) 55%,
+      rgba(150, 80, 35, 0.35) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Glossy light sweep, crosses the card on hover */
+  .card-3d::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -60%;
+    width: 50%;
+    background: linear-gradient(105deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.35) 50%,
+      rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-15deg);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+  }
+
+  .card-3d:hover {
+    transform: translate(7px, -13px);
+    box-shadow:
+      inset -2px 2px 0 rgba(255, 255, 255, 1),
+      inset 3px -3px 6px -2px rgba(110, 60, 20, 0.2),
+      0 0 0 1px rgba(130, 85, 45, 0.3),
+      var(--card-edge),
+      -9px 9px 0 #867048,
+      -10px 10px 0 #7a6440,
+      -11px 11px 0 #6f5a38,
+      -14px 16px 8px -2px rgba(40, 25, 10, 0.3),
+      -20px 30px 36px -8px rgba(40, 25, 10, 0.3),
+      -32px 56px 80px -18px rgba(40, 25, 10, 0.38),
+      -48px 92px 140px -36px rgba(40, 25, 10, 0.42);
+  }
+
+  .card-3d:hover::after {
+    animation: cardSheen 0.9s ease-out;
+  }
+
+  @keyframes cardSheen {
+    0%   { left: -60%; opacity: 0; }
+    20%  { opacity: 1; }
+    100% { left: 130%; opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-3d,
+    .card-3d:hover {
+      transition: none;
+      transform: none;
+    }
+    .card-3d:hover::after {
+      animation: none;
+    }
+  }
+}

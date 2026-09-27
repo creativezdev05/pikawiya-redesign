@@ -11,6 +11,9 @@ import CulturalPattern from "@/components/CulturalPattern";
 import PageHero from "@/components/PageHero";
 import { trackFormSubmission } from "@/lib/gtag";
 import { isValidEmail, isValidPhone, sanitizePhoneInput } from "@/lib/validators";
+import NextImage from "next/image";
+
+export const CORNER_DOTS = [{ x: "100%", y: "0%", rings: 7, startR: 26, gap: 22, speed: 60 }];
 
 // Field sequence definitions
 const MEMBERSHIP_FIELD_ORDER = [
@@ -578,8 +581,39 @@ const handleMembershipChange = (
       />
       <FramerMouseGradient/>
       <Navbar />
-        
-      <main className="max-w-16xl mx-auto px-4 py-16">
+       <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+               <NextImage
+                 src="/assets/home/main_page_2nd_bg.png"
+                 alt=""
+                 fill
+                 priority
+                 sizes="100vw"
+                 className="object-cover object-center"
+               />
+             </div>
+             <div 
+          className="absolute inset-[0%] z-0 opacity-20 pointer-events-none animate-drift"
+          style={{ 
+            backgroundImage: "url('/assets/background-pattern-new1.png')",
+            backgroundSize: "contain",
+            opacity: 0.15,
+            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+          }}
+        />
+      {/* Full-width header with background image */}
+      <section className="relative z-10 w-full px-4 py-20 md:py-28">
+        {/* Corner dot arc — above the bloom, behind the copy */}
+        <CulturalPattern variant="about" fit="fill" className="z-[3]" dotsConfig={CORNER_DOTS} />
+        <div className="absolute inset-0 -z-10">
+          <NextImage
+            src="/assets/news_bg_top.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-top opacity-90"
+          />
+        </div>
         <div className="space-y-3 text-center max-w-2xl mx-auto">
           <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
             <Briefcase className="w-4 h-4" /> Join Our Team
@@ -591,10 +625,13 @@ const handleMembershipChange = (
             Fill the membership form to become a member.
           </p>
         </div>
+      </section>
+
+      <main className="relative z-10 max-w-16xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* LEFT SIDEBAR: Vertical Tab List (4 Cols on Large Screens) */}
-          <aside className="lg:col-span-4 bg-surface rounded-2xl border border-border p-4 shadow-sm sticky top-24">
+          <aside className="card-3d lg:col-span-4 bg-surface rounded-2xl p-4 sticky top-24">
             
             {/* Search Box to quickly filter through 25-30 forms */}
             <div className="relative mb-4">
@@ -646,47 +683,57 @@ const handleMembershipChange = (
           {/* RIGHT CONTENT AREA: Active Form Details (8 Cols on Large Screens) */}
           <section className="lg:col-span-8 bg-surface rounded-2xl border border-border p-6 md:p-8 shadow-sm">
             <div className="space-y-6">
-              <div>
-                <span className="inline-block px-3 py-1 bg-ochre/10 text-ochre text-xs font-semibold rounded-full mb-3">
-                  {activeForm.category}
-                </span>
+              <div className="card-3d relative isolate overflow-hidden rounded-2xl p-6 md:p-8 pr-28 md:pr-56 md:min-h-56.25 flex flex-col justify-center">
+                {/* Banner artwork already includes the card's rounded corners, border and shadow */}
+                <NextImage
+                  src="/assets/home/banner-bg.png"
+                  alt=""
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 992px"
+                  className="object-fill -z-10"
+                />
+                <div className="flex flex-wrap items-center gap-3 mb-3">
+                  <span className="inline-block px-3 py-1 bg-ochre/10 text-ochre text-xs font-semibold rounded-full">
+                    {activeForm.category}
+                  </span>
+                  {/* Speech Audio Toggle Button */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextMute = !isMuted;
+                      setIsMuted(nextMute);
+                      if (nextMute && typeof window !== "undefined") {
+                        window.speechSynthesis?.cancel();
+                      }
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-border bg-surface text-ink/80 hover:text-ink text-xs font-medium transition shadow-sm"
+                    title={isMuted ? "Unmute Voice Guidance" : "Mute Voice Guidance"}
+                  >
+                    {isMuted ? (
+                      <>
+                        <VolumeX className="w-4 h-4 text-red-500" />
+                        <span>Muted</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="w-4 h-4 text-ochre" />
+                        <span>Audio On</span>
+                      </>
+                    )}
+                  </button>
+                </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-ink">
                   {activeForm.title}
                 </h2>
                 <p className="text-ink/75 mt-2 text-base leading-relaxed">
                   {activeForm.description}
                 </p>
-                {/* Speech Audio Toggle Button */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    const nextMute = !isMuted;
-                    setIsMuted(nextMute);
-                    if (nextMute && typeof window !== "undefined") {
-                      window.speechSynthesis?.cancel();
-                    }
-                  }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-border bg-surface text-ink/80 hover:text-ink text-xs font-medium transition shadow-sm"
-                  title={isMuted ? "Unmute Voice Guidance" : "Mute Voice Guidance"}
-                >
-                  {isMuted ? (
-                    <>
-                      <VolumeX className="w-4 h-4 text-red-500" />
-                      <span>Muted</span>
-                    </>
-                  ) : (
-                    <>
-                      <Volume2 className="w-4 h-4 text-ochre" />
-                      <span>Audio On</span>
-                    </>
-                  )}
-                </button>
               </div>
 
               <hr className="border-border" />
 
               {/* Form Action / Embed area */}
-              <div className="bg-page p-6 rounded-xl border border-border flex flex-col items-center justify-center text-center space-y-4 min-h-[300px]">
+              <div className="card-3d bg-page p-6 rounded-xl flex flex-col items-center justify-center text-center space-y-4 min-h-[300px]">
                 {submitted ? (
                   <div className="bg-surface p-12 rounded-2xl shadow-sm border border-border text-center space-y-4">
                     <CheckCircle2 className="w-16 h-16 text-ochre mx-auto" />

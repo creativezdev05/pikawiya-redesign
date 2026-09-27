@@ -131,13 +131,22 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
             const isFeatured = idx === 0;
 
             return (
-            <div
+            <motion.div
               key={idx}
-              className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border transition-all duration-500 ${
-                isFeatured 
-                  ? "md:col-span-2 lg:col-span-1 border-ochre/30 bg-white shadow-xl ring-1 ring-ochre/20" 
-                  : "border-neutral-200 bg-white shadow-sm hover:border-ochre/40 hover:shadow-md"
-              } hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]`}
+              initial={{ opacity: 0, y: 80, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 14,
+                mass: 0.9,
+                delay: idx * 0.12,
+                opacity: { duration: 0.35, delay: idx * 0.12 },
+              }}
+              className={`card-3d group relative flex flex-col justify-between overflow-hidden rounded-2xl bg-white ${
+                isFeatured ? "md:col-span-2 lg:col-span-1" : ""
+              }`}
             >
               {/* Visual Image Header Frame */}
               <div className="relative w-full h-56 md:h-64 overflow-hidden bg-neutral-100">
@@ -210,7 +219,7 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
 
               {/* Hover Glow Edge Effect */}
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-ochre/40 rounded-2xl pointer-events-none transition-colors duration-500" />
-            </div>
+            </motion.div>
             );
           })}
         </div>

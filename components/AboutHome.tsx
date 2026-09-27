@@ -42,6 +42,17 @@ export default function AboutSection() {
     <>
       {/* 1. WHO WE ARE — Deep Navy with Layered Card Highlights */}
       <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
+        {/* Page background: fixed to the viewport so it sits behind the whole page while scrolling */}
+              
+                <NextImage
+                  src="/assets/home/without_gredient_without_pettern_3rd_bg.png"
+                  alt=""
+                  fill
+                  priority
+                  sizes="100vw"
+                  className="object-cover object-center"
+                />
+              
         <CulturalPattern 
         variant="about"
         // motif1Config={[{ x: -30, y: 150 }]}
@@ -56,7 +67,7 @@ export default function AboutSection() {
         // showFeet
       />
         <div aria-hidden="true" className="cultural-background cultural-background--about" />
-        <div className="absolute inset-0 z-0 landing-ink-veil--soft" />
+        {/* <div className="absolute inset-0 z-0 landing-ink-veil--soft" /> */}
         
         {/* Soft Ambient Glows */}
         <div className="absolute top-10 right-10 w-80 h-80 bg-ochre/10 rounded-full blur-3xl pointer-events-none" />

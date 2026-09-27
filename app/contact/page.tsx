@@ -41,12 +41,9 @@ export default function ContactPage() {
     <span className="text-ochre font-semibold uppercase text-xs tracking-wider block">
       Get in Touch
     </span>
-    <PageTitle className="text-3xl sm:text-4xl font-bold leading-tight">
+    <h1 className="text-3xl sm:text-4xl font-bold leading-tight text-[#c25324]">
       Contact Pika Wiya Health Service
-    </PageTitle>
-    <p className="text-ink text-sm sm:text-base leading-relaxed">
-      Have a question about our health programs, appointments, or cultural support services? Reach out to our team below.
-    </p>
+    </h1>
   </div>
 
   {/* Main Form Content Area - Positioned Lower Down to Showcase Background */}
@@ -59,8 +56,8 @@ export default function ContactPage() {
     {/* Left Column: Stacked Clinic Details + White Emergency Box */}
     <div className="space-y-6">
       
-      {/* Clinic Details Panel */}
-      <div className="border border-ochre/30 contrast-card bg-white text-ink p-5 sm:p-6 lg:p-7 rounded-2xl space-y-6 shadow-xl">
+      {/* Clinic Details Panel - Enhanced 3D Elevated Card */}
+      <div className="card-3d bg-white text-ink p-5 sm:p-6 lg:p-7 rounded-2xl space-y-6">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold mb-1">Clinic Details</h2>
           <p className="text-ink/80 text-xs sm:text-sm">
@@ -70,7 +67,7 @@ export default function ContactPage() {
 
         <div className="space-y-4 text-xs sm:text-sm">
           <div className="flex items-start gap-3.5">
-            <div className="w-9 h-9 rounded-lg bg-ochre/20 text-ochre flex items-center justify-center shrink-0">
+            <div className="w-9 h-9 rounded-lg bg-ochre/20 text-ochre flex items-center justify-center shrink-0 shadow-inner">
               <MapPin className="w-4 h-4" />
             </div>
             <div className="w-full space-y-2">
@@ -97,7 +94,7 @@ export default function ContactPage() {
           </div>
 
           <div className="flex items-center gap-3.5">
-            <div className="w-9 h-9 rounded-lg bg-ochre/20 text-ochre flex items-center justify-center shrink-0">
+            <div className="w-9 h-9 rounded-lg bg-ochre/20 text-ochre flex items-center justify-center shrink-0 shadow-inner">
               <Phone className="w-4 h-4" />
             </div>
             <div>
@@ -109,7 +106,7 @@ export default function ContactPage() {
           </div>
 
           <div className="flex items-center gap-3.5">
-            <div className="w-9 h-9 rounded-lg bg-ochre/20 text-ochre flex items-center justify-center shrink-0">
+            <div className="w-9 h-9 rounded-lg bg-ochre/20 text-ochre flex items-center justify-center shrink-0 shadow-inner">
               <Mail className="w-4 h-4" />
             </div>
             <div>
@@ -121,7 +118,7 @@ export default function ContactPage() {
           </div>
 
           <div className="flex items-center gap-3.5">
-            <div className="w-9 h-9 rounded-lg bg-ochre/20 text-ochre flex items-center justify-center shrink-0">
+            <div className="w-9 h-9 rounded-lg bg-ochre/20 text-ochre flex items-center justify-center shrink-0 shadow-inner">
               <Clock className="w-4 h-4" />
             </div>
             <div>
@@ -133,9 +130,9 @@ export default function ContactPage() {
         </div>
       </div>
 
-      {/* Medical Emergency Box - White Background below Clinic Details */}
-      <div className="bg-white border border-ochre/30 rounded-2xl p-5 shadow-xl flex items-start gap-3.5 text-ink">
-        <div className="w-9 h-9 rounded-xl bg-ochre/20 text-ochre flex items-center justify-center shrink-0 mt-0.5">
+      {/* Medical Emergency Box - Enhanced 3D Elevated Card */}
+      <div className="card-3d bg-white rounded-2xl p-5 text-ink flex items-start gap-3.5">
+        <div className="w-9 h-9 rounded-xl bg-ochre/20 text-ochre flex items-center justify-center shrink-0 mt-0.5 shadow-inner">
           <AlertCircle className="w-5 h-5 text-ochre" />
         </div>
         <div className="text-xs sm:text-sm space-y-1">
@@ -148,11 +145,11 @@ export default function ContactPage() {
 
     </div>
 
-    {/* Right Column: Contact Form Only */}
+    {/* Right Column: Contact Form Panel - Enhanced 3D Elevated Card */}
     <div className="lg:col-span-2">
-      <div className="bg-surface p-5 sm:p-6 lg:p-7 rounded-2xl shadow-sm border border-border w-full">
+      <div className="card-3d bg-surface p-5 sm:p-6 lg:p-7 rounded-2xl w-full">
         <h2 className="text-lg sm:text-xl font-bold text-ink mb-1">Send Us an Enquiry</h2>
-        <p className="text-ink/70 text-xs sm:text-sm mb-4">
+        <p className=" text-xs sm:text-sm mb-4 text-[#C25324]">
           Fill out the form below and your enquiry will be sent directly to our administrative team.
         </p>
         <ContactForm />
