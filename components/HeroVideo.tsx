@@ -117,17 +117,35 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
     const video = videoRef.current;
     if (!video) return;
 
-    let currentVideoTime = 0;
+    // Touch devices decode/seek much slower than desktop — firing a precise `currentTime`
+    // seek on every rAF (up to 60/sec) queues up faster than the decoder can keep up,
+    // which is what shows up as stutter on mobile scroll. Seek less often and less
+    // precisely there, and prefer `fastSeek` (jumps to the nearest keyframe, no
+    // frame-accurate decode) where the browser supports it.
+    const isCoarsePointer =
+      typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
+    const seekThreshold = isCoarsePointer ? 0.05 : 0.01;
+    const minSeekIntervalMs = isCoarsePointer ? 1000 / 24 : 0;
+    const canFastSeek = typeof video.fastSeek === "function";
 
-    const updateVideoFrame = () => {
+    let currentVideoTime = 0;
+    let lastSeekTime = 0;
+
+    const updateVideoFrame = (now: number) => {
       if (video.duration) {
         const targetTime = targetProgressRef.current * video.duration;
 
         // Smooth interpolation
         currentVideoTime += (targetTime - currentVideoTime) * 0.12;
 
-        if (Math.abs(video.currentTime - currentVideoTime) > 0.01) {
-          video.currentTime = currentVideoTime;
+        const dueForSeek = now - lastSeekTime >= minSeekIntervalMs;
+        if (dueForSeek && Math.abs(video.currentTime - currentVideoTime) > seekThreshold) {
+          if (canFastSeek) {
+            video.fastSeek(currentVideoTime);
+          } else {
+            video.currentTime = currentVideoTime;
+          }
+          lastSeekTime = now;
         }
       }
 
@@ -204,8 +222,9 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
         )}
       </div>
 
-      {/* Sticky Fullscreen Viewport */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      {/* Sticky Fullscreen Viewport — h-dvh (not h-screen/100vh) so the video fills the
+          real visible viewport on mobile even as the browser chrome shows/hides */}
+      <div className="sticky top-0 h-dvh w-full overflow-hidden">
         <video
           ref={videoRef}
           muted
@@ -260,7 +279,10 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
               muted
               playsInline
               onEnded={handleEndVideoEnded}
-              className="absolute inset-0 w-full h-full object-cover"
+              // object-contain on mobile so the full video stays in frame instead of being
+              // cropped left/right on narrow portrait screens — the black bg makes any
+              // letterboxing invisible. Wider (sm+) screens keep the fill-the-screen cover.
+              className="absolute inset-0 w-full h-full object-contain sm:object-cover"
             >
               <source src="/assets/videologo.mp4" type="video/mp4" />
             </video>
