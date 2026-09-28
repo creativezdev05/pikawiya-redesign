@@ -54,7 +54,7 @@ export default function CorporateDocumentsPage() {
         
         {/* Header Block */}
         <div className="text-left space-y-2">
-          <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center gap-1.5">
+          <span className="text-ochre font-bold uppercase text-lg tracking-wider flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 shrink-0" /> Governance & Transparency
           </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">

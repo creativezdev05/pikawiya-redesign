@@ -62,7 +62,7 @@ export default function CareersPage() {
                   />
                 </div>
         <div className="space-y-3 text-center max-w-2xl mx-auto">
-          <span className="text-white font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
+          <span className="text-white font-bold uppercase text-lg tracking-wider flex items-center justify-center gap-1.5">
             <Briefcase className="w-4 h-4" /> Join Our Team
           </span>
           <PageTitle className="text-4xl md:text-5xl font-bold tracking-tight">

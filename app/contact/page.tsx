@@ -38,7 +38,7 @@ export default function ContactPage() {
 </div>
   {/* Separate Top-Left Header Block */}
   <div className="absolute top-28 left-4 sm:left-8 lg:left-12 z-20 max-w-sm sm:max-w-md text-left space-y-1.5">
-    <span className="text-ochre font-semibold uppercase text-xs tracking-wider block">
+    <span className="text-ochre font-bold uppercase text-lg tracking-wider block">
       Get in Touch
     </span>
     <h1 className="text-3xl sm:text-4xl font-bold leading-tight text-[#c25324]">
@@ -130,6 +130,11 @@ export default function ContactPage() {
         </div>
       </div>
 
+    </div>
+
+    {/* Right Column: Contact Form Panel - Enhanced 3D Elevated Card */}
+    <div className="lg:col-span-2 space-y-6">
+
       {/* Medical Emergency Box - Enhanced 3D Elevated Card */}
       <div className="card-3d bg-white rounded-2xl p-5 text-ink flex items-start gap-3.5">
         <div className="w-9 h-9 rounded-xl bg-ochre/20 text-ochre flex items-center justify-center shrink-0 mt-0.5 shadow-inner">
@@ -143,10 +148,6 @@ export default function ContactPage() {
         </div>
       </div>
 
-    </div>
-
-    {/* Right Column: Contact Form Panel - Enhanced 3D Elevated Card */}
-    <div className="lg:col-span-2">
       <div className="card-3d bg-surface p-5 sm:p-6 lg:p-7 rounded-2xl w-full">
         <h2 className="text-lg sm:text-xl font-bold text-ink mb-1">Send Us an Enquiry</h2>
         <p className=" text-xs sm:text-sm mb-4 text-ink">

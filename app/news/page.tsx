@@ -54,7 +54,7 @@ export default function NewsPage() {
           />
         </div>
         <div className="space-y-3 text-center max-w-2xl mx-auto">
-          <span className="text-white font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
+          <span className="text-white font-bold uppercase text-lg tracking-wider flex items-center justify-center gap-1.5">
             <Briefcase className="w-4 h-4" /> Healthcare Services
           </span>
           <PageTitle className="text-4xl md:text-7xl font-bold tracking-tight">

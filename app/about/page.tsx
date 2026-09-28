@@ -94,31 +94,137 @@ export default function AboutPage() {
       <ImageCarousel
         rounded={false}
         heightClassName="h-[100dvh]"
-        autoPlayInterval={3000}
+        autoPlayInterval={5000}
         slides={[
-          { src: "/assets/about/1.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/2.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/3.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/4.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/5.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/6.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/7.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/8.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/9.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/10.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/11.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/12.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/13.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/14.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/15.jpeg", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/16.png", alt: "Aboriginal waterhole and songline dot painting" },
-          { src: "/assets/about/17.png", alt: "Aboriginal waterhole and songline dot painting" },
-
-
-
-          // { src: "/assets/cultural-heritage.jpg", alt: "Aboriginal Dot Painting Artwork" },
-          // { src: "/assets/about-us-01.png", alt: "Pika Wiya Health Community Facility" },
-          // { src: "/assets/about-us-02.png", alt: "Flinders Ranges Mountain Landscape and Outreach Region" },
+          {
+            src: "/assets/about/1.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+            subtitle: "Grassroots mobilization for self-determination",
+            description:
+              "Driven by profound courage and a commitment to community wellbeing, local leaders took direct action to secure self-determined health services, laying the vital groundwork for Pika Wiya Health Service.",
+            tag: "Heritage",
+          },
+          {
+            src: "/assets/about/2.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+            subtitle: "International recognition & regional advocacy",
+            description:
+              "A pivotal moment when community advocacy gained international acknowledgment at the World Health Organization in Geneva, validating community-led primary health care models.",
+            tag: "Growth",
+          },
+          {
+            src: "/assets/about/3.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+            subtitle: "Empowering regional workforce and tradition",
+            description:
+              "Embedding traditional knowledge, elder wisdom, and holistic wellbeing practices into professional pathways, fostering a dedicated generation of regional health practitioners.",
+            tag: "Culture",
+          },
+          {
+            src: "/assets/about/4.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+            subtitle: "Formal structure for regional care",
+            description:
+              "Achieving formal incorporation to expand clinical infrastructure, secure sustainable funding streams, and broaden comprehensive outreach programs across the regional footprint.",
+            tag: "Milestone",
+          },
+          {
+            src: "/assets/about/5.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+             year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+            subtitle: "Specialized maternal and child health focus",
+            description:
+              "The launch of the Anangu Bibi program, dedicated to providing culturally secure, family-centered support for mothers, babies, and young children throughout their developmental journey.",
+            tag: "Care",
+          },
+          {
+            src: "/assets/about/6.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+            subtitle: "Absolute self-determination in governance",
+            description:
+              "Reaching complete community control, ensuring that regional governance, cultural authority, and community voices directly drive every clinical and operational decision.",
+            tag: "Empowerment",
+          },
+          {
+            src: "/assets/about/7.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+            description:
+              "Remaining fiercely independent, community-owned, and dedicated to delivering holistic, doctor-led clinical and cultural healthcare services for generations to come.",
+            tag: "Future",
+          },
+          {
+            src: "/assets/about/8.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+          },
+          {
+            src: "/assets/about/9.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+          },
+          {
+            src: "/assets/about/10.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+          },
+          {
+            src: "/assets/about/11.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+          },
+          {
+            src: "/assets/about/12.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+          },
+          {
+            src: "/assets/about/13.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+          },
+          {
+            src: "/assets/about/14.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+          },
+          {
+            src: "/assets/about/15.jpeg",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+          },
+          {
+            src: "/assets/about/16.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+          },
+          {
+            src: "/assets/about/17.png",
+            alt: "Aboriginal waterhole and songline dot painting",
+            year: "Building Stronger Communities",
+            title: "Thriving in Culture",
+          },
         ]}
       />
       {/* <PageHero
@@ -150,7 +256,7 @@ export default function AboutPage() {
         <main className="relative z-10 max-w-7xl mx-auto px-4 py-16 space-y-16 md:space-y-24">
          
           {/* Culture & Artwork Banner */}
-          <div className="contrast-card grid md:grid-cols-2 gap-12 items-center bg-[#1b2433] text-sand p-8 md:p-12 rounded-2xl shadow-xl border border-transparent">
+          <div className="grid md:grid-cols-2 gap-12 items-center bg-surface text-ochre p-8 md:p-12 rounded-2xl shadow-lg border border-border">
             <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-ochre/30">
               <Image
                 src="/assets/cultural-heritage.jpg"
@@ -160,13 +266,13 @@ export default function AboutPage() {
               />
             </div>
             <div className="space-y-6 ">
-              <PageTitle as="h2" onDark className="text-3xl font-bold">
+              <h2  className="text-3xl font-bold">
                 Our Cultural Heritage
-              </PageTitle>
-              <p className="text-sand/80 leading-relaxed">
+              </h2>
+              <p className="text-ink/80 leading-relaxed">
                 Our name and emblem reflect deep roots within the community. We work closely with Traditional Owners, Elders, and local families to ensure health services honor connection to land, culture, and traditional healing principles.
               </p>
-              <p className="text-sand/80 leading-relaxed">
+              <p className="text-ink/80 leading-relaxed">
                 From our main facility in Port Augusta to outreach health programs, every aspect of our care is designed to offer a safe, respectful environment for Aboriginal people.
               </p>
               <div className="pt-2">
@@ -183,7 +289,7 @@ export default function AboutPage() {
           {/* Mission Statement Split Section Card */}
           <div className="grid md:grid-cols-2 gap-12 items-center bg-surface text-ink p-8 md:p-12 rounded-2xl shadow-lg border border-border">
             <div className="space-y-6">
-              <span className="text-ochre font-semibold uppercase text-xs tracking-wider">
+              <span className="text-ochre font-bold uppercase text-lg tracking-wider">
                 Who We Are
               </span>
               <h2 className="text-3xl md:text-4xl font-bold text-ochre">
@@ -231,7 +337,7 @@ export default function AboutPage() {
             </div>
             <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-border shadow-md">
               <Image
-                src="/assets/about-us-02.png"
+                src="/assets/about-us-02.avif"
                 alt="Flinders Ranges Mountain Landscape and Outreach Region"
                 fill
                 className="object-cover"

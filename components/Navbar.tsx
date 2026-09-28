@@ -51,7 +51,7 @@ export default function Navbar() {
             alt="Pika Wiya Health Service Logo"
             width={180}
             height={60}
-            className="h-10 md:h-12 w-auto object-contain"
+            className="h-10 md:h-12 w-auto object-contain navbar-logo-reveal"
             priority
           />
         </Link>
@@ -97,7 +97,9 @@ export default function Navbar() {
 
           <a
             href="tel:0886429991"
-            className="inline-flex items-center gap-2 px-3 py-2 rounded-full border border-ochre/50 text-ochre hover:bg-ochre hover:text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap"
+            className={`inline-flex items-center gap-2 px-3 py-2 rounded-full border backdrop-blur-md text-ochre hover:bg-ochre hover:text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap ${
+              scrolled ? "bg-white/[0.06] border-ochre/50" : "bg-white/30 border-ochre/50"
+            }`}
           >
             <Phone className="w-3.5 h-3.5 shrink-0" />
             <span className="hidden 2xl:inline">Call</span>

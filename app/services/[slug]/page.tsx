@@ -16,6 +16,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
+import NextImage from 'next/image';
 
 export const revalidate = 60;
 
@@ -65,17 +66,29 @@ export default async function ServiceDetailPage({
       <FramerMouseGradient/>
       {/* <PatternField variant="twirl" logoMotion="sway" logoPlacement="br" /> */}
       <Navbar />
-
+    {/* Page background: fixed to the viewport so it sits behind the whole page while scrolling */}
+          <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+            <NextImage
+              src="/assets/home/main_page_2nd_bg.png"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center"
+            />
+          </div>
+    
+          <div 
+              className="absolute inset-[0%] z-0 opacity-20 pointer-events-none animate-drift"
+              style={{ 
+                backgroundImage: "url('/assets/background-pattern-new1.png')",
+                backgroundSize: "contain",
+                opacity: 0.15,
+                filter: "brightness(0) saturate(100%) invert(96%) sepia(94%) saturate(122%) hue-rotate(32deg) brightness(116%) contrast(98%)"
+              }}
+            />
       <main className="relative z-10 max-w-6xl mx-auto px-4 py-12 md:py-16 space-y-10 w-full">
-        
-        <div 
-          className="absolute inset-[-20%] z-0 opacity-20 pointer-events-none animate-drift"
-          style={{ 
-            backgroundImage: "url('/assets/background-pattern.png')",
-            backgroundSize: "cover",
-            filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
-          }}
-        />
+      
         <Link
           href="/services"
           className="inline-flex items-center text-sm font-medium text-ink/60 hover:text-ochre transition gap-2 group"

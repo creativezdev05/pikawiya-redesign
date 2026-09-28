@@ -100,11 +100,11 @@ export default function PageHero({
       {pageName === "service" && (
         <CulturalPattern
           variant="about"
-          dashedOrbitsConfig={[
-            { x: 900, y: 200, pathHeight: 150, pathWidth: 300, speed: 10 },
-            { x: 200, y: 400, pathHeight: 120, pathWidth: 420, speed: 10 },
-            { x: 300, y: 600, pathHeight: 120, pathWidth: 400, speed: 10 },
-          ]}
+          // dashedOrbitsConfig={[
+          //   { x: 900, y: 200, pathHeight: 150, pathWidth: 300, speed: 10 },
+          //   { x: 200, y: 400, pathHeight: 120, pathWidth: 420, speed: 10 },
+          //   { x: 300, y: 600, pathHeight: 120, pathWidth: 400, speed: 10 },
+          // ]}
           uShapeConfig={[{ x: "-42%", y: 750 }]}
           cornerTLConfig={{ x: "15%", y: "-30%" }}
         />
@@ -175,7 +175,7 @@ export default function PageHero({
       {/* Left Column */}
       {pageName === "service" &&
         <div className="relative z-10 w-full max-w-2xl self-start px-4 text-left sm:px-6 lg:px-10 lg:ml-10 xl:px-12 xl:ml-20">
-          <span className="mb-3 block text-xs font-semibold uppercase tracking-[0.18em] text-ochre">
+          <span className="mb-3 block font-bold uppercase tracking-[0.18em] text-ochre">
             {eyebrow}
           </span>
           <h1

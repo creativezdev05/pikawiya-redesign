@@ -473,6 +473,19 @@ textarea:disabled {
   50% { opacity: 0.55; transform: scale(1.03); }
 }
 
+/* Brand logo entrance — plays once whenever the navbar mounts (i.e. on every full page load/refresh). */
+@keyframes navbar-logo-reveal {
+  0% { clip-path: inset(0 100% 0 0); opacity: 0; transform: scale(0.92); }
+  55% { opacity: 1; }
+  100% { clip-path: inset(0 0% 0 0); opacity: 1; transform: scale(1); }
+}
+.navbar-logo-reveal {
+  animation: navbar-logo-reveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .navbar-logo-reveal { animation: none; }
+}
+
 @keyframes flameRise {
   0% { transform: translateY(0) scale(1); opacity: 0.9; }
   50% { transform: translateY(-20px) scale(1.25); opacity: 1; }
@@ -1247,6 +1260,40 @@ textarea:disabled {
 .animate-pulse-gentle {
   animation: pulseGentle 6s ease-in-out infinite;
 }
+
+/* Warm halo that breathes in and out — for a medallion/badge image that should "glow" in place,
+   with no scaling or movement. */
+@keyframes glowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px rgba(230, 96, 35, 0.35)) drop-shadow(0 0 16px rgba(230, 96, 35, 0.18));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(255, 158, 66, 0.75)) drop-shadow(0 0 34px rgba(255, 158, 66, 0.4));
+  }
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 3.2s ease-in-out infinite;
+}
+
+/* A light beam sweeping across a gradient — masked to a line-art image so the beam only shows on
+   its lines/dots, reading as motion flowing along the artwork. */
+@keyframes flowSweep {
+  0%   { background-position: -120% 0; }
+  100% { background-position: 220% 0; }
+}
+
+.animate-flow-sweep {
+  animation: flowSweep 4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-glow-pulse,
+  .animate-flow-sweep {
+    animation: none;
+  }
+}
+
 @keyframes drift {
   0% { transform: translate(0px, 0px); }
   50% { transform: translate(-15px, 10px); }

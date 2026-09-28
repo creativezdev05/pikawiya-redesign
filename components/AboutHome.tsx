@@ -48,22 +48,23 @@ export default function AboutSection() {
         aria-hidden="true"
       />
               
-        <CulturalPattern 
+        <CulturalPattern
         variant="about"
+        fit="fill"
         // motif1Config={[{ x: -30, y: 150 }]}
         // motif2Config={[{ x: 1200, y: 650 }]}
         // motif3Config={[{ x: -20, y: 460 }]}
-        dotsConfig={[{ x: -10, y: 200 }]}
-        dashedOrbitsConfig={[{ x: 900, y: 200, pathHeight:150, pathWidth:300, speed:10 }, { x: 200, y: 400, pathHeight:120, pathWidth:420, speed:10 } , { x: 300, y: 600, pathHeight:120, pathWidth:400, speed:10 }]}
+        // dotsConfig={[{ x: -10, y: 200 }]}
+        dashedOrbitsConfig={[{ x: "75%", y: "25%", radius: 26, pathHeight:150, pathWidth:300, speed:10 }, { x: "17%", y: "50%", radius: 26, pathHeight:120, pathWidth:420, speed:10 } , { x: "25%", y: "75%", radius: 26, pathHeight:120, pathWidth:400, speed:10 }]}
         // uShapeConfig={[{ x: -170 , y: 750 }]}
-        uShapeConfig={[{ x: "-13%", y: "90%" }]}
+        uShapeConfig={[{ x: "-13%", y: "80%" }]}
         cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
         cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
         // showFeet
       />
         {/* <div aria-hidden="true" className="cultural-background cultural-background--about" /> */}
         {/* <div className="absolute inset-0 z-0 landing-ink-veil--soft" /> */}
-        
+
         {/* Soft Ambient Glows */}
         <div className="absolute top-10 right-10 w-80 h-80 bg-ochre/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -72,11 +73,11 @@ export default function AboutSection() {
             
             {/* Left Content Area */}
             <div className="lg:col-span-7 space-y-8">
-              <div className="space-y-4">
+              <div className="relative space-y-4">
                 <motion.div
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.2,
-                     
+
                   }}
                 transition={{ type: "spring", stiffness: 400, damping: 70 }}
                 whileTap={{ scale: 2 }}
@@ -85,9 +86,9 @@ export default function AboutSection() {
               <span className="w-2 h-2 rounded-full bg-ochre animate-pulse" /> Who We Are
               </motion.div>
                 <motion.div
-                   whileHover={{ 
+                   whileHover={{
                     scale: 1.2,
-                     
+
                   }}
                 transition={{ type: "spring", stiffness: 400, damping: 70 }}
                 whileTap={{ scale: 2 }}
@@ -96,6 +97,21 @@ export default function AboutSection() {
                     Proudly Aboriginal. Driven by Purpose & Lore.
                   </PageTitle>
                 </motion.div>
+
+                {/* Decorative rotating medallion — sits below and to the left of the title block,
+                    behind the text (negative z-index) so the heading always reads on top of it */}
+                <div
+                  aria-hidden="true"
+                  className="hidden lg:block absolute -z-10 top-full -mt-25 xl:-mt-29 -left-64 xl:-left-80 w-40 h-40 xl:w-56 xl:h-56 pointer-events-none select-none animate-spin-slow motion-reduce:animate-none"
+                >
+                  <NextImage
+                    src="/assets/patterns/petter_circle_animation_1.png"
+                    alt=""
+                    fill
+                    sizes="224px"
+                    className="object-contain"
+                  />
+                </div>
               </div>
 
               <div className="space-y-4 text-sand/85 text-base md:text-lg leading-relaxed font-light">
@@ -311,13 +327,14 @@ export default function AboutSection() {
         className="pointer-events-none absolute inset-0 z-0 bg-[#1b2433]"
         aria-hidden="true"
       />
-        <CulturalPattern 
+        <CulturalPattern
           variant="values"
+          fit="fill"
           // motif1Config={[{ x: -35, y: 250 }]}
           // motif2Config={[{ x: 1300, y: 650 }]}
           // motif3Config={[{ x: -50, y: 460 }]}
-          dotsConfig={[ { x: 1170, y: 200 }]}
-          dashedOrbitsConfig={[{ x: 250, y: 400, pathHeight:250, pathWidth:500, speed:10 }, { x: 350, y: 500, pathHeight:200, pathWidth:500, speed:12 } , { x: 500, y: 600,pathHeight:220, pathWidth:400, speed:14 }]}
+          dotsConfig={[ { x: "90.5%", y: "25%" }]}
+          dashedOrbitsConfig={[{ x: "21%", y: "50%", pathHeight:250, pathWidth:500, speed:10, radius:26 }, { x: "29%", y: "63%", pathHeight:200, pathWidth:500, speed:12, radius:26 } , { x: "42%", y: "75%",pathHeight:220, pathWidth:400, speed:14, radius:26 }]}
           uShapeConfig={[{ x: "-18%", y: "90%" }]}
           cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
           cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge

@@ -615,7 +615,7 @@ const handleMembershipChange = (
           />
         </div>
         <div className="space-y-3 text-center max-w-2xl mx-auto">
-          <span className="text-white font-semibold uppercase text-xs tracking-wider flex items-center justify-center gap-1.5">
+          <span className="text-white font-bold uppercase text-lg tracking-wider flex items-center justify-center gap-1.5">
             <Briefcase className="w-4 h-4" /> Join Our Team
           </span>
           <PageTitle className="text-4xl md:text-5xl font-bold tracking-tight">
@@ -681,7 +681,7 @@ const handleMembershipChange = (
           </aside>
 
           {/* RIGHT CONTENT AREA: Active Form Details (8 Cols on Large Screens) */}
-          <section className="lg:col-span-8 bg-surface rounded-2xl border border-border p-6 md:p-8 shadow-sm">
+          <section className="lg:col-span-8 bg-surface rounded-2xl border border-border px-8 py-6 md:px-12 md:py-8 lg:px-16 shadow-sm">
             <div className="space-y-6">
               <div className="card-3d relative isolate overflow-hidden rounded-2xl p-6 md:p-8 pr-28 md:pr-56 md:min-h-56.25 flex flex-col justify-center">
                 {/* Banner artwork has its own rounded frame baked in; bleed it past the card so card-3d's edge is the only border */}
@@ -1364,7 +1364,7 @@ const handleMembershipChange = (
                     <div className="border-t border-border pt-6 space-y-6">
                       <h3 className="text-lg font-bold text-ink">Complaint Outcome</h3>
                       <div className="grid md:grid-cols-12 gap-6">
-                        <div className="md:col-span-6">
+                        <div className="md:col-span-4">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Is there an outcome you would like?</label>
                           <select required disabled={!isComplaintFieldUnlocked("desired_outcome")} value={complaintData.desired_outcome} onChange={(e) => handleComplaintChange("desired_outcome", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed">
                             <option value="">Select an option</option>
@@ -1372,15 +1372,7 @@ const handleMembershipChange = (
                             <option value="no">No</option>
                           </select>
                         </div>
-                      </div>
-                      {complaintData.desired_outcome === "yes" && (
-                        <div>
-                          <label className="block text-xs font-semibold text-ink/80 mb-1">If yes, please provide details</label>
-                          <textarea required rows={4} value={complaintData.outcome_details} onChange={(e) => handleComplaintChange("outcome_details", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
-                        </div>
-                      )}
-                      <div className="grid md:grid-cols-12 gap-6">
-                        <div className="md:col-span-8">
+                        <div className="md:col-span-4">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Complainant Signature</label>
                           <input required type="text" disabled={!isComplaintFieldUnlocked("signature")} value={complaintData.signature} onFocus={() => speakText("Complainant signature")} onChange={(e) => handleComplaintChange("signature", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
@@ -1389,6 +1381,12 @@ const handleMembershipChange = (
                           <input required type="date" disabled={!isComplaintFieldUnlocked("date_submitted")} value={complaintData.date_submitted} onChange={(e) => handleComplaintChange("date_submitted", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         </div>
                       </div>
+                      {complaintData.desired_outcome === "yes" && (
+                        <div>
+                          <label className="block text-xs font-semibold text-ink/80 mb-1">If yes, please provide details</label>
+                          <textarea required rows={4} value={complaintData.outcome_details} onChange={(e) => handleComplaintChange("outcome_details", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
+                        </div>
+                      )}
                     </div>
 
                     <div className="rounded-lg bg-page p-4 text-xs text-ink/70 leading-relaxed space-y-2 border border-border">

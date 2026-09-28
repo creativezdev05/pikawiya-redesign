@@ -38,28 +38,29 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
         // motif1Config={[{ x: 7, y: 200 }]}
         // motif2Config={[{ x: 1050, y: 800 }]}
         // motif3Config={[{ x: 100, y: 500 }]}
-        dotsConfig={[{ x: "10%", y: "23%" }, { x: "89%", y: "59%" }]}
-        dashedOrbitsConfig={[{ x: "25%", y: "50%" }, { x: "17%", y: "86%" }]}
-        uShapeConfig={[{ x: "1.5%", y: "95.5%" }]}
+        // dotsConfig={[{ x: "10%", y: "23%" }, { x: "89%", y: "59%" }]}
+        dashedOrbitsConfig={[{ x: "25%", y: "50%", radius:26 }, { x: "17%", y: "86%", radius:26 }]}
+        // uShapeConfig={[{ x: "1.5%", y: "80%" }]}
+        // assembleMotifConfig={[{ x: "93%", y: "12%", radius: 75, duration: 1.7 }]}
         cornerTLConfig={{ x: 360, y: -250 }}       // Pin strictly to top-left edge
         cornerBRConfig={{ x: "80%", y: "101%" }}  // Pin strictly to bottom-right edge
-        flowPathsConfig={[
-        {
-          startX: "0%",
-          startY: "0%",
-          endX: "95%",
-          endY: "0%",
-          controlX: "20%",
-          controlY: "15%",
-          speed: 10,
-          dotCount: 15,
-          strokeColor: "#E66023",
-          dotColor: "#E66023",
-          x: "10%",
-          y: -10,
-          length: "100%"
-        },
-      ]}
+        // flowPathsConfig={[
+        // {
+        //   startX: "0%",
+        //   startY: "0%",
+        //   endX: "95%",
+        //   endY: "0%",
+        //   controlX: "20%",
+        //   controlY: "15%",
+        //   speed: 10,
+        //   dotCount: 15,
+        //   strokeColor: "#E66023",
+        //   dotColor: "#E66023",
+        //   x: "10%",
+        //   y: -10,
+        //   length: "100%"
+        // },
+      // ]}
 
       />
       {/* <div className="absolute inset-0 z-0 landing-ink-veil--soft" /> */}
@@ -68,8 +69,43 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
       {/* <div className="absolute top-1/4 -left-20 w-96 h-96 bg-ochre/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 -right-20 w-96 h-96 bg-navy/80 rounded-full blur-3xl pointer-events-none" /> */}
 
+      {/* Decorative rotating medallion — spins continuously. Below lg the header stacks into a single
+          column (pill/title/paragraph, then the button underneath), so it sits high up near the pill;
+          from lg it sits beside a wider row and can safely go a bit lower. */}
+      <div
+        aria-hidden="true"
+        className="hidden sm:block absolute z-2 top-[8%] md:top-[10%] lg:top-[12%] left-[93%] -translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-32 sm:h-32 md:w-44 md:h-44 lg:w-52 lg:h-52 xl:w-60 xl:h-60 pointer-events-none select-none animate-spin-slow motion-reduce:animate-none"
+      >
+        <NextImage
+          src="/assets/patterns/petter_circle_animation_1-1.png"
+          alt=""
+          fill
+          sizes="(max-width: 1024px) 160px, 240px"
+          className="object-contain"
+        />
+      </div>
+
+      {/* Top line-art strip — full section width. Kept shorter than the section's own top padding
+          (py-16 / md:py-28) at every breakpoint so it never overlaps down into the header row and
+          covers the "Community-Led Healing" pill; it stays confined to the empty band above it. */}
+      {/* <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 z-1 h-12 sm:h-16 md:h-20 lg:h-24 pointer-events-none select-none opacity-80 animate-glow-pulse motion-reduce:filter-none"
+        style={{
+          backgroundImage: "url(/assets/patterns/bottom_animation.svg)",
+          backgroundRepeat: "no-repeat",
+          // "cover" scales by width here (container is much wider, relative to its own short height,
+          // than the artwork's own 1870x194 aspect), so it always spans the full section width. Centering
+          // both axes (rather than the earlier "center top") keeps the crop on the artwork's vertical
+          // middle, where its line/dots actually sit, instead of the top edge of its bounding box —
+          // which was cropping down to just the two corner arcs and hiding everything between them.
+          backgroundSize: "cover",
+          backgroundPosition: "center center",
+        }}
+      /> */}
+
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-        
+
         {/* SECTION HEADER: Split Story & Action Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-16 border-b border-ochre/15 pb-10">
           <div className="lg:col-span-8 space-y-4">
@@ -237,6 +273,39 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
           </ButtonLink>
         </div>
 
+      </div>
+
+      {/* Bottom line-art strip — the artwork sits still; a light beam sweeps continuously along its
+          lines and dots on top of it, reading as "flow" */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 z-1 h-48 md:h-72 pointer-events-none select-none"
+      >
+        {/* <div
+          className="absolute inset-0 opacity-70"
+          style={{
+            backgroundImage: "url(/assets/patterns/bottom_animation.svg)",
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
+            backgroundPosition: "left top",
+          }}
+        />
+        <div
+          className="absolute inset-0 animate-flow-sweep motion-reduce:hidden"
+          style={{
+            maskImage: "url(/assets/patterns/bottom_animation.svg)",
+            maskRepeat: "repeat-x",
+            maskSize: "auto 100%",
+            maskPosition: "left top",
+            WebkitMaskImage: "url(/assets/patterns/bottom_animation.svg)",
+            WebkitMaskRepeat: "repeat-x",
+            WebkitMaskSize: "auto 100%",
+            WebkitMaskPosition: "left top",
+            backgroundImage:
+              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.9) 48%, rgba(255,158,66,0.95) 50%, rgba(255,255,255,0.9) 52%, transparent 100%)",
+            backgroundSize: "220% 100%",
+          }}
+        /> */}
       </div>
     </section>
   );

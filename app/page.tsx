@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, MouseEvent, WheelEvent } from "react";
 import HeroVideo from "@/components/HeroVideo";
 import AboutHome from "@/components/AboutHome";
 import NewsPopupModal from "@/components/NewsPopupModal";
+import WarningPopupModal from "@/components/WarningPopupModal";
 import { motion, AnimatePresence } from "framer-motion";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
 import PageHero from "@/components/PageHero";
@@ -287,13 +288,21 @@ useEffect(() => {
   }, []);
   return (
     <div className="relative bg-page min-h-screen">
-      <NewsPopupModal/>
+      {/* Shown immediately on load, ahead of the video */}
+      <WarningPopupModal />
+
       {/* SECTION 1: SCROLL-DRIVEN HERO VIDEO */}
       {showVideoIntro && (
         <HeroVideo onEnterWebsite={() => setShowVideoIntro(false)} />
       )}
 
-      <Navbar />
+      {/* Navbar + latest post popup only once the intro is skipped/finished and we're at PageHero */}
+      {!showVideoIntro && (
+        <>
+          <Navbar />
+          <NewsPopupModal />
+        </>
+      )}
 
       {/* <OurStory /> */}
       <PageHero

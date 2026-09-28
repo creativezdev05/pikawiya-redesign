@@ -3,11 +3,16 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ShieldCheck } from "lucide-react";
 
 export interface CarouselSlide {
   src: string;
   alt: string;
+  year?: string;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  tag?: string;
 }
 
 interface ImageCarouselProps {
@@ -18,76 +23,28 @@ interface ImageCarouselProps {
   rounded?: boolean;
 }
 
-// "Broken into bars": the photo is sliced into vertical strips. On enter,
-// the strips fly in from alternating above/below and lock into place,
-// staggered, so the image looks like it's assembling itself. On exit, the
-// same strips fly back out the way they came, staggered in reverse, so it
-// looks like the image is breaking apart before the next one assembles.
-const BAR_COUNT = 9;
-const BAR_STAGGER = 0.04;
-const BAR_ENTER_DURATION = 0.85;
-const BAR_EXIT_DURATION = 0.75;
-const BAR_ENTER_EASE = [0.16, 1, 0.3, 1] as const;
-const BAR_EXIT_EASE = [0.65, 0, 0.35, 1] as const;
+const SLIDE_TRANSITION = { duration: 0.9, ease: [0.65, 0, 0.35, 1] as const };
 
-// The duotone-to-color "reveal" plays once per slide and holds on full
-// color (see .animate-carousel-duotone / .animate-carousel-leak in
-// globals.css) — it must never repeat while the same photo is showing.
-const REVEAL_DURATION_MS = 2800;
+const textContainerVariants = {
+  hidden: {},
+  visible: {},
+};
 
-function ImageBars({ slide }: { slide: CarouselSlide }) {
-  const barWidthPct = 100 / BAR_COUNT;
+// Tag + title drop in from above the frame; the year rises in from below —
+// the two halves converge on the block's resting spot at the top-left.
+const topVariants = {
+  hidden: { opacity: 0, y: -160 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.75, ease: "easeOut" as const } },
+};
 
-  return (
-    <>
-      {Array.from({ length: BAR_COUNT }).map((_, i) => {
-        const goingUp = i % 2 === 0;
-
-        return (
-          <motion.div
-            key={`${slide.src}-${i}`}
-            className="absolute top-0 h-full overflow-hidden"
-            style={{ left: `${i * barWidthPct}%`, width: `${barWidthPct}%` }}
-            initial={{ y: goingUp ? "-105%" : "105%", opacity: 0 }}
-            animate={{
-              y: "0%",
-              opacity: 1,
-              transition: { duration: BAR_ENTER_DURATION, delay: i * BAR_STAGGER, ease: BAR_ENTER_EASE },
-            }}
-            exit={{
-              y: goingUp ? "105%" : "-105%",
-              opacity: 0,
-              transition: {
-                duration: BAR_EXIT_DURATION,
-                delay: (BAR_COUNT - 1 - i) * BAR_STAGGER,
-                ease: BAR_EXIT_EASE,
-              },
-            }}
-          >
-            <div
-              className="absolute top-0 h-full"
-              style={{ width: `${BAR_COUNT * 100}%`, left: `-${i * 100}%` }}
-            >
-              <Image
-                src={slide.src}
-                alt={slide.alt}
-                fill
-                priority
-                sizes="100vw"
-                className="object-cover animate-carousel-duotone"
-                style={{ animationDuration: `${REVEAL_DURATION_MS}ms` }}
-              />
-            </div>
-          </motion.div>
-        );
-      })}
-    </>
-  );
-}
+const bottomVariants = {
+  hidden: { opacity: 0, y: 160 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.75, ease: "easeOut" as const, delay: 0.15 } },
+};
 
 export default function ImageCarousel({
   slides,
-  autoPlayInterval = 3000,
+  autoPlayInterval = 4500,
   className = "",
   heightClassName = "h-[60vh] min-h-[380px] max-h-[640px]",
   rounded = true,
@@ -120,6 +77,7 @@ export default function ImageCarousel({
   if (slides.length === 0) return null;
 
   const currentSlide = slides[currentIndex];
+  const hasOverlayText = Boolean(currentSlide.tag || currentSlide.title || currentSlide.year);
 
   return (
     <section
@@ -128,22 +86,68 @@ export default function ImageCarousel({
       onMouseLeave={() => setIsPaused(false)}
     >
       <AnimatePresence mode="sync">
-        <ImageBars key={currentSlide.src} slide={currentSlide} />
+        <motion.div
+          key={currentSlide.src}
+          initial={{ y: "-100%" }}
+          animate={{ y: "0%" }}
+          exit={{ y: "100%" }}
+          transition={SLIDE_TRANSITION}
+          className="absolute inset-0"
+        >
+          <Image
+            src={currentSlide.src}
+            alt={currentSlide.alt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </motion.div>
       </AnimatePresence>
 
-      {/* Light leak sweep, timed to bloom in as the duotone filter above lifts into full color.
-          Keyed to the slide so it plays once fresh per photo instead of looping. */}
-      <div
-        key={currentSlide.src}
-        className="pointer-events-none absolute inset-[-35%] animate-carousel-leak"
-        style={{
-          background: "radial-gradient(circle, rgba(255,208,140,0.6), rgba(255,208,140,0) 62%)",
-          mixBlendMode: "screen",
-          animationDuration: `${REVEAL_DURATION_MS}ms`,
-        }}
-      />
-
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/10" />
+
+      {hasOverlayText && (
+        <div className="absolute inset-x-0 top-0 z-10 flex justify-start pointer-events-none">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide.src}
+              variants={textContainerVariants}
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0, y: -12, transition: { duration: 0.2 } }}
+              className="pointer-events-auto mt-20 md:mt-28 max-w-xl bg-[radial-gradient(ellipse_160%_160%_at_top_left,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.32)_30%,rgba(0,0,0,0.16)_55%,rgba(0,0,0,0.05)_78%,rgba(0,0,0,0)_92%)] pl-6 pr-14 pt-6 pb-14 md:pl-12 md:pr-20 md:pt-8 md:pb-20 space-y-3"
+            >
+              {/* {currentSlide.tag && (
+                <motion.div variants={topVariants} className="inline-flex">
+                  <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-ochre/25 border border-ochre/50 text-ochre text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md drop-shadow-md">
+                    <ShieldCheck className="w-4 h-4" />
+                    {currentSlide.tag}
+                  </span>
+                </motion.div>
+              )} */}
+
+              {currentSlide.title && (
+                <motion.h1
+                  variants={topVariants}
+                  className="text-white text-2xl sm:text-3xl md:text-5xl font-bold leading-tight drop-shadow-[0_4px_18px_rgba(0,0,0,0.65)]"
+                >
+                  {currentSlide.title}
+                </motion.h1>
+              )}
+
+              {currentSlide.year && (
+                <motion.h2
+                  variants={bottomVariants}
+                 className="text-white text-2xl sm:text-3xl md:text-5xl font-bold leading-tight drop-shadow-[0_4px_18px_rgba(0,0,0,0.65)]"
+                >
+                  {currentSlide.year}
+                </motion.h2>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      )}
 
       {slides.length > 1 && (
         <>

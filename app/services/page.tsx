@@ -61,20 +61,20 @@ export default async function ServicesPage() {
                 filter: "brightness(0) saturate(100%) invert(96%) sepia(94%) saturate(122%) hue-rotate(32deg) brightness(116%) contrast(98%)"
               }}
             />
-    <CulturalPattern
+    {/* <CulturalPattern
       dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10, radius: 25 }, 
         { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11, radius: 25 } ,
          { x: 600, y: 50, pathHeight:500, pathWidth:700, speed:12, radius: 25 },
         { x: 400, y: 10, pathHeight:300, pathWidth:700, speed:13, radius: 25 },
         { x: 500, y: 20, pathHeight:300, pathWidth:700, speed:14, radius: 25 }]}
-    />
+    /> */}
     <div className="relative z-10">
       {/* <PatternField variant="pulse" /> */}
       <Navbar />
       <PageHero
         eyebrow="Healthcare Services"
         title="Our Health & Wellbeing Programs"
-        description="Pika Wiya Health Service delivers comprehensive, culturally safe healthcare across our clinical facilities, community outreach centers, and school programs."
+        description=""
         imageSrc="/assets/servicesmain2.png"
         imageAlt="Aboriginal flowing country dot painting"
         pageName="service"

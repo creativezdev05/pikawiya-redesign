@@ -244,12 +244,12 @@ export function HomeStoryHeroSlider({
             initial="hidden"
             animate="visible"
             exit={{ opacity: 0, y: -12, transition: { duration: 0.2 } }}
-            className="pointer-events-auto mt-20 sm:mt-24 lg:mt-28 xl:mt-32 max-w-[85%] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-[radial-gradient(ellipse_160%_160%_at_top_left,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.32)_30%,rgba(0,0,0,0.16)_55%,rgba(0,0,0,0.05)_78%,rgba(0,0,0,0)_92%)] pl-5 pr-10 pt-5 pb-10 sm:pl-7 sm:pr-14 sm:pt-6 sm:pb-14 lg:pl-9 lg:pr-20 lg:pt-8 lg:pb-20 space-y-3 sm:space-y-4 text-left"
+            className="pointer-events-auto mt-20 sm:mt-24 lg:mt-28 xl:mt-32 max-w-[85%] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-[radial-gradient(ellipse_160%_160%_at_top_left,rgba(0,0,0,0.8)_0%,rgba(0,0,0,0.6)_30%,rgba(0,0,0,0.35)_55%,rgba(0,0,0,0.12)_78%,rgba(0,0,0,0)_92%)] pl-5 pr-10 pt-5 pb-10 sm:pl-7 sm:pr-14 sm:pt-6 sm:pb-14 lg:pl-9 lg:pr-20 lg:pt-8 lg:pb-20 space-y-3 sm:space-y-4 text-left"
           >
             {/* Category / Badge Pill */}
             {(currentSlide.badge || currentSlide.tag) && (
               <motion.div variants={textItemVariants} className="inline-flex">
-                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-ochre/25 border border-ochre/50 text-white text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md drop-shadow-md">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-ochre/25 border border-ochre/50 text-ochre text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md drop-shadow-md">
                   <ShieldCheck className="w-4 h-4" />
                   {currentSlide.badge ?? currentSlide.tag}
                 </span>
@@ -274,7 +274,7 @@ export function HomeStoryHeroSlider({
             {/* Description */}
             <motion.p
               variants={textItemVariants}
-              className="max-w-md text-xs sm:text-sm lg:text-base leading-relaxed text-white/90 font-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]"
+              className="max-w-md text-base sm:text-lg lg:text-xl leading-relaxed text-white/90 font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]"
             >
               {currentSlide.description}
             </motion.p>
