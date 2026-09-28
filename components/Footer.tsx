@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Phone, MapPin } from "lucide-react";
 import CulturalPattern from "./CulturalPattern";
 import PageTitle from "./PageTitle";
@@ -20,13 +21,14 @@ export default function Footer() {
       />
       <CulturalPattern
         variant="footer"
+        fit="fill"
         // motif1Config={[{ x: -920, y: 150 }]}
         // motif2Config={[{ x: 2200, y: 650 }]}
         // motif3Config={[{ x: -920, y: 460 }]}
         // dashedOrbitsConfig={[{ x: 300, y: 400 }, { x: 200, y: 800 }]}
-        uShapeConfig={[{ x: -1370 , y: 750 }]}
-        cornerTLConfig={{ x: -1100, y: 0, scale: 1.8 }}       // Pin strictly to top-left edge
-        cornerBRConfig={{ x: 2200, y: 800, scale: 1.8 }}  // Pin strictly to bottom-right edge
+        uShapeConfig={[{ x: "-13%", y: "90%" }]}
+        cornerTLConfig={{ x: "12%", y: "-15%", scale: 0.9 }}       // Pin strictly to top-left edge, clear of the TR logo
+        cornerBRConfig={{ x: "88%", y: "112%", scale: 0.9 }}  // Pin strictly to bottom-right edge
         // showFeet
         // flowPathsConfig={[
         // {
@@ -109,9 +111,27 @@ export default function Footer() {
 
           {/* Contact Details */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-ochre">
-              Contact & Location
-            </h3>
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-ochre">
+                Contact & Location
+              </h3>
+              <div className="flex items-center gap-2 shrink-0">
+                <Image
+                  src="/assets/flag1.webp"
+                  alt="Flag"
+                  width={28}
+                  height={18}
+                  className="h-auto w-7 object-contain"
+                />
+                <Image
+                  src="/assets/flag2.webp"
+                  alt="Flag"
+                  width={28}
+                  height={18}
+                  className="h-auto w-7 object-contain"
+                />
+              </div>
+            </div>
             <ul className="space-y-2 text-sm text-sand/80">
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-ochre shrink-0 mt-0.5" />
@@ -160,6 +180,13 @@ export default function Footer() {
               Terms of Use
             </Link>
           </div>
+        </div>
+
+        {/* Powered by strip */}
+        <div className="mt-6 bg-black rounded-md px-4 py-3 text-center">
+          <p className="text-sand text-xs font-bold tracking-wide">
+            Powered by Red Banks
+          </p>
         </div>
       </div>
     </footer>

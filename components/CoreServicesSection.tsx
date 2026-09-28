@@ -74,7 +74,7 @@ export default function CoreServicesSection({ mainServices }: { mainServices: Se
           from lg it sits beside a wider row and can safely go a bit lower. */}
       <div
         aria-hidden="true"
-        className="hidden sm:block absolute z-2 top-[8%] md:top-[10%] lg:top-[12%] left-[93%] -translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-32 sm:h-32 md:w-44 md:h-44 lg:w-52 lg:h-52 xl:w-60 xl:h-60 pointer-events-none select-none animate-spin-slow motion-reduce:animate-none"
+        className="hidden sm:block absolute z-2 top-[8%] md:top-[10%] lg:top-[9%] left-[86%] -translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-32 sm:h-32 md:w-44 md:h-44 lg:w-52 lg:h-52 xl:w-60 xl:h-60 pointer-events-none select-none animate-spin-slow motion-reduce:animate-none"
       >
         <NextImage
           src="/assets/patterns/petter_circle_animation_1-1.png"

@@ -6,6 +6,13 @@ import { Briefcase, Mail, HeartHandshake, CheckCircle2 } from "lucide-react";
 import PartnersTicker from "@/components/PartnersTicker";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
 import NextImage from "next/image";
+import FeatureImageSlider from "@/components/FeatureImageSlider";
+
+const VACCINE_SLIDES = [
+  { src: "/assets/patterns/pat1.jpg", alt: "Immunisation care at Pika Wiya" },
+  { src: "/assets/patterns/pat2.jpg", alt: "Vaccination outreach in community" },
+  { src: "/assets/patterns/pat3.jpg", alt: "Healthcare professionals providing care" },
+];
 
 export const CORNER_DOTS = [{ x: "100%", y: "0%", rings: 7, startR: 26, gap: 22, speed: 60 }];
 
@@ -77,16 +84,10 @@ export default function CareersPage() {
       <main className="relative z-10 max-w-[1600px] mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
           {/* Left: Feature Image */}
-          <div className="relative h-72 sm:h-96 lg:h-auto rounded-3xl overflow-hidden shadow-2xl">
-            <NextImage
-              src="/assets/patterns/pat1.jpg"
-              alt=""
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-navy/10 to-transparent" />
-          </div>
+          <FeatureImageSlider
+            slides={VACCINE_SLIDES}
+            heightClassName="h-72 sm:h-96 lg:h-full"
+          />
 
           {/* Right: Current Vacancies Status Card */}
           <div className="card-3d bg-surface p-8 md:p-10 rounded-3xl  space-y-8">

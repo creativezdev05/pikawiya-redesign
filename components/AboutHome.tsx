@@ -102,10 +102,10 @@ export default function AboutSection() {
                     behind the text (negative z-index) so the heading always reads on top of it */}
                 <div
                   aria-hidden="true"
-                  className="hidden lg:block absolute -z-10 top-full -mt-25 xl:-mt-29 -left-64 xl:-left-80 w-40 h-40 xl:w-56 xl:h-56 pointer-events-none select-none animate-spin-slow motion-reduce:animate-none"
+                  className="hidden lg:block absolute -z-10 top-full -mt-10 xl:-mt-24 -left-70 xl:-left-70 w-40 h-40 xl:w-56 xl:h-56 pointer-events-none select-none animate-spin-slow motion-reduce:animate-none"
                 >
                   <NextImage
-                    src="/assets/patterns/petter_circle_animation_1.png"
+                    src="/assets/patterns/petter_circle_animation_1-1.png"
                     alt=""
                     fill
                     sizes="224px"
@@ -333,13 +333,25 @@ export default function AboutSection() {
           // motif1Config={[{ x: -35, y: 250 }]}
           // motif2Config={[{ x: 1300, y: 650 }]}
           // motif3Config={[{ x: -50, y: 460 }]}
-          dotsConfig={[ { x: "90.5%", y: "25%" }]}
+          // dotsConfig={[ { x: "90.5%", y: "25%" }]}
           dashedOrbitsConfig={[{ x: "21%", y: "50%", pathHeight:250, pathWidth:500, speed:10, radius:26 }, { x: "29%", y: "63%", pathHeight:200, pathWidth:500, speed:12, radius:26 } , { x: "42%", y: "75%",pathHeight:220, pathWidth:400, speed:14, radius:26 }]}
           uShapeConfig={[{ x: "-18%", y: "90%" }]}
           cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
           cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
           // showFeet
         />
+        <div
+          aria-hidden="true"
+          className="hidden sm:block absolute z-2 top-[16%] md:top-[18%] lg:top-[17%] left-[86%] -translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-32 sm:h-32 md:w-44 md:h-44 lg:w-52 lg:h-52 xl:w-60 xl:h-60 pointer-events-none select-none animate-spin-slow motion-reduce:animate-none"
+        >
+          <NextImage
+            src="/assets/patterns/petter_circle_animation_1-1.png"
+            alt=""
+            fill
+            sizes="(max-width: 1024px) 160px, 240px"
+            className="object-contain"
+          />
+        </div>
         {/* <div aria-hidden="true" className="cultural-background cultural-background--values" /> */}
         {/* <div className="absolute inset-0 z-0 landing-ink-veil--soft" /> */}
 
