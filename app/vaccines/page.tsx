@@ -9,9 +9,12 @@ import NextImage from "next/image";
 import FeatureImageSlider from "@/components/FeatureImageSlider";
 
 const VACCINE_SLIDES = [
-  { src: "/assets/patterns/pat1.jpg", alt: "Immunisation care at Pika Wiya" },
-  { src: "/assets/patterns/pat2.jpg", alt: "Vaccination outreach in community" },
-  { src: "/assets/patterns/pat3.jpg", alt: "Healthcare professionals providing care" },
+  { src: "/assets/fruits/fruit image 1.jpg", alt: "Immunisation care at Pika Wiya" },
+  { src: "/assets/fruits/fruit image 2.png", alt: "Vaccination outreach in community" },
+  { src: "/assets/fruits/fruit image 3.jpg", alt: "Healthcare professionals providing care" },
+  { src: "/assets/fruits/fruit image 4.jpg", alt: "Immunisation care at Pika Wiya" },
+  { src: "/assets/fruits/fruit image 5.jpg", alt: "Vaccination outreach in community" },
+  { src: "/assets/fruits/fruit image 6.jpg", alt: "Healthcare professionals providing care" },
 ];
 
 export const CORNER_DOTS = [{ x: "100%", y: "0%", rings: 7, startR: 26, gap: 22, speed: 60 }];

@@ -88,7 +88,7 @@ const DEFAULT_SLIDES: HeroSlide[] = [
     subtitle: "International recognition & regional advocacy",
     description:
       "A pivotal moment when community advocacy gained international acknowledgment at the World Health Organization in Geneva, validating community-led primary health care models.",
-    imageSrc: "/assets/home/home-crousel/2.png",
+    imageSrc: "/assets/home/home-crousel/2.jpeg",
     imageAlt: "Outreach health services",
     tag: "Growth",
   },
