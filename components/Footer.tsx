@@ -185,7 +185,7 @@ export default function Footer() {
         {/* Powered by strip */}
         <div className="mt-6 bg-black rounded-md px-4 py-3 text-center">
           <p className="text-sand text-xs font-bold tracking-wide">
-            Powered by Red Banks
+            Built by Redbanks Technologies
           </p>
         </div>
       </div>

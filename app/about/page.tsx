@@ -337,7 +337,7 @@ export default function AboutPage() {
             </div>
             <div className="relative h-80 md:h-96 rounded-xl overflow-hidden border border-border shadow-md">
               <Image
-                src="/assets/about-us-02.avif"
+                src="/assets/about-us-02.jpeg"
                 alt="Flinders Ranges Mountain Landscape and Outreach Region"
                 fill
                 className="object-cover"

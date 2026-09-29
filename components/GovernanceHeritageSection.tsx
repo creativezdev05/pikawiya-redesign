@@ -119,8 +119,8 @@ export default function GovernanceHeritageSection() {
                 <h2 
                   className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-[#C25324]"
                 >
-                  Walking with our ancestors. 
-                  Building for community.
+                  Led by Community. Guided by Culture. 
+                  Accountable to Our People.
                 </h2>
               </motion.div>
             </div>

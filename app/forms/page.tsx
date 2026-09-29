@@ -101,7 +101,6 @@ const allForms = [
   
 
 export default function FormsPage() {
-  const [activeTab, setActiveTab] = useState<"membership" | "address" | "feedback" | "complaint">("membership");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   // For global submission banner errors (e.g., "Server error, try again")
@@ -236,16 +235,6 @@ export default function FormsPage() {
     }
   };
 
-  // Announce tab changes via SpeechSynthesis
-  useEffect(() => {
-    const messages = {
-      membership: "Membership Application Form selected. Enter your ICN number to begin.",
-      address: "Change of Address Form selected. Enter your ICN number to begin.",
-      feedback: "Feedback Form selected. Choose how often you access Pika Wiya Health Service to begin.",
-      complaint: "Complaint Form selected. Enter the name of the person lodging the complaint to begin.",
-    };
-    speakText(messages[activeTab]);
-  }, [activeTab, isMuted]);
 
   // --- Sequential Field Helper Functions ---
 
@@ -970,10 +959,7 @@ const handleMembershipChange = (
                       <Turnstile
                         sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
                         theme="auto"
-                        onVerify={(token) => {
-                          setTurnstileToken(token);
-                          speakText("Security verification complete.");
-                        }}
+                        onVerify={(token) => setTurnstileToken(token)}
                         onExpire={() => setTurnstileToken(null)}
                         onError={() => setTurnstileToken(null)}
                       />
@@ -1174,10 +1160,7 @@ const handleMembershipChange = (
                       <Turnstile
                         sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "YOUR_TURNSTILE_SITE_KEY"}
                         theme="auto"
-                        onVerify={(token) => {
-                          setTurnstileToken(token);
-                          speakText("Security verification complete.");
-                        }}
+                        onVerify={(token) => setTurnstileToken(token)}
                         onExpire={() => setTurnstileToken(null)}
                         onError={() => setTurnstileToken(null)}
                       />

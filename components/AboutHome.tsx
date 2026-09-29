@@ -94,7 +94,7 @@ export default function AboutSection() {
                 whileTap={{ scale: 2 }}
               >
                   <PageTitle as="h2" onDark className="text-[clamp(2rem,4vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-white">
-                    Proudly Aboriginal. Driven by Purpose & Lore.
+                    Proudly Aboriginal. Community Controlled. Focused on Better Health for Our People.
                   </PageTitle>
                 </motion.div>
 
@@ -116,11 +116,12 @@ export default function AboutSection() {
 
               <div className="space-y-4 text-sand/85 text-base md:text-lg leading-relaxed font-light">
                 <p>
+
                   Pika Wiya Health Service is an{" "}
                   <strong className="text-white font-semibold underline decoration-ochre/60 underline-offset-4">
                     Aboriginal Community Controlled Health Organisation
                   </strong>
-                  , operating with care for community on Country. Born from emergency care in remote lands, we deliver professional,{" "}
+                  , operating with care for community on Country. Established through Aboriginal community action to improve health and access to care, we deliver professional,{" "}
                   <strong className="text-ochre font-semibold">culturally safe healthcare</strong> grounded in lived experience and accountability.
                 </p>
                 <p>

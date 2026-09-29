@@ -37,11 +37,8 @@ export default function ContactPage() {
 </div>
 </div>
   {/* Separate Top-Left Header Block */}
-  <div className="absolute top-28 left-4 sm:left-8 lg:left-12 z-20 max-w-sm sm:max-w-md text-left space-y-1.5">
-    <span className="text-ochre font-bold uppercase text-lg tracking-wider block">
-      Get in Touch
-    </span>
-    <h1 className="text-3xl sm:text-4xl font-bold leading-tight text-[#c25324]">
+  <div className="absolute top-28 left-1/2 -translate-x-1/2 z-20 max-w-sm sm:max-w-md text-center space-y-1.5 -m-4 p-4 rounded-2xl ">
+    <h1 className="text-4xl sm:text-4xl font-bold leading-tight text-[#c25324]">
       Contact Pika Wiya Health Service
     </h1>
   </div>
