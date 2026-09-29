@@ -752,8 +752,8 @@ const handleMembershipChange = (
                   </div>
                 )}
                 {activeForm.id === 'form-1' &&
-                  <form onSubmit={handleMembershipSubmit} className="space-y-8">
-                    <div className="grid md:grid-cols-12 gap-6">
+                  <form onSubmit={handleMembershipSubmit} className="w-full space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">ICN Number</label>
                         <input
@@ -804,7 +804,7 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-12 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       <div className="md:col-span-9">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Address</label>
                         <input
@@ -831,7 +831,7 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-12 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       <div className="md:col-span-4">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Telephone Number</label>
                         <input
@@ -861,7 +861,7 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-12 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       <div className="md:col-span-4">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Birth</label>
                         <input
@@ -895,7 +895,7 @@ const handleMembershipChange = (
                         <p className="text-xs text-ink/60">Details of the witness attesting to this application.</p>
                       </div>
 
-                      <div className="grid md:grid-cols-12 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                         <div className="md:col-span-8">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Name</label>
                           <input
@@ -922,7 +922,7 @@ const handleMembershipChange = (
                         </div>
                       </div>
 
-                      <div className="grid md:grid-cols-12 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                         <div className="md:col-span-8">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Witness Address</label>
                           <input
@@ -976,8 +976,8 @@ const handleMembershipChange = (
                 }
                 {/* CHANGE OF ADDRESS FORM */}
                 {activeForm.id === "form-2" && (
-                  <form onSubmit={handleAddressSubmit} className="space-y-6">
-                    <div className="grid md:grid-cols-12 gap-6">
+                  <form onSubmit={handleAddressSubmit} className="w-full space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">ICN Number</label>
                         <input
@@ -1028,7 +1028,7 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-12 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       <div className="md:col-span-9">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Previous Address</label>
                         <input
@@ -1055,7 +1055,7 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-12 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       <div className="md:col-span-9">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">New Address</label>
                         <input
@@ -1082,7 +1082,7 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-12 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       <div className="md:col-span-4">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Telephone Number</label>
                         <input
@@ -1112,7 +1112,7 @@ const handleMembershipChange = (
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-12 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       <div className="md:col-span-3">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Birth</label>
                         <input
@@ -1178,8 +1178,8 @@ const handleMembershipChange = (
 
                 {/* FEEDBACK FORM */}
                 {activeForm.id === "form-3" && (
-                  <form onSubmit={handleFeedbackSubmit} className="space-y-8">
-                    <div className="grid md:grid-cols-12 gap-6">
+                  <form onSubmit={handleFeedbackSubmit} className="w-full space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                       <div className="md:col-span-5">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Full Name <span className="font-normal text-ink/50">(Optional)</span></label>
                         <input
@@ -1280,9 +1280,9 @@ const handleMembershipChange = (
 
                 {/* COMPLAINT FORM */}
                 {activeForm.id === "form-4" && (
-                  <form onSubmit={handleComplaintSubmit} className="space-y-8">
+                  <form onSubmit={handleComplaintSubmit} className="w-full space-y-8">
                     <div className="border-t border-border pt-6 space-y-6">
-                      <div className="grid md:grid-cols-12 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                         <div className="md:col-span-6">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Name of Person Lodging Complaint</label>
                           <input required type="text" value={complaintData.complainant_name} onFocus={() => speakText("Name of person lodging complaint")} onChange={(e) => handleComplaintChange("complainant_name", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre" />
@@ -1311,7 +1311,7 @@ const handleMembershipChange = (
 
                     <div className="border-t border-border pt-6 space-y-6">
                       <h3 className="text-lg font-bold text-ink">Complaint Details</h3>
-                      <div className="grid md:grid-cols-12 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                         <div className="md:col-span-3">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Date of Incident <span className="font-normal text-ink/50">(if relevant)</span></label>
                           <input type="date" disabled={!isComplaintFieldUnlocked("email")} value={complaintData.incident_date} onChange={(e) => handleComplaintChange("incident_date", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
@@ -1337,7 +1337,7 @@ const handleMembershipChange = (
 
                     <div className="border-t border-border pt-6 space-y-6">
                       <h3 className="text-lg font-bold text-ink">Witness Details <span className="font-normal text-ink/50 text-xs">(leave blank if not relevant)</span></h3>
-                      <div className="grid md:grid-cols-12 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                         <input aria-label="Witness name" placeholder="Name" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_name} onChange={(e) => handleComplaintChange("witness_name", e.target.value)} className="md:col-span-5 w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         <input aria-label="Witness address" placeholder="Address" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_address} onChange={(e) => handleComplaintChange("witness_address", e.target.value)} className="md:col-span-4 w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         <input aria-label="Witness daytime contact number" placeholder="Daytime contact number" type="tel" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_contact} onChange={(e) => handleComplaintChange("witness_contact", e.target.value)} className="md:col-span-3 w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
@@ -1346,7 +1346,7 @@ const handleMembershipChange = (
 
                     <div className="border-t border-border pt-6 space-y-6">
                       <h3 className="text-lg font-bold text-ink">Complaint Outcome</h3>
-                      <div className="grid md:grid-cols-12 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                         <div className="md:col-span-4">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Is there an outcome you would like?</label>
                           <select required disabled={!isComplaintFieldUnlocked("desired_outcome")} value={complaintData.desired_outcome} onChange={(e) => handleComplaintChange("desired_outcome", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm bg-surface focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed">
