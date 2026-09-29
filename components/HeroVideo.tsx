@@ -19,6 +19,11 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [showHeading, setShowHeading] = useState(true);
   const [showEndImage, setShowEndImage] = useState(false);
+  // Once the closing sequence starts, the scroll-driven video is unmounted for good — it stays
+  // fully covered by the opaque closing video the whole time, so removing it here is invisible.
+  // This is what's checked when the closing video later fades out: without it, that fade briefly
+  // reveals the scroll video's stale last frame instead of a clean black background.
+  const [hasEnded, setHasEnded] = useState(false);
 
   const targetProgressRef = useRef(0);
   const animationFrameIdRef = useRef<number | null>(null);
@@ -53,6 +58,7 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
     if (hasTriggeredEndRef.current) return;
     hasTriggeredEndRef.current = true;
     setShowEndImage(true);
+    setHasEnded(true);
   };
 
   // The closing video runs to completion (no timer) — only once it ends do we fade out
@@ -197,71 +203,79 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
 
   return (
     <div ref={containerRef} className="relative h-[350vh] bg-black">
-      {/* Action Controls — kept outside the sticky viewport: `position: sticky` creates its own stacking
-          context, which trapped these under the fixed Navbar (z-50) no matter their z-index. Here they're a
-          fixed layer above the nav, offset below the header and the device safe area. */}
-      <div className="fixed right-4 top-[calc(env(safe-area-inset-top)+1rem)] z-[60] flex flex-wrap items-center justify-end gap-3 sm:right-8 sm:top-[calc(env(safe-area-inset-top)+1.25rem)] sm:gap-4">
-        <button
-          onClick={handleExitVideo}
-          className="flex items-center gap-2 px-5 py-2.5 bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white text-sm font-semibold rounded-full transition shadow-lg cursor-pointer"
-        >
-          <SkipForward className="w-4 h-4 text-ochre" />
-          Skip Intro
-        </button>
+      {/* Everything below unmounts for good once the closing sequence starts. At that point it's
+          fully covered by the opaque closing video, so removing it is invisible — and it must
+          happen now rather than after the closing video finishes, otherwise that video's fade-out
+          briefly reveals this section still sitting on its last scrolled frame. */}
+      {!hasEnded && (
+        <>
+          {/* Action Controls — kept outside the sticky viewport: `position: sticky` creates its own stacking
+              context, which trapped these under the fixed Navbar (z-50) no matter their z-index. Here they're a
+              fixed layer above the nav, offset below the header and the device safe area. */}
+          <div className="fixed right-4 top-[calc(env(safe-area-inset-top)+1rem)] z-[60] flex flex-wrap items-center justify-end gap-3 sm:right-8 sm:top-[calc(env(safe-area-inset-top)+1.25rem)] sm:gap-4">
+            <button
+              onClick={handleExitVideo}
+              className="flex items-center gap-2 px-5 py-2.5 bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white text-sm font-semibold rounded-full transition shadow-lg cursor-pointer"
+            >
+              <SkipForward className="w-4 h-4 text-ochre" />
+              Skip Intro
+            </button>
 
-        {isVideoEnded && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            onClick={handleExitVideo}
-            className="flex items-center gap-2 px-6 py-2.5 bg-ochre hover:bg-ochre-dark text-white text-sm font-bold rounded-full transition shadow-xl cursor-pointer"
-          >
-            Enter Website
-            <ArrowRight className="w-4 h-4" />
-          </motion.button>
-        )}
-      </div>
-
-      {/* Sticky Fullscreen Viewport — h-dvh (not h-screen/100vh) so the video fills the
-          real visible viewport on mobile even as the browser chrome shows/hides */}
-      <div className="sticky top-0 h-dvh w-full overflow-hidden">
-        <video
-          ref={videoRef}
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        >
-          <source src="/assets/sample_keyframed.mp4" type="video/mp4" />
-        </video>
-
-        <div className="absolute inset-0 bg-black/30 z-10" />
-
-        {/* Hero Title Overlay — pinned to the top; hides after 2 forward scroll gestures,
-            only reappears once scrolled back to the very start of the video */}
-        <motion.div
-          className="absolute inset-x-0 top-0 z-20 pt-28 sm:pt-32 text-center max-w-3xl mx-auto px-4 pointer-events-none"
-          animate={{ opacity: showHeading ? 1 : 0, y: showHeading ? 0 : -24 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <PageTitle onDark className="text-5xl md:text-7xl font-bold tracking-tight mb-4">
-            Pika Wiya Health Service
-          </PageTitle>
-          <p className="text-lg md:text-xl text-sand/90">
-            Scroll down to walk through the experience.
-          </p>
-        </motion.div>
-
-        {/* Scroll Prompt */}
-        {!isVideoEnded && (
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 animate-bounce pointer-events-none">
-            <span className="text-xs uppercase tracking-widest text-sand/80 font-medium">
-              Scroll to play video
-            </span>
-            <ChevronDown className="w-5 h-5 text-sand" />
+            {isVideoEnded && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                onClick={handleExitVideo}
+                className="flex items-center gap-2 px-6 py-2.5 bg-ochre hover:bg-ochre-dark text-white text-sm font-bold rounded-full transition shadow-xl cursor-pointer"
+              >
+                Enter Website
+                <ArrowRight className="w-4 h-4" />
+              </motion.button>
+            )}
           </div>
-        )}
-      </div>
+
+          {/* Sticky Fullscreen Viewport — h-dvh (not h-screen/100vh) so the video fills the
+              real visible viewport on mobile even as the browser chrome shows/hides */}
+          <div className="sticky top-0 h-dvh w-full overflow-hidden">
+            <video
+              ref={videoRef}
+              muted
+              playsInline
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-cover z-0"
+            >
+              <source src="/assets/sample_keyframed.mp4" type="video/mp4" />
+            </video>
+
+            <div className="absolute inset-0 bg-black/30 z-10" />
+
+            {/* Hero Title Overlay — pinned to the top; hides after 2 forward scroll gestures,
+                only reappears once scrolled back to the very start of the video */}
+            <motion.div
+              className="absolute inset-x-0 top-0 z-20 pt-28 sm:pt-32 text-center max-w-3xl mx-auto px-4 pointer-events-none"
+              animate={{ opacity: showHeading ? 1 : 0, y: showHeading ? 0 : -24 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <PageTitle onDark className="text-5xl md:text-7xl font-bold tracking-tight mb-4">
+                Pika Wiya Health Service
+              </PageTitle>
+              <p className="text-lg md:text-xl text-sand/90">
+                Scroll down to walk through the experience.
+              </p>
+            </motion.div>
+
+            {/* Scroll Prompt */}
+            {!isVideoEnded && (
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 animate-bounce pointer-events-none">
+                <span className="text-xs uppercase tracking-widest text-sand/80 font-medium">
+                  Scroll to play video
+                </span>
+                <ChevronDown className="w-5 h-5 text-sand" />
+              </div>
+            )}
+          </div>
+        </>
+      )}
 
       {/* Full-page closing video, played once the scroll video finishes; runs to completion
           (scroll locked the whole time) before handing off to the rest of the site */}

@@ -40,7 +40,7 @@ export default function WarningPopupModal() {
               src="/assets/pika_wiya_logo.png"
               alt="Pika Wiya Health Service"
               fill
-              sizes="48px"
+              sizes="480px"
               className="object-cover object-left"
               priority
             />

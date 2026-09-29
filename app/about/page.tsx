@@ -269,10 +269,10 @@ export default function AboutPage() {
               <h2  className="text-3xl font-bold">
                 Our Cultural Heritage
               </h2>
-              <p className="text-ink/80 leading-relaxed">
+              <p className="text-ink/80 leading-relaxed text-justify">
                 Our name and emblem reflect deep roots within the community. We work closely with Traditional Owners, Elders, and local families to ensure health services honor connection to land, culture, and traditional healing principles.
               </p>
-              <p className="text-ink/80 leading-relaxed">
+              <p className="text-ink/80 leading-relaxed text-justify">
                 From our main facility in Port Augusta to outreach health programs, every aspect of our care is designed to offer a safe, respectful environment for Aboriginal people.
               </p>
               <div className="pt-2">
@@ -295,7 +295,7 @@ export default function AboutPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-ochre">
                 A Service Built for Aboriginal &amp; Torres Strait Islander People
               </h2>
-              <p className="text-ink/80 text-lg leading-relaxed">
+              <p className="text-ink/80 text-lg leading-relaxed text-justify">
                 Pika Wiya Health Service Aboriginal Corporation is an Aboriginal Community Controlled Health Service which offers comprehensive primary health, social and emotional wellbeing support to Aboriginal people in Port Augusta, with clinics located in Port Augusta, Davenport Community, Copley and Nepabunna. Pika Wiya Health Service Aboriginal Corporation employs staff made up of mixed disciplines that includes General Practitioners, Nursing, Allied Health, Aboriginal Health Practitioners, Reception, Finance and Administration staff.
               </p>
             </div>
@@ -316,13 +316,13 @@ export default function AboutPage() {
                 History of Pika Wiya Health Service
               </h2>
               <div className="space-y-4 text-ink/75 leading-relaxed text-base">
-                <p>
+                <p className="text-justify">
                   In the early 1970s, a group of Aboriginal women meeting in Port Augusta heard word of a sick man in the sandhills outside town. One of the women was a nurse, and together the group travelled to where the man lay, too weak to move, and did what they could. In the days and weeks that followed the women learned of others suffering from injuries and illnesses, and decided that Port Augusta needed a Health Service specifically for the Aboriginal community.
                 </p>
-                <p>
+                <p className="text-justify">
                   State and Federal government were not interested, but the women were undeterred. They wrote to the World Council of Churches in Geneva, Switzerland to explain their plight and ask for help. The Council were moved by the request and granted enough funding to establish the Aboriginal Medical Service, Port Augusta.
                 </p>
-                <p>
+                <p className="text-justify">
                   The Aboriginal Medical Service in Redfern, New South Wales offered assistance in spite of that service’s own struggles. A doctor was loaned to Port Augusta and was able to travel from Redfern intermittently. Resources were scarce; when visiting, the doctor slept on the floor of the clinic, and bandages were washed and reused. Years passed, but the persistence shown by those first women remained. The service grew, and was incorporated in December 1984 as Pika Wiya Health Service Inc.
                 </p>
               </div>

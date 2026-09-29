@@ -117,17 +117,17 @@ export default function Footer() {
               </h3>
               <div className="flex items-center gap-2 shrink-0">
                 <Image
-                  src="/assets/flag1.webp"
+                  src="/assets/flag1.png"
                   alt="Flag"
-                  width={28}
-                  height={18}
+                  width={50}
+                  height={38}
                   className="h-auto w-7 object-contain"
                 />
                 <Image
-                  src="/assets/flag2.webp"
+                  src="/assets/flag2.png"
                   alt="Flag"
-                  width={28}
-                  height={18}
+                  width={50}
+                  height={38}
                   className="h-auto w-7 object-contain"
                 />
               </div>
