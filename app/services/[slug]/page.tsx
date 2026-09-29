@@ -59,7 +59,7 @@ export default async function ServiceDetailPage({
     ? `/assets/services/practitioners/${service.practitioner_name.toLowerCase().replace(/\s+/g, "-")}.png`
     : null;
   const showPractitionerCard = Boolean(service.practitioner_name);
-  const showPattern = isGeneralAppointments(service);
+  const showPattern = isGeneralAppointments(service) || true;
 
   return (
     <div className="relative min-h-screen bg-page text-ink flex flex-col overflow-hidden">

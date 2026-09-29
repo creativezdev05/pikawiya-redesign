@@ -7,6 +7,8 @@ import HomeStoryHero, { CORNER_DOTS } from "./HomeStoryHero";
 import PageTitle from "./PageTitle";
 import HomeStoryHeroSlider from "./HomeStoryHeroSlider";
 import ServiceHeroIcons from "./ServiceHeroIcons";
+import {motion} from "framer-motion";
+
 
 type PageHeroProps = {
   eyebrow: string;
@@ -175,16 +177,39 @@ export default function PageHero({
       {/* Left Column */}
       {pageName === "service" &&
         <div className="relative z-10 w-full max-w-2xl self-start px-4 text-left sm:px-6 lg:px-10 lg:ml-10 xl:px-12 xl:ml-20">
-          <span className="mb-3 block font-bold uppercase tracking-[0.18em] text-ochre">
-            {eyebrow}
-          </span>
+          <motion.div
+            whileHover={{
+              scale: 1.2,
+
+            }}
+            transition={{ type: "spring", stiffness: 400, damping: 70 }}
+          >
+            <span className="mb-3 block font-bold uppercase tracking-[0.18em] text-white">
+              {eyebrow}
+            </span>
+          </motion.div>
+          <motion.div
+            whileHover={{
+              scale: 1.2,
+
+            }}
+            transition={{ type: "spring", stiffness: 400, damping: 70 }}
+          ></motion.div>
+          <motion.div
+           whileHover={{
+              scale: 1.2,
+
+            }}
+            transition={{ type: "spring", stiffness: 400, damping: 70 }}
+          >
           <h1
-            className="mb-4 text-[clamp(2.5rem,5.5vw,4.5rem)] font-extrabold leading-[1.05] tracking-[-0.03em]"
+            className="mb-4 text-[clamp(2.5rem,5.5vw,4.5rem)] font-extrabold leading-[1.05] tracking-[-0.03em] text-white"
           >
             {title}
           </h1>
+          </motion.div>
           {description ? (
-            <p className="max-w-[560px] text-ink leading-relaxed md:text-lg text-ink/80">
+            <p className="max-w-[560px] text-ink leading-relaxed md:text-lg text-white/80">
               {description}
             </p>
           ) : null}
