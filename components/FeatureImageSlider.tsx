@@ -3,11 +3,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Leaf } from "lucide-react";
 
 export interface FeatureSlide {
   src: string;
   alt: string;
+  title?: string;
+  tag?: string;
+  nutrients?: string[];
 }
 
 interface FeatureImageSliderProps {
@@ -40,9 +43,18 @@ const slideVariants = {
   }),
 };
 
+const textUp = {
+  hidden: { opacity: 0, y: 22 },
+  visible: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" as const, delay },
+  }),
+};
+
 export default function FeatureImageSlider({
   slides,
-  autoPlayInterval = 4500,
+  autoPlayInterval = 5000,
   className = "",
   heightClassName = "h-72 sm:h-96 lg:h-full",
 }: FeatureImageSliderProps) {
@@ -61,13 +73,10 @@ export default function FeatureImageSlider({
     [slides.length]
   );
 
-  const goTo = useCallback(
-    (target: number) => {
-      setIndexDirection(([prev]) => [target, target > prev ? 1 : -1]);
-      progressKey.current += 1;
-    },
-    []
-  );
+  const goTo = useCallback((target: number) => {
+    setIndexDirection(([prev]) => [target, target > prev ? 1 : -1]);
+    progressKey.current += 1;
+  }, []);
 
   useEffect(() => {
     if (slides.length <= 1 || isPaused) return;
@@ -78,6 +87,7 @@ export default function FeatureImageSlider({
   if (slides.length === 0) return null;
 
   const current = slides[index];
+  const hasText = Boolean(current.title || current.nutrients?.length);
 
   return (
     <div
@@ -113,7 +123,64 @@ export default function FeatureImageSlider({
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-navy/10 to-transparent pointer-events-none" />
+      {/* Base scrim so photo + text stay readable regardless of image */}
+      <div className="absolute inset-0 bg-gradient-to-t from-navy/95 via-navy/35 to-navy/0 pointer-events-none" />
+
+      {hasText && (
+        <div className="absolute inset-x-0 bottom-0 z-10 p-6 sm:p-8 pb-16 sm:pb-20">
+          <AnimatePresence mode="wait">
+            <motion.div key={current.src} className="space-y-3">
+              {current.tag && (
+                <motion.span
+                  custom={0}
+                  variants={textUp}
+                  initial="hidden"
+                  animate="visible"
+                  exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-ochre/90 text-white text-[11px] sm:text-xs font-semibold uppercase tracking-wider shadow-sm"
+                >
+                  <Leaf className="w-3 h-3" />
+                  {current.tag}
+                </motion.span>
+              )}
+
+              {current.title && (
+                <motion.h3
+                  custom={0.08}
+                  variants={textUp}
+                  initial="hidden"
+                  animate="visible"
+                  exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
+                  className="text-white text-2xl sm:text-3xl font-bold drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]"
+                >
+                  {current.title}
+                </motion.h3>
+              )}
+
+              {current.nutrients && current.nutrients.length > 0 && (
+                <motion.ul
+                  custom={0.16}
+                  variants={textUp}
+                  initial="hidden"
+                  animate="visible"
+                  exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                  className="flex flex-wrap gap-x-4 gap-y-1.5"
+                >
+                  {current.nutrients.map((nutrient) => (
+                    <li
+                      key={nutrient}
+                      className="flex items-center gap-1.5 text-white/90 text-xs sm:text-sm font-medium drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-ochre shrink-0" />
+                      {nutrient}
+                    </li>
+                  ))}
+                </motion.ul>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      )}
 
       {slides.length > 1 && (
         <>

@@ -9,12 +9,58 @@ import NextImage from "next/image";
 import FeatureImageSlider from "@/components/FeatureImageSlider";
 
 const VACCINE_SLIDES = [
-  { src: "/assets/fruits/fruit image 1.jpg", alt: "Immunisation care at Pika Wiya" },
-  { src: "/assets/fruits/fruit image 2.png", alt: "Vaccination outreach in community" },
-  { src: "/assets/fruits/fruit image 3.jpg", alt: "Healthcare professionals providing care" },
-  { src: "/assets/fruits/fruit image 4.jpg", alt: "Immunisation care at Pika Wiya" },
-  { src: "/assets/fruits/fruit image 5.jpg", alt: "Vaccination outreach in community" },
-  { src: "/assets/fruits/fruit image 6.jpg", alt: "Healthcare professionals providing care" },
+  {
+    src: "/assets/fruits/photos/bush-banana.jpg",
+    alt: "Bush Banana, a native Australian bush food",
+    tag: "Native Bush Food",
+    title: "Bush Banana",
+    nutrients: ["Vitamin E", "Thiamine (B1)", "Dietary fibre"],
+  },
+  {
+    src: "/assets/fruits/photos/native-lemongrass.jpg",
+    alt: "Native Lemongrass, a native Australian bush food",
+    tag: "Native Bush Food",
+    title: "Native Lemongrass",
+    nutrients: ["Vitamin A", "Vitamin C", "Antioxidants"],
+  },
+  {
+    src: "/assets/fruits/photos/acacia-wattleseed.jpg",
+    alt: "Acacia Flowers and Wattle Seeds, a native Australian bush food",
+    tag: "Native Bush Food",
+    title: "Acacia Flowers & Wattle Seeds",
+    nutrients: [
+      "Vitamin C",
+      "B vitamins (B1, B2, B3)",
+      "Folate (B9)",
+      "Vitamin E",
+      "Iron",
+      "Calcium",
+      "Zinc",
+      "Dietary fibre",
+      "Antioxidants",
+    ],
+  },
+  {
+    src: "/assets/fruits/photos/quandong.jpg",
+    alt: "Quandong, a native Australian bush food",
+    tag: "Native Bush Food",
+    title: "Quandong",
+    nutrients: ["Vitamin C", "Vitamin E", "Iron", "Antioxidants"],
+  },
+  {
+    src: "/assets/fruits/photos/native-wild-lime.jpg",
+    alt: "Native Wild Lime, a native Australian bush food",
+    tag: "Native Bush Food",
+    title: "Native Wild Lime",
+    nutrients: ["Vitamin C", "Calcium", "Potassium", "Antioxidants"],
+  },
+  {
+    src: "/assets/fruits/photos/lemon-myrtle.jpg",
+    alt: "Lemon Myrtle, a native Australian bush food",
+    tag: "Native Bush Food",
+    title: "Lemon Myrtle",
+    nutrients: ["Vitamin C", "Antioxidants", "Aromatic oils"],
+  },
 ];
 
 export const CORNER_DOTS = [{ x: "100%", y: "0%", rings: 7, startR: 26, gap: 22, speed: 60 }];
