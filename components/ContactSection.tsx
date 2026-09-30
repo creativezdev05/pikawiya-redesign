@@ -8,7 +8,7 @@ import {motion} from "framer-motion"
 
 export default function ContactSection() {
   return (
-    <section className="relative overflow-hidden landing-ink py-20 md:py-32 px-6 md:px-10 text-sand dark:text-ink">
+    <section className="relative overflow-hidden landing-ink py-20 md:py-32 px-6 md:px-10 text-sand">
       {/* Background Cultural Artwork */}
       {/* <CulturalPattern variant="contact" showFeet /> */}
       <div

@@ -184,81 +184,6 @@ textarea:disabled {
   --title-blend-end: #de8a5b;
 }
 
-/* ── Dark Mode Overrides ── */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --background: #14110f;
-    --foreground: #f7f4ef;
-    --page: #14110f;
-    --surface: #1f1b19;
-    --ink: #f7f4ef;
-    --muted: rgba(247, 244, 239, 0.9);
-    --border: rgba(247, 244, 239, 0.25);
-    --navy: #000208;
-    --paper: #1f1b19;
-    --input: #2b2625;
-    --input-disabled: #3f3835;
-    --input-disabled-border: rgba(247, 244, 239, 0.6);
-
-    --title-blend-from: #ffffff;
-    --title-blend-mid: #f5e6d3;
-    --title-blend-to: #c25324;
-    --title-blend-end: #de8a5b;
-
-    --title-blend-aboutus-from: #ddc2a8;
-    --title-blend-aboutus-mid: #c4a883;
-    --title-blend-aboutus-to: #300f01;
-    --title-blend-aboutus-end: #140902;
-  }
-
-  .landing-ink {
-    background-color: var(--page);
-  }
-
-  .landing-paper {
-    background-color: var(--navy);
-  }
-
-  .landing-ink-veil,
-  .landing-ink-veil--soft {
-    background-color: var(--page);
-  }
-
-  .landing-paper .title-blend,
-  .landing-ink .title-blend--on-dark {
-    --title-blend-from: #ffffff;
-    --title-blend-mid: #f5e6d3;
-    --title-blend-to: #c25324;
-    --title-blend-end: #de8a5b;
-  }
-
-    .landing-paper .title-blend-about-us,
-  .landing-ink .title-blend-aboutus--on-dark {
-    --title-blend-from: #ffffff;
-    --title-blend-mid: #f5e6d3;
-    --title-blend-to: #c25324;
-    --title-blend-end: #de8a5b;
-  }
-
-  .landing-paper .cultural-pattern--light .cultural-pattern__logo {
-    mix-blend-mode: normal;
-    opacity: 0.5;
-  }
-
-  .landing-ink .accent-text {
-    color: #E85D26 !important;
-  }
-
-  .landing-paper .accent-text {
-    color: #ffffff !important;
-  }
-
-  .contrast-card {
-    background-color: #2b2625;
-    border-color: rgba(232, 93, 38, 0.6);
-  }
-}
 
 /* ── Generic Animations ── */
 @keyframes ticker {
@@ -716,15 +641,8 @@ textarea:disabled {
   --pattern-ease: ease-in-out;
 }
 
-@media (prefers-color-scheme: light) {
-  .pattern-field__piece { --pattern-opacity: 0.95; }
-  .pattern-field__piece--cross { --pattern-opacity: 0.8; }
-}
-
-@media (prefers-color-scheme: dark) {
-  .pattern-field__piece { --pattern-opacity: 0.9; }
-  .pattern-field__piece--cross { --pattern-opacity: 0.75; }
-}
+.pattern-field__piece { --pattern-opacity: 0.95; }
+.pattern-field__piece--cross { --pattern-opacity: 0.8; }
 
 /* ── Pattern Field Keyframes ── */
 @keyframes pattern-enter {

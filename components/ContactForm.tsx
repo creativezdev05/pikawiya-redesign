@@ -127,7 +127,7 @@ export default function ContactForm() {
           }}
           className={`px-3 py-1.5 rounded text-xs font-medium border transition ${
             isMuted
-              ? "bg-red-50 text-red-600 border-red-200 hover:bg-red-100 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800"
+              ? "bg-red-50 text-red-600 border-red-200 hover:bg-red-100"
               : "bg-surface text-ink/70 border-border hover:bg-input-disabled"
           }`}
         >
@@ -140,8 +140,8 @@ export default function ContactForm() {
           <div
             className={`p-4 rounded-md text-sm ${
               status.type === "success"
-                ? "bg-green-50 text-green-800 border border-green-200 dark:bg-green-950/40 dark:text-green-300 dark:border-green-800"
-                : "bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800"
+                ? "bg-green-50 text-green-800 border border-green-200"
+                : "bg-red-50 text-red-800 border border-red-200"
             }`}
           >
             {status.message}

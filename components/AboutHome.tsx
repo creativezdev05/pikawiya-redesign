@@ -41,7 +41,7 @@ export default function AboutSection() {
   return (
     <>
       {/* 1. WHO WE ARE — Deep Navy with Layered Card Highlights */}
-      <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
+      <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand">
         {/* Page background: fixed to the viewport so it sits behind the whole page while scrolling */}
        <div
         className="pointer-events-none absolute inset-0 z-0 bg-[#1b2433]"
@@ -303,7 +303,8 @@ export default function AboutSection() {
                   key={index}
                   className="group relative bg-white border border-ochre/15 rounded-2xl p-6 space-y-3 transition-all duration-300 hover:border-ochre hover:shadow-xl hover:-translate-y-1"
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify
+                  -between">
                     <span className="text-ochre font-extrabold text-2xl tracking-tight">
                       {String(index + 1).padStart(2, "0")}
                     </span>
@@ -311,7 +312,7 @@ export default function AboutSection() {
                       <Target className="w-3.5 h-3.5" />
                     </div>
                   </div>
-                  <p className="text-ink/80 text-sm leading-relaxed font-normal group-hover:text-ink transition-colors">
+                  <p className="text-ink/80 text-sm leading-relaxed font-normal group-hover:text-ink ">
                     {point}
                   </p>
                 </div>
@@ -323,7 +324,7 @@ export default function AboutSection() {
       </section>
 
       {/* 3. VALUES — Modern Dark Flashlight Grid */}
-      <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand dark:text-ink">
+      <section className="relative overflow-hidden landing-ink py-20 md:py-32 text-sand">
         <div
         className="pointer-events-none absolute inset-0 z-0 bg-[#1b2433]"
         aria-hidden="true"

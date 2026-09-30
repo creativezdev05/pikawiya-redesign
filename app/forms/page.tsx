@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import PageTitle from "@/components/PageTitle";
 import { AlertTriangle, CheckCircle2, MessageSquare, UserPlus, MapPin, Volume2, VolumeX, Search, FileText, ChevronRight, Briefcase } from "lucide-react";
 import Turnstile from "react-turnstile";
+import type { BoundTurnstileObject } from "react-turnstile";
 import Image from "next/image";
 import FramerMouseGradient from "@/components/FramerMouseGradient";
 import CulturalPattern from "@/components/CulturalPattern";
@@ -119,6 +120,10 @@ export default function FormsPage() {
 
   // Turnstile state
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  // Holds the currently mounted widget's imperative handle so we can force a
+  // fresh challenge (widget stays mounted across submissions, so it never
+  // re-verifies on its own once solved).
+  const turnstileRef = useRef<BoundTurnstileObject | null>(null);
 
   // Membership Form State
   const [membershipData, setMembershipData] = useState({
@@ -454,7 +459,7 @@ const handleMembershipChange = (
 
       playSubmissionSound();
       speakText("Your membership application has been successfully submitted.");
-      setSubmitted(false);
+      setSubmitted(true);
     } catch (err) {
       const error = err as Error;
       const msg = error.message || "Failed to submit membership application.";
@@ -734,6 +739,7 @@ const handleMembershipChange = (
                       onClick={() => {
                         setSubmitted(false);
                         setTurnstileToken(null);
+                        turnstileRef.current?.reset();
                       }}
                       className="mt-4 px-6 py-2.5 bg-ochre text-white text-sm font-medium rounded-md hover:bg-ochre-dark transition"
                     >
@@ -743,7 +749,7 @@ const handleMembershipChange = (
                 ) : (
                   <div className=" relative z-10">
                     {errorMsg && (
-                      <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg dark:bg-red-950/40 dark:border-red-800 dark:text-red-300">
+                      <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg">
                         {errorMsg}
                       </div>
                     )}
@@ -843,6 +849,9 @@ const handleMembershipChange = (
                           onChange={(e) => handleMembershipChange("phone", e.target.value)}
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
+                        {fieldErrors.phone && (
+                          <p className="mt-1 text-xs text-red-500">{fieldErrors.phone}</p>
+                        )}
                       </div>
                       <div className="md:col-span-8">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
@@ -919,6 +928,9 @@ const handleMembershipChange = (
                             onChange={(e) => handleMembershipChange("witness_phone", e.target.value)}
                             className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                           />
+                          {fieldErrors.witness_phone && (
+                            <p className="mt-1 text-xs text-red-500">{fieldErrors.witness_phone}</p>
+                          )}
                         </div>
                       </div>
 
@@ -962,6 +974,9 @@ const handleMembershipChange = (
                         onVerify={(token) => setTurnstileToken(token)}
                         onExpire={() => setTurnstileToken(null)}
                         onError={() => setTurnstileToken(null)}
+                        onLoad={(_widgetId, boundTurnstile) => {
+                          turnstileRef.current = boundTurnstile;
+                        }}
                       />
                     </div>
 
@@ -1094,6 +1109,9 @@ const handleMembershipChange = (
                           onChange={(e) => handleAddressChange("phone", e.target.value)}
                           className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed"
                         />
+                        {fieldErrors.phone && (
+                          <p className="mt-1 text-xs text-red-500">{fieldErrors.phone}</p>
+                        )}
                       </div>
                       <div className="md:col-span-8">
                         <label className="block text-xs font-semibold text-ink/80 mb-1">Email</label>
@@ -1163,6 +1181,9 @@ const handleMembershipChange = (
                         onVerify={(token) => setTurnstileToken(token)}
                         onExpire={() => setTurnstileToken(null)}
                         onError={() => setTurnstileToken(null)}
+                        onLoad={(_widgetId, boundTurnstile) => {
+                          turnstileRef.current = boundTurnstile;
+                        }}
                       />
                     </div>
 
@@ -1266,6 +1287,9 @@ const handleMembershipChange = (
                         onVerify={(token) => setTurnstileToken(token)}
                         onExpire={() => setTurnstileToken(null)}
                         onError={() => setTurnstileToken(null)}
+                        onLoad={(_widgetId, boundTurnstile) => {
+                          turnstileRef.current = boundTurnstile;
+                        }}
                       />
                     </div>
                     <button
@@ -1294,6 +1318,9 @@ const handleMembershipChange = (
                         <div className="md:col-span-3">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Daytime Contact No.</label>
                           <input required type="tel" disabled={!isComplaintFieldUnlocked("daytime_contact")} value={complaintData.daytime_contact} onFocus={() => speakText("Daytime contact number")} onChange={(e) => handleComplaintChange("daytime_contact", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                          {fieldErrors.daytime_contact && (
+                            <p className="mt-1 text-xs text-red-500">{fieldErrors.daytime_contact}</p>
+                          )}
                         </div>
                         <div className="md:col-span-3">
                           <label className="block text-xs font-semibold text-ink/80 mb-1">Date</label>
@@ -1340,7 +1367,12 @@ const handleMembershipChange = (
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                         <input aria-label="Witness name" placeholder="Name" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_name} onChange={(e) => handleComplaintChange("witness_name", e.target.value)} className="md:col-span-5 w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
                         <input aria-label="Witness address" placeholder="Address" type="text" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_address} onChange={(e) => handleComplaintChange("witness_address", e.target.value)} className="md:col-span-4 w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
-                        <input aria-label="Witness daytime contact number" placeholder="Daytime contact number" type="tel" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_contact} onChange={(e) => handleComplaintChange("witness_contact", e.target.value)} className="md:col-span-3 w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                        <div className="md:col-span-3">
+                          <input aria-label="Witness daytime contact number" placeholder="Daytime contact number" type="tel" disabled={!isComplaintFieldUnlocked("complaint_summary")} value={complaintData.witness_contact} onChange={(e) => handleComplaintChange("witness_contact", e.target.value)} className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:border-ochre disabled:bg-input-disabled disabled:cursor-not-allowed" />
+                          {fieldErrors.witness_contact && (
+                            <p className="mt-1 text-xs text-red-500">{fieldErrors.witness_contact}</p>
+                          )}
+                        </div>
                       </div>
                     </div>
 
@@ -1390,6 +1422,9 @@ const handleMembershipChange = (
                         onVerify={(token) => setTurnstileToken(token)}
                         onExpire={() => setTurnstileToken(null)}
                         onError={() => setTurnstileToken(null)}
+                        onLoad={(_widgetId, boundTurnstile) => {
+                          turnstileRef.current = boundTurnstile;
+                        }}
                       />
                     </div>
                     <button

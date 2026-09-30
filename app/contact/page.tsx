@@ -37,8 +37,8 @@ export default function ContactPage() {
 </div>
 </div>
   {/* Separate Top-Left Header Block */}
-  <div className="bg-[radial-gradient(ellipse_160%_160%_at_top_left,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.32)_30%,rgba(0,0,0,0.16)_55%,rgba(0,0,0,0.05)_78%,rgba(0,0,0,0)_92%)] absolute top-28 left-4 sm:left-10 z-20 max-w-sm sm:max-w-md text-left space-y-1.5 -m-4 p-4 rounded-2xl ">
-    <h1 className="text-4xl sm:text-4xl font-bold leading-tight text-white">
+  <div className="absolute top-26 min-[1600px]:top-35 left-4 z-20 text-left space-y-1.5 rounded-2xl max-w-[80%] sm:max-w-none">
+    <h1 className="text-[clamp(1.5rem,6vw,2.25rem)] font-bold leading-tight text-white">
       Contact Pika Wiya Health Service
     </h1>
   </div>
