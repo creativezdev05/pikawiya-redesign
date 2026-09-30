@@ -5,7 +5,7 @@ import PatternField from "@/components/PatternField";
 import { ShieldCheck, Mail, Phone, Lock, Eye, FileText } from "lucide-react";
 import PartnersTicker from "@/components/PartnersTicker";
 
-export default function PrivacyPolicyPage() {
+export default function TermsOfUsePage() {
   return (
     <div className="relative min-h-screen bg-page text-ink flex flex-col justify-between overflow-hidden">
       {/* <PatternField variant="rise" logoMotion="shimmer" logoPlacement="bl" /> */}
@@ -15,11 +15,11 @@ export default function PrivacyPolicyPage() {
         <main className="max-w-4xl mx-auto px-4 py-12 md:py-16 space-y-10">
           {/* Page Header */}
           <div className="space-y-4">
-            <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center gap-1.5">
+            {/* <span className="text-ochre font-semibold uppercase text-xs tracking-wider flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4" /> Confidentiality & Legal
-            </span>
+            </span> */}
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-ochre">
-              Privacy Policy
+              Terms Of Use
             </h1>
             <p className="text-ink/70 text-base md:text-lg leading-relaxed">
               Pika Wiya Health Service Aboriginal Corporation is committed to protecting your privacy and managing your health information in accordance with the Privacy Act 1988 (Cth) and Australian Privacy Principles (APPs).
