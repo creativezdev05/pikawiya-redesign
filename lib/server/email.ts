@@ -11,11 +11,17 @@ interface SendFormNotificationParams {
 const NAVY = "#00060f";
 const OCHRE = "#E85D26";
 const SAND = "#F7F4EF";
-const INK = "#1a1615";
-const MUTED = "#5c534c";
-const SURFACE = "#ffffff";
-const PAGE = "#F7F4EF";
-const BORDER = "#e8e2d5";
+const TEXT_MUTED = "rgba(247,244,239,0.55)";
+const HIGHLIGHT_BG = "rgba(247,244,239,0.05)";
+const DIVIDER = "rgba(247,244,239,0.12)";
+const CARD_BORDER = "rgba(247,244,239,0.1)";
+
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "")
+).replace(/\/$/, "");
+const LOGO_URL = `${SITE_URL}/assets/pika_wiya_logo.png`;
+const BG_IMAGE_URL = `${SITE_URL}/assets/home/main_page_2nd_bg.png`;
 
 const FORM_COPY: Record<FormType, { title: string; intro: string }> = {
   membership: {
@@ -112,23 +118,95 @@ function applicantEmail(payload: Record<string, unknown>) {
   return typeof payload.email === "string" && payload.email.trim() ? payload.email.trim() : undefined;
 }
 
-function detailRows(payload: Record<string, unknown>) {
-  return Object.entries(payload)
-    .filter(([, value]) => value != null && String(value).trim() !== "")
-    .map(([key, value], index) => {
-      const label = FIELD_LABELS[key] || key.replace(/_/g, " ");
-      const bg = index % 2 === 0 ? PAGE : SURFACE;
-      return `
-        <tr>
-          <td style="padding:10px 14px;font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:${OCHRE};background:${bg};width:34%;border-bottom:1px solid ${BORDER};">
-            ${escapeHtml(label)}
-          </td>
-          <td style="padding:10px 14px;font-size:14px;color:${INK};background:${bg};border-bottom:1px solid ${BORDER};white-space:pre-wrap;">
-            ${escapeHtml(formatValue(value))}
-          </td>
-        </tr>`;
-    })
-    .join("");
+type SectionDef = { heading: string; fields: string[] };
+
+const FORM_SECTIONS: Record<FormType, SectionDef[]> = {
+  membership: [
+    {
+      heading: "Applicant Details",
+      fields: ["icn_number", "surname", "first_name", "last_name", "address", "postcode", "phone", "email", "date_of_birth", "place_of_birth"],
+    },
+    { heading: "Witness Information", fields: ["witness_name", "witness_phone", "witness_address", "witness_date"] },
+  ],
+  address: [
+    { heading: "Applicant Details", fields: ["icn_number", "surname", "first_name", "last_name", "phone", "email", "date_of_birth", "place_of_birth"] },
+    { heading: "Previous Address", fields: ["previous_address", "previous_postcode"] },
+    { heading: "New Address", fields: ["new_address", "new_postcode", "change_date"] },
+  ],
+  feedback: [{ heading: "Respondent Details", fields: ["full_name", "access_frequency"] }],
+  complaint: [
+    { heading: "Complainant Details", fields: ["complainant_name", "complainant_address", "daytime_contact", "complainant_date", "email"] },
+    { heading: "Incident Details", fields: ["incident_date", "incident_time", "incident_location", "complaint_subject"] },
+    { heading: "Witness Details", fields: ["witness_name", "witness_address", "witness_contact"] },
+    { heading: "Complaint Outcome", fields: ["desired_outcome", "signature", "date_submitted"] },
+  ],
+  enquiry: [{ heading: "Enquiry Details", fields: ["service_type", "phone", "email"] }],
+};
+
+const FORM_HIGHLIGHTS: Record<FormType, string[]> = {
+  membership: [],
+  address: [],
+  feedback: ["what_like", "how_improve", "what_dislike", "suggestions"],
+  complaint: ["complaint_summary", "outcome_details"],
+  enquiry: ["message"],
+};
+
+function metaRow(label: string, value: string) {
+  return `
+    <tr>
+      <td style="padding:13px 0;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${TEXT_MUTED};">
+          ${escapeHtml(label)}
+        </div>
+        <div style="font-size:15px;font-weight:600;color:${SAND};margin-top:5px;line-height:1.5;white-space:pre-wrap;">
+          ${escapeHtml(value)}
+        </div>
+      </td>
+    </tr>`;
+}
+
+function fieldRow(payload: Record<string, unknown>, key: string) {
+  const value = payload[key];
+  if (value == null || String(value).trim() === "") return "";
+  const label = FIELD_LABELS[key] || key.replace(/_/g, " ");
+  return metaRow(label, formatValue(value));
+}
+
+function renderSection(heading: string, fields: string[], payload: Record<string, unknown>) {
+  const rows = fields.map((key) => fieldRow(payload, key)).filter(Boolean).join("");
+  if (!rows) return "";
+  return `
+    <tr>
+      <td style="padding:22px 0 10px;border-top:1px solid ${DIVIDER};">
+        <div style="font-size:14px;font-weight:700;color:${SAND};">${escapeHtml(heading)}</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+          ${rows}
+        </table>
+      </td>
+    </tr>`;
+}
+
+function renderHighlight(key: string, payload: Record<string, unknown>) {
+  const value = payload[key];
+  if (value == null || String(value).trim() === "") return "";
+  const label = FIELD_LABELS[key] || key.replace(/_/g, " ");
+  return `
+    <tr>
+      <td style="padding:14px 0 0;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${HIGHLIGHT_BG};border:1px solid ${DIVIDER};border-radius:10px;">
+          <tr>
+            <td style="padding:16px 18px;">
+              <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${TEXT_MUTED};">${escapeHtml(label)}</div>
+              <div style="font-size:14px;color:${SAND};margin-top:8px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(formatValue(value))}</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>`;
 }
 
 function themedHtml(formType: FormType, payload: Record<string, unknown>) {
@@ -136,47 +214,84 @@ function themedHtml(formType: FormType, payload: Record<string, unknown>) {
   const name = applicantName(payload);
   const email = applicantEmail(payload) || "Not provided";
 
+  const sections = FORM_SECTIONS[formType]
+    .map((section) => renderSection(section.heading, section.fields, payload))
+    .filter(Boolean)
+    .join("");
+  const highlights = FORM_HIGHLIGHTS[formType]
+    .map((key) => renderHighlight(key, payload))
+    .filter(Boolean)
+    .join("");
+
   return `<!DOCTYPE html>
 <html lang="en">
-<body style="margin:0;padding:0;background:${PAGE};font-family:Arial,Helvetica,sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAGE};padding:28px 12px;">
+<body style="margin:0;padding:0;background:${SAND};font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${SAND};padding:28px 12px;">
     <tr>
       <td align="center">
-        <table role="presentation" width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;background:${SURFACE};border:1px solid ${BORDER};">
+        <table role="presentation" width="720" cellpadding="0" cellspacing="0" style="max-width:720px;width:100%;border-radius:16px;border:1px solid ${CARD_BORDER};">
           <tr>
-            <td style="background:${NAVY};padding:28px 32px 24px;border-bottom:4px solid ${OCHRE};">
-              <div style="color:${OCHRE};font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;">Pika Wiya Health Service</div>
-              <div style="color:${SURFACE};font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-top:10px;">${escapeHtml(copy.title)}</div>
-              <div style="color:${SAND};font-size:13px;margin-top:8px;opacity:0.85;">Aboriginal Community Controlled Health Organisation</div>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:28px 32px 8px;color:${INK};font-size:15px;line-height:1.6;">
-              ${escapeHtml(copy.intro)}
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:8px 32px 24px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAGE};border-left:4px solid ${OCHRE};">
+            <td style="background:${NAVY};padding:26px 32px 24px;border-bottom:1px solid ${DIVIDER};">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="padding:14px 16px;">
-                    <div style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:${OCHRE};">Submitted by</div>
-                    <div style="font-size:16px;font-weight:700;color:${INK};margin-top:4px;">${escapeHtml(name)}</div>
-                    <div style="font-size:13px;color:${MUTED};margin-top:2px;">${escapeHtml(email)}</div>
+                  <td style="vertical-align:middle;">
+                    <table role="presentation" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="vertical-align:middle;padding-right:10px;">
+                          <img src="${LOGO_URL}" width="34" height="34" alt="Pika Wiya" style="display:block;border-radius:6px;" />
+                        </td>
+                        <td style="vertical-align:middle;">
+                          <div style="font-size:16px;font-weight:800;color:${SAND};letter-spacing:-0.01em;">Pika <span style="color:${OCHRE};">Wiya</span></div>
+                          <div style="font-size:10px;color:${TEXT_MUTED};letter-spacing:0.08em;text-transform:uppercase;margin-top:1px;">Health Service</div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td align="right" style="vertical-align:middle;">
+                    <span style="display:inline-block;padding:6px 12px;background:${HIGHLIGHT_BG};border:1px solid ${DIVIDER};border-radius:999px;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${SAND};">
+                      ${escapeHtml(copy.title)}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+
+              <div style="font-size:21px;font-weight:800;color:${SAND};letter-spacing:-0.01em;margin-top:24px;line-height:1.35;">
+                New ${escapeHtml(copy.title.toLowerCase())} from ${escapeHtml(name)}
+              </div>
+              <div style="font-size:13px;color:${TEXT_MUTED};margin-top:8px;line-height:1.6;">
+                ${escapeHtml(copy.intro)}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td background="${BG_IMAGE_URL}" style="background-color:${NAVY};background-image:url('${BG_IMAGE_URL}');background-repeat:no-repeat;background-size:cover;background-position:center top;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(180deg, rgba(0,6,15,0.9) 0%, rgba(0,6,15,0.97) 60%, ${NAVY} 100%);">
+                <tr>
+                  <td style="padding:22px 32px 28px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="padding:0 0 10px;">
+                          <div style="font-size:14px;font-weight:700;color:${SAND};">Contact Details</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                            ${metaRow("Name", name)}
+                            ${metaRow("Email", email)}
+                          </table>
+                        </td>
+                      </tr>
+                      ${sections}
+                      ${highlights}
+                    </table>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
-            <td style="padding:0 32px 28px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid ${BORDER};border-collapse:collapse;">
-                ${detailRows(payload)}
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td style="background:${NAVY};padding:16px 32px;color:${SAND};font-size:11px;letter-spacing:0.04em;">
+            <td style="background:${NAVY};padding:16px 32px;border-top:1px solid ${DIVIDER};color:${TEXT_MUTED};font-size:11px;letter-spacing:0.03em;">
               40–46 Dartford St, Port Augusta SA 5700 · (08) 8642 9991
             </td>
           </tr>
