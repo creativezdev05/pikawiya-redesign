@@ -4,13 +4,20 @@
 create table if not exists public.encrypted_form_submissions (
   id uuid primary key default gen_random_uuid(),
   form_type text not null check (
-    form_type in ('membership', 'address', 'feedback', 'complaint')
+    form_type in ('membership', 'address', 'feedback', 'complaint', 'enquiry')
   ),
   payload_ciphertext text not null,
   lookup_hash text,
   status text not null default 'received',
   created_at timestamptz not null default timezone('utc', now())
 );
+
+-- Widen the form_type constraint for databases migrated before 'enquiry' existed.
+alter table public.encrypted_form_submissions
+  drop constraint if exists encrypted_form_submissions_form_type_check;
+alter table public.encrypted_form_submissions
+  add constraint encrypted_form_submissions_form_type_check
+  check (form_type in ('membership', 'address', 'feedback', 'complaint', 'enquiry'));
 
 create index if not exists encrypted_form_submissions_type_created_idx
   on public.encrypted_form_submissions (form_type, created_at desc);

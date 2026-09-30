@@ -4,7 +4,7 @@ import { getAdminClient } from "@/lib/server/supabaseAdmin";
 
 export const runtime = "nodejs";
 
-const FORM_TYPES = ["membership", "address", "feedback", "complaint"] as const;
+const FORM_TYPES = ["membership", "address", "feedback", "complaint", "enquiry"] as const;
 type FormType = (typeof FORM_TYPES)[number];
 
 async function verifyTurnstile(token: string, ipAddress: string | null) {

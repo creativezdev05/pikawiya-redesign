@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react";
 import Turnstile from "react-turnstile";
-import { supabase } from "@/lib/supabaseClient";
 
 export default function ContactForm() {
   const [loading, setLoading] = useState(false);
@@ -71,18 +70,18 @@ export default function ContactForm() {
       created_at: new Date().toISOString(),
     };
 
-    const { error } = await supabase.from("enquiries").insert([payload]);
-
-    if (!error) {
-      try {
-        await fetch("/api/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ payload, turnstileToken: captchaToken }),
-        });
-      } catch {
-        // Enquiry is stored even if the notification email fails.
+    let error: unknown = null;
+    try {
+      const response = await fetch("/api/forms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formType: "enquiry", payload, turnstileToken: captchaToken }),
+      });
+      if (!response.ok) {
+        error = await response.json().catch(() => ({ error: "Unable to send enquiry notification." }));
       }
+    } catch (err) {
+      error = err;
     }
 
     setLoading(false);
