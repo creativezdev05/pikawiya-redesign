@@ -85,16 +85,6 @@ const FIELD_LABELS: Record<string, string> = {
   created_at: "Submitted At",
 };
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: process.env.SMTP_PORT === "465",
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
-
 function escapeHtml(value: unknown) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -232,13 +222,81 @@ async function getNotificationEmail() {
   return fallbackNotificationEmail();
 }
 
+interface FormEmailConfig {
+  smtpHost: string;
+  smtpPort: number;
+  smtpUser: string;
+  smtpPass: string;
+  notificationEmail: string;
+}
+
+async function getFormEmailConfig(formType: FormType): Promise<FormEmailConfig | null> {
+  try {
+    const supabase = getAdminClient();
+
+    const { data: formTypeRow, error: formTypeError } = await supabase
+      .from("form_types")
+      .select("id")
+      .eq("code", formType)
+      .maybeSingle();
+
+    if (formTypeError || !formTypeRow) {
+      console.warn(`No form_types row for code "${formType}".`, formTypeError?.message);
+      return null;
+    }
+
+    const { data, error } = await supabase
+      .from("form_emails")
+      .select("smtp_host, smtp_port, smtp_user, smtp_pass, notification_email")
+      .eq("form_type_id", formTypeRow.id)
+      .eq("is_active", true)
+      .maybeSingle();
+
+    if (error || !data) {
+      console.warn(`No active form_emails row for form type "${formType}".`, error?.message);
+      return null;
+    }
+
+    return {
+      smtpHost: data.smtp_host,
+      smtpPort: data.smtp_port,
+      smtpUser: data.smtp_user,
+      smtpPass: data.smtp_pass,
+      notificationEmail: data.notification_email,
+    };
+  } catch (error) {
+    console.warn(`Could not load form_emails config for "${formType}".`, error);
+    return null;
+  }
+}
+
 export async function sendFormNotification({ formType, payload }: SendFormNotificationParams) {
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.warn("SMTP credentials missing. Skipping email dispatch.");
+  const dbConfig = await getFormEmailConfig(formType);
+
+  const smtpHost = dbConfig?.smtpHost || process.env.SMTP_HOST;
+  const smtpPort = dbConfig?.smtpPort || Number(process.env.SMTP_PORT) || 587;
+  const smtpUser = dbConfig?.smtpUser || process.env.SMTP_USER;
+  const smtpPass = dbConfig?.smtpPass || process.env.SMTP_PASS;
+  const recipient =
+    dbConfig?.notificationEmail && isUsableEmail(dbConfig.notificationEmail)
+      ? dbConfig.notificationEmail.trim()
+      : await getNotificationEmail();
+
+  if (!smtpHost || !smtpUser || !smtpPass) {
+    console.warn(`SMTP credentials missing for form type "${formType}". Skipping email dispatch.`);
     return;
   }
 
-  const recipient = await getNotificationEmail();
+  const transporter = nodemailer.createTransport({
+    host: smtpHost,
+    port: smtpPort,
+    secure: smtpPort === 465,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  });
+
   const copy = FORM_COPY[formType];
   const name = applicantName(payload);
   const userEmail = applicantEmail(payload);
@@ -247,17 +305,17 @@ export async function sendFormNotification({ formType, payload }: SendFormNotifi
 
   const displayFrom = userEmail
     ? `"${name}" <${userEmail}>`
-    : `"Pika Wiya Web" <${process.env.SMTP_USER}>`;
+    : `"Pika Wiya Web" <${smtpUser}>`;
 
   await transporter.sendMail({
     from: displayFrom,
     to: recipient,
-    replyTo: userEmail ? `"${name}" <${userEmail}>` : process.env.SMTP_USER,
+    replyTo: userEmail ? `"${name}" <${userEmail}>` : smtpUser,
     subject,
     html,
     text: `${copy.title}\n${copy.intro}\n\n${JSON.stringify(payload, null, 2)}`,
     envelope: {
-      from: process.env.SMTP_USER as string,
+      from: smtpUser,
       to: recipient,
     },
   });
