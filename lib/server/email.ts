@@ -172,11 +172,11 @@ function chunk<T>(items: T[], size: number): T[][] {
 
 function entryCell(entry: FieldEntry, columns: number) {
   return `
-    <td width="${100 / columns}%" style="padding:14px 16px;vertical-align:top;">
+    <td width="${100 / columns}%" style="padding:9px 16px;vertical-align:top;">
       <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${BOX_LABEL};">
         ${escapeHtml(entry.label)}
       </div>
-      <div style="font-size:14px;font-weight:700;color:${BOX_VALUE};margin-top:5px;line-height:1.45;white-space:pre-wrap;">
+      <div style="font-size:14px;font-weight:700;color:${BOX_VALUE};margin-top:4px;line-height:1.4;white-space:pre-wrap;">
         ${escapeHtml(entry.value)}
       </div>
     </td>`;
@@ -193,7 +193,7 @@ function sectionBox(entries: FieldEntry[], columns = 2) {
   const rows = rowGroups
     .map((rowEntries) => {
       const cells = rowEntries.map((entry) => entryCell(entry, columns)).join("");
-      const filler = `<td width="${100 / columns}%" style="padding:14px 16px;"></td>`.repeat(
+      const filler = `<td width="${100 / columns}%" style="padding:9px 16px;"></td>`.repeat(
         columns - rowEntries.length
       );
       return `<tr>${cells}${filler}</tr>`;
@@ -212,12 +212,12 @@ function renderSection(heading: string, fields: string[], payload: Record<string
   if (!entries.length) return "";
   return `
     <tr>
-      <td style="padding:22px 0 10px;border-top:1px solid ${DIVIDER};">
+      <td style="padding:26px 0 2px;border-top:1px solid ${DIVIDER};">
         <div style="font-size:14px;font-weight:700;color:${INK};">${escapeHtml(heading)}</div>
       </td>
     </tr>
     <tr>
-      <td>
+      <td style="padding:12px 0 0;">
         ${sectionBox(entries)}
       </td>
     </tr>`;
@@ -228,7 +228,7 @@ function renderHighlight(key: string, payload: Record<string, unknown>) {
   if (!entry) return "";
   return `
     <tr>
-      <td style="padding:6px 0;">
+      <td style="padding:10px 0 0;">
         ${sectionBox([entry], 1)}
       </td>
     </tr>`;
@@ -285,12 +285,12 @@ function themedHtml(formType: FormType, payload: Record<string, unknown>) {
                   <td style="padding:22px 26px 28px;">
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td style="padding:0 6px 10px;">
+                        <td style="padding:0 0 2px;">
                           <div style="font-size:14px;font-weight:700;color:${INK};">Contact Details</div>
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        <td style="padding:12px 0 0;">
                           ${sectionBox([
                             { label: "Name", value: name },
                             { label: "Email", value: email },
