@@ -10,11 +10,14 @@ interface SendFormNotificationParams {
 
 const SAND = "#F7F4EF";
 const INK = "#0a0a0a";
-const BOX_BG = "#C25324";
+const SURFACE = "#ffffff";
+const BOX_BG = SURFACE;
 const BOX_LABEL = "rgba(10,10,10,0.6)";
+const BOX_VALUE = INK;
 const HEADER_MUTED = "rgba(255,255,255,0.78)";
 const DIVIDER = "rgba(10,10,10,0.15)";
 const CARD_BORDER = "rgba(10,10,10,0.12)";
+const BOX_BORDER = "rgba(10,10,10,0.15)";
 
 const SITE_URL = (
   process.env.SITE_URL ||
@@ -152,7 +155,7 @@ const FORM_HIGHLIGHTS: Record<FormType, string[]> = {
   enquiry: ["message"],
 };
 
-const GRID_COLUMNS = 2;
+const GRID_COLUMNS = 1;
 
 function chunk<T>(items: T[], size: number): T[][] {
   const out: T[][] = [];
@@ -162,13 +165,13 @@ function chunk<T>(items: T[], size: number): T[][] {
 
 function fieldBox(label: string, value: string) {
   return `
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BOX_BG};border-radius:10px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BOX_BG};border:1px solid ${BOX_BORDER};border-radius:10px;">
       <tr>
         <td style="padding:14px 16px;">
           <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${BOX_LABEL};">
             ${escapeHtml(label)}
           </div>
-          <div style="font-size:14px;font-weight:700;color:#ffffff;margin-top:5px;line-height:1.45;white-space:pre-wrap;">
+          <div style="font-size:14px;font-weight:700;color:${BOX_VALUE};margin-top:5px;line-height:1.45;white-space:pre-wrap;">
             ${escapeHtml(value)}
           </div>
         </td>
