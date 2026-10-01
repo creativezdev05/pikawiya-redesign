@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { SkipForward, ArrowRight, ChevronDown } from "lucide-react";
 import PageTitle from "@/components/PageTitle";
 
@@ -32,7 +32,6 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
   const isDownGestureActiveRef = useRef(false);
   const gestureEndTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasTriggeredEndRef = useRef(false);
-  const endExitTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Prevent instant unmount on SSR / initial hydration load
   useEffect(() => {
@@ -61,13 +60,12 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
     setHasEnded(true);
   };
 
-  // The closing video runs to completion (no timer) — only once it ends do we fade out
-  // and hand off, and the page stays scroll-locked for the whole playback (see effect below).
+  // The closing video runs to completion (no timer), and the page stays scroll-locked for
+  // the whole playback (see effect below). Hand off the instant it ends, in the same tick as
+  // the scroll reset — fading the overlay out first and swapping content afterwards (on a
+  // delay) left a gap where the unmounted scroll-video track's black background showed through.
   const handleEndVideoEnded = () => {
-    setShowEndImage(false);
-    endExitTimeoutRef.current = setTimeout(() => {
-      handleExitVideo();
-    }, 400);
+    handleExitVideo();
   };
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -172,9 +170,6 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
       if (gestureEndTimeoutRef.current) {
         clearTimeout(gestureEndTimeoutRef.current);
       }
-      if (endExitTimeoutRef.current) {
-        clearTimeout(endExitTimeoutRef.current);
-      }
     };
   }, []);
 
@@ -278,31 +273,32 @@ export default function HeroVideo({ onEnterWebsite }: HeroVideoProps) {
       )}
 
       {/* Full-page closing video, played once the scroll video finishes; runs to completion
-          (scroll locked the whole time) before handing off to the rest of the site */}
-      <AnimatePresence>
-        {showEndImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[90] bg-black"
-          >
-            <video
-              ref={endVideoRef}
-              muted
-              playsInline
-              onEnded={handleEndVideoEnded}
-              // object-contain on mobile so the full video stays in frame instead of being
-              // cropped left/right on narrow portrait screens — the black bg makes any
-              // letterboxing invisible. Wider (sm+) screens keep the fill-the-screen cover.
-              className="absolute inset-0 w-full h-full object-contain sm:object-cover"
-            >
-              <source src="/assets/videologo.mp4" type="video/mp4" />
-            </video>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          (scroll locked the whole time) before handing off to the rest of the site.
+          Mounted permanently (not gated behind `showEndImage`) with preload="auto" so the
+          browser has the whole scroll track's worth of time to buffer it — scrolling fast
+          enough to hit the end sequence sooner than usual used to outrun an on-demand mount,
+          leaving a black gap before the first frame painted. Visibility toggles via opacity
+          instead, which is instant either way. */}
+      <div
+        aria-hidden={!showEndImage}
+        className={`fixed inset-0 z-[90] bg-black transition-opacity duration-300 ${
+          showEndImage ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <video
+          ref={endVideoRef}
+          muted
+          playsInline
+          preload="auto"
+          onEnded={handleEndVideoEnded}
+          // object-contain on mobile so the full video stays in frame instead of being
+          // cropped left/right on narrow portrait screens — the black bg makes any
+          // letterboxing invisible. Wider (sm+) screens keep the fill-the-screen cover.
+          className="absolute inset-0 w-full h-full object-contain sm:object-cover"
+        >
+          <source src="/assets/videologo.mp4" type="video/mp4" />
+        </video>
+      </div>
     </div>
   );
 }
