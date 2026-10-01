@@ -8,15 +8,16 @@ interface SendFormNotificationParams {
   payload: Record<string, unknown>;
 }
 
-const NAVY = "#00060f";
-const OCHRE = "#E85D26";
 const SAND = "#F7F4EF";
-const TEXT_MUTED = "rgba(247,244,239,0.55)";
-const HIGHLIGHT_BG = "rgba(247,244,239,0.05)";
-const DIVIDER = "rgba(247,244,239,0.12)";
-const CARD_BORDER = "rgba(247,244,239,0.1)";
+const INK = "#0a0a0a";
+const BOX_BG = "#C25324";
+const BOX_LABEL = "rgba(10,10,10,0.6)";
+const HEADER_MUTED = "rgba(255,255,255,0.78)";
+const DIVIDER = "rgba(10,10,10,0.15)";
+const CARD_BORDER = "rgba(10,10,10,0.12)";
 
 const SITE_URL = (
+  process.env.SITE_URL ||
   process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "")
 ).replace(/\/$/, "");
@@ -151,40 +152,62 @@ const FORM_HIGHLIGHTS: Record<FormType, string[]> = {
   enquiry: ["message"],
 };
 
-function metaRow(label: string, value: string) {
+const GRID_COLUMNS = 2;
+
+function chunk<T>(items: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
+  return out;
+}
+
+function fieldBox(label: string, value: string) {
   return `
-    <tr>
-      <td style="padding:13px 0;">
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${TEXT_MUTED};">
-          ${escapeHtml(label)}
-        </div>
-        <div style="font-size:15px;font-weight:600;color:${SAND};margin-top:5px;line-height:1.5;white-space:pre-wrap;">
-          ${escapeHtml(value)}
-        </div>
-      </td>
-    </tr>`;
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BOX_BG};border-radius:10px;">
+      <tr>
+        <td style="padding:14px 16px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${BOX_LABEL};">
+            ${escapeHtml(label)}
+          </div>
+          <div style="font-size:14px;font-weight:700;color:#ffffff;margin-top:5px;line-height:1.45;white-space:pre-wrap;">
+            ${escapeHtml(value)}
+          </div>
+        </td>
+      </tr>
+    </table>`;
+}
+
+function gridRows(boxes: string[]) {
+  return chunk(boxes, GRID_COLUMNS)
+    .map((row) => {
+      const cells = row
+        .map((box) => `<td width="${100 / GRID_COLUMNS}%" style="padding:6px;vertical-align:top;">${box}</td>`)
+        .join("");
+      const filler = `<td width="${100 / GRID_COLUMNS}%" style="padding:6px;"></td>`.repeat(GRID_COLUMNS - row.length);
+      return `<tr>${cells}${filler}</tr>`;
+    })
+    .join("");
 }
 
 function fieldRow(payload: Record<string, unknown>, key: string) {
   const value = payload[key];
   if (value == null || String(value).trim() === "") return "";
   const label = FIELD_LABELS[key] || key.replace(/_/g, " ");
-  return metaRow(label, formatValue(value));
+  return fieldBox(label, formatValue(value));
 }
 
 function renderSection(heading: string, fields: string[], payload: Record<string, unknown>) {
-  const rows = fields.map((key) => fieldRow(payload, key)).filter(Boolean).join("");
-  if (!rows) return "";
+  const boxes = fields.map((key) => fieldRow(payload, key)).filter(Boolean);
+  if (!boxes.length) return "";
   return `
     <tr>
       <td style="padding:22px 0 10px;border-top:1px solid ${DIVIDER};">
-        <div style="font-size:14px;font-weight:700;color:${SAND};">${escapeHtml(heading)}</div>
+        <div style="font-size:14px;font-weight:700;color:${INK};">${escapeHtml(heading)}</div>
       </td>
     </tr>
     <tr>
       <td>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
-          ${rows}
+          ${gridRows(boxes)}
         </table>
       </td>
     </tr>`;
@@ -196,15 +219,8 @@ function renderHighlight(key: string, payload: Record<string, unknown>) {
   const label = FIELD_LABELS[key] || key.replace(/_/g, " ");
   return `
     <tr>
-      <td style="padding:14px 0 0;">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${HIGHLIGHT_BG};border:1px solid ${DIVIDER};border-radius:10px;">
-          <tr>
-            <td style="padding:16px 18px;">
-              <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${TEXT_MUTED};">${escapeHtml(label)}</div>
-              <div style="font-size:14px;color:${SAND};margin-top:8px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(formatValue(value))}</div>
-            </td>
-          </tr>
-        </table>
+      <td style="padding:6px;">
+        ${fieldBox(label, formatValue(value))}
       </td>
     </tr>`;
 }
@@ -231,54 +247,43 @@ function themedHtml(formType: FormType, payload: Record<string, unknown>) {
       <td align="center">
         <table role="presentation" width="720" cellpadding="0" cellspacing="0" style="max-width:720px;width:100%;border-radius:16px;border:1px solid ${CARD_BORDER};">
           <tr>
-            <td style="background:${NAVY};padding:26px 32px 24px;border-bottom:1px solid ${DIVIDER};">
+            <td background="${BG_IMAGE_URL}" style="background-color:${SAND};background-image:url('${BG_IMAGE_URL}');background-repeat:round;background-size:cover;border-radius:16px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="vertical-align:middle;">
-                    <table role="presentation" cellpadding="0" cellspacing="0">
+                  <td style="background:${INK};padding:26px 32px 24px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td style="vertical-align:middle;padding-right:10px;">
-                          <img src="${LOGO_URL}" width="34" height="34" alt="Pika Wiya" style="display:block;border-radius:6px;" />
+                        <td valign="middle" style="vertical-align:middle;">
+                          <img src="${LOGO_URL}" width="113" height="36" alt="Pika Wiya Health Service" style="display:block;" />
                         </td>
-                        <td style="vertical-align:middle;">
-                          <div style="font-size:16px;font-weight:800;color:${SAND};letter-spacing:-0.01em;">Pika <span style="color:${OCHRE};">Wiya</span></div>
-                          <div style="font-size:10px;color:${TEXT_MUTED};letter-spacing:0.08em;text-transform:uppercase;margin-top:1px;">Health Service</div>
+                        <td align="right" valign="middle" style="vertical-align:middle;">
+                          <span style="display:inline-block;padding:6px 12px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:999px;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#ffffff;">
+                            ${escapeHtml(copy.title)}
+                          </span>
                         </td>
                       </tr>
                     </table>
-                  </td>
-                  <td align="right" style="vertical-align:middle;">
-                    <span style="display:inline-block;padding:6px 12px;background:${HIGHLIGHT_BG};border:1px solid ${DIVIDER};border-radius:999px;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${SAND};">
-                      ${escapeHtml(copy.title)}
-                    </span>
+
+                    <div style="font-size:21px;font-weight:800;color:#ffffff;letter-spacing:-0.01em;margin-top:24px;line-height:1.35;">
+                      New ${escapeHtml(copy.title.toLowerCase())} from ${escapeHtml(name)}
+                    </div>
+                    <div style="font-size:13px;color:${HEADER_MUTED};margin-top:8px;line-height:1.6;">
+                      ${escapeHtml(copy.intro)}
+                    </div>
                   </td>
                 </tr>
-              </table>
-
-              <div style="font-size:21px;font-weight:800;color:${SAND};letter-spacing:-0.01em;margin-top:24px;line-height:1.35;">
-                New ${escapeHtml(copy.title.toLowerCase())} from ${escapeHtml(name)}
-              </div>
-              <div style="font-size:13px;color:${TEXT_MUTED};margin-top:8px;line-height:1.6;">
-                ${escapeHtml(copy.intro)}
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td background="${BG_IMAGE_URL}" style="background-color:${NAVY};background-image:url('${BG_IMAGE_URL}');background-repeat:no-repeat;background-size:cover;background-position:center top;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(180deg, rgba(0,6,15,0.9) 0%, rgba(0,6,15,0.97) 60%, ${NAVY} 100%);">
                 <tr>
-                  <td style="padding:22px 32px 28px;">
+                  <td style="padding:22px 26px 28px;">
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td style="padding:0 0 10px;">
-                          <div style="font-size:14px;font-weight:700;color:${SAND};">Contact Details</div>
+                        <td style="padding:0 6px 10px;">
+                          <div style="font-size:14px;font-weight:700;color:${INK};">Contact Details</div>
                         </td>
                       </tr>
                       <tr>
                         <td>
                           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
-                            ${metaRow("Name", name)}
-                            ${metaRow("Email", email)}
+                            ${gridRows([fieldBox("Name", name), fieldBox("Email", email)])}
                           </table>
                         </td>
                       </tr>
@@ -287,12 +292,12 @@ function themedHtml(formType: FormType, payload: Record<string, unknown>) {
                     </table>
                   </td>
                 </tr>
+                <tr>
+                  <td style="background:${INK};padding:16px 32px;color:${HEADER_MUTED};font-size:11px;letter-spacing:0.03em;">
+                    40–46 Dartford St, Port Augusta SA 5700 · (08) 8642 9991
+                  </td>
+                </tr>
               </table>
-            </td>
-          </tr>
-          <tr>
-            <td style="background:${NAVY};padding:16px 32px;border-top:1px solid ${DIVIDER};color:${TEXT_MUTED};font-size:11px;letter-spacing:0.03em;">
-              40–46 Dartford St, Port Augusta SA 5700 · (08) 8642 9991
             </td>
           </tr>
         </table>
