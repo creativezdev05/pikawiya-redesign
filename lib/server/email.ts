@@ -170,12 +170,9 @@ function chunk<T>(items: T[], size: number): T[][] {
   return out;
 }
 
-function entryCell(entry: FieldEntry, columns: number, borderTop: boolean, borderStart: boolean) {
-  const borders = `${borderTop ? `border-top:1px solid ${BOX_BORDER};` : ""}${
-    borderStart ? `border-left:1px solid ${BOX_BORDER};` : ""
-  }`;
+function entryCell(entry: FieldEntry, columns: number) {
   return `
-    <td width="${100 / columns}%" style="padding:14px 16px;${borders}vertical-align:top;">
+    <td width="${100 / columns}%" style="padding:14px 16px;vertical-align:top;">
       <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${BOX_LABEL};">
         ${escapeHtml(entry.label)}
       </div>
@@ -187,24 +184,23 @@ function entryCell(entry: FieldEntry, columns: number, borderTop: boolean, borde
 
 // Renders every entry inside a single shared box, two fields per row, so a
 // section with any number of fields still reads as one card (not one box per
-// field) while still pairing fields like Name/Email on the same row.
+// field) while still pairing fields like Name/Email on the same row. No
+// border-collapse here — collapsing table borders breaks the outer
+// border-radius clipping in Gmail, squaring off the box corners.
 function sectionBox(entries: FieldEntry[], columns = 2) {
   if (!entries.length) return "";
   const rowGroups = chunk(entries, columns);
   const rows = rowGroups
-    .map((rowEntries, rowIndex) => {
-      const cells = rowEntries
-        .map((entry, colIndex) => entryCell(entry, columns, rowIndex > 0, colIndex > 0))
-        .join("");
-      const fillerBorderTop = rowIndex > 0 ? `border-top:1px solid ${BOX_BORDER};` : "";
-      const filler = `<td width="${100 / columns}%" style="padding:14px 16px;${fillerBorderTop}"></td>`.repeat(
+    .map((rowEntries) => {
+      const cells = rowEntries.map((entry) => entryCell(entry, columns)).join("");
+      const filler = `<td width="${100 / columns}%" style="padding:14px 16px;"></td>`.repeat(
         columns - rowEntries.length
       );
       return `<tr>${cells}${filler}</tr>`;
     })
     .join("");
   return `
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BOX_BG};border:1px solid ${BOX_BORDER};border-radius:10px;border-collapse:collapse;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BOX_BG};border:1px solid ${BOX_BORDER};border-radius:10px;">
       ${rows}
     </table>`;
 }
