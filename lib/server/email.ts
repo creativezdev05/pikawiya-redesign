@@ -167,13 +167,13 @@ function fieldEntry(payload: Record<string, unknown>, key: string): FieldEntry |
 function entryRow(entry: FieldEntry) {
   return `
     <tr>
-      <td width="34%" style="padding:7px 20px;vertical-align:top;white-space:nowrap;">
+      <td width="34%" style="padding:10px 18px;vertical-align:top;white-space:nowrap;">
         <div style="font-size:11px;font-weight:700;letter-spacing:0.04em;color:${BOX_LABEL};">
           ${escapeHtml(entry.label)}
         </div>
       </td>
-      <td style="padding:7px 20px 7px 0;vertical-align:top;">
-        <div style="font-size:14px;font-weight:700;color:${BOX_VALUE};line-height:1.4;white-space:pre-wrap;">
+      <td style="padding:0px 0px 0px 0;vertical-align:top;">
+        <div style="font-size:14px;font-weight:700;color:${BOX_VALUE};line-height:1;white-space:pre-wrap;">
           ${escapeHtml(entry.value)}
         </div>
       </td>
