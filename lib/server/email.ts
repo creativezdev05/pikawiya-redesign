@@ -164,41 +164,30 @@ function fieldEntry(payload: Record<string, unknown>, key: string): FieldEntry |
   return { label, value: formatValue(value) };
 }
 
-function chunk<T>(items: T[], size: number): T[][] {
-  const out: T[][] = [];
-  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
-  return out;
-}
-
-function entryCell(entry: FieldEntry, columns: number) {
+function entryRow(entry: FieldEntry) {
   return `
-    <td width="${100 / columns}%" style="padding:6px 20px;vertical-align:top;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${BOX_LABEL};">
-        ${escapeHtml(entry.label)}
-      </div>
-      <div style="font-size:14px;font-weight:700;color:${BOX_VALUE};margin-top:2px;line-height:1.3;white-space:pre-wrap;">
-        ${escapeHtml(entry.value)}
-      </div>
-    </td>`;
+    <tr>
+      <td width="34%" style="padding:7px 20px;vertical-align:top;white-space:nowrap;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.04em;color:${BOX_LABEL};">
+          ${escapeHtml(entry.label)}
+        </div>
+      </td>
+      <td style="padding:7px 20px 7px 0;vertical-align:top;">
+        <div style="font-size:14px;font-weight:700;color:${BOX_VALUE};line-height:1.4;white-space:pre-wrap;">
+          ${escapeHtml(entry.value)}
+        </div>
+      </td>
+    </tr>`;
 }
 
-// Renders every entry inside a single shared box, two fields per row, so a
-// section with any number of fields still reads as one card (not one box per
-// field) while still pairing fields like Name/Email on the same row. No
-// border-collapse here — collapsing table borders breaks the outer
-// border-radius clipping in Gmail, squaring off the box corners.
-function sectionBox(entries: FieldEntry[], columns = 1) {
+// Renders every entry inside a single shared box, label and value side by
+// side on one row, so a section with any number of fields still reads as one
+// card (not one box per field). No border-collapse here — collapsing table
+// borders breaks the outer border-radius clipping in Gmail, squaring off the
+// box corners.
+function sectionBox(entries: FieldEntry[]) {
   if (!entries.length) return "";
-  const rowGroups = chunk(entries, columns);
-  const rows = rowGroups
-    .map((rowEntries) => {
-      const cells = rowEntries.map((entry) => entryCell(entry, columns)).join("");
-      const filler = `<td width="${100 / columns}%" style="padding:6px 20px;"></td>`.repeat(
-        columns - rowEntries.length
-      );
-      return `<tr>${cells}${filler}</tr>`;
-    })
-    .join("");
+  const rows = entries.map(entryRow).join("");
   return `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BOX_BG};border:1px solid ${BOX_BORDER};border-radius:10px;">
       ${rows}
@@ -229,7 +218,7 @@ function renderHighlight(key: string, payload: Record<string, unknown>) {
   return `
     <tr>
       <td style="padding:6px 0 0;">
-        ${sectionBox([entry], 1)}
+        ${sectionBox([entry])}
       </td>
     </tr>`;
 }
