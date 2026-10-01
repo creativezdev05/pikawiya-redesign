@@ -248,7 +248,7 @@ function themedHtml(formType: FormType, payload: Record<string, unknown>) {
             <td background="${BG_IMAGE_URL}" style="background-color:${SAND};background-image:url('${BG_IMAGE_URL}');background-repeat:round;background-size:cover;border-radius:16px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="background:${INK};padding:26px 32px 24px;">
+                  <td style="background:${INK};padding:26px 32px 24px;border-top-left-radius:16px;border-top-right-radius:16px;">
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td valign="middle" style="vertical-align:middle;">
@@ -292,7 +292,7 @@ function themedHtml(formType: FormType, payload: Record<string, unknown>) {
                   </td>
                 </tr>
                 <tr>
-                  <td style="background:${INK};padding:16px 32px;color:${HEADER_MUTED};font-size:11px;letter-spacing:0.03em;">
+                  <td style="background:${INK};padding:16px 32px;color:${HEADER_MUTED};font-size:11px;letter-spacing:0.03em;border-bottom-left-radius:16px;border-bottom-right-radius:16px;">
                     40–46 Dartford St, Port Augusta SA 5700 · (08) 8642 9991
                   </td>
                 </tr>
