@@ -155,7 +155,14 @@ const FORM_HIGHLIGHTS: Record<FormType, string[]> = {
   enquiry: ["message"],
 };
 
-const GRID_COLUMNS = 1;
+type FieldEntry = { label: string; value: string };
+
+function fieldEntry(payload: Record<string, unknown>, key: string): FieldEntry | null {
+  const value = payload[key];
+  if (value == null || String(value).trim() === "") return null;
+  const label = FIELD_LABELS[key] || key.replace(/_/g, " ");
+  return { label, value: formatValue(value) };
+}
 
 function chunk<T>(items: T[], size: number): T[][] {
   const out: T[][] = [];
@@ -163,44 +170,50 @@ function chunk<T>(items: T[], size: number): T[][] {
   return out;
 }
 
-function fieldBox(label: string, value: string) {
+function entryCell(entry: FieldEntry, columns: number, borderTop: boolean, borderStart: boolean) {
+  const borders = `${borderTop ? `border-top:1px solid ${BOX_BORDER};` : ""}${
+    borderStart ? `border-left:1px solid ${BOX_BORDER};` : ""
+  }`;
   return `
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BOX_BG};border:1px solid ${BOX_BORDER};border-radius:10px;">
-      <tr>
-        <td style="padding:14px 16px;">
-          <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${BOX_LABEL};">
-            ${escapeHtml(label)}
-          </div>
-          <div style="font-size:14px;font-weight:700;color:${BOX_VALUE};margin-top:5px;line-height:1.45;white-space:pre-wrap;">
-            ${escapeHtml(value)}
-          </div>
-        </td>
-      </tr>
-    </table>`;
+    <td width="${100 / columns}%" style="padding:14px 16px;${borders}vertical-align:top;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${BOX_LABEL};">
+        ${escapeHtml(entry.label)}
+      </div>
+      <div style="font-size:14px;font-weight:700;color:${BOX_VALUE};margin-top:5px;line-height:1.45;white-space:pre-wrap;">
+        ${escapeHtml(entry.value)}
+      </div>
+    </td>`;
 }
 
-function gridRows(boxes: string[]) {
-  return chunk(boxes, GRID_COLUMNS)
-    .map((row) => {
-      const cells = row
-        .map((box) => `<td width="${100 / GRID_COLUMNS}%" style="padding:6px;vertical-align:top;">${box}</td>`)
+// Renders every entry inside a single shared box, two fields per row, so a
+// section with any number of fields still reads as one card (not one box per
+// field) while still pairing fields like Name/Email on the same row.
+function sectionBox(entries: FieldEntry[], columns = 2) {
+  if (!entries.length) return "";
+  const rowGroups = chunk(entries, columns);
+  const rows = rowGroups
+    .map((rowEntries, rowIndex) => {
+      const cells = rowEntries
+        .map((entry, colIndex) => entryCell(entry, columns, rowIndex > 0, colIndex > 0))
         .join("");
-      const filler = `<td width="${100 / GRID_COLUMNS}%" style="padding:6px;"></td>`.repeat(GRID_COLUMNS - row.length);
+      const fillerBorderTop = rowIndex > 0 ? `border-top:1px solid ${BOX_BORDER};` : "";
+      const filler = `<td width="${100 / columns}%" style="padding:14px 16px;${fillerBorderTop}"></td>`.repeat(
+        columns - rowEntries.length
+      );
       return `<tr>${cells}${filler}</tr>`;
     })
     .join("");
-}
-
-function fieldRow(payload: Record<string, unknown>, key: string) {
-  const value = payload[key];
-  if (value == null || String(value).trim() === "") return "";
-  const label = FIELD_LABELS[key] || key.replace(/_/g, " ");
-  return fieldBox(label, formatValue(value));
+  return `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BOX_BG};border:1px solid ${BOX_BORDER};border-radius:10px;border-collapse:collapse;">
+      ${rows}
+    </table>`;
 }
 
 function renderSection(heading: string, fields: string[], payload: Record<string, unknown>) {
-  const boxes = fields.map((key) => fieldRow(payload, key)).filter(Boolean);
-  if (!boxes.length) return "";
+  const entries = fields
+    .map((key) => fieldEntry(payload, key))
+    .filter((entry): entry is FieldEntry => entry !== null);
+  if (!entries.length) return "";
   return `
     <tr>
       <td style="padding:22px 0 10px;border-top:1px solid ${DIVIDER};">
@@ -209,21 +222,18 @@ function renderSection(heading: string, fields: string[], payload: Record<string
     </tr>
     <tr>
       <td>
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
-          ${gridRows(boxes)}
-        </table>
+        ${sectionBox(entries)}
       </td>
     </tr>`;
 }
 
 function renderHighlight(key: string, payload: Record<string, unknown>) {
-  const value = payload[key];
-  if (value == null || String(value).trim() === "") return "";
-  const label = FIELD_LABELS[key] || key.replace(/_/g, " ");
+  const entry = fieldEntry(payload, key);
+  if (!entry) return "";
   return `
     <tr>
-      <td style="padding:6px;">
-        ${fieldBox(label, formatValue(value))}
+      <td style="padding:6px 0;">
+        ${sectionBox([entry], 1)}
       </td>
     </tr>`;
 }
@@ -285,9 +295,10 @@ function themedHtml(formType: FormType, payload: Record<string, unknown>) {
                       </tr>
                       <tr>
                         <td>
-                          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
-                            ${gridRows([fieldBox("Name", name), fieldBox("Email", email)])}
-                          </table>
+                          ${sectionBox([
+                            { label: "Name", value: name },
+                            { label: "Email", value: email },
+                          ])}
                         </td>
                       </tr>
                       ${sections}
