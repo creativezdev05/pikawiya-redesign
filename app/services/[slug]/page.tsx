@@ -20,6 +20,9 @@ import NextImage from 'next/image';
 
 export const revalidate = 60;
 
+const ALLIED_HEALTH_SUBCATEGORY = "Visiting and Allied Health Specialist";
+const ALLIED_HEALTH_PARENT_TITLE = "Visiting and Allied Health Specialist";
+
 export async function generateStaticParams() {
   const { data: services } = await supabase.from("services").select("slug");
   return services ? services.map((s) => ({ slug: s.slug })) : [];
@@ -34,6 +37,24 @@ async function getServiceBySlug(slug: string): Promise<Service | null> {
 
   if (error || !data) return null;
   return data as Service;
+}
+
+async function getRelatedServices(service: Service): Promise<Service[]> {
+  const subcategory = service.subcategory ||
+    (service.title.trim().toLowerCase() === ALLIED_HEALTH_PARENT_TITLE.toLowerCase()
+      ? ALLIED_HEALTH_SUBCATEGORY
+      : null);
+  if (!subcategory) return [];
+
+  const { data, error } = await supabase
+    .from("services")
+    .select("id, slug, title, subcategory")
+    .eq("category_id", service.category_id)
+    .eq("subcategory", subcategory)
+    .order("title", { ascending: true });
+
+  if (error || !data) return [];
+  return data as Service[];
 }
 
 function isGeneralAppointments(service: Service) {
@@ -54,6 +75,15 @@ export default async function ServiceDetailPage({
   if (!service) {
     notFound();
   }
+
+  const [{ data: category }, relatedServices] = await Promise.all([
+    supabase
+      .from("service_categories")
+      .select("id, category_title")
+      .eq("id", service.category_id)
+      .maybeSingle(),
+    getRelatedServices(service),
+  ]);
 
   const practitionerImage = service.practitioner_name
     ? `/assets/services/practitioners/${service.practitioner_name.toLowerCase().replace(/\s+/g, "-")}.png`
@@ -90,11 +120,11 @@ export default async function ServiceDetailPage({
       <main className="relative z-10 max-w-6xl mx-auto px-4 py-12 md:py-16 space-y-10 w-full">
       
         <Link
-          href="/services"
+          href={category ? `/services#category-${category.id}` : "/services"}
           className="inline-flex items-center text-sm font-medium text-ink/60 hover:text-ochre transition gap-2 group"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-          Back to All Services
+          Back to {category?.category_title ?? "All Services"}
         </Link>
 
         <div className="contrast-card bg-earth text-sand rounded-3xl shadow-xl relative overflow-hidden border border-transparent">
@@ -183,6 +213,26 @@ export default async function ServiceDetailPage({
               <div className="text-ink/80 text-base leading-relaxed whitespace-pre-line space-y-4">
                 {service.overview || "Service details coming soon."}
               </div>
+              {relatedServices.length > 0 && (
+                <div className="border-t border-border pt-6 space-y-4">
+                  <h3 className="text-lg font-bold text-ink">
+                    {service.subcategory || ALLIED_HEALTH_SUBCATEGORY}
+                  </h3>
+                  <ul className="flex flex-wrap gap-2">
+                    {relatedServices.map((relatedService) => (
+                      <li key={relatedService.id}>
+                        <Link
+                          href={`/services/${relatedService.slug}`}
+                          aria-current={relatedService.slug === service.slug ? "page" : undefined}
+                          className="inline-flex rounded-full border border-ochre/30 bg-page px-4 py-2 text-sm font-semibold text-ink transition hover:border-ochre hover:text-ochre aria-[current=page]:bg-ochre aria-[current=page]:text-white"
+                        >
+                          {relatedService.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
 
             {service.schedule_location && (

@@ -121,6 +121,8 @@ function StackCard({
   const bodyId = `category-body-${category.id}`;
   // The last card has nothing to slide over it once it is at the front
   const clickable = !isActive || hasNext;
+  // Subcategory rows are linked from their parent service detail page.
+  const topLevelServices = category.services.filter((service) => !service.subcategory?.trim());
 
   return (
 <motion.section
@@ -157,7 +159,7 @@ function StackCard({
       {category.category_title}
     </h2>
     <span className="hidden sm:inline-flex shrink-0 items-center rounded-full bg-ochre/20 px-3 py-1 text-xs font-semibold text-ochre">
-      {category.services.length} {category.services.length === 1 ? "service" : "services"}
+      {topLevelServices.length} {topLevelServices.length === 1 ? "service" : "services"}
     </span>
     {clickable && (
       <ChevronDown
@@ -203,7 +205,7 @@ function StackCard({
 
     {/* Services Grid */}
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch p-1">
-      {category.services.map((service) => (
+      {topLevelServices.map((service) => (
         <Link
           key={service.id}
           href={`/services/${service.slug}`}

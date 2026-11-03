@@ -9,6 +9,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export interface Service {
   id: string;
   category_id: string;
+  subcategory?: string | null;
   slug: string;
   title: string;
   short_desc: string;

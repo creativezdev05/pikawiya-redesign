@@ -111,7 +111,8 @@ export default function CorporateDocumentsPage() {
           </div>
 
             <a
-              href="https://www.pikawiyahealth.org.au/wp-content/uploads/2025/01/PWHSAC-Annual-Report-2023-2024.pdf"
+              // href="https://www.pikawiyahealth.org.au/wp-content/uploads/2025/01/PWHSAC-Annual-Report-2023-2024.pdf"
+              href="https://pwhsac.sharepoint.com/:w:/g/cQpsYHdfnkiRTYVW2hDTkJHSEgUCiUldQDjH68g3D988OUFHjA?download=1"
               download
               target="_blank"
               rel="noopener noreferrer"

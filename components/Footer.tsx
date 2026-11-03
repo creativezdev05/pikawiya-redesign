@@ -116,6 +116,21 @@ export default function Footer() {
                 Contact & Location
               </h3>
               <div className="flex items-center gap-2 shrink-0">
+                
+                <Image
+                  src="/assets/flag3.png"
+                  alt="Flag"
+                  width={50}
+                  height={38}
+                  className="h-auto w-7 object-contain"
+                />
+                <Image
+                  src="/assets/flag4.png"
+                  alt="Flag"
+                  width={70}
+                  height={48}
+                  className="h-auto w-12 object-contain"
+                />
                 <Image
                   src="/assets/flag1.png"
                   alt="Flag"
@@ -135,7 +150,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-sand/80">
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-ochre shrink-0 mt-0.5" />
-                <span>40-46 Dartford St, Port Augusta SA 5700</span>
+                <span>40-46 Dartmouth St, Port Augusta SA 5700</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-ochre shrink-0" />

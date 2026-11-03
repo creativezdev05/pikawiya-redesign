@@ -10,7 +10,14 @@ const PARTNERS: Partner[] = [
   { name: "Healthy Dreaming", logo: "/assets/partners/healthy-dreaming.png" },
   { name: "Idnya Service", logo: "/assets/partners/idnya.png" },
   { name: "RDFS ", logo: "/assets/partners/rfds.png" },
-  // { name: "Wami Kata", logo: "/assets/partners/wamikata.png" },
+  { name: "Umeewarra Media", logo: "/assets/partners/umeewarra_media.jpg" },
+  { name: "Indigenous Media NT", logo: "/assets/partners/indigenous_media_nt.png" },
+  { name: "ALH Birch Management Advisory", logo: "/assets/partners/alh_birch_management_dvisory.png" },
+  { name: "Commuserv", logo: "/assets/partners/commuserv.png" },
+  { name: "Wallmans Lawyers", logo: "/assets/partners/wallmans_lawyers.png" },
+  { name: "RACGP", logo: "/assets/partners/racgp.jpg" },
+  { name: "NSQMHCMO", logo: "/assets/partners/NSQMHCMO.png" },
+
 ];
 
 export default function PartnersTicker() {
