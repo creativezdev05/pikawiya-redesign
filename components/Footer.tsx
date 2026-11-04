@@ -173,13 +173,15 @@ export default function Footer() {
 
         {/* Divider */}
         <div className="border-t border-sand/20 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-sand/70">
-          
-          {/* Copyright */}
-          <p>
-            © {currentYear} Pika Wiya Health Service Aboriginal Corporation. All rights reserved.
-          </p>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 justify-center md:justify-start">
+            <p className="whitespace-nowrap">
+              © {currentYear} Pika Wiya Health Service Aboriginal Corporation. All rights reserved.
+            </p>
+            <p className="flex items-center text-ochre font-semibold tracking-wide border-l-2 border-ochre pl-3 whitespace-nowrap">
+              Built by Redbanks Technologies
+            </p>
+          </div>
 
-          {/* Separate Privacy Policy & Terms Links */}
           <div className="flex items-center gap-6">
             <Link
               href="/privacy-policy"
@@ -195,13 +197,6 @@ export default function Footer() {
               Terms of Use
             </Link>
           </div>
-        </div>
-
-        {/* Powered by strip */}
-        <div className="mt-6 bg-black rounded-md px-4 py-3 text-center">
-          <p className="text-sand text-xs font-bold tracking-wide">
-            Built by Redbanks Technologies
-          </p>
         </div>
       </div>
     </footer>

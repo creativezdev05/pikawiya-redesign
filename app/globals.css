@@ -29,6 +29,13 @@
   --title-blend-aboutus-mid: #c4a883;
   --title-blend-aboutus-to: #300f01;
   --title-blend-aboutus-end: #140902;
+
+  --gradient-hero: linear-gradient(
+    145deg,
+    rgba(46, 49, 48, 0.94) 0%,
+    rgba(26, 22, 21, 0.9) 42%,
+    rgba(168, 71, 30, 0.86) 100%
+  );
 }
 
 @theme inline {
@@ -1343,5 +1350,245 @@ textarea:disabled {
     .card-3d:hover::after {
       animation: none;
     }
+  }
+}
+
+/* Story hero blob — morphing panel from the intro layers treatment */
+.intro_layers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: min(730px, 85%);
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  text-align: left;
+  /* Content stays unclipped; the morphing fill sits behind it as a larger backdrop */
+  overflow: visible;
+  padding:
+    clamp(2rem, 4.5vh, 3.25rem)
+    clamp(2rem, 5vw, 3.75rem)
+    clamp(2.75rem, 6.5vh, 4.5rem)
+    clamp(1.75rem, 4.5vw, 3.25rem);
+  animation: intro-copy-in 0.6s ease both;
+}
+
+.intro_layers::before {
+  content: "";
+  position: absolute;
+  /* Extend past the copy so edge morphs never cut the badge/title */
+  inset: -1.75rem -2.5rem -2.75rem -2rem;
+  z-index: 0;
+  background-image: var(--gradient-hero);
+  border-radius: 28% 52% 44% 40% / 30% 46% 50% 36%;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+  animation: bubble-story 5s linear infinite;
+}
+
+.intro_layers > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 767px) {
+  .intro_layers {
+    max-width: 92%;
+    padding: 1.25rem 1.5rem 2.5rem 1.25rem;
+  }
+
+  /* Soft top-left veil — same readability treatment as before the blob */
+  .intro_layers::before {
+    content: "";
+    inset: 0;
+    border-radius: 0;
+    box-shadow: none;
+    animation: none;
+    background-image: radial-gradient(
+      ellipse 160% 160% at top left,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.6) 30%,
+      rgba(0, 0, 0, 0.35) 55%,
+      rgba(0, 0, 0, 0.12) 78%,
+      rgba(0, 0, 0, 0) 92%
+    );
+  }
+}
+
+.text-shimmer {
+  background-image: linear-gradient(
+    110deg,
+    #ffffff 0%,
+    #f5e6d3 32%,
+    #de8a5b 58%,
+    #ffffff 82%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer-shift 6.5s ease-in-out infinite;
+}
+
+@keyframes text-shimmer-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.intro-shape {
+  --shape-delay: 0s;
+  --shape-duration: 6s;
+  --shape-spread: 0.2;
+  --shape-max: 19rem;
+  --shape-inset: 3.5rem;
+  --shape-out: min(var(--shape-max), (50% - 23rem) * var(--shape-spread));
+  position: absolute;
+  top: 18%;
+  width: min(19rem, 38vw);
+  aspect-ratio: 1;
+  z-index: 1;
+  pointer-events: none;
+  left: max(var(--shape-inset), calc(50% - 23rem - var(--shape-out)));
+  border-radius: 64% 46% 37% 73% / 55% 58% 42% 45%;
+  background-image: var(--gradient-hero);
+  animation: bubble var(--shape-duration) linear var(--shape-delay) infinite;
+}
+
+.intro-shape--left.is-settled {
+  animation:
+    bubble var(--shape-duration) linear var(--shape-delay) infinite,
+    intro-shape-float-left calc(var(--shape-duration) * 0.85) ease-in-out var(--shape-delay) infinite alternate;
+}
+
+@media (min-width: 80rem) {
+  .intro-shape {
+    --shape-inset: 5rem;
+  }
+}
+
+@media (min-width: 96rem) {
+  .intro-shape {
+    --shape-inset: 6.25rem;
+  }
+}
+
+.intro-shape--right {
+  left: auto;
+  right: max(var(--shape-inset), calc(50% - 23rem - var(--shape-out)));
+}
+
+.intro-shape--right.is-settled {
+  animation:
+    bubble var(--shape-duration) linear var(--shape-delay) infinite,
+    intro-shape-float-right calc(var(--shape-duration) * 0.85) ease-in-out var(--shape-delay) infinite alternate;
+}
+
+@keyframes intro-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bubble {
+  0%,
+  100% {
+    border-radius: 64% 46% 37% 73% / 55% 58% 42% 45%;
+  }
+  25% {
+    border-radius: 43% 47% 47% 38% / 43% 46% 64% 27%;
+  }
+  50% {
+    border-radius: 48% 72% 44% 56% / 49% 40% 60% 51%;
+  }
+  75% {
+    border-radius: 40% 60% 70% 30% / 47% 62% 38% 53%;
+  }
+}
+
+/* Softer morph for the story panel — keeps the top-left open under the badge */
+@keyframes bubble-story {
+  0%,
+  100% {
+    border-radius: 28% 52% 44% 40% / 30% 46% 50% 36%;
+  }
+  25% {
+    border-radius: 34% 48% 40% 46% / 36% 42% 48% 40%;
+  }
+  50% {
+    border-radius: 30% 56% 42% 38% / 32% 44% 52% 38%;
+  }
+  75% {
+    border-radius: 36% 50% 38% 44% / 34% 48% 46% 42%;
+  }
+}
+
+.intro-shape-drift--left {
+  animation: intro-shape-drift-left 6.5s ease-in-out infinite alternate;
+}
+
+.intro-shape-drift--right {
+  animation: intro-shape-drift-right 6.5s ease-in-out infinite alternate;
+}
+
+@keyframes intro-shape-drift-left {
+  from { transform: translateY(0) rotate(0deg); }
+  to { transform: translateY(-12px) rotate(8deg); }
+}
+
+@keyframes intro-shape-drift-right {
+  from { transform: translateY(0) rotate(0deg); }
+  to { transform: translateY(-12px) rotate(-8deg); }
+}
+
+@keyframes intro-shape-float-left {
+  0% {
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-18px) rotate(12deg);
+  }
+}
+
+@keyframes intro-shape-float-right {
+  0% {
+    transform: translateX(50%) translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateX(50%) translateY(-18px) rotate(-12deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .intro-shape {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro_layers,
+  .intro_layers::before,
+  .intro-shape,
+  .intro-shape--left.is-settled,
+  .intro-shape--right.is-settled,
+  .text-shimmer,
+  .intro-shape-drift--left,
+  .intro-shape-drift--right {
+    animation: none;
+  }
+
+  .intro_layers::before {
+    border-radius: 28% 52% 44% 40% / 30% 46% 50% 36%;
   }
 }

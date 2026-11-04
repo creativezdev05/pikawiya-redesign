@@ -1,0 +1,183 @@
+"use client";
+
+import Image from "next/image";
+import { useRef, useState, useEffect } from "react";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
+
+type Funder = {
+  name: string;
+  logo: string;
+  /** Logo is white / light (or baked on black) — sit it on a dark pad */
+  onDark?: boolean;
+};
+
+const FUNDERS: Funder[] = [
+  { name: "AHCSA", logo: "/assets/funders/1.png", onDark: true },
+  { name: "Department of Health", logo: "/assets/funders/2.svg" },
+  { name: "Eyre and Far North Local Health Network", logo: "/assets/funders/3.svg" },
+  { name: "Flinders and Upper North Local Health Network", logo: "/assets/funders/4.svg", onDark: true },
+  { name: "NACCHO", logo: "/assets/funders/5.png", onDark: true },
+  { name: "NIAA", logo: "/assets/funders/6.png", onDark: true },
+  { name: "SA Health", logo: "/assets/funders/7.svg" },
+  { name: "SAHMRI", logo: "/assets/funders/8.svg" },
+  { name: "RDWA", logo: "/assets/funders/9.svg", onDark: true },
+  { name: "Adelaide University Rural Health", logo: "/assets/funders/10.png", onDark: true },
+];
+
+const containerVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.06, delayChildren: 0.08 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+function FunderItem({ funder }: { funder: Funder }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
+  const [isFinePointer, setIsFinePointer] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: fine)");
+    const update = () => setIsFinePointer(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { stiffness: 180, damping: 18, mass: 0.4 };
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), springConfig);
+  const shiftX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), springConfig);
+  const shiftY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-8, 8]), springConfig);
+  const logoX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), springConfig);
+  const logoY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-6, 6]), springConfig);
+
+  const spotlight = useTransform(
+    [mouseX, mouseY],
+    ([x, y]) =>
+      `radial-gradient(180px circle at ${((Number(x) + 0.5) * 100).toFixed(1)}% ${((Number(y) + 0.5) * 100).toFixed(1)}%, rgba(226, 114, 36, 0.22), transparent 55%)`
+  );
+
+  const enableMagnet = !reduceMotion && isFinePointer;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!enableMagnet || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  return (
+    <motion.div variants={itemVariants} className="h-full">
+      <motion.div
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={
+          enableMagnet
+            ? {
+                rotateX,
+                rotateY,
+                x: shiftX,
+                y: shiftY,
+                transformPerspective: 900,
+                transformStyle: "preserve-3d",
+              }
+            : undefined
+        }
+        className="group relative flex h-full flex-col items-center gap-3 rounded-2xl border border-border/70 bg-page/60 px-3 py-5 text-center outline-none transition-colors duration-300 hover:border-ochre/35 md:px-4 md:py-6"
+      >
+        {enableMagnet && (
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            style={{ background: spotlight }}
+          />
+        )}
+
+        <motion.div
+          style={enableMagnet ? { x: logoX, y: logoY, transformStyle: "preserve-3d" } : undefined}
+          className={`relative z-10 flex h-20 w-full items-center justify-center overflow-hidden rounded-xl px-3 py-2 md:h-24 ${
+            funder.onDark
+              ? "bg-[#111111] ring-1 ring-white/10"
+              : "bg-white ring-1 ring-border/60"
+          }`}
+        >
+          <div className="relative h-full w-full">
+            <Image
+              src={funder.logo}
+              alt={funder.name}
+              fill
+              unoptimized
+              sizes="(max-width: 768px) 40vw, 180px"
+              className="object-contain"
+            />
+          </div>
+        </motion.div>
+
+        <p className="relative z-10 text-sm font-semibold leading-snug text-ink md:text-base">
+          {funder.name}
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+export default function FundersList() {
+  return (
+    <section className="relative z-10 w-full overflow-hidden border-t border-border bg-surface py-12 md:py-16">
+      <div className="mx-auto mb-10 max-w-7xl px-4 text-center">
+        <motion.span
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="inline-flex items-center gap-3 text-xl font-extrabold uppercase tracking-[0.14em] text-ochre md:gap-4 md:text-3xl"
+        >
+          <span className="h-0.5 w-12 bg-ochre md:w-16" />
+          Our Funders
+          <span className="h-0.5 w-12 bg-ochre md:w-16" />
+        </motion.span>
+      </div>
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 sm:grid-cols-3 md:gap-5 lg:grid-cols-5"
+        style={{ perspective: 1200 }}
+      >
+        {FUNDERS.map((funder) => (
+          <FunderItem key={funder.name} funder={funder} />
+        ))}
+      </motion.div>
+    </section>
+  );
+}

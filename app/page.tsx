@@ -37,6 +37,7 @@ import PageTitle from "@/components/PageTitle";
 import TrLogo from "@/components/TrLogo";
 import PatternField from "@/components/PatternField";
 import PartnersTicker from "@/components/PartnersTicker";
+import FundersList from "@/components/FundersList";
 import ButtonLink from "@/components/ButtonLink";
 import FlashlightContainer from "@/components/FlashlightContainer";
 import CoreServicesSection from "@/components/CoreServicesSection";
@@ -328,6 +329,7 @@ useEffect(() => {
 
       {/* CONTACT — navy */}
       <ContactSection />
+      <FundersList />
       <PartnersTicker />
       <Footer />
     </div>
