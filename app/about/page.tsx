@@ -106,16 +106,16 @@ export default function AboutPage() {
               "Driven by profound courage and a commitment to community wellbeing, local leaders took direct action to secure self-determined health services, laying the vital groundwork for Pika Wiya Health Service.",
             tag: "Heritage",
           },
-          {
-            src: "/assets/about/2.png",
-            alt: "Aboriginal waterhole and songline dot painting",
-            year: "Building Stronger Communities",
-            title: "Thriving in Culture",
-            subtitle: "International recognition & regional advocacy",
-            description:
-              "A pivotal moment when community advocacy gained international acknowledgment at the World Health Organization in Geneva, validating community-led primary health care models.",
-            tag: "Growth",
-          },
+          // {
+          //   src: "/assets/about/2.png",
+          //   alt: "Aboriginal waterhole and songline dot painting",
+          //   year: "Building Stronger Communities",
+          //   title: "Thriving in Culture",
+          //   subtitle: "International recognition & regional advocacy",
+          //   description:
+          //     "A pivotal moment when community advocacy gained international acknowledgment at the World Health Organization in Geneva, validating community-led primary health care models.",
+          //   tag: "Growth",
+          // },
           {
             src: "/assets/about/3.png",
             alt: "Aboriginal waterhole and songline dot painting",
@@ -136,16 +136,16 @@ export default function AboutPage() {
               "Achieving formal incorporation to expand clinical infrastructure, secure sustainable funding streams, and broaden comprehensive outreach programs across the regional footprint.",
             tag: "Milestone",
           },
-          {
-            src: "/assets/about/5.png",
-            alt: "Aboriginal waterhole and songline dot painting",
-             year: "Building Stronger Communities",
-            title: "Thriving in Culture",
-            subtitle: "Specialized maternal and child health focus",
-            description:
-              "The launch of the Anangu Bibi program, dedicated to providing culturally secure, family-centered support for mothers, babies, and young children throughout their developmental journey.",
-            tag: "Care",
-          },
+          // {
+          //   src: "/assets/about/5.png",
+          //   alt: "Aboriginal waterhole and songline dot painting",
+          //    year: "Building Stronger Communities",
+          //   title: "Thriving in Culture",
+          //   subtitle: "Specialized maternal and child health focus",
+          //   description:
+          //     "The launch of the Anangu Bibi program, dedicated to providing culturally secure, family-centered support for mothers, babies, and young children throughout their developmental journey.",
+          //   tag: "Care",
+          // },
           {
             src: "/assets/about/6.png",
             alt: "Aboriginal waterhole and songline dot painting",
@@ -165,18 +165,18 @@ export default function AboutPage() {
               "Remaining fiercely independent, community-owned, and dedicated to delivering holistic, doctor-led clinical and cultural healthcare services for generations to come.",
             tag: "Future",
           },
-          {
-            src: "/assets/about/8.png",
-            alt: "Aboriginal waterhole and songline dot painting",
-            year: "Building Stronger Communities",
-            title: "Thriving in Culture",
-          },
-          {
-            src: "/assets/about/9.png",
-            alt: "Aboriginal waterhole and songline dot painting",
-            year: "Building Stronger Communities",
-            title: "Thriving in Culture",
-          },
+          // {
+          //   src: "/assets/about/8.png",
+          //   alt: "Aboriginal waterhole and songline dot painting",
+          //   year: "Building Stronger Communities",
+          //   title: "Thriving in Culture",
+          // },
+          // {
+          //   src: "/assets/about/9.png",
+          //   alt: "Aboriginal waterhole and songline dot painting",
+          //   year: "Building Stronger Communities",
+          //   title: "Thriving in Culture",
+          // },
           {
             src: "/assets/about/10.png",
             alt: "Aboriginal waterhole and songline dot painting",
