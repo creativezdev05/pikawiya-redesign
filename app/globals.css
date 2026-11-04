@@ -1353,65 +1353,29 @@ textarea:disabled {
   }
 }
 
-/* Story hero blob — morphing panel from the intro layers treatment */
+/* Reusable morphing intro panel — use `.intro_layers` / `.intro-shape` / `.text-shimmer` anywhere */
 .intro_layers {
+  background-image: var(--gradient-hero);
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  max-width: min(730px, 85%);
+  align-items: center;
+  justify-content: center;
+  max-width: 730px;
   position: relative;
   width: 100%;
   z-index: 1;
-  text-align: left;
-  /* Content stays unclipped; the morphing fill sits behind it as a larger backdrop */
-  overflow: visible;
-  padding:
-    clamp(2rem, 4.5vh, 3.25rem)
-    clamp(2rem, 5vw, 3.75rem)
-    clamp(2.75rem, 6.5vh, 4.5rem)
-    clamp(1.75rem, 4.5vw, 3.25rem);
-  animation: intro-copy-in 0.6s ease both;
-}
-
-.intro_layers::before {
-  content: "";
-  position: absolute;
-  /* Extend past the copy so edge morphs never cut the badge/title */
-  inset: -1.75rem -2.5rem -2.75rem -2rem;
-  z-index: 0;
-  background-image: var(--gradient-hero);
-  border-radius: 28% 52% 44% 40% / 30% 46% 50% 36%;
+  text-align: center;
+  animation: 5s linear 0s infinite normal none running bubble;
+  padding: clamp(3.25rem, 9vh, 7.5rem) clamp(1.75rem, 5vw, 4rem);
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
-  animation: bubble-story 5s linear infinite;
-}
-
-.intro_layers > * {
-  position: relative;
-  z-index: 1;
 }
 
 @media (max-width: 767px) {
   .intro_layers {
-    max-width: 92%;
-    padding: 1.25rem 1.5rem 2.5rem 1.25rem;
-  }
-
-  /* Soft top-left veil — same readability treatment as before the blob */
-  .intro_layers::before {
-    content: "";
-    inset: 0;
-    border-radius: 0;
-    box-shadow: none;
+    background-image: none;
     animation: none;
-    background-image: radial-gradient(
-      ellipse 160% 160% at top left,
-      rgba(0, 0, 0, 0.8) 0%,
-      rgba(0, 0, 0, 0.6) 30%,
-      rgba(0, 0, 0, 0.35) 55%,
-      rgba(0, 0, 0, 0.12) 78%,
-      rgba(0, 0, 0, 0) 92%
-    );
+    box-shadow: none;
+    padding: 1.25rem 0.25rem 1.5rem;
   }
 }
 
@@ -1578,7 +1542,6 @@ textarea:disabled {
 
 @media (prefers-reduced-motion: reduce) {
   .intro_layers,
-  .intro_layers::before,
   .intro-shape,
   .intro-shape--left.is-settled,
   .intro-shape--right.is-settled,
@@ -1586,9 +1549,5 @@ textarea:disabled {
   .intro-shape-drift--left,
   .intro-shape-drift--right {
     animation: none;
-  }
-
-  .intro_layers::before {
-    border-radius: 28% 52% 44% 40% / 30% 46% 50% 36%;
   }
 }

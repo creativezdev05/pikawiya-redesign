@@ -190,11 +190,22 @@ export function HomeStoryHeroSlider({
     },
   };
 
-  const hoverSpring = {
-    type: "spring" as const,
-    stiffness: 400,
-    damping: 70,
-    duration: 0.6,
+  const textContainerVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        delay: 0.4,
+        staggerChildren: 0.12,
+        duration: 0.5,
+      },
+    },
+  };
+
+  const textItemVariants = {
+    hidden: { opacity: 0, y: 12 },
+    visible: { opacity: 1, y: 0 },
   };
 
   return (
@@ -224,69 +235,77 @@ export function HomeStoryHeroSlider({
         </motion.div>
       </AnimatePresence>
 
-      {/* Story copy in the morphing blob — top-left under the fixed nav */}
+      {/* Top-Left Story Content Card — anchored below the fixed logo/nav, fading softly into the image */}
       <div className="absolute inset-x-0 top-0 z-30 flex justify-start pointer-events-none">
-        <div
-          key={currentSlide.id + "-content"}
-          className="intro_layers pointer-events-auto mt-20 gap-3 sm:mt-24 sm:gap-4 lg:mt-28 xl:mt-32"
-        >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide.id + "-content"}
+            variants={textContainerVariants}
+            initial="hidden"
+            animate="visible"
+            exit={{ opacity: 0, y: -12, transition: { duration: 0.2 } }}
+            className="pointer-events-auto mt-20 sm:mt-24 lg:mt-28 xl:mt-32 max-w-[85%] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-[radial-gradient(ellipse_160%_160%_at_top_left,rgba(0,0,0,0.8)_0%,rgba(0,0,0,0.6)_30%,rgba(0,0,0,0.35)_55%,rgba(0,0,0,0.12)_78%,rgba(0,0,0,0)_92%)] pl-5 pr-10 pt-5 pb-10 sm:pl-7 sm:pr-14 sm:pt-6 sm:pb-14 lg:pl-9 lg:pr-20 lg:pt-8 lg:pb-20 space-y-3 sm:space-y-4 text-left"
+          >
             {(currentSlide.badge || currentSlide.tag) && (
-              <div className="inline-flex">
-                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/35 text-white text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
-                  <ShieldCheck className="w-4 h-4 text-ochre-light" />
+              <motion.div variants={textItemVariants} className="inline-flex">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-ochre/25 border border-ochre/50 text-ochre text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md drop-shadow-md">
+                  <ShieldCheck className="w-4 h-4" />
                   {currentSlide.badge ?? currentSlide.tag}
                 </span>
-              </div>
+              </motion.div>
             )}
 
             <motion.h1
-              whileHover={{ scale: 1.06 }}
-              transition={hoverSpring}
-              className="text-shimmer text-2xl font-semibold leading-[1.15] tracking-tight sm:text-3xl lg:text-4xl xl:text-5xl"
+              variants={textItemVariants}
+              className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight text-white leading-[1.15] drop-shadow-[0_4px_18px_rgba(0,0,0,0.65)]"
             >
               {currentSlide.title}
             </motion.h1>
 
             {currentSlide.year && (
-              <motion.h4
-                whileHover={{ scale: 1.06 }}
-                transition={hoverSpring}
-                className="text-shimmer text-base font-semibold sm:text-lg lg:text-xl"
+              <motion.h2
+                variants={textItemVariants}
+                className="text-base sm:text-lg lg:text-xl font-bold tracking-tight text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.6)]"
               >
                 {currentSlide.year}
-              </motion.h4>
+              </motion.h2>
             )}
 
-            <p
-              className="max-w-md text-base leading-relaxed text-white sm:text-lg lg:text-xl"
+            <motion.p
+              variants={textItemVariants}
+              className="max-w-md text-base sm:text-lg lg:text-xl leading-relaxed text-white/90 font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]"
             >
               {currentSlide.description}
-            </p>
+            </motion.p>
 
             {(currentSlide.primaryBtnText || currentSlide.secondaryBtnText) && (
-              <div className="flex flex-wrap items-center justify-start gap-3.5 pt-1">
+              <motion.div
+                variants={textItemVariants}
+                className="flex flex-wrap items-center gap-3.5 pt-1"
+              >
                 {currentSlide.primaryBtnText && currentSlide.primaryBtnLink && (
                   <Link
                     href={currentSlide.primaryBtnLink}
-                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-ochre px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-ochre-dark"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-ochre hover:bg-ochre-dark text-white font-bold text-xs sm:text-sm rounded-xl transition-all shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
                   >
                     <span>{currentSlide.primaryBtnText}</span>
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 )}
 
                 {currentSlide.secondaryBtnText && currentSlide.secondaryBtnLink && (
                   <Link
                     href={currentSlide.secondaryBtnLink}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/35 bg-white/15 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/25"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/15 hover:bg-white/25 border border-white/30 text-white font-semibold text-xs sm:text-sm rounded-xl transition-all backdrop-blur-md hover:scale-[1.02] active:scale-[0.98]"
                   >
                     <span>{currentSlide.secondaryBtnText}</span>
                     <ChevronRight className="w-4 h-4" />
                   </Link>
                 )}
-              </div>
+              </motion.div>
             )}
-        </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Bottom Slider Indicators */}

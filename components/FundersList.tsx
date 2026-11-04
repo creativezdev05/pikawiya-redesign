@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import NextImage from "next/image";
 import { useRef, useState, useEffect } from "react";
 import {
   motion,
@@ -152,6 +153,23 @@ function FunderItem({ funder }: { funder: Funder }) {
 export default function FundersList() {
   return (
     <section className="relative z-10 w-full overflow-hidden border-t border-border bg-surface py-12 md:py-16">
+      <NextImage
+        src="/assets/home/main_page_2nd_bg.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+      <div 
+        className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
+        style={{ 
+          backgroundImage: "url('/assets/background-pattern-new1.png')",
+          backgroundSize: "contain",
+          /* Swap out the filter string below to change the color */
+          filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
+        }}
+      />
       <div className="mx-auto mb-10 max-w-7xl px-4 text-center">
         <motion.span
           initial={{ opacity: 0, y: 16 }}
