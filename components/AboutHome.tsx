@@ -13,12 +13,12 @@ import TypedText from "@/components/TypedText";
 
 export default function AboutSection() {
   const values = [
-    { name: "Believe", icon: Heart, desc: "We are making a difference together." },
-    { name: "Initiative", icon: Lightbulb, desc: "We develop new programs and services in response to unmet needs." },
-    { name: "Persistence", icon: Flame, desc: "Where others give up, we reach out." },
-    { name: "Respect", icon: Users, desc: "We treat others in the community and workplace with respect." },
-    { name: "Consultation", icon: Compass, desc: "We engage our community to understand your needs." },
-    { name: "Honour", icon: Award, desc: "Our service and history reflect upon the past, learn from it and promote change." },
+    { name: "Peace", icon: Compass, desc: "We foster a peaceful and calm environment in everything we do." },
+    { name: "Respect", icon: Users, desc: "We respect each other, valuing every individual in our community." },
+    { name: "Kindness", icon: Heart, desc: "We are kind-hearted, showing empathy and compassion to all." },
+    { name: "Strength", icon: Flame, desc: "We stay strong and resilient in the face of challenges." },
+    { name: "Unity", icon: Lightbulb, desc: "We stand united, working together toward common goals." },
+    { name: "Integrity", icon: Award, desc: "We act with honor and honesty to build trust and lasting impact." },
   ];
 
   const highlights = [
@@ -29,12 +29,12 @@ export default function AboutSection() {
   ];
 
   const visionPoints = [
-    "We provide holistic health care services that set a benchmark for other ACCHOs.",
-    "We are embraced by our workers, external bodies, and the wider community.",
-    "We foster an environment of diversity and harmony.",
-    "We support the living preferences of our people wherever they live.",
-    "We aspire to be part of an Aboriginal community that is healthy at all ages and across generations.",
-    "We demonstrate good governance and exceed the expectations of our funding bodies.",
+    "We demonstrate bold leadership having listened to community aspiration.",
+    "We establish a comprehensive One Stop Shop model to serve holistic needs.",
+    "We mobilise and expand outreach services to support our people wherever they live.",
+    "We establish the Healing Centre and revamp the Learning Centre.",
+    "We build a sustainable organisation driven by collective impact partnerships.",
+    "We foster good governance, diversity, harmony, and exceed expectations across generations."
   ];
   const textStr = 'To provide health care our way to our people so our community is healthy at every age.'
 
@@ -270,16 +270,15 @@ export default function AboutSection() {
                 <h3
                   className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-[#C25324]"
                 >
-                  Our Strategic Vision
+                  Opportunities for our Organisation
                 </h3>
                 </motion.div>
-
                 <p className="text-ink/75 text-base md:text-lg font-light leading-relaxed">
-                  Setting benchmarks in{" "}
-                  <strong className="text-ink font-semibold border-b-2 border-ochre/40">
-                    holistic Aboriginal healthcare
+                  Our vision is to develop a{" "}
+                  <strong className="text-basic font-semibold border-b-2 border-ochre/40">
+                    One Stop Shop model to be launched by 2030
                   </strong>{" "}
-                  — grounded by lore, community control, and clinical excellence.
+                  that embraces collective impact partnerships in the region and revamps the Pika Wiya Learning Centre. We will implement the 5-year IT plan developed by Commuserv, support the development of the Pika Wiya Centre, and build a strong partnership with BHP to support a Mobile Health Clinic and transport needs for the Aboriginal community in outreach areas. Furthermore, we will develop a strong partnership with NIAA to support and fund innovation outlined in the Strategic Plan, implement a Cultural Safety Officer role at Pika Wiya along with a cultural awareness package to inform and educate mainstream agencies in the region to provide better care, and develop a regional Prevention Plan and Transport Plan to be ready for 2027.
                 </p>
               </div>
 
@@ -379,12 +378,16 @@ export default function AboutSection() {
                 whileTap={{ scale: 2 }}
                 >
             <PageTitle as="h3" onDark className="text-[clamp(2rem,3.8vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-white">
-              Guiding Values
+              Our Values
             </PageTitle>
             </motion.div>
 
             <p className="text-sand/75 text-base md:text-lg font-light">
-              The foundational principles guiding every <strong className="text-white font-medium">clinical interaction, outreach program, and community partnership</strong>.
+            Our values are the foundation of everything we do. They guide our actions, decisions, and interactions with each other and the community.
+            <strong className="text-white font-medium">Pika Wiya Health Service Aboriginal Corporation</strong>has listened to communities in 
+            its catchment area, staff and members and Will strive to be innovative and {" "} <strong className="text-white font-medium">respectful</strong> in delivering culturally appropriate and {" "} <strong className="text-white font-medium">sensitive</strong> holistic care. The Strategic Plan recognises the {" "} <strong className="text-[#C25324] font-medium">importance</strong> of collective impact partnerships in Pika {" "}
+            <strong className="text-[#C25324] font-medium">Wiya</strong> becoming a centre of excellence in Aboriginal {" "}
+            <strong className="text-[#C25324] font-medium">healthcare</strong> in the region.
             </p>
           </div>
 

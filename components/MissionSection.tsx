@@ -87,14 +87,13 @@ export default function MissionSection() {
                 whileTap={{ scale: 2 }}
               >
                 <span className="w-2 h-2 rounded-full bg-ochre animate-pulse" />
-								Community-Led Healing
+								Mission Statement
               </motion.div>
               <motion.div
                 whileHover={{ 
-                    scale: 1.1,
-                     
+                    scale: 1.1,  
                   }}
-                  transition={{ type: "spring", stiffness: 400, damping: 50 }}
+                transition={{ type: "spring", stiffness: 400, damping: 50 }}
                 whileTap={{ scale: 2 }}
               >
                 <h3
@@ -106,14 +105,16 @@ export default function MissionSection() {
               </motion.div>
               
             </div>
-
             {/* Core Mission Narrative */}
             <p className="text-ink/80 text-base md:text-xl leading-relaxed max-w-2xl font-light">
-              Pika Wiya Health Service Aboriginal Corporation delivers a{" "}
+              Pika Wiya Health Service inc. Will provide a{" "}
               <strong className="text-ink font-semibold border-b-2 border-ochre/40">
-                culturally appropriate service
+              culturally appropriate service
               </strong>{" "}
-              to Aboriginal and Torres Strait Islander people—addressing preventative, promotive, and curative aspects of health to ensure our community achieves greater{" "}
+              to Aboriginal and Torres Strait Islander
+              People, addressing preventative, promotive and curative
+              aspects of health, which encourages our community to
+              achieve greater {" "}
               <strong className="text-ochre font-semibold">
                 dignity and quality of life
               </strong>{" "}
