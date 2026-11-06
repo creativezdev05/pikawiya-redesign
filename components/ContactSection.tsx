@@ -5,6 +5,7 @@ import CulturalPattern from "./CulturalPattern";
 import PageTitle from "./PageTitle";
 import ContactForm from "./ContactForm";
 import {motion} from "framer-motion"
+import DotGridBackground from "./DotGridBackground";
 
 export default function ContactSection() {
   return (
@@ -15,14 +16,14 @@ export default function ContactSection() {
         className="pointer-events-none absolute inset-0 z-0 bg-[#1b2433]"
         aria-hidden="true"
       />
+      <DotGridBackground
+        dotColor="#E85D26"
+        className="pointer-events-none absolute inset-0 z-[1]"
+      />
       <CulturalPattern 
           variant="contact"
-          // motif1Config={[{ x: 200, y: 200 }]}
-          // motif2Config={[{ x: 1150, y: 650 }]}
-          // motif3Config={[{ x: 30, y: 460 }]}
-          // dotsConfig={[{ x: 1170, y: 200 }]}
+          className="z-[2]"
           dashedOrbitsConfig={[{ x: 100, y: 500, radius:26 }, { x: 300, y: 600, radius:26 } , { x: 1000, y: 300, radius:26 }]}
-          // uShapeConfig={[{ x: "-5%", y: "90%" }]}
           cornerTLConfig={{ x: "25%", y: "-30%" }}       // Pin strictly to top-left edge
           cornerBRConfig={{ x: "80%", y: "120%" }}  // Pin strictly to bottom-right edge
           // showFeet
@@ -43,7 +44,7 @@ export default function ContactSection() {
       <div className="absolute inset-0 z-0 landing-ink-veil--soft" /> */}
 
       {/* Ambient Lighting Accents */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-ochre/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 z-[2] -translate-x-1/2 w-[600px] h-[300px] bg-ochre/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 max-w-6xl mx-auto space-y-12">
         
