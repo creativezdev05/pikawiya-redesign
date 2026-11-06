@@ -273,11 +273,11 @@ export default function AboutSection() {
                 </h3>
                 </motion.div>
                 <p className="text-ink/75 text-base md:text-lg font-light leading-relaxed">
-                  Our vision is to develop a{" "}
+                  Our vision is to establish a{" "}
                   <strong className="text-basic font-semibold border-b-2 border-ochre/40">
-                    One Stop Shop model to be launched by 2030
+                    One Stop Shop model by 2030
                   </strong>{" "}
-                  that embraces collective impact partnerships in the region and revamps the Pika Wiya Learning Centre. We will implement the 5-year IT plan developed by Commuserv, support the development of the Pika Wiya Centre, and build a strong partnership with BHP to support a Mobile Health Clinic and transport needs for the Aboriginal community in outreach areas. Furthermore, we will develop a strong partnership with NIAA to support and fund innovation outlined in the Strategic Plan, implement a Cultural Safety Officer role at Pika Wiya along with a cultural awareness package to inform and educate mainstream agencies in the region to provide better care, and develop a regional Prevention Plan and Transport Plan to be ready for 2027.
+                  through regional collective impact partnerships. Key initiatives include revamping the Pika Wiya Learning Centre, executing Commuserv’s 5-year IT plan, and partnering with BHP to deliver a Mobile Health Clinic and transport solutions for remote Aboriginal communities. We will also collaborate with NIAA on strategic funding, embed a Cultural Safety Officer and regional training package, and deliver dedicated Prevention and Transport Plans by 2027.
                 </p>
               </div>
 

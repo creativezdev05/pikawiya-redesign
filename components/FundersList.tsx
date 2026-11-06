@@ -70,7 +70,7 @@ function FunderItem({ funder }: { funder: Funder }) {
   const shiftX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), springConfig);
   const shiftY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-8, 8]), springConfig);
   const logoX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), springConfig);
-  const logoY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-6, 6]), springConfig);
+  const logoY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-22, -8]), springConfig);
 
   const spotlight = useTransform(
     [mouseX, mouseY],
@@ -100,18 +100,13 @@ function FunderItem({ funder }: { funder: Funder }) {
         ref={ref}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={
-          enableMagnet
-            ? {
-                rotateX,
-                rotateY,
-                x: shiftX,
-                y: shiftY,
-                transformPerspective: 900,
-                transformStyle: "preserve-3d",
-              }
-            : undefined
-        }
+        style={{
+          ...(enableMagnet
+            ? { rotateX, rotateY, x: shiftX, y: shiftY }
+            : {}),
+          transformPerspective: 900,
+          transformStyle: "preserve-3d",
+        }}
         className="group relative flex h-full flex-col items-center gap-3 rounded-2xl border border-border/70 bg-page/60 px-3 py-5 text-center outline-none transition-colors duration-300 hover:border-ochre/35 md:px-4 md:py-6"
       >
         {enableMagnet && (
@@ -122,14 +117,23 @@ function FunderItem({ funder }: { funder: Funder }) {
           />
         )}
 
-        <motion.div
-          style={enableMagnet ? { x: logoX, y: logoY, transformStyle: "preserve-3d" } : undefined}
-          className={`relative z-10 flex h-20 w-full items-center justify-center overflow-hidden rounded-xl px-3 py-2 md:h-24 ${
-            funder.onDark
-              ? "bg-[#111111] ring-1 ring-white/10"
-              : "bg-white ring-1 ring-border/60"
-          }`}
-        >
+        <div className="relative z-10 w-full" style={{ transformStyle: "preserve-3d" }}>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-4 top-4 h-14 rounded-xl bg-[#1b2433]/30 blur-md md:h-16"
+          />
+          <motion.div
+            style={
+              enableMagnet
+                ? { x: logoX, y: logoY, z: 46, transformStyle: "preserve-3d" }
+                : { y: -14, z: 32, transformStyle: "preserve-3d" }
+            }
+            className={`relative flex h-20 w-full items-center justify-center overflow-hidden rounded-xl px-3 py-2 shadow-[0_18px_28px_-12px_rgba(27,36,51,0.55),0_2px_0_rgba(255,255,255,0.35)_inset] md:h-24 ${
+              funder.onDark
+                ? "bg-[#111111] ring-1 ring-white/10"
+                : "bg-white ring-1 ring-border/60"
+            }`}
+          >
           <div className="relative h-full w-full">
             <Image
               src={funder.logo}
@@ -140,7 +144,8 @@ function FunderItem({ funder }: { funder: Funder }) {
               className="object-contain"
             />
           </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         <p className="relative z-10 text-sm font-semibold leading-snug text-ink md:text-base">
           {funder.name}
@@ -170,11 +175,11 @@ export default function FundersList() {
           filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
         }}
       />
-      <div className="mx-auto mb-10 max-w-7xl px-4 text-center">
+      <div className="relative z-20 mx-auto mb-10 max-w-7xl px-4 text-center">
         <motion.span
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
+          viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className="inline-flex items-center gap-3 text-xl font-extrabold uppercase tracking-[0.14em] text-ochre md:gap-4 md:text-3xl"
         >
@@ -189,7 +194,7 @@ export default function FundersList() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 sm:grid-cols-3 md:gap-5 lg:grid-cols-5"
+        className="relative z-20 mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 sm:grid-cols-3 md:gap-5 lg:grid-cols-5"
         style={{ perspective: 1200 }}
       >
         {FUNDERS.map((funder) => (
