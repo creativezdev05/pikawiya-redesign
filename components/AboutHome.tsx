@@ -349,23 +349,24 @@ export default function AboutSection() {
             {/* Right Vision Points List */}
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
               {visionPoints.map((point, index) => (
-                <div
+                <FlashlightContainer
                   key={index}
-                  className="group relative bg-white border border-ochre/15 rounded-2xl p-6 space-y-3 transition-all duration-300 hover:border-ochre hover:shadow-xl hover:-translate-y-1"
+                  className="rounded-2xl border border-white/10 bg-white p-7 space-y-5 backdrop-blur-sm transition-all duration-300 hover:border-ochre/60 hover:bg-navy/80 group"
                 >
-                  <div className="flex items-center justify
-                  -between">
-                    <span className="text-ochre font-extrabold text-2xl tracking-tight">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
+                  
+
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-ochre font-extrabold text-2xl tracking-tight">{String(index + 1).padStart(2, "0")}</span>
                     <div className="w-7 h-7 rounded-full bg-ochre/10 text-ochre flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <Target className="w-3.5 h-3.5" />
                     </div>
                   </div>
-                  <p className="text-ink/80 text-sm leading-relaxed font-normal group-hover:text-ink ">
-                    {point}
-                  </p>
-                </div>
+                  <div className="space-y-2">
+                 
+                    <p className="text-ink/70 text-sm leading-relaxed group-hover:text-sand transition-colors">{point}</p>
+                  </div>
+                </FlashlightContainer>
               ))}
             </div>
 

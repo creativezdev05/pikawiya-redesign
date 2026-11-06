@@ -95,7 +95,8 @@ function FunderItem({ funder }: { funder: Funder }) {
   };
 
   return (
-    <motion.div variants={itemVariants} className="h-full">
+    
+    <motion.div variants={itemVariants} className="h-full rounded-3xl border-t-ochre ">
       <motion.div
         ref={ref}
         onMouseMove={handleMouseMove}
