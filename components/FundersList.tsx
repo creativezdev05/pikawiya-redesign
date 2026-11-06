@@ -107,7 +107,7 @@ function FunderItem({ funder }: { funder: Funder }) {
           transformPerspective: 900,
           transformStyle: "preserve-3d",
         }}
-        className="group relative flex h-full flex-col items-center gap-3 rounded-2xl border border-border/70 bg-page/60 px-3 py-5 text-center outline-none transition-colors duration-300 hover:border-ochre/35 md:px-4 md:py-6"
+        className="group relative flex h-full flex-col items-center gap-4 rounded-2xl border-2 border-border/80 bg-page/60 px-4 py-6 text-center outline-none transition-colors duration-300 hover:border-ochre/50 md:px-5 md:py-7"
       >
         {enableMagnet && (
           <motion.div
@@ -128,10 +128,10 @@ function FunderItem({ funder }: { funder: Funder }) {
                 ? { x: logoX, y: logoY, z: 46, transformStyle: "preserve-3d" }
                 : { y: -14, z: 32, transformStyle: "preserve-3d" }
             }
-            className={`relative flex h-20 w-full items-center justify-center overflow-hidden rounded-xl px-3 py-2 shadow-[0_18px_28px_-12px_rgba(27,36,51,0.55),0_2px_0_rgba(255,255,255,0.35)_inset] md:h-24 ${
+            className={`relative flex h-24 w-full items-center justify-center overflow-hidden rounded-xl border-2 px-3 py-2 shadow-[0_18px_28px_-12px_rgba(27,36,51,0.55),0_2px_0_rgba(255,255,255,0.35)_inset] md:h-28 ${
               funder.onDark
-                ? "bg-[#111111] ring-1 ring-white/10"
-                : "bg-white ring-1 ring-border/60"
+                ? "border-white/25 bg-[#111111]"
+                : "border-border/80 bg-white"
             }`}
           >
           <div className="relative h-full w-full">
