@@ -41,26 +41,26 @@ export default async function ServicesPage() {
     <div className="relative min-h-screen text-ink overflow-x-clip">
     {/* overflow-x-clip (not overflow-hidden) so position: sticky keeps working */}
     {/* Page background: fixed to the viewport so it sits behind the whole page while scrolling */}
-          <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
-            <NextImage
-              src="/assets/home/main_page_2nd_bg.png"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-center"
-            />
-          </div>
-    
-          <div 
-              className="absolute inset-[0%] z-0 opacity-20 pointer-events-none animate-drift"
-              style={{ 
-                backgroundImage: "url('/assets/background-pattern-new1.png')",
-                backgroundSize: "contain",
-                opacity: 0.15,
-                filter: "brightness(0) saturate(100%) invert(96%) sepia(94%) saturate(122%) hue-rotate(32deg) brightness(116%) contrast(98%)"
-              }}
-            />
+      <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+        <NextImage
+          src="/assets/home/main_page_2nd_bg.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+
+      <div 
+          className="absolute inset-[0%] z-0 opacity-20 pointer-events-none animate-drift"
+          style={{ 
+            backgroundImage: "url('/assets/background-pattern-new1.png')",
+            backgroundSize: "contain",
+            opacity: 0.15,
+            filter: "brightness(0) saturate(100%) invert(96%) sepia(94%) saturate(122%) hue-rotate(32deg) brightness(116%) contrast(98%)"
+          }}
+        />
     {/* <CulturalPattern
       dashedOrbitsConfig={[{ x: 900, y: 5, pathHeight:300, pathWidth:300, speed:10, radius: 25 }, 
         { x: 200, y: 25, pathHeight:400, pathWidth:420, speed:11, radius: 25 } ,

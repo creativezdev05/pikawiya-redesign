@@ -114,9 +114,8 @@ export default function AboutSection() {
                 </div>
               </div>
 
-              <div className="space-y-4 text-sand/85 text-base md:text-lg leading-relaxed font-light">
+              <div className="space-y-4 text-sand/85 text-base md:text-lg leading-relaxed font-light text-justify">
                 <p>
-
                   Pika Wiya Health Service is an{" "}
                   <strong className="text-white font-semibold underline decoration-ochre/60 underline-offset-4">
                     Aboriginal Community Controlled Health Organisation
@@ -382,7 +381,7 @@ export default function AboutSection() {
             </PageTitle>
             </motion.div>
 
-            <p className="text-sand/75 text-base md:text-lg font-light">
+            <p className="text-sand/75 text-base md:text-lg font-light text-justify">
             Our values are the foundation of everything we do. They guide our actions, decisions, and interactions with each other and the community.
             <strong className="text-white font-medium">Pika Wiya Health Service Aboriginal Corporation</strong>has listened to communities in 
             its catchment area, staff and members and Will strive to be innovative and {" "} <strong className="text-white font-medium">respectful</strong> in delivering culturally appropriate and {" "} <strong className="text-white font-medium">sensitive</strong> holistic care. The Strategic Plan recognises the {" "} <strong className="text-[#C25324] font-medium">importance</strong> of collective impact partnerships in Pika {" "}

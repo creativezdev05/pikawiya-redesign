@@ -106,7 +106,7 @@ export default function MissionSection() {
               
             </div>
             {/* Core Mission Narrative */}
-            <p className="text-ink/80 text-base md:text-xl leading-relaxed max-w-2xl font-light">
+            <p className="text-ink/80 text-base md:text-xl leading-relaxed max-w-2xl font-light text-justify">
               Pika Wiya Health Service inc. Will provide a{" "}
               <strong className="text-ink font-semibold border-b-2 border-ochre/40">
               culturally appropriate service

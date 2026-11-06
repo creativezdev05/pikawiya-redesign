@@ -866,11 +866,14 @@ textarea:disabled {
 
 /* ── Service Hero Icons (clock-face layout, right side) ──
    Structure: .service-hero-icons > [dial, hover-zone > (spoke > anchor > icon) x N]
-   - spoke: full-size, rotated to the icon's clock angle; spinning it orbits the icon.
+   - spoke: full-size, rotated to the icon's clock angle; adding --orbit spins the wheel.
    - anchor: sits at the spoke's 12-o'clock edge, counter-rotated so the icon stays upright.
    - icon: the visible circle; its own :hover/:focus-visible just pops it — independent
      of the ancestor spin, so whichever icon the cursor is actually over pops as the
-     wheel turns underneath it. */
+     wheel turns underneath it.
+   --orbit is driven from ServiceHeroIcons: it eases up on pointer enter and eases
+   backward to the resting angle on pointer leave. A CSS animation can't do that
+   rewind — removing it on mouseout snaps every icon back to --base-angle. */
 .service-hero-icons {
   display: none;
   pointer-events: none;
@@ -905,17 +908,14 @@ textarea:disabled {
   inset: 0;
   border-radius: 9999px;
   pointer-events: auto;
+  --orbit: 0deg;
 }
 
 .service-hero-icon-spoke {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  transform: rotate(var(--base-angle, 0deg));
-}
-
-.service-hero-icons__hover-zone:hover .service-hero-icon-spoke {
-  animation: service-icons-spin 13s linear infinite;
+  transform: rotate(calc(var(--base-angle, 0deg) + var(--orbit, 0deg)));
 }
 
 .service-hero-icon-anchor {
@@ -925,11 +925,7 @@ textarea:disabled {
   width: clamp(64px, 7vw, 92px);
   height: clamp(64px, 7vw, 92px);
   pointer-events: none;
-  transform: translate(-50%, -50%) rotate(calc(-1 * var(--base-angle, 0deg)));
-}
-
-.service-hero-icons__hover-zone:hover .service-hero-icon-anchor {
-  animation: service-icons-spin-counter 13s linear infinite;
+  transform: translate(-50%, -50%) rotate(calc(-1 * (var(--base-angle, 0deg) + var(--orbit, 0deg))));
 }
 
 .service-hero-icon {
@@ -999,16 +995,6 @@ textarea:disabled {
   0% { opacity: 0; transform: scale(0.3); }
   60% { opacity: 1; transform: scale(1.1); }
   100% { opacity: 1; transform: scale(1); }
-}
-
-@keyframes service-icons-spin {
-  from { transform: rotate(var(--base-angle, 0deg)); }
-  to   { transform: rotate(calc(var(--base-angle, 0deg) + 360deg)); }
-}
-
-@keyframes service-icons-spin-counter {
-  from { transform: translate(-50%, -50%) rotate(calc(-1 * var(--base-angle, 0deg))); }
-  to   { transform: translate(-50%, -50%) rotate(calc(-1 * (var(--base-angle, 0deg) + 360deg))); }
 }
 
 @keyframes service-icon-ring {
