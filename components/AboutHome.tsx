@@ -193,23 +193,75 @@ export default function AboutSection() {
       {/* 2. VISION — Clean Light Theme with Numbered Cards Grid */}
       <section className="relative overflow-hidden landing-paper py-20 md:py-32">
         <NextImage
-                    src="/assets/home/main_page_2nd_bg.png"
-                    alt=""
-                    fill
-                    priority
-                    sizes="100vw"
-                    className="object-cover object-center"
-                  />
-                {/* </div> */}
-                <div 
-                  className="absolute inset-[-20%] z-10 opacity-20 pointer-events-none animate-drift"
-                  style={{ 
-                    backgroundImage: "url('/assets/background-pattern-new1.png')",
-                    backgroundSize: "contain",
-                    /* Swap out the filter string below to change the color */
-                    filter: "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)"
-                  }}
-                />
+          src="/assets/home/main_page_2nd_bg.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        {/* </div> */}
+        {/* The artwork is a wide illustration, so on a tall (narrow) screen
+            `contain` tiled it and the cut between copies showed as a hard line.
+            Two copies are shifted by half a tile. Each fades out at its own
+            top and bottom, so one copy's join sits under the other copy's
+            solid middle and the break disappears. A soft mask on the section
+            edge keeps the pattern from ending in a hard line too. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-10 overflow-hidden"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%)",
+          }}
+        >
+          <div className="@container absolute inset-[-20%] animate-drift motion-reduce:animate-none">
+            <div
+              className="absolute inset-0 opacity-20"
+              style={{
+                backgroundImage: "url('/assets/background-pattern-new1.png')",
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "100% auto",
+                backgroundPosition: "center top",
+                filter:
+                  "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)",
+                maskImage:
+                  "linear-gradient(to bottom, transparent 0%, #000 50%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, transparent 0%, #000 50%, transparent 100%)",
+                maskSize: "100% calc(100cqw * 939 / 1670)",
+                WebkitMaskSize: "100% calc(100cqw * 939 / 1670)",
+                maskRepeat: "repeat-y",
+                WebkitMaskRepeat: "repeat-y",
+                maskPosition: "center top",
+                WebkitMaskPosition: "center top",
+              }}
+            />
+            <div
+              className="absolute inset-0 opacity-20"
+              style={{
+                backgroundImage: "url('/assets/background-pattern-new1.png')",
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "100% auto",
+                backgroundPosition: "center calc(100cqw * 939 / 1670 / 2)",
+                filter:
+                  "brightness(0) saturate(100%) invert(47%) sepia(2%) saturate(210%) hue-rotate(349deg) brightness(93%) contrast(82%)",
+                maskImage:
+                  "linear-gradient(to bottom, transparent 0%, #000 50%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, transparent 0%, #000 50%, transparent 100%)",
+                maskSize: "100% calc(100cqw * 939 / 1670)",
+                WebkitMaskSize: "100% calc(100cqw * 939 / 1670)",
+                maskRepeat: "repeat-y",
+                WebkitMaskRepeat: "repeat-y",
+                maskPosition: "center calc(100cqw * 939 / 1670 / 2)",
+                WebkitMaskPosition: "center calc(100cqw * 939 / 1670 / 2)",
+              }}
+            />
+          </div>
+        </div>
         {/* Tailwind custom keyframes inline */}
         
         {/* <CulturalPattern variant="vision" className="cultural-pattern--light" /> */}
