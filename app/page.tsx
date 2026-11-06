@@ -304,8 +304,6 @@ useEffect(() => {
           <NewsPopupModal />
         </>
       )}
-
-      {/* <OurStory /> */}
       <PageHero
         eyebrow="About Pika Wiya"
         title="Thriving in Culture,"
@@ -317,17 +315,10 @@ useEffect(() => {
         imageAlt="Sunlit lake and township ringed by red ranges"
         pageName="home"
       />
-
       <CoreServicesSection mainServices={mainServices} />
-
       <MissionSection />
-
       <AboutHome />
-
-      {/* CULTURAL HERITAGE — white (after navy values / ochre purpose) */}
       <GovernanceHeritageSection />
-
-      {/* CONTACT — navy */}
       <ContactSection />
       <FundersList />
       <PartnersTicker />
